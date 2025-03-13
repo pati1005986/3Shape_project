@@ -1,13 +1,9 @@
 <?php
-session_start(); // Iniciar sesión
-
-// Configuración de la sesión
-$tiempo_inactivo = 4600; // Tiempo de expiración de la sesión (en segundos)
-
-if (empty($_SESSION['csrf_token'])) {
-    // Si no existe el token, se crea en la sesión de CSRF
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Iniciar sesión
 }
+
+$tiempo_inactivo = 4600; // Tiempo de expiración de la sesión (en segundos)
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
     // Establecer una cookie con el mensaje de error por sesión expirada
     setcookie('error_message', 'Session expired, please try again.', time() + 30, '/');
@@ -17,20 +13,30 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
     exit();
 }
 
+
+if (empty($_SESSION['csrf_token'])) {
+    // Si no existe el token, se crea en la sesión de CSRF
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $_SESSION['last_activity'] = time(); // Actualizar la última actividad
 
 // Verificar si el usuario es admin
-if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) { 
+    // Redirigir y cerrar sesión si no es admin
+
     include_once '../Controller/Cerrar_sesion.php';
     header("Location: ../index.php");
     exit("Acceso denegado.");
 }
 
-if (isset($_SESSION['error'])) {
+if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
+
     echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error']) . '</div>';
     unset($_SESSION['error']); // Limpia el mensaje después de mostrarlo
 }
-if (isset($_SESSION['success'])) {
+if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
+
     echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
     unset($_SESSION['success']); // Limpia el mensaje después de mostrarlo
 }
@@ -261,20 +267,18 @@ if (isset($_SESSION['success'])) {
                             data: {
                                 labels: labels,
                                 datasets: [{
-                                    label: 'Equipment Status',
-                                    data: values,
-                                    backgroundColor: 'rgba(13, 202, 240, 0.2)',
-                                    borderColor: 'rgba(13, 202, 240, 1)',
-                                    borderWidth: 2,
-                                    borderRadius: 5,
-                                    borderSkipped: false,
-                                    pointHoverRadius: 5,
-                                    pointHoverBorderWidth: 2,
-                                    pointBackgroundColor: 'rgba(13, 202, 240, 1)',
-                                    pointBorderColor: 'rgba(13, 202, 240, 1)',
-                                    pointBorderWidth: 1,
-                                    pointHitRadius: 5
-                                }]
+                                label: 'Equipment Status',
+                                data: values,
+                                backgroundColor: 'rgba(13, 202, 240, 0.2)',
+                                borderColor: 'rgba(13, 202, 240, 1)',
+                                borderSkipped: false,
+                                pointHoverRadius: 5,
+                                pointHoverBorderWidth: 2,
+                                pointBackgroundColor: 'rgb(14, 174, 206)',
+                                pointBorderColor: 'rgba(13, 202, 240, 1)',
+                                pointBorderWidth: 1,
+                                pointHitRadius: 5
+                            }]
                             },
                             options: {
                                 responsive: true,

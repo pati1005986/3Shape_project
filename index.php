@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Iniciar sesión
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -564,7 +567,7 @@ session_start();
                                 }
                                 // Redirigir a la URL de la opción 1
                                 const urlOpcion1 =
-                                    `${window.location.origin}/ProgramaC/Model/prcsr_indv_sal.php?${parametros}`;
+                                    `${window.location.origin}/3Shape_project/Model/prcsr_indv_sal.php?${parametros}`;
                                 console.log(`Redirigiendo a: ${urlOpcion1}`);
                                 window.location.href = urlOpcion1;
                             };
@@ -577,7 +580,7 @@ session_start();
                                 }
                                 // Redirigir a la URL de la opción 2
                                 const urlOpcion2 =
-                                    `${window.location.origin}/ProgramaC/Model/prcsr_indv_ent.php?${parametros}`;
+                                    `${window.location.origin}/3Shape_project/Model/prcsr_indv_ent.php?${parametros}`;
                                 console.log(`Redirigiendo a: ${urlOpcion2}`);
                                 window.location.href = urlOpcion2;
                             };
@@ -590,7 +593,7 @@ session_start();
                                 }
                                 // Redirigir a la URL de la opción 3
                                 const urlOpcion3 =
-                                    `${window.location.origin}/ProgramaC/Model/prcr_nuevo_info.php?${parametros}`;
+                                    `${window.location.origin}/3Shape_project/Model/prcr_nuevo_info.php?${parametros}`;
                                 console.log(`Redirigiendo a: ${urlOpcion3}`);
                                 window.location.href = urlOpcion3;
                             };

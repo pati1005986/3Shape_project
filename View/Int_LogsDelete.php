@@ -1,6 +1,8 @@
 <?php
 ob_start();
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Iniciar sesión
+}
 
 // Tiempo de expiración de la sesión (en segundos)
 $tiempo_inactivo = 4600;
