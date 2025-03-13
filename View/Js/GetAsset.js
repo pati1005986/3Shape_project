@@ -4,7 +4,7 @@ document.getElementById("assetname").addEventListener("blur", async function() {
     if (!assetname) return;
 
     try {
-        const response = await fetch(`/ProgramaC/Controller/check_activo.php?assetname=${assetname}`);
+        const response = await fetch(`/3Shape_project/Controller/check_activo.php?assetname=${assetname}`);
         const data = await response.json();
 
         console.log("Server Response:", data); // Debugging
@@ -32,3 +32,4 @@ function preventFormSubmission(event) {
     event.preventDefault();
     alert("The asset is already registered. Please enter a different asset name.");
 }
+
