@@ -2,22 +2,23 @@
 session_start();
 
 include "../Configuration/Connection.php";
+include "../Controller/sanitization.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre_usuario = $_POST['nombre_usuario'] ?? null;
-    $serial = $_POST['serial'] ?? null;
-    $compra = $_POST['compra'] ?? null;
-    $garantia = $_POST['garantia'] ?? null;
-    $newl = $_POST['newl'];
-    $usrStts = $_POST['usrStts'] ?? null;
-    $job_title = $_POST['job_title'];
-    $stats_change = $_POST['status_change'] ?? null;
-    $cedula = $_POST['id'] ?? null;
-    $carnet = $_POST['selectCard'] ?? null;
-    $llave = $_POST['selectKEY'] ?? null;
-    $tipoID = $_POST['selectID'] ?? null;
-    $assetname = $_POST['assetname'] ?? null;
-    $fk_assetname = $_POST['fk_assetname'] ?? null;
+    $nombre_usuario = sanitize_input( $_POST['nombre_usuario']) ?? null;
+    $serial = sanitize_input( $_POST['serial']) ?? null;
+    $compra = sanitize_input( $_POST['compra']) ?? null;
+    $garantia = sanitize_input( $_POST['garantia']) ?? null;
+    $newl = sanitize_input( $_POST['newl']);
+    $usrStts = sanitize_input( $_POST['usrStts']) ?? null;
+    $job_title = sanitize_input( $_POST['job_title']);
+    $stats_change = sanitize_input( $_POST['status_change']) ?? null;
+    $cedula = sanitize_input( $_POST['id']) ?? null;
+    $carnet = sanitize_input( $_POST['selectCard']) ?? null;
+    $llave = sanitize_input( $_POST['selectKEY']) ?? null;
+    $tipoID = sanitize_input( $_POST['selectID']) ?? null;
+    $assetname = sanitize_input( $_POST['assetname']) ?? null;
+    $fk_assetname = sanitize_input( $_POST['fk_assetname']) ?? null;
 
     // Check if assetname and fk_assetname are already set
     if ($assetname !== null) {
@@ -60,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_field_types = $_SESSION['new_fieldU_types'] ?? [];
 
     foreach ($new_fields as $field_name) {
-        $field_value = $_POST[$field_name] ?? null;
+        $field_value = sanitize_input($_POST[$field_name]) ?? null;
         
         if ($field_value !== null) {
             // Determinar a qué tabla pertenece el campo

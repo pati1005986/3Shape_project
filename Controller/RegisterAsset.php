@@ -3,22 +3,23 @@
 session_start();
 
 include "../Configuration/Connection.php";
+include "../Controller/sanitization.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Recuperar datos del formulario
-    $assetname = $_POST['assetname'] ?? null;
-    $serial_number = $_POST['serial'] ?? null;
-    $purchase_country = $_POST['compra'] ?? null;
-    $warranty_enddate = $_POST['garantia'] ?? null;
-    $new_laptop = $_POST['newl'];
-    $user_status = $_POST['usrStts'] ?? null;
-    $last_user = $_POST['nombre_usuario'] ?? null;
-    $job_title = $_POST['job_title'];
-    $status_change = $_POST['status_change'] ?? null;
-    $cedula = $_POST['id'] ?? null;
-    $carnet = $_POST['selectCard'] ?? null;
-    $llave = $_POST['selectKEY'] ?? null;
-    $tipoID = $_POST['type_id'] ?? null;
+    $assetname = sanitize_input($_POST['assetname']) ?? null;
+    $serial_number = sanitize_input($_POST['serial'])  ?? null;
+    $purchase_country = sanitize_input($_POST['compra'])  ?? null;
+    $warranty_enddate = sanitize_input($_POST['garantia'])  ?? null;
+    $new_laptop = sanitize_input($_POST['newl']) ;
+    $user_status = sanitize_input($_POST['usrStts'])  ?? null;
+    $last_user = sanitize_input($_POST['nombre_usuario'])  ?? null;
+    $job_title = sanitize_input($_POST['job_title']); 
+    $status_change = sanitize_input($_POST['status_change'])  ?? null;
+    $cedula = sanitize_input($_POST['id'])  ?? null;
+    $carnet = sanitize_input($_POST['selectCard'])  ?? null;
+    $llave = sanitize_input($_POST['selectKEY'])  ?? null;
+    $tipoID = sanitize_input($_POST['type_id'])  ?? null;
 
     // Validar estado de expiración en base a la fecha de garantía
     $fecha_actual = date('Y-m-d');
@@ -31,11 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $dynamic_values_usuarios_equipos = [];
 
     // Recoger los campos dinámicos de la sesión
-    $new_fields = $_SESSION['new_reg_fields'] ?? [];
-    $new_field_types = $_SESSION['new_fieldR_types'] ?? [];
+    $new_fields = $_SESSION['new_reg_fields']  ?? [];
+    $new_field_types = $_SESSION['new_fieldR_types']  ?? [];
 
     foreach ($new_fields as $field_name) {
-        $field_value = $_POST[$field_name] ?? null;
+        $field_value = sanitize_input($_POST[$field_name] ?? null); // Sanitizing the dynamic field value
         $field_type = $new_field_types[$field_name] ?? null;
 
         if ($field_value !== null) {
