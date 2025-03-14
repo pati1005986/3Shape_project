@@ -13,7 +13,6 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) >
     exit();
 }
 
-
 if (empty($_SESSION['csrf_token'])) {
     // Si no existe el token, se crea en la sesión de CSRF
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -30,16 +29,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     exit("Acceso denegado.");
 }
 
-if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
-
-    echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error']) . '</div>';
-    unset($_SESSION['error']); // Limpia el mensaje después de mostrarlo
-}
-if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
-
-    echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
-    unset($_SESSION['success']); // Limpia el mensaje después de mostrarlo
-}
+include_once "../Controller/validation_message.php";
 ?>
 
 <!DOCTYPE html>

@@ -48,6 +48,22 @@ h3 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.autocomplete-results {
+    position: absolute;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ddd;
+    width: calc(100% - 2px);
+}
+
+.loading, .error {
+    padding: 10px;
+    color: #666;
+    font-style: italic;
+}
+
 #mainTable {
     width: 100%;
     border-collapse: collapse;

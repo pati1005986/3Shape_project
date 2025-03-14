@@ -12,7 +12,7 @@ try {
     }
 
     // Preparar y ejecutar la consulta
-    $stmt = $pdo->prepare("SELECT * FROM vista_equipos_usuarios WHERE serial_number LIKE :serial_number LIMIT 4");
+    $stmt = $pdo->prepare("SELECT serial_number FROM vista_equipos_usuarios WHERE serial_number LIKE :serial_number LIMIT 4");
     $stmt->bindValue(':serial_number', '%' . $serial . '%');
     $stmt->execute();
 

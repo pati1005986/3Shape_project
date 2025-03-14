@@ -10,7 +10,7 @@ try {
     }
 
     // Prepare and execute query
-    $stmt = $pdo->prepare("SELECT * FROM vista_equipos_usuarios WHERE last_user LIKE :last_user LIMIT 4"); 
+    $stmt = $pdo->prepare("SELECT last_user FROM vista_equipos_usuarios WHERE last_user LIKE :last_user LIMIT 4"); 
     $stmt->bindValue(':last_user', '%'. $user . '%');
     $stmt->execute();
 
