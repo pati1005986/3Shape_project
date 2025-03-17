@@ -42,7 +42,30 @@ if (session_status() === PHP_SESSION_NONE) {
             </script>
             <br>
             <form action="./Controller/Importar_BD.php" method="POST" enctype="multipart/form-data" class="form bg-light">
-                <span class="form-title">Upload your file</span>
+                <span class="form-title">Upload your file<style>
+                        #div1 {
+                            font-size: 48px;
+                        }
+                    </style>
+                    <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
+
+                    <body>
+
+                        <div id="div1" class="fa"></div>
+
+                        <script>
+                            function openfolder() {
+                                var a;
+                                a = document.getElementById("div1");
+                                a.innerHTML = "&#xf114;";
+                                setTimeout(function() {
+                                    a.innerHTML = "&#xf115;";
+                                }, 1000);
+                            }
+                            openfolder();
+                            setInterval(openfolder, 2000);
+                        </script>
+                </span>
                 <p class="form-paragraph"> File should be CSV or TXT</p>
                 <label for="file-input" class="drop-container">
                     <span class="drop-title">Drop file here</span>
