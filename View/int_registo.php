@@ -576,6 +576,47 @@ $asset_data = $_SESSION['asset_data'];
                         }
                     });
                 </script>
+                <script>
+    document.getElementById('editForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Evita el envío automático del formulario
+
+        let formData = new FormData(this);
+
+        fetch('./Controller/update_record.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json()) // Suponiendo que el servidor responde con JSON
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'The record was updated successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload(); // Recargar la página después del éxito
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to update the record. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An unexpected error occurred.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+    });
+</script>
 
             </div>
         </div>

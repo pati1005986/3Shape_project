@@ -20,6 +20,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/DataTables/datatables.min.css">
     <link rel="stylesheet" href="./View/Css/dark-mode.css">
     <link rel="stylesheet" href="./View/Css/Datatable.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <body>
@@ -45,6 +47,47 @@ if (session_status() === PHP_SESSION_NONE) {
                 <button type="submit" class="form-control form-control-sm">Upload File</button>
             </form>
         </div>
+        <script>
+    document.getElementById('uploadFileForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Evita el envío automático del formulario
+
+        let formData = new FormData(this);
+        
+        fetch('./Controller/upload_file.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json()) // Suponiendo que el servidor responde con JSON
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'The file was uploaded successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload(); // Recargar la página después del éxito
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to upload the file. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An unexpected error occurred.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+    });
+</script>
         <?php
         include './Configuration/Connection.php';
 
@@ -334,16 +377,24 @@ if (session_status() === PHP_SESSION_NONE) {
                         new device</a>
                     <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
                         Delete All Logs</button>
-                    <script>
-                        //Script para la eliminacion de todos los registros
-                        document.getElementById('deleteAllButton').addEventListener('click', function() {
-                            if (confirm('Are you sure you want to delete all logs?')) {
-                                if (window.confirm('Are you sure you want to delete all logs?')) {
-                                    window.location.href = './Controller/delete_regist.php';
-                                }
-                            }
-                        });
-                    </script>
+                        <script>
+    document.getElementById('deleteAllButton').addEventListener('click', function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action will delete all logs permanently!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete all!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = './Controller/delete_regist.php';
+            }
+        });
+    });
+</script>
+
                 </div>
                 <table id="mainTable" class="shadow-lg table table-bordered table-striped fade-in">
                     <thead class="text-center">
@@ -450,6 +501,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <script src="./Configuration/DataTables/datatables.min.js"></script>
         <script src="./Configuration/bootstrap/js/bootstrap.min.js"></script>
         <script src="./View/Js/Change_query.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 <footer class="container align-items-center text-center mt-5">
     <div class="row">
