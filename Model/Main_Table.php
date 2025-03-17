@@ -33,10 +33,38 @@ if ($resultados) {
 
         // Update button
         echo '<td><a href="./Model/act_registro.php?assetname=' . $escapedRow["assetname"] . '" class="btn btn-secondary btn-sm"><i class="fas fa-sync-alt"></i></a></td>';
-        // Delete button
-        echo '<td><a href="./Model/elim_registro.php?assetname=' . $escapedRow["assetname"] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Are you sure you want to delete this item?\')"><i class="fa fa-times"></i></a></td>';
+        
+        // Delete button with data attribute for SweetAlert
+        echo '<td><a href="javascript:void(0);" class="btn btn-danger btn-sm delete-item" data-assetname="' . $escapedRow["assetname"] . '"><i class="fa fa-times"></i></a></td>';
+        
         echo "</tr>";
     }
 } else {
     echo "<tr><td colspan='" . (count($selectedColumns) + 12) . "'>No data found</td></tr>";
 }
+?>
+
+<script>
+// Script para la eliminación de registros individuales
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar evento a todos los botones de eliminar
+    document.querySelectorAll('.delete-item').forEach(button => {
+        button.addEventListener('click', function() {
+            const assetname = this.getAttribute('data-assetname');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to delete this log?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = './Model/elim_registro.php?assetname=' + assetname;
+                }
+            });
+        });
+    });
+});
+</script>
