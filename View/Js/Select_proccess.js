@@ -90,3 +90,12 @@ window.onload = function() {
         modal.style.display = 'none';
     };
 };
+document.getElementById('procesarSeleccionados').addEventListener('click', function() {
+    let icon = this.querySelector('i');
+    icon.classList.add('spin');
+
+    // Detener la animación después de 2 segundos
+    setTimeout(() => {
+        icon.classList.remove('spin');
+    }, 2000);
+});

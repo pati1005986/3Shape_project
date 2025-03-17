@@ -42,14 +42,35 @@ if (session_status() === PHP_SESSION_NONE) {
             </script>
             <br>
             <form action="./Controller/Importar_BD.php" method="POST" enctype="multipart/form-data" class="form">
-    <span class="form-title">Upload your file</span>
+    <span class="form-title">Upload your file <style>
+#div1 {
+  font-size:48px;
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+
+<div id="div1" class="fa"></div>
+
+<script>
+function openfolder() {
+  var a;
+  a = document.getElementById("div1");
+  a.innerHTML = "&#xf114;";
+  setTimeout(function () {
+      a.innerHTML = "&#xf115;";
+    }, 1000);
+}
+openfolder();
+setInterval(openfolder, 2000);
+</script> </span>
     <p class="form-paragraph"> File should be CSV or TXT</p>
     <label for="file-input" class="drop-container">
         <span class="drop-title">Drop file here</span>
         or
         <input type="file" name="Proyeccion_garan" class="form-control form-control-sm" accept=".csv, .txt" required id="file-input">
     </label>
-    <button type="submit" class="upload-button form-control form-control-sm">Upload File</button>
+    <button type="submit" class="upload-button form-control form-control-sm">Upload File </button>
 </form>
         </div>
         <script>
