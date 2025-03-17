@@ -132,20 +132,56 @@ $searchResult = buildDateSearchQuery($_GET);
 
 // Otros filtros
 if (!empty($_GET['search_assetname'])) {
-    $where[] = "assetname LIKE :assetname";
-    $params[':assetname'] = '%' . $_GET['search_assetname'] . '%';
+    $assetname = trim($_GET['search_assetname']); // Elimina espacios en blanco al inicio y al final
 }
+
+if (!empty($assetname)) {
+    $where[] = "LOWER(assetname) LIKE LOWER(:assetname)";
+    $params[':assetname'] = '%' . $assetname . '%';
+}
+
+// Filtro de número de serie
 if (!empty($_GET['search_serial'])) {
-    $where[] = "serial_number LIKE :serial";
-    $params[':serial'] = '%' . $_GET['search_serial'] . '%';
+    $serial = trim($_GET['search_serial']); // Elimina espacios en blanco al inicio y al final
+    if (!empty($serial)) {
+        $where[] = "LOWER(serial_number) LIKE LOWER(:serial)";
+        $params[':serial'] = '%' . $serial . '%';
+    }
 }
+
+// Filtro de cédula
 if (!empty($_GET['search_cedula'])) {
-    $where[] = "cedula LIKE :cedula";
-    $params[':cedula'] = '%' . $_GET['search_cedula'] . '%';
+    $cedula = trim($_GET['search_cedula']); // Elimina espacios en blanco al inicio y al final
+    if (!empty($cedula)) {
+        $where[] = "LOWER(cedula) LIKE LOWER(:cedula)";
+        $params[':cedula'] = '%' . $cedula . '%';
+    }
 }
+
+// Filtro de cambio de estado
 if (!empty($_GET['search_status_change'])) {
-    $where[] = "status_change LIKE :status_change";
-    $params[':status_change'] = '%' . $_GET['search_status_change'] . '%';
+    $status_change = trim($_GET['search_status_change']); // Elimina espacios en blanco al inicio y al final
+    if (!empty($status_change)) {
+        $where[] = "LOWER(status_change) LIKE LOWER(:status_change)";
+        $params[':status_change'] = '%' . $status_change . '%';
+    }
+}
+
+// Filtro de estado de usuario (selección múltiple)
+if (!empty($_GET['search_user_status'])) {
+    $filtered_statuses = array_filter($_GET['search_user_status'], function ($status) {
+        return $status != 0;
+    });
+    //Condicion en caso de que el estado del usuario no este vacio
+    if (!empty($filtered_statuses)) {
+        $user_status_conditions = [];
+        foreach ($filtered_statuses as $index => $status) {
+            $param_name = ":status_$index";
+            $user_status_conditions[] = "user_status = $param_name";
+            $params[$param_name] = $status;
+        }
+        $where[] = '(' . implode(' OR ', $user_status_conditions) . ')';
+    }
 }
 
 // Agregar condiciones dinámicas
