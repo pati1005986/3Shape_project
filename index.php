@@ -40,12 +40,17 @@ if (session_status() === PHP_SESSION_NONE) {
                     event.target.classList.add('hide'); // Oculta el botón
                 }
             </script>
-            <!--Formulario de la entrada de archivo CSV-->
-            <form action="./Controller/Importar_BD.php" method="POST" enctype="multipart/form-data"
-                class="mb-3 my-5 shadow-sm">
-                <input type="file" name="Proyeccion_garan" class="form-control form-control-sm">
-                <button type="submit" class="form-control form-control-sm">Upload File</button>
-            </form>
+            <br>
+            <form action="./Controller/Importar_BD.php" method="POST" enctype="multipart/form-data" class="form">
+    <span class="form-title">Upload your file</span>
+    <p class="form-paragraph"> File should be CSV or TXT</p>
+    <label for="file-input" class="drop-container">
+        <span class="drop-title">Drop file here</span>
+        or
+        <input type="file" name="Proyeccion_garan" class="form-control form-control-sm" accept=".csv, .txt" required id="file-input">
+    </label>
+    <button type="submit" class="upload-button form-control form-control-sm">Upload File</button>
+</form>
         </div>
         <script>
     document.getElementById('uploadFileForm').addEventListener('submit', function (e) {
