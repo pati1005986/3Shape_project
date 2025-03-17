@@ -14,6 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="shortcut icon" href="./Configuration/logo.ico" type="image/x-icon">
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
     <link href="./Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
     <link rel="stylesheet" href="./Configuration/DataTables/datatables.min.css">
@@ -41,7 +42,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <form action="./Controller/Importar_BD.php" method="POST" enctype="multipart/form-data"
                 class="mb-3 my-5 shadow-sm">
                 <input type="file" name="Proyeccion_garan" class="form-control form-control-sm">
-                <button type="submit" class="form-control form-control-sm">upload file</button>
+                <button type="submit" class="form-control form-control-sm">Upload File</button>
             </form>
         </div>
         <?php
@@ -115,85 +116,114 @@ if (session_status() === PHP_SESSION_NONE) {
                         </nav>
 
                         <!-- Formulario de Consulta -->
-                        <div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center ">
-                            <div class=" col-md-12 ">
-                                <div class="row g-2">
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <input type="text" name="search_assetname" placeholder="Asset Name"
-                                            class="form-control shadow-sm bg-light"
-                                            oninput="this.value = this.value.toUpperCase()" autocomplete="off">
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <input type="text" id="search_serial" name="search_serial"
-                                            placeholder="Serial Number" class="form-control shadow-sm bg-light"
-                                            autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <select id="search_user_status" name="search_user_status[]"
-                                            class="shadow-sm form-control bg-light">
-                                            <option value="0">Select a option</option>
-                                            <?php
-                                            // Cargar opciones de estado de usuario de forma dinamica
-                                            include './Configuration/Connection.php';
-                                            $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
-                                            $stmt->execute();
-                                            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                            if (empty($resultados)) {
-                                                echo '<option value=""> No results found </option>';
-                                            } else {
-                                                foreach ($resultados as $resultado) {
-                                                    echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <input type="text" name="search_status_change" placeholder="Status Change"
-                                            class="shadow-sm form-control bg-light">
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <input type="text" id="garantia" name="search_fecha_fin" placeholder="End date"
-                                            class="shadow-sm form-control bg-light">
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <input type="text" id="sgarantia" name="search_fecha_inicio"
-                                            placeholder="Start end" class="shadow-sm form-control bg-light">
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
-                                            class="form-control shadow-sm bg-light" autocomplete="off" min="0">
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <input type="text" id="search_user" name="search_user" placeholder="Last User"
-                                            class="form-control shadow-sm bg-light" autocomplete="off">
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <select id="search_purchase_country" name="search_purchase_country[]"
-                                            class="shadow-sm form-control bg-light">
-                                            <option value="0">Select a country</option>
-                                            <?php
-                                            // Cargar opciones pais de compra de forma dinamica
-                                            include './Configuration/Connection.php';
-                                            $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
-                                            $stmt->execute();
-                                            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                            if (empty($resultados)) {
-                                                echo '<option value=""> No results found </option>';
-                                            } else {
-                                                foreach ($resultados as $resultado) {
-                                                    echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
+<div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
+    <div class="col-md-12">
+        <div class="row g-2">
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                    <input type="text" name="search_assetname" placeholder="Asset Name"
+                        class="form-control shadow-sm bg-light"
+                        oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+                    <input type="text" id="search_serial" name="search_serial"
+                        placeholder="Serial Number" class="form-control shadow-sm bg-light"
+                        autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                    <select id="search_user_status" name="search_user_status[]"
+                        class="shadow-sm form-control bg-light">
+                        <option value="0">Select a option</option>
+                        <?php
+                        include './Configuration/Connection.php';
+                        $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
+                        $stmt->execute();
+                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if (empty($resultados)) {
+                            echo '<option value=""> No results found </option>';
+                        } else {
+                            foreach ($resultados as $resultado) {
+                                echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                    <input type="text" name="search_status_change" placeholder="Status Change"
+                        class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                    <input type="text" id="garantia" name="search_fecha_fin" placeholder="End date"
+                        class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    <input type="text" id="sgarantia" name="search_fecha_inicio"
+                        placeholder="Start date" class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                    <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
+                        class="form-control shadow-sm bg-light" autocomplete="off" min="0">
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                    <input type="text" id="search_user" name="search_user" placeholder="Last User" 
+                        class="form-control shadow-sm bg-light" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                    <select id="search_purchase_country" name="search_purchase_country[]"
+                        class="shadow-sm form-control bg-light">
+                        <option value="0">Select a country</option>
+                        <?php
+                        include './Configuration/Connection.php';
+                        $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
+                        $stmt->execute();
+                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if (empty($resultados)) {
+                            echo '<option value=""> No results found </option>';
+                        } else {
+                            foreach ($resultados as $resultado) {
+                                echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
                                     <div class="my-2 mb-2 d-flex justify-content-left">
-                                        <button type="submit" class="shadow btn btn-light border-success me-1"
-                                            id="search_btn">Search</button>
-                                        <button type="reset" class="shadow btn btn-light border-danger"
-                                            id="reset_btn">Reset</button>
-                                    </div>
+    <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
+        <i class="bi bi-search"></i> Search
+    </button>
+    <button type="reset" class="shadow btn btn-light border-danger" id="reset_btn">Reset
+    <i class="bi bi-arrow-clockwise"></i>
+    </button>
+</div>
+
                                     <script>
                                         // Boton de Restart
                                         document.getElementById('reset_btn').addEventListener('click', function() {

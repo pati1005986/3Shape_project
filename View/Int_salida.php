@@ -142,16 +142,7 @@ session_start();
                                     }
                                 });
 
-                                garantiaInput.addEventListener('input', function(e) {
-                                    const datePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-                                    if (!datePattern.test(e.target.value)) {
-                                        e.target.classList.add('is-invalid');
-                                    } else {
-                                        e.target.classList.remove('is-invalid');
-                                    }
-                                });
-
-                                document.getElementById('registform').addEventListener('submit', function(event) {
+                                document.getElementById('updateForm').addEventListener('submit', function(event) {
                                     if (garantiaInput.classList.contains('is-invalid')) {
                                         event.preventDefault();
                                         alert('Please enter a valid date.');
@@ -159,25 +150,6 @@ session_start();
                                 });
                             });
 
-                            // Validación al cambiar el valor
-                            garantiaInput.addEventListener('input', function(e) {
-                                const datePattern =
-                                    /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-                                if (!datePattern.test(e.target.value)) {
-                                    e.target.classList.add('is-invalid');
-                                } else {
-                                    e.target.classList.remove('is-invalid');
-                                }
-                            });
-
-                            // Prevenir el envío del formulario si la fecha no es válida
-                            document.getElementById('registform').addEventListener('submit', function(
-                                event) {
-                                if (garantiaInput.classList.contains('is-invalid')) {
-                                    event.preventDefault();
-                                    alert('Please enter a valid date.');
-                                }
-                            });
                         </script>
                     </div>
                     <br>
