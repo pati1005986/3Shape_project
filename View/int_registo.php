@@ -84,8 +84,8 @@ $asset_data = $_SESSION['asset_data'];
                             <div class="form-group">
                                 <label for="garantia">Warranty end date: </label>
                                 <input class="form-control shadow-sm" type="text" id="garantia" name="garantia"
-                                    value="<?php echo htmlspecialchars($asset_data['warranty_enddate']); ?>" required
-                                    autocomplete="off" data-validate="true" placeholder="mm/dd/yyyy"><br>
+                                    value="<?php echo htmlspecialchars($asset_data['warranty_enddate']); ?>"
+                                    autocomplete="off" data-validate="true" placeholder="mm/dd/yyyy" required><br>
                                 <script>
                                     // Funcion reciclada para la validacion de fechas en Garantias
                                     document.addEventListener('DOMContentLoaded', function() {
@@ -146,6 +146,25 @@ $asset_data = $_SESSION['asset_data'];
                                                 e.target.classList.add('is-invalid');
                                             } else {
                                                 e.target.classList.remove('is-invalid');
+                                            }
+                                        });
+
+                                        // Validación al cambiar el valor
+                                        garantiaInput.addEventListener('input', function(e) {
+                                            const datePattern =
+                                                /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+                                            if (!datePattern.test(e.target.value)) {
+                                                e.target.classList.add('is-invalid');
+                                            } else {
+                                                e.target.classList.remove('is-invalid');
+                                            }
+                                        });
+
+                                        document.getElementById('FORMupdateform').addEventListener('submit', function(
+                                            event) {
+                                            if (garantiaInput.classList.contains('is-invalid')) {
+                                                event.preventDefault();
+                                                alert('Please enter a valid warranty end date.');
                                             }
                                         });
                                     });
@@ -454,22 +473,41 @@ $asset_data = $_SESSION['asset_data'];
                             } else {
                                 mensajeElement.textContent = '';
                             }
+
+                            // Validar longitud máxima (usar data-max-length o 50 por defecto)
+                            const maxLength = inputElement.dataset.maxLength ? parseInt(inputElement.dataset.maxLength) : 100;
+                            const currentValue = this.value;
+
+                            if (currentValue.length > maxLength) {
+                                mensajeElement.textContent = `Maximum ${maxLength} characters allowed.`;
+                                this.value = currentValue.slice(0, maxLength);
+                            }
                         });
                     }
 
                     function validarAlgunosCaracteresEspeciales(inputElement, mensajeElement) {
-                        const regex = /^[a-zA-Z0-9\s\/\-Ññ]+$/; // Solo permite letras, números y espacios
+                        const regex = /^[a-zA-Z0-9\s\/\-Ññ]+$/;
 
                         inputElement.addEventListener('input', function() {
-                            const inputValue = this.value;
+                            const originalValue = this.value;
+                            // Limpiar caracteres no permitidos (incluyendo Ññ)
+                            const cleanedValue = originalValue.replace(/[^a-zA-Z0-9\s\/\-Ññ]/g, '');
 
-                            if (!regex.test(inputValue)) {
-                                mensajeElement.textContent = 'Characters are not allowed except "/" and "-".';
-                                this.value = this.value.replace(/[^a-zA-Z0-9\s\/-]/g,
-                                    '');
-                                // Remover caracteres no válidos
+                            // Verificar si se eliminaron caracteres no válidos
+                            if (cleanedValue !== originalValue) {
+                                mensajeElement.textContent = 'Characters are not allowed.';
+                                this.value = cleanedValue;
                             } else {
                                 mensajeElement.textContent = '';
+                            }
+
+                            // Validar longitud máxima (usar data-max-length o 50 por defecto)
+                            const maxLength = inputElement.dataset.maxLength ? parseInt(inputElement.dataset.maxLength) : 100;
+                            const currentValue = this.value;
+
+                            if (currentValue.length > maxLength) {
+                                mensajeElement.textContent = `Maximum ${maxLength} characters allowed.`;
+                                this.value = currentValue.slice(0, maxLength);
                             }
                         });
                     }

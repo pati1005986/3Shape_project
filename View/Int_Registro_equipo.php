@@ -168,7 +168,7 @@ include "../Configuration/Connection.php";
                             <div class="form-group">
                                 <label for="garantia">Warranty end date: </label>
                                 <input class="shaodw-sm form-control" type="text" id="garantia" name="garantia"
-                                    autocomplete="off" required data-validate="true" placeholder="mm/dd/yyyy">
+                                    autocomplete="off" required data-validate="true" placeholder="mm/dd/yyyy" required>
                             </div>
                             <!--Script para la validación de ingreso de la fecha-->
                             <script>
@@ -462,6 +462,15 @@ include "../Configuration/Connection.php";
                                     this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-Ññ]/g, '');
                                 } else {
                                     mensajeElement.textContent = '';
+                                }
+
+                                // Validar longitud máxima (usar data-max-length o 50 por defecto)
+                                const maxLength = inputElement.dataset.maxLength ? parseInt(inputElement.dataset.maxLength) : 100;
+                                const currentValue = this.value;
+
+                                if (currentValue.length > maxLength) {
+                                    mensajeElement.textContent = `Maximum ${maxLength} characters allowed.`;
+                                    this.value = currentValue.slice(0, maxLength);
                                 }
                             });
                         }
