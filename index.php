@@ -20,8 +20,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/DataTables/datatables.min.css">
     <link rel="stylesheet" href="./View/Css/dark-mode.css">
     <link rel="stylesheet" href="./View/Css/Datatable.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
+    <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
 </head>
 
 <body>
@@ -501,7 +501,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <script src="./Configuration/DataTables/datatables.min.js"></script>
         <script src="./Configuration/bootstrap/js/bootstrap.min.js"></script>
         <script src="./View/Js/Change_query.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="./Configuration/JQuery/sweetalert2@11.js"></script>
 </body>
 <footer class="container align-items-center text-center mt-5">
     <div class="row">
