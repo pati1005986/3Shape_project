@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="shortcut icon" href="./Configuration/logo.ico" type="image/x-icon">
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
     <link href="./Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./Configuration/bootstrap/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
     <link rel="stylesheet" href="./Configuration/DataTables/datatables.min.css">
