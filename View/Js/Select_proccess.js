@@ -32,8 +32,11 @@ window.onload = function() {
         // Mostrar el modal
         const modal = document.getElementById('modalConfirmacion');
         const modalMensaje = document.getElementById('modalMensaje');
-        modalMensaje.textContent =
-            'Do you want to process in Option 1 to generate an output record, in Option 2 to create an input record, or in Option 3 for a new option?';
+        modalMensaje.innerHTML =
+        'Do you want to process:<br>' +
+        'Option 1 - Generate an output record.<br>' +
+        'Option 2 - Create an input record.<br>' +
+        'Option 3 - New option.';
         modal.style.display = 'block';
 
         // Depuración en consola

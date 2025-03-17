@@ -214,3 +214,7 @@ nav {
 .upload-button:hover {
     background: #a50d26;
 }
+
+.nav-link me-2{
+    cursor: pointer;
+}

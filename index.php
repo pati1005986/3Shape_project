@@ -447,7 +447,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </table>
                 <br>
                 <br>
-                <label>Ctrl + Q to login as <a href="#" id="ShowmiFormulario" title="Login as Manager">Manager</a></label>
+                <center><h5><label>Ctrl + Q to login as <a href="#" id="ShowmiFormulario" title="Login as Manager">Manager</a></label></h5></center>
                 <br>
             </div>
         </div>
