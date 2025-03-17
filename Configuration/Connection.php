@@ -2,7 +2,7 @@
 // Datos de conexión (ajusta según tu configuración)
 $dsn = "mysql:host=localhost;dbname=garantias";
 $usuario = "root";
-$contrasena = "1213123Shape"; //clave usuario 'root' dependiendo del servidor
+$contrasena = ""; //clave usuario 'root' dependiendo del servidor
 
 try {
     // Crear una instancia de PDO
