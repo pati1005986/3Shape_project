@@ -134,6 +134,23 @@ if (!empty($_GET['search_user_status'])) {
     }
 }
 
+// Filtro de pais de compra (selección múltiple)
+if (!empty($_GET['search_purchase_country'])) {
+    $filtered_statuses = array_filter($_GET['search_purchase_country'], function ($status) {
+        return $status != 0;
+    });
+    //Condicion en caso de que el pais de compra no este vacio
+    if (!empty($filtered_statuses)) {
+        $user_status_conditions = [];
+        foreach ($filtered_statuses as $index => $status) {
+            $param_name = ":status_$index";
+            $user_status_conditions[] = "purchase_country = $param_name";
+            $params[$param_name] = $status;
+        }
+        $where[] = '(' . implode(' OR ', $user_status_conditions) . ')';
+    }
+}
+
 // Agregar condiciones al SQL
 if (count($where) > 0) {
     $sql .= " WHERE " . implode(" AND ", $where);
@@ -157,6 +174,12 @@ if (!empty($_GET['search_status_change'])) {
     $stmt->bindValue(':status_change', '%' . $_GET['search_status_change'] . '%');
 }
 if (!empty($_GET['search_user_status'])) {
+    foreach ($params as $param_name => $value) {
+        $stmt->bindValue($param_name, $value);
+    }
+}
+
+if (!empty($_GET['search_purchase_country'])) {
     foreach ($params as $param_name => $value) {
         $stmt->bindValue($param_name, $value);
     }

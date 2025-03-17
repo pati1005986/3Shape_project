@@ -168,6 +168,26 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <input type="text" id="search_user" name="search_user" placeholder="Last User"
                                             class="form-control shadow-sm bg-light" autocomplete="off">
                                     </div>
+                                    <div class="col-md-2 col-sm-6 mb-2">
+                                        <select id="search_purchase_country" name="search_purchase_country[]"
+                                            class="shadow-sm form-control bg-light">
+                                            <option value="0">Select a country</option>
+                                            <?php
+                                            // Cargar opciones pais de compra de forma dinamica
+                                            include './Configuration/Connection.php';
+                                            $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
+                                            $stmt->execute();
+                                            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                            if (empty($resultados)) {
+                                                echo '<option value=""> No results found </option>';
+                                            } else {
+                                                foreach ($resultados as $resultado) {
+                                                    echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                     <div class="my-2 mb-2 d-flex justify-content-left">
                                         <button type="submit" class="shadow btn btn-light border-success me-1"
                                             id="search_btn">Search</button>
