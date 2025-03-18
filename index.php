@@ -63,6 +63,59 @@ if (session_status() === PHP_SESSION_NONE) {
   width: 1rem;
   height: 1rem;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    border: 1px solid #888;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  .imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+  }
+  
+  .close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: red;
+    cursor: pointer;
+  }
+  
+  .animate {
+    animation: animatezoom 0.6s;
+  }
+  
+  @keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+  }
     </style>
 </head>
 
@@ -472,84 +525,64 @@ if (session_status() === PHP_SESSION_NONE) {
             <br>
         </div>
     </div>
-    <div id="FormAdmin" class="container">
-        <div class="row d-flex justify-content-center align-items-center mt-5">
-            <div class="col-md-4 text-center">
-                <?php
-                // Generar un token CSRF si no existe
-                if (empty($_SESSION['csrf_token'])) {
-                    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-                }
-                ?>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const form = document.getElementById('miFormulario');
-                        const link = document.getElementById('ShowmiFormulario');
-
-                        // Función única para manejar el clic
-                        function toggleForm(event) {
-                            event.preventDefault();
-                            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                        }
-                        // Eliminar cualquier listener previo y asignar uno nuevo
-                        link.removeEventListener('click', toggleForm);
-                        link.addEventListener('click', toggleForm);
-
-                            // Atajo de teclado
-                            document.addEventListener('keydown', (event) => {
-                                if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
-                                    event.preventDefault();
-                                    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                                }
-                            });
-                        });
-                    </script>
-                    <form id="miFormulario" style="display: none;" action="./Admin/token.php" method="POST" class="bg-light p-4 rounded shadow-lg border border-secondary">
-                        <h2 id="totalC" class="text-center mb-4">Admin Login</h2>
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                        <div class="form-group mb-3">
-                        <div class="group">
-  <svg stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
-  <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linejoin="round" stroke-linecap="round"></path>
-</svg>
-<input class="input" type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
-</div>
-                            <div class="invalid-feedback">Please enter a valid password.</div>
-                        </div>
-                        <br>
-                        <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
-                        <div class="text-center mt-2">
-                            <a href="./View/Int_forgot_pasword.php" id="" class="text-decoration-none">Forgot Password?</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-                        // Atajo de teclado
-                        document.addEventListener('keydown', (event) => {
-                            if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
-                                event.preventDefault();
-                                form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                            }
-                        });
-                    });
-                </script>
-                <form id="miFormulario" style="display: none;" action="./Admin/token.php" method="POST" class="bg-light p-4 rounded shadow-lg border border-secondary">
-                    <h2 id="totalC" class="text-center mb-4">Admin Login</h2>
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <div class="form-group mb-3">
-                        <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
-                        <div class="invalid-feedback">Please enter a valid password.</div>
-                    </div>
-                    <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
-                    <div class="text-center mt-2">
-                        <a href="./View/Int_forgot_pasword.php" id="" class="text-decoration-none">Forgot Password?</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
+    <div id="adminLoginModal" class="modal">
+  <div class="modal-content animate">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('adminLoginModal').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <h2 id="totalC" class="text-center mb-4">Admin Login</h2>
     </div>
+
+    <div class="container">
+      <form action="./Admin/token.php" method="POST">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+        <div class="form-group mb-3">
+          <div class="group">
+            <svg stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
+              <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linejoin="round" stroke-linecap="round"></path>
+            </svg>
+            <input class="input" type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" required autocomplete="off">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
+      </form>
+      <div class="text-center mt-3">
+        <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('adminLoginModal');
+    const link = document.getElementById('ShowmiFormulario');
+    
+    // Show modal when link is clicked
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      modal.style.display = 'block';
+    });
+    
+    // Close modal when clicking on X
+    document.querySelector('.close').addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    });
+    
+    // Keyboard shortcut (Ctrl+Q)
+    document.addEventListener('keydown', function(event) {
+      if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
+        event.preventDefault();
+        modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+      }
+    });
+  });
+</script>
     <!-- Scripts -->
     <script src="./View/Js/DatatableIndex.js"></script>
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
