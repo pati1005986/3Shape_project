@@ -17,7 +17,7 @@
         <form action="../Controller/update_password.php" method="post"
             class="shadow p-3 mb-5 my-5 rounded needs-validation bg-light">
 
-            <h2 id="totalC" class="text-center mb-5">Restore password</h2>
+            <center><h2 id="totalC" class="text-center mb-5">Restore password</h2></center>
             <br>
             <div class="form-group">
                 <label for="Password2" class="col-form-label">Enter your new password</label>

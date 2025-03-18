@@ -22,6 +22,48 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/Datatable.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <style>
+.group {
+  display: flex;
+  line-height: 30px;
+  align-items: center;
+  position: relative;
+  max-width: 200px;
+}
+
+.input {
+  width: 140;
+  height: 45px;
+  line-height: 30px;
+  padding: 0 5rem;
+  padding-left: 3rem;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  background-color: #f8fafc;
+  color: #0d0c22;
+  transition: .5s ease;
+}
+
+.input::placeholder {
+  color: #94a3b8;
+}
+
+.input:focus, input:hover {
+  outline: none;
+  border-color: rgba(129, 140, 248);
+  background-color: #fff;
+  box-shadow: 0 0 0 5px rgb(129 140 248 / 30%);
+}
+
+.icon {
+  position: absolute;
+  left: 1rem;
+  fill: none;
+  width: 1rem;
+  height: 1rem;
+}
+    </style>
 </head>
 
 <body>
@@ -508,9 +550,15 @@ setInterval(openfolder, 2000);
                         <h2 id="totalC" class="text-center mb-4">Admin Login</h2>
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                         <div class="form-group mb-3">
-                            <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
+                        <div class="group">
+  <svg stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
+  <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg>
+<input class="input" type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
+</div>
                             <div class="invalid-feedback">Please enter a valid password.</div>
                         </div>
+                        <br>
                         <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
                         <div class="text-center mt-2">
                             <a href="./View/Int_forgot_pasword.php" id="" class="text-decoration-none">Forgot Password?</a>
