@@ -5,18 +5,36 @@ session_start();
 include "../Configuration/Connection.php";
 include "../Controller/sanitization.php";
 
+function validate_input_length($input, $field_name, $max_length) {
+    if (strlen($input) > $max_length) {
+        $_SESSION["error"] = "The $field_name must not exceed the $max_length characters.";
+        header("Location: ../index.php");
+        exit();
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Recuperar datos del formulario
     $assetname = sanitize_input($_POST['assetname']) ?? null;
+    validate_input_length($assetname, "Assetname", 100);
     $serial_number = sanitize_input($_POST['serial'])  ?? null;
+    validate_input_length($serial_number, "Serial Number", 30);
     $purchase_country = sanitize_input($_POST['compra'])  ?? null;
+    validate_input_length($purchase_country, "Purchase Country", 100);
     $warranty_enddate = sanitize_input($_POST['garantia'])  ?? null;
-    $new_laptop = sanitize_input($_POST['newl']) ;
+    validate_input_length($warranty_enddate, "Warranty end date", 100);
+    $new_laptop = sanitize_input($_POST['newl']);
+    validate_input_length($new_laptop, "new laptop", 100);
     $user_status = sanitize_input($_POST['usrStts'])  ?? null;
+    validate_input_length($user_status, "User State", 100);
     $last_user = sanitize_input($_POST['nombre_usuario'])  ?? null;
+    validate_input_length($last_user, "Last User", 100);
     $job_title = sanitize_input($_POST['job_title']); 
+    validate_input_length($job_title, "Job title", 100);
     $status_change = sanitize_input($_POST['status_change'])  ?? null;
+    validate_input_length($status_change, "Status Change", 100);
     $cedula = sanitize_input($_POST['id'])  ?? null;
+    validate_input_length($cedula, "ID", 100);
     $carnet = sanitize_input($_POST['selectCard'])  ?? null;
     $llave = sanitize_input($_POST['selectKEY'])  ?? null;
     $tipoID = sanitize_input($_POST['type_id'])  ?? null;
