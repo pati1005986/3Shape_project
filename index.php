@@ -48,9 +48,6 @@ if (session_status() === PHP_SESSION_NONE) {
                         }
                     </style>
                     <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
-
-                    <body>
-
                         <div id="div1" class="fa"></div>
 
                         <script>
@@ -75,47 +72,6 @@ if (session_status() === PHP_SESSION_NONE) {
                 <button type="submit" class="upload-button form-control form-control-sm">Upload File</button>
             </form>
         </div>
-        <script>
-            document.getElementById('uploadFileForm').addEventListener('submit', function(e) {
-                e.preventDefault(); // Evita el envío automático del formulario
-
-                let formData = new FormData(this);
-
-                fetch('./Controller/upload_file.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json()) // Suponiendo que el servidor responde con JSON
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'The file was uploaded successfully.',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                location.reload(); // Recargar la página después del éxito
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Failed to upload the file. Please try again.',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'An unexpected error occurred.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    });
-            });
-        </script>
         <?php
         include './Configuration/Connection.php';
 
@@ -413,7 +369,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#d33',
-                            cancelButtonColor: '#3085d6',
+                            cancelButtonColor: '#6d6d6d',
                             confirmButtonText: 'Yes, delete all!'
                         }).then((result) => {
                             if (result.isConfirmed) {
