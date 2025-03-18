@@ -4,21 +4,39 @@ session_start();
 include "../Configuration/Connection.php";
 include "../Controller/sanitization.php";
 
+function validate_input_length($input, $field_name, $max_length) {
+    if (strlen($input) > $max_length) {
+        $_SESSION["error"] = "The $field_name must not exceed the $max_length characters.";
+        header("Location: ../index.php");
+        exit();
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre_usuario = sanitize_input( $_POST['nombre_usuario']) ?? null;
+    validate_input_length($nombre_usuario,"Assetname",100);
     $serial = sanitize_input( $_POST['serial']) ?? null;
+    validate_input_length($serial,"serial number",100);
     $compra = sanitize_input( $_POST['compra']) ?? null;
+    validate_input_length($compra,"Purchase country",100);
     $garantia = sanitize_input( $_POST['garantia']) ?? null;
+    validate_input_length($garantia,"Warranty end date",100);
     $newl = sanitize_input( $_POST['newl']);
     $usrStts = sanitize_input( $_POST['usrStts']) ?? null;
+    validate_input_length($usrStts,"User status",100);
     $job_title = sanitize_input( $_POST['job_title']);
     $stats_change = sanitize_input( $_POST['status_change']) ?? null;
+    validate_input_length($stats_change,"Status Change",100);
     $cedula = sanitize_input( $_POST['id']) ?? null;
+    validate_input_length($cedula,"ID",100);
     $carnet = sanitize_input( $_POST['selectCard']) ?? null;
+    validate_input_length($carnet,"",100);
     $llave = sanitize_input( $_POST['selectKEY']) ?? null;
     $tipoID = sanitize_input( $_POST['selectID']) ?? null;
     $assetname = sanitize_input( $_POST['assetname']) ?? null;
+    validate_input_length($assetname,"Asset name",100);
     $fk_assetname = sanitize_input( $_POST['fk_assetname']) ?? null;
+    validate_input_length($fk_assetname,"foreign key asset name",100);
 
     // Check if assetname and fk_assetname are already set
     if ($assetname !== null) {
