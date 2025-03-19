@@ -23,30 +23,41 @@ function displayAlert($type, $content, $isList = false) {
 }
 
 $alerts = [];
+$tempMessages = []; // Array to temporarily store session messages
+
 
 // Manejar todos los tipos de mensajes
 if(isset($_COOKIE['error_message'])) {
     $alerts[] = displayAlert('danger', $_COOKIE['error_message']);
     setcookie('error_message', '', time() - 3600, '/');
+    $tempMessages['error_message'] = $_COOKIE['error_message']; // Store message before unsetting
     unset($_COOKIE['error_message']);
 }
 
 if(isset($_SESSION['error'])) {
     $alerts[] = displayAlert('danger', $_SESSION['error']);
+    $tempMessages['error'] = $_SESSION['error']; // Store message before unsetting
     unset($_SESSION['error']);
+
 }
 
 if(isset($_SESSION['success'])) {
     $alerts[] = displayAlert('success', $_SESSION['success']);
+    $tempMessages['success'] = $_SESSION['success']; // Store message before unsetting
     unset($_SESSION['success']);
+
 }
 
 if(!empty($_SESSION['warnings'])) {
     $alerts[] = displayAlert('warning', $_SESSION['warnings'], true);
+    $tempMessages['warnings'] = $_SESSION['warnings']; // Store message before unsetting
     unset($_SESSION['warnings']);
+
 }
 
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/3Shape_project/Model/Logs/session_messages.json', json_encode($tempMessages));
 // Mostrar todas las alertas acumuladas
+
 echo implode('', $alerts);
 ?>
 

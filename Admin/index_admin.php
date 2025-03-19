@@ -21,7 +21,7 @@ if (empty($_SESSION['csrf_token'])) {
 $_SESSION['last_activity'] = time(); // Actualizar la última actividad
 
 // Verificar si el usuario es admin
-if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) { 
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     // Redirigir y cerrar sesión si no es admin
 
     include_once '../Controller/Cerrar_sesion.php';
@@ -64,6 +64,12 @@ include_once "../Controller/validation_message.php";
             const hiddenWarnings = document.getElementById('hidden-warnings');
             hiddenWarnings.style.display = 'block'; // Muestra las advertencias ocultas
             event.target.style.display = 'none'; // Oculta el botón
+        }
+
+        // Function to show the modal
+        function showModal() {
+            const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+            modal.show();
         }
 
         // Función generalizada para alternar la visibilidad de los formularios
@@ -147,6 +153,9 @@ include_once "../Controller/validation_message.php";
                                     <a class="nav-link" id="showFormLink7" href="#">Adding Logs in the columns</a>
                                 </li>
                                 <li class="nav-item ms-auto">
+                                    <a type="button" class="btn btn-secondary" onclick="showModal()">
+                                        <i class="fa-solid fa-bell"></i>
+                                    </a>
                                     <a type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
                                         <i class="fa-solid fa-info-circle"></i>
                                     </a>
@@ -257,18 +266,18 @@ include_once "../Controller/validation_message.php";
                             data: {
                                 labels: labels,
                                 datasets: [{
-                                label: 'Equipment Status',
-                                data: values,
-                                backgroundColor: 'rgba(13, 202, 240, 0.2)',
-                                borderColor: 'rgba(13, 202, 240, 1)',
-                                borderSkipped: false,
-                                pointHoverRadius: 5,
-                                pointHoverBorderWidth: 2,
-                                pointBackgroundColor: 'rgb(14, 174, 206)',
-                                pointBorderColor: 'rgba(13, 202, 240, 1)',
-                                pointBorderWidth: 1,
-                                pointHitRadius: 5
-                            }]
+                                    label: 'Equipment Status',
+                                    data: values,
+                                    backgroundColor: 'rgba(13, 202, 240, 0.2)',
+                                    borderColor: 'rgba(13, 202, 240, 1)',
+                                    borderSkipped: false,
+                                    pointHoverRadius: 5,
+                                    pointHoverBorderWidth: 2,
+                                    pointBackgroundColor: 'rgb(14, 174, 206)',
+                                    pointBorderColor: 'rgba(13, 202, 240, 1)',
+                                    pointBorderWidth: 1,
+                                    pointHitRadius: 5
+                                }]
                             },
                             options: {
                                 responsive: true,
@@ -532,9 +541,55 @@ include_once "../Controller/validation_message.php";
                     <button type="submit" class="btn btn-secondary">Add Field</button>
                 </form>
             </div>
-
         </div>
+        <!-- Modal para mostrar las alertas -->
+        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+            <?php
+            // Ruta al archivo JSON
+            $jsonFilePath = '../Model/Logs/session_messages.json';
 
+            // Leer el contenido del archivo JSON
+            $jsonContent = file_get_contents($jsonFilePath);
+
+            // Decodificar el JSON a un array asociativo
+            $data = json_decode($jsonContent, true);
+
+            // Verificar si la decodificación fue exitosa
+            if (json_last_error() === JSON_ERROR_NONE) {
+                // Procesar los datos para generar las alertas
+                $alerts = [];
+
+                // Agregar el mensaje de éxito si existe
+                if (isset($data['success'])) {
+                    $alerts[] = '<div class="">' . $data['success'] . '</div>';
+                }
+
+                // Agregar las advertencias si existen
+                if (isset($data['warnings']) && is_array($data['warnings'])) {
+                    foreach ($data['warnings'] as $warning) {
+                        $alerts[] = '<div class="">' . $warning . '</div>';
+                    }
+                }
+            } else {
+                // Manejar el error de decodificación JSON
+                $alerts[] = '<div class="alert alert-danger">Error al decodificar el archivo JSON.</div>';
+            }
+            ?>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-secondary text-white">
+                        <h2 class="modal-title" id="notificationModalLabel">Notifications</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <?php echo implode('', $alerts); ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="repeatedSerialsModal" tabindex="-1" aria-labelledby="repeatedSerialsModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
