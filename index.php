@@ -21,107 +21,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/dark-mode.css">
     <link rel="stylesheet" href="./View/Css/Datatable.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="./Configuration/JQuery/animate.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
-    <style>
-        .group {
-            display: flex;
-            line-height: 30px;
-            align-items: center;
-            position: relative;
-            max-width: 200px;
-        }
-
-        .input {
-            line-height: 30px;
-            padding: 0 5rem;
-            padding-left: 3rem;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            outline: none;
-            background-color: #f8fafc;
-            color: #0d0c22;
-            transition: .5s ease;
-        }
-
-        .input::placeholder {
-            color: #94a3b8;
-        }
-
-        .input:focus,
-        input:hover {
-            outline: none;
-            border-color: rgba(129, 140, 248);
-            background-color: #fff;
-            box-shadow: 0 0 0 5px rgb(129 140 248 / 30%);
-        }
-
-        .icon {
-            position: absolute;
-            left: 1rem;
-            fill: none;
-            width: 1rem;
-            height: 1rem;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            border: 1px solid #888;
-            width: 350px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .imgcontainer {
-            text-align: center;
-            margin: 24px 0 12px 0;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            right: 25px;
-            top: 0;
-            color: #000;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: red;
-            cursor: pointer;
-        }
-
-        .animate {
-            animation: animatezoom 0.6s;
-        }
-
-        @keyframes animatezoom {
-            from {
-                transform: scale(0)
-            }
-
-            to {
-                transform: scale(1)
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -148,20 +49,20 @@ if (session_status() === PHP_SESSION_NONE) {
                         }
                     </style>
                     <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
-                    <div id="div1" class="fa"></div>
+                        <div id="div1" class="fa"></div>
 
-                    <script>
-                        function openfolder() {
-                            var a;
-                            a = document.getElementById("div1");
-                            a.innerHTML = "&#xf114;";
-                            setTimeout(function() {
-                                a.innerHTML = "&#xf115;";
-                            }, 1000);
-                        }
-                        openfolder();
-                        setInterval(openfolder, 2000);
-                    </script>
+                        <script>
+                            function openfolder() {
+                                var a;
+                                a = document.getElementById("div1");
+                                a.innerHTML = "&#xf114;";
+                                setTimeout(function() {
+                                    a.innerHTML = "&#xf115;";
+                                }, 1000);
+                            }
+                            openfolder();
+                            setInterval(openfolder, 2000);
+                        </script>
                 </span>
                 <p class="form-paragraph"> File should be CSV or TXT</p>
                 <label for="file-input" class="drop-container">
@@ -530,65 +431,6 @@ if (session_status() === PHP_SESSION_NONE) {
             <br>
         </div>
     </div>
-<<<<<<< HEAD
-    <div id="adminLoginModal" class="modal">
-        <div class="modal-content animate">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('adminLoginModal').style.display='none'" class="close" title="Close Modal">&times;</span>
-                <h2 id="totalC" class="text-center mb-4">Admin Login</h2>
-            </div>
-            <div class="container">
-                <form action="./Admin/token.php" method="POST">
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <div class="form-group mb-3">
-                        <div class="group">
-                            <svg stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
-                                <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linejoin="round" stroke-linecap="round"></path>
-                            </svg>
-                            <input class="input" type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" required autocomplete="off">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
-                </form>
-                <div class="text-center mt-3">
-                    <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('adminLoginModal');
-            const link = document.getElementById('ShowmiFormulario');
-
-            // Show modal when link is clicked
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                modal.style.display = 'block';
-            });
-
-            // Close modal when clicking on X
-            document.querySelector('.close').addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target == modal) {
-                    modal.style.display = 'none';
-                }
-            });
-
-            // Keyboard shortcut (Ctrl+Q)
-            document.addEventListener('keydown', function(event) {
-                if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
-                    event.preventDefault();
-                    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
-                }
-            });
-        });
-    </script>
-=======
     
     <!-- Modal for Admin Login -->
     <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
@@ -621,7 +463,6 @@ if (session_status() === PHP_SESSION_NONE) {
       </div>
     </div>
     
->>>>>>> 597bbc9b45e022df4de33005bf5c7b4eea346b6e
     <!-- Scripts -->
     <script src="./View/Js/DatatableIndex.js"></script>
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
