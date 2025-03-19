@@ -571,51 +571,54 @@ include_once "../Controller/validation_message.php";
             <!-- Modal para mostrar las alertas -->
             <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
                 <?php
-                // Ruta al archivo JSON
                 $jsonFilePath = '../Model/Logs/session_messages.json';
+                $alerts = [];
 
-                // Leer el contenido del archivo JSON
-                $jsonContent = file_get_contents($jsonFilePath);
+                if (file_exists($jsonFilePath)) {
+                    $logData = json_decode(file_get_contents($jsonFilePath), true);
 
-                // Decodificar el JSON a un array asociativo
-                $data = json_decode($jsonContent, true);
+                    // Procesar todos los tipos de mensajes
+                    foreach (['success', 'error', 'error_message', 'warnings'] as $type) {
+                        if (!empty($logData[$type])) {
+                            $alertClass = match ($type) {
+                                'success' => 'success',
+                                'error', 'error_message' => 'danger',
+                                'warnings' => 'warning'
+                            };
 
-                // Verificar si la decodificación fue exitosa
-                if (json_last_error() === JSON_ERROR_NONE) {
-                    // Procesar los datos para generar las alertas
-                    $alerts = [];
-
-                    // Agregar el mensaje de éxito si existe
-                    if (isset($data['success'])) {
-                        $alerts[] = '<div class="alert alert-success">' . $data['success'] . '</div>';
-                    }
-
-                    // Agregar las advertencias si existen
-                    if (isset($data['warnings']) && is_array($data['warnings'])) {
-                        foreach ($data['warnings'] as $warning) {
-                            $alerts[] = '<div class="alert alert-warning">' . $warning . '</div>';
+                            foreach ($logData[$type] as $entry) {
+                                $message = is_array($entry) ? $entry['message'] : $entry;
+                                $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
+                                $alerts[] = "<div class='-{$alertClass}'>$message$timestamp</div>";
+                            }
                         }
                     }
-                } else {
-                    // Manejar el error de decodificación JSON
-                    $alerts[] = '<div class="alert alert-danger">Error al decodificar el archivo JSON.</div>';
                 }
                 ?>
-                <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-secondary text-white">
-                            <h2 class="modal-title" id="notificationModalLabel">Notifications</h2>
+                            <h2 class="modal-title">Historial de Notificaciones</h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <?php echo implode('', $alerts); ?>
+                            <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No hay notificaciones registradas.</p>' ?>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" onclick="clearLog()">Limpiar Historial</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <script>
+                function clearLog() {
+                    fetch('../Controller/clear_log.php')
+                        .then(response => location.reload());
+                }
+            </script>
 
             <div class="modal fade" id="repeatedSerialsModal" tabindex="-1" aria-labelledby="repeatedSerialsModalLabel"
                 aria-hidden="true">

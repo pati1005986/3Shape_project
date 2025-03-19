@@ -55,7 +55,30 @@ if(!empty($_SESSION['warnings'])) {
 
 }
 
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/3Shape_project/Model/Logs/session_messages.json', json_encode($tempMessages));
+$logPath = $_SERVER['DOCUMENT_ROOT'].'/3Shape_project/Model/Logs/session_messages.json';
+
+// Leer registro existente
+$existingLog = [];
+if (file_exists($logPath)) {
+    $existingLog = json_decode(file_get_contents($logPath), true) ?: [];
+}
+
+// Fusionar nuevos mensajes con el registro
+foreach ($tempMessages as $type => $content) {
+    if ($type === 'warnings') {
+        // Fusionar arrays de advertencias
+        $existingLog[$type] = array_merge($existingLog[$type] ?? [], $content);
+    } else {
+        // Agregar mensajes simples con timestamp
+        $existingLog[$type][] = [
+            'message' => $content,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+    }
+}
+
+// Guardar registro actualizado
+file_put_contents($logPath, json_encode($existingLog, JSON_PRETTY_PRINT));
 // Mostrar todas las alertas acumuladas
 
 echo implode('', $alerts);
