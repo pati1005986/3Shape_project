@@ -32,8 +32,6 @@ if (session_status() === PHP_SESSION_NONE) {
         }
 
         .input {
-            width: 140;
-            height: 45px;
             line-height: 30px;
             padding: 0 5rem;
             padding-left: 3rem;
