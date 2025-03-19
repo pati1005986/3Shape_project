@@ -125,23 +125,14 @@ include_once "../Controller/validation_message.php";
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="homeindex" href="../index.php">Home</a>
-                <script>
-                    document.getElementById('homeindex').addEventListener('click', function() {
-                        Swal.fire({
-                            title: 'Are you sure?',
-                            text: "This action will delete all logs permanently!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#d33',
-                            cancelButtonColor: '#6d6d6d',
-                            confirmButtonText: 'Yes, delete all!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = '../index.php';
-                            }
-                        });
-                    });
-                </script>
+                                    <script>
+                                         document.getElementById('homeindex').addEventListener('click', function(event) {
+                                             event.preventDefault();
+                                             if (confirm('Are you sure you want to go back to the home page?')) {
+                                                 window.location.href = '../index.php';
+                                             }
+                                         });
+                                     </script>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink" href="#">Add fields</a>
