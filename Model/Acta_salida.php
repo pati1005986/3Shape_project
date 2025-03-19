@@ -27,7 +27,7 @@ class PDF extends FPDF
     function addCertificadoTexto($last_user, $cedula, $fecha, $cargo, $tipo_id)
     {
         $this->SetFont('Arial', '', 12);
-        $texto1 = "Por medio de la presente se certifica que el señor@; ";
+        $texto1 = "Por medio de la presente se certifica que el/la señor(a); ";
         $this->Write(8, convertirTexto($texto1));
 
         $this->SetFont('Arial', 'B', 12);
@@ -46,7 +46,7 @@ class PDF extends FPDF
             case 'RC':
                 $tipo_text = " identificado(a) con Cédula de Residencia: $cedula, procede a desvincularse del cargo: $cargo  que venía desempeñando, a partir de la fecha $fecha.";
             case 'CC':
-                $tipo_text = " identificado(a) con Cédula de Ciudadania: $cedula, procede a desvincularse del cargo: $cargo  que venía desempeñando, a partir de la fecha $fecha.";
+                $tipo_text = " identificado(a) con Cédula de Ciudadanía: $cedula, procede a desvincularse del cargo: $cargo  que venía desempeñando, a partir de la fecha $fecha.";
                 break;
             case 'TI':
                 $tipo_text = " identificado(a) con Tarjeta de Identidad: $cedula, procede a desvincularse del cargo: $cargo que venia desempeñando, a partir de la fecha $fecha.";
@@ -229,7 +229,7 @@ try {
 
             $pdf->Ln(0);
             $pdf->SetFont('Arial', '', 10);
-            $pdf->Cell(44, 6, convertirTexto('Carne: '), 1, 0, 'C');
+            $pdf->Cell(44, 6, convertirTexto('Carné: '), 1, 0, 'C');
             $pdf->Cell(30, 6, convertirTexto($carnet), 1, 0, 'C');
             $pdf->Cell(44, 6, convertirTexto(''), 1, 1, 'C');
             $pdf->Cell(44, 6, convertirTexto('Llave Locker: '), 1, 0, 'C');
@@ -250,7 +250,7 @@ try {
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->Cell(44, 10, convertirTexto('Firma Colaborador'), 1, 0, 'C');
             $pdf->Cell(48, 10, convertirTexto('Firma del Jefe Inmediato'), 1, 0, 'C');
-            $pdf->Cell(44, 10, convertirTexto('Vo.Bo.IT'), 1, 0, 'C');
+            $pdf->Cell(44, 10, convertirTexto('Vo.Bo IT'), 1, 0, 'C');
             $pdf->Cell(44, 10, convertirTexto('Vo.Bo.Administrativo'), 1, 1, 'C');
 
             $pdf->Cell(44, 10, convertirTexto(''), 1, 0, 'C');
