@@ -125,23 +125,23 @@ include_once "../Controller/validation_message.php";
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="homeindex" href="../index.php">Home</a>
-                <script>
-                    document.getElementById('homeindex').addEventListener('click', function() {
-                        Swal.fire({
-                            title: 'Are you sure?',
-                            text: "This action will delete all logs permanently!",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#d33',
-                            cancelButtonColor: '#6d6d6d',
-                            confirmButtonText: 'Yes, delete all!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = '../index.php';
-                            }
-                        });
-                    });
-                </script>
+                                    <script>
+                                        document.getElementById('homeindex').addEventListener('click', function() {
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "This action will delete all logs permanently!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#6d6d6d',
+                                                confirmButtonText: 'Yes, delete all!'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = '../index.php';
+                                                }
+                                            });
+                                        });
+                                    </script>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink" href="#">Add fields</a>
@@ -429,57 +429,57 @@ include_once "../Controller/validation_message.php";
                 </form>
             </div>
 
-            <div class="col-md-6 my-2"> 
-    <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
-        class="shadow border border-secondary p-3">
-        <h1 class="text-center">Export Data to CSV</h1>
-        <h4>Select Columns <span>*</span></h4>
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-        
-        <div class="row">
-            <?php
-            try {
-                include '../Configuration/Connection.php';
-                $sql = "SELECT COLUMN_NAME 
+            <div class="col-md-6 my-2">
+                <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
+                    class="shadow border border-secondary p-3">
+                    <h1 class="text-center">Export Data to CSV</h1>
+                    <h4>Select Columns <span>*</span></h4>
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+
+                    <div class="row">
+                        <?php
+                        try {
+                            include '../Configuration/Connection.php';
+                            $sql = "SELECT COLUMN_NAME 
                             FROM INFORMATION_SCHEMA.COLUMNS 
                             WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
                             AND COLUMN_NAME != 'fk_id'
                             ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute();
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute();
 
-                if ($stmt->rowCount() > 0) {
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo '<div class="col-md-4 col-sm-6 mb-2">';
-                        echo '<div class="form-check">';
-                        echo '<input class="form-check-input" type="checkbox" name="columns[]" value="' . htmlspecialchars($row["COLUMN_NAME"]) . '" id="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">';
-                        echo '<label class="form-check-label" for="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' . htmlspecialchars($row["COLUMN_NAME"]) . '</label>';
-                        echo '</div>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo '<p>No data found.</p>';
-                }
-            } catch (PDOException $e) {
-                echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-            }
-            ?>
-        </div>
+                            if ($stmt->rowCount() > 0) {
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo '<div class="col-md-4 col-sm-6 mb-2">';
+                                    echo '<div class="form-check">';
+                                    echo '<input class="form-check-input" type="checkbox" name="columns[]" value="' . htmlspecialchars($row["COLUMN_NAME"]) . '" id="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">';
+                                    echo '<label class="form-check-label" for="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' . htmlspecialchars($row["COLUMN_NAME"]) . '</label>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<p>No data found.</p>';
+                            }
+                        } catch (PDOException $e) {
+                            echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                        }
+                        ?>
+                    </div>
 
-        <br>
-        <div class="btn-block text-center">
-            <button type="submit" class="btn btn-secondary">Export to CSV</button>
-        </div>
+                    <br>
+                    <div class="btn-block text-center">
+                        <button type="submit" class="btn btn-secondary">Export to CSV</button>
+                    </div>
 
-        <script>
-            document.getElementById('addBDCSV').addEventListener('submit', function(event) {
-                if (!confirm('Are you sure you want to export the data to CSV?')) {
-                    event.preventDefault(); // Cancelar el envío si el usuario no confirma
-                }
-            });
-        </script>
-    </form>
-</div>
+                    <script>
+                        document.getElementById('addBDCSV').addEventListener('submit', function(event) {
+                            if (!confirm('Are you sure you want to export the data to CSV?')) {
+                                event.preventDefault(); // Cancelar el envío si el usuario no confirma
+                            }
+                        });
+                    </script>
+                </form>
+            </div>
 
 
             <div class="col-md-6 my-2">
@@ -526,165 +526,173 @@ include_once "../Controller/validation_message.php";
                 </form>
             </div>
             <div class="col-md-6">
-    <form action="add_fieldTDO.php" method="post" style="display: none;" id="addFormTodo" class="shadow border border-secondary p-3">
-        <h1 class="text-center">Add Fields to All Forms</h1>
-        <h4>Select Columns <span>*</span></h4>
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                <form action="add_fieldTDO.php" method="post" style="display: none;" id="addFormTodo" class="shadow border border-secondary p-3">
+                    <h1 class="text-center">Add Fields to All Forms</h1>
+                    <h4>Select Columns <span>*</span></h4>
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
-        <div class="row">
-            <?php
-            try {
-                include '../Configuration/Connection.php';
-                $sql = "SELECT COLUMN_NAME 
+                    <div class="row">
+                        <?php
+                        try {
+                            include '../Configuration/Connection.php';
+                            $sql = "SELECT COLUMN_NAME 
                             FROM INFORMATION_SCHEMA.COLUMNS 
                             WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
                             AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','new_laptop','fk_id','fk_assetname','user_status',
                             'last_user','job_title','status_change','cedula','Carnet','LLave','Tipo_ID') 
                             ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute();
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute();
 
-                if ($stmt->rowCount() > 0) {
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo '<div class="col-md-4 col-sm-6 mb-2">';
-                        echo '<div class="form-check">';
-                        echo '<input class="form-check-input" type="checkbox" name="columns[]" value="' . htmlspecialchars($row["COLUMN_NAME"]) . '" id="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">';
-                        echo '<label class="form-check-label" for="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' . htmlspecialchars($row["COLUMN_NAME"]) . '</label>';
-                        echo '</div>';
-                        echo '</div>';
+                            if ($stmt->rowCount() > 0) {
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo '<div class="col-md-4 col-sm-6 mb-2">';
+                                    echo '<div class="form-check">';
+                                    echo '<input class="form-check-input" type="checkbox" name="columns[]" value="' . htmlspecialchars($row["COLUMN_NAME"]) . '" id="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">';
+                                    echo '<label class="form-check-label" for="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' . htmlspecialchars($row["COLUMN_NAME"]) . '</label>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<p>No data found.</p>';
+                            }
+                        } catch (PDOException $e) {
+                            echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                        }
+                        ?>
+                    </div>
+
+                    <br>
+                    <div class="btn-block text-center">
+                        <button type="submit" class="btn btn-secondary">Add Field</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Modal para mostrar las alertas -->
+            <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                <?php
+                // Ruta al archivo JSON
+                $jsonFilePath = '../Model/Logs/session_messages.json';
+
+                // Leer el contenido del archivo JSON
+                $jsonContent = file_get_contents($jsonFilePath);
+
+                // Decodificar el JSON a un array asociativo
+                $data = json_decode($jsonContent, true);
+
+                // Verificar si la decodificación fue exitosa
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    // Procesar los datos para generar las alertas
+                    $alerts = [];
+
+                    // Agregar el mensaje de éxito si existe
+                    if (isset($data['success'])) {
+                        $alerts[] = '<div class="alert alert-success">' . $data['success'] . '</div>';
+                    }
+
+                    // Agregar las advertencias si existen
+                    if (isset($data['warnings']) && is_array($data['warnings'])) {
+                        foreach ($data['warnings'] as $warning) {
+                            $alerts[] = '<div class="alert alert-warning">' . $warning . '</div>';
+                        }
                     }
                 } else {
-                    echo '<p>No data found.</p>';
+                    // Manejar el error de decodificación JSON
+                    $alerts[] = '<div class="alert alert-danger">Error al decodificar el archivo JSON.</div>';
                 }
-            } catch (PDOException $e) {
-                echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-            }
-            ?>
-        </div>
-        <!-- Modal para mostrar las alertas -->
-        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-            <?php
-            // Ruta al archivo JSON
-            $jsonFilePath = '../Model/Logs/session_messages.json';
-
-            // Leer el contenido del archivo JSON
-            $jsonContent = file_get_contents($jsonFilePath);
-
-            // Decodificar el JSON a un array asociativo
-            $data = json_decode($jsonContent, true);
-
-            // Verificar si la decodificación fue exitosa
-            if (json_last_error() === JSON_ERROR_NONE) {
-                // Procesar los datos para generar las alertas
-                $alerts = [];
-
-                // Agregar el mensaje de éxito si existe
-                if (isset($data['success'])) {
-                    $alerts[] = '<div class="">' . $data['success'] . '</div>';
-                }
-
-                // Agregar las advertencias si existen
-                if (isset($data['warnings']) && is_array($data['warnings'])) {
-                    foreach ($data['warnings'] as $warning) {
-                        $alerts[] = '<div class="">' . $warning . '</div>';
-                    }
-                }
-            } else {
-                // Manejar el error de decodificación JSON
-                $alerts[] = '<div class="alert alert-danger">Error al decodificar el archivo JSON.</div>';
-            }
-            ?>
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-secondary text-white">
-                        <h2 class="modal-title" id="notificationModalLabel">Notifications</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <?php echo implode('', $alerts); ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                ?>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-secondary text-white">
+                            <h2 class="modal-title" id="notificationModalLabel">Notifications</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <?php echo implode('', $alerts); ?>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal fade" id="repeatedSerialsModal" tabindex="-1" aria-labelledby="repeatedSerialsModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-secondary text-white">
-                        <h2 class="modal-title" id="repeatedSerialsModalLabel"><i
-                                class="fas fa-exclamation-triangle"></i>
-                            Repeated Serials Found</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-info" role="alert">
-                            <h4><strong>Warning!</strong> The following serials are repeated:</h4>
-                            <br>
-                            <ul id="repeatedSerialsList"></ul>
+
+            <div class="modal fade" id="repeatedSerialsModal" tabindex="-1" aria-labelledby="repeatedSerialsModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-secondary text-white">
+                            <h2 class="modal-title" id="repeatedSerialsModalLabel"><i
+                                    class="fas fa-exclamation-triangle"></i>
+                                Repeated Serials Found</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="alert alert-danger " role="alert">
-                            <strong>Action Required:</strong> Do you want to delete them?
+                        <div class="modal-body">
+                            <div class="alert alert-info" role="alert">
+                                <h4><strong>Warning!</strong> The following serials are repeated:</h4>
+                                <br>
+                                <ul id="repeatedSerialsList"></ul>
+                            </div>
+                            <div class="alert alert-danger " role="alert">
+                                <strong>Action Required:</strong> Do you want to delete them?
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
-                                class="fas fa-times"></i>
-                            No</button>
-                        <button type="button" class="btn btn-danger" id="deleteSerialsButton"><i
-                                class="fas fa-trash-alt"></i> Yes, Delete</button>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                                    class="fas fa-times"></i>
+                                No</button>
+                            <button type="button" class="btn btn-danger" id="deleteSerialsButton"><i
+                                    class="fas fa-trash-alt"></i> Yes, Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                fetch('../Controller/check_repeated_serials.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.repeatedSerials && data.repeatedSerials.length > 0) {
-                            const repeatedSerialsList = document.getElementById('repeatedSerialsList');
-                            repeatedSerialsList.innerHTML = ''; // Clear the list
-                            data.repeatedSerials.forEach(serial => {
-                                const li = document.createElement('li');
-                                li.textContent = serial;
-                                repeatedSerialsList.appendChild(li);
-                            });
-                            const repeatedSerialsModal = new bootstrap.Modal(document.getElementById('repeatedSerialsModal'));
-                            repeatedSerialsModal.show();
-                        }
-                    })
-                    .catch(error => console.error('Error fetching repeated serials:', error));
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    fetch('../Controller/check_repeated_serials.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.repeatedSerials && data.repeatedSerials.length > 0) {
+                                const repeatedSerialsList = document.getElementById('repeatedSerialsList');
+                                repeatedSerialsList.innerHTML = ''; // Clear the list
+                                data.repeatedSerials.forEach(serial => {
+                                    const li = document.createElement('li');
+                                    li.textContent = serial;
+                                    repeatedSerialsList.appendChild(li);
+                                });
+                                const repeatedSerialsModal = new bootstrap.Modal(document.getElementById('repeatedSerialsModal'));
+                                repeatedSerialsModal.show();
+                            }
+                        })
+                        .catch(error => console.error('Error fetching repeated serials:', error));
 
-                document.getElementById('deleteSerialsButton').addEventListener('click', function() {
-                    if (confirm('Are you sure you want to delete the repeated serials?')) {
-                        fetch('../Controller/delete_serial.php', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    delete: true
+                    document.getElementById('deleteSerialsButton').addEventListener('click', function() {
+                        if (confirm('Are you sure you want to delete the repeated serials?')) {
+                            fetch('../Controller/delete_serial.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        delete: true
+                                    })
                                 })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert('Serials deleted successfully.');
-                                    location.reload(); // Reload the page to refresh the data
-                                } else {
-                                    alert('Failed to delete serials: ' + data.error);
-                                }
-                            })
-                            .catch(error => console.error('Error deleting serials:', error));
-                    }
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        alert('Serials deleted successfully.');
+                                        location.reload(); // Reload the page to refresh the data
+                                    } else {
+                                        alert('Failed to delete serials: ' + data.error);
+                                    }
+                                })
+                                .catch(error => console.error('Error deleting serials:', error));
+                        }
+                    });
                 });
-            });
-        </script>
-        <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
-        <script src="../Configuration/JQuery/Chart.js"></script>
+            </script>
+            <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
+            <script src="../Configuration/JQuery/Chart.js"></script>
 
 
 </body>
