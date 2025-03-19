@@ -46,7 +46,15 @@ $_SESSION['last_activity'] = time();
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="./Css/dark-mode.css">
+    <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
+    <link rel="stylesheet" href="./Configuration/JQuery/animate.min.css">
+    <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
     <style>
+          body {
+  background-color:rgb(239, 232, 233);
+}
         .form-container {
             margin-top: 50px;
             padding: 30px;
@@ -64,7 +72,7 @@ $_SESSION['last_activity'] = time();
                 <div id="FORMchange" class="form-container shadow">
                     <!-- Detalles de la pagina -->
                     <div class="text-center mb-4">
-                        <h1 id="totalC">Settings</h1>
+                        <h1 id="totalC">Settings</h1> <i class="fas fa-tools"  style='font-size:48px;'></i>
                     </div>
 
                     <div class=" mb-4">
@@ -99,8 +107,7 @@ $_SESSION['last_activity'] = time();
                         onsubmit="return validateForm()">
                         <div class="form-group">
                             <label for="currentPassword">Current Password</label>
-                            <input type="password" class="form-control" id="currentPassword" name="currentPassword"
-                                required>
+                            <input type="password" class="form-control" id="currentPassword" name="currentPassword"  required>
                         </div>
 
                         <div class="form-group">
@@ -113,7 +120,7 @@ $_SESSION['last_activity'] = time();
                                 required>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-secondary ">Change Password</button>
+                        <button type="submit" class="btn btn-secondary "><i class="fas fa-key"></i> Change Password</button>
                     </form>
                     <br>
                     <br>
@@ -138,7 +145,8 @@ $_SESSION['last_activity'] = time();
                         <br>
                         <div class="my-2">
                             <button type="submit" class="btn btn-secondary" disabled>Change Network Address</button>
-                            <a href="../Admin/index_admin.php" class="btn btn-danger me-2">Return</a>
+                            <a href="../Admin/index_admin.php" class="btn btn-danger me-2"><i class="fas fa-arrow-left"></i> Return</a>
+                            
 
                             <script>
                                 document.getElementById('NetworkAddress').addEventListener('input', function(e) {
@@ -198,7 +206,7 @@ $_SESSION['last_activity'] = time();
                 </script>
                 <!-- Botón de Cerrar Sesión -->
                 <div class="text-center mt-4">
-                    <button class="btn btn-danger" onclick="confirmLogout()">Log Out</button>
+                    <button class="btn btn-danger" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i>Log Out </button>
                 </div>
 
                 <script>
