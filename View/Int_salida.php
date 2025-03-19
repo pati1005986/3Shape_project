@@ -125,7 +125,7 @@ session_start();
                     </div>
                     <br>
                     <div class="text-center">
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-secondary">
         <i class="fas fa-upload"></i> Update
     </button>
     <a href="../index.php" class="btn btn-danger">

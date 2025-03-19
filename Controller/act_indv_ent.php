@@ -26,7 +26,7 @@ class PDF extends FPDF
     function addCertificadoTexto($last_user, $cedula, $cargo, $tipo_id)
     {
         $this->SetFont('Arial', '', 12);
-        $texto = "Por medio de la presente se certifica que el señor@; ";
+        $texto = "Por medio de la presente se certifica que el/la señor(a); ";
         $this->Write(8, convertirTexto($texto));
         $this->SetFont('Arial', 'B', 12);
         $this->Write(8, $last_user);
@@ -35,22 +35,22 @@ class PDF extends FPDF
         // Conditional text based on $tipo_id
         switch ($tipo_id) {
             case 'CE':
-                $tipo_text = " identificado(a) con Cédula de Extranjeria: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejara en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Extranjeria: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
             case 'PP':
-                $tipo_text = " identificado(a) con Pasaporte: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejara en 3Shape.";
+                $tipo_text = " identificado(a) con Pasaporte: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
             case 'RC':
-                $tipo_text = " identificado(a) con Cédula de Residencia: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejara en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Residencia: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;  
             case 'CC':
-                $tipo_text = " identificado(a) con Cédula de Ciudadania: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejara en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Ciudadanía: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
             case 'TI';
-                $tipo_text = " identificado(a) con Tarjeta de Identidad: $cedula, del cargo: $cargo se le hace entrega de los siguintes activos que manejara en 3Shape.";
+                $tipo_text = " identificado(a) con Tarjeta de Identidad: $cedula, del cargo: $cargo se le hace entrega de los siguintes activos que manejará en 3Shape.";
                 break;
             default:
-                $tipo_text = " identificado(a) con ID: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejara en 3Shape.";
+                $tipo_text = " identificado(a) con ID: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
         }
 
@@ -153,13 +153,13 @@ foreach ($resultados as $index => $row) {
     $pdf->Ln(8);
 
     $pdf->SetFont('Arial', '', 12);
-    $pdf->MultiCell(0, 8, convertirTexto('El abajo firmante declara haber recibido a satisfacción los elementos antes mencionados con la condición de que cuidara de ellos.'), 0, 'L');
+    $pdf->MultiCell(0, 8, convertirTexto('El abajo firmante declara haber recibido a satisfacción los elementos antes mencionados con la condición de que cuidará de ellos.'), 0, 'L');
 
     $pdf->Ln(8); // Espacio para la firma
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(44, 15, convertirTexto('Firma Colaborador'), 1, 0, 'C');
+    $pdf->Cell(44, 15, convertirTexto('Firma del Colaborador'), 1, 0, 'C');
     $pdf->Cell(44, 15, convertirTexto(''), 1, 0, 'C');
-    $pdf->Cell(44, 15, convertirTexto('Vo.Bo IT'), 1, 0, 'C');
+    $pdf->Cell(44, 15, convertirTexto('Vo.Bo. Departamento de IT'), 1, 0, 'C');
     $pdf->Cell(44, 15, convertirTexto(''), 1, 0, 'C');
     $count++;
 

@@ -26,7 +26,7 @@ class PDF extends FPDF
     function addCertificadoTexto($last_user, $cedula, $fecha, $cargo, $tipo_id)
     {
         $this->SetFont('Arial', '', 12);
-        $texto1 = "Por medio de la presente se certifica que el señor@; ";
+        $texto1 = "Por medio de la presente se certifica que el/la señor(a); ";
         $this->Write(8, convertirTexto($texto1));
         $this->SetFont('Arial', 'B', 12);
         $this->Write(8, $last_user);

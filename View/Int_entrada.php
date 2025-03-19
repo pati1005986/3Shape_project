@@ -126,7 +126,7 @@ session_start();
 
                             <!-- Botones -->
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Register
+                                <button type="submit" class="btn btn-secondary">Register
                                 <i class="fas fa-clipboard-check"></i> 
                                 </button>                               
                          <a href="../index.php" class="btn btn-danger ms-2">Return
