@@ -12,9 +12,13 @@ session_start();
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <link href="../Configuration/JQuery/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <title>Record of Entry</title>
+    <center><title>Record of Entry</title></center>
     <style>
+        body {
+  background-color:rgb(239, 232, 233);
+}
         .select2-container--default .select2-selection--single {
             height: 38px;
             border-radius: 4px;
@@ -53,7 +57,7 @@ session_start();
                 <div class="">
                     <div id="FORMinput" class="card-body">
                         <form id="updateForm" action="../Controller/act_entrada.php" method="post">
-                            <h1 id="totalC" class=" mb-5">Record of Entry Record</h1>
+                            <h1 id="totalC" class=" mb-5" ">Record of Entry Record</h1>
 
                             <!-- Selección del número de serie -->
                             <div class="mb-3">
@@ -122,8 +126,12 @@ session_start();
 
                             <!-- Botones -->
                             <div class="text-center">
-                                <button type="submit" class="btn btn-secondary">Register</button>
-                                <a href="../index.php" class="btn btn-danger ms-2">Return</a>
+                                <button type="submit" class="btn btn-primary">Register
+                                <i class="fas fa-clipboard-check"></i> 
+                                </button>                               
+                         <a href="../index.php" class="btn btn-danger ms-2">Return
+                                <i class="fas fa-arrow-left"></i>
+                                </a>
                             </div>
                         </form>
                         <script>

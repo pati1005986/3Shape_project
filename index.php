@@ -23,6 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
@@ -132,117 +133,137 @@ if (session_status() === PHP_SESSION_NONE) {
 
                                 <!-- Contenido colapsable -->
                                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                                    <div class="navbar-nav">
-                                        <a id="generatePDF" class="nav-link me-2" data-url="./Model/PruebaV.php" target="_blank" title="Generate General PDF">Generate General PDF</a>
-                                        <a id="generateActaSalida" class="nav-link me-2" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">Generate Departure Certificate</a>
-                                        <a id="generateActaEntrada" class="nav-link me-2" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">Generate Entry Certificate</a>
-                                        <a href="./View/Int_entrada.php" class="nav-link me-2" title="Change Asset">Change Asset</a>
-                                        <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">Output Asset</a>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="navbar-nav">
+        <a id="generatePDF" class="nav-link me-2" data-url="./Model/PruebaV.php" target="_blank" title="Generate General PDF">
+            <i class="far fa-file-pdf" style="color:red;"></i> Generate General PDF
+        </a>
+        <a id="generateActaSalida" class="nav-link me-2" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">
+            <i class="fas fa-file-export"></i> Generate Departure Certificate
+        </a>
+        <a id="generateActaEntrada" class="nav-link me-2" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">
+            <i class="far fa-file-alt"></i> Generate Entry Certificate
+        </a>
+        <a href="./View/Int_entrada.php" class="nav-link me-2" title="Change Asset">
+            <i class="bi bi-arrow-repeat me-1"></i> Change Asset
+        </a>
+        <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
+            <i class="bi bi-box-arrow-up me-1"></i> Output Asset
+        </a>
+    </div>
+</div>
                         </nav>
+<!-- Formulario de Consulta -->
+<div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
+    <div class="col-md-12">
+        <!-- Primera fila -->
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                    <input type="text" name="search_assetname" placeholder="Asset Name"
+                        class="form-control shadow-sm bg-light"
+                        oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+                    <input type="text" id="search_serial" name="search_serial"
+                        placeholder="Serial Number" class="form-control shadow-sm bg-light"
+                        autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                    <select id="search_user_status" name="search_user_status[]"
+                        class="shadow-sm form-control bg-light">
+                        <option value="0">Select a option</option>
+                        <?php
+                        include './Configuration/Connection.php';
+                        $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
+                        $stmt->execute();
+                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if (empty($resultados)) {
+                            echo '<option value=""> No results found </option>';
+                        } else {
+                            foreach ($resultados as $resultado) {
+                                echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-                        <!-- Formulario de Consulta -->
-                        <div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
-                            <div class="col-md-12">
-                                <div class="row g-2">
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                                            <input type="text" name="search_assetname" placeholder="Asset Name"
-                                                class="form-control shadow-sm bg-light"
-                                                oninput="this.value = this.value.toUpperCase()" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
-                                            <input type="text" id="search_serial" name="search_serial"
-                                                placeholder="Serial Number" class="form-control shadow-sm bg-light"
-                                                autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                            <select id="search_user_status" name="search_user_status[]"
-                                                class="shadow-sm form-control bg-light">
-                                                <option value="0">Select a option</option>
-                                                <?php
-                                                include './Configuration/Connection.php';
-                                                $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
-                                                $stmt->execute();
-                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                if (empty($resultados)) {
-                                                    echo '<option value=""> No results found </option>';
-                                                } else {
-                                                    foreach ($resultados as $resultado) {
-                                                        echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-                                            <input type="text" name="search_status_change" placeholder="Status Change"
-                                                class="shadow-sm form-control bg-light">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-                                            <input type="text" id="garantia" name="search_fecha_fin" placeholder="End date"
-                                                class="shadow-sm form-control bg-light">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                            <input type="text" id="sgarantia" name="search_fecha_inicio"
-                                                placeholder="Start date" class="shadow-sm form-control bg-light">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
-                                            <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
-                                                class="form-control shadow-sm bg-light" autocomplete="off" min="0">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
-                                            <input type="text" id="search_user" name="search_user" placeholder="Last User"
-                                                class="form-control shadow-sm bg-light" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-globe"></i></span>
-                                            <select id="search_purchase_country" name="search_purchase_country[]"
-                                                class="shadow-sm form-control bg-light">
-                                                <option value="0">Select a country</option>
-                                                <?php
-                                                include './Configuration/Connection.php';
-                                                $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
-                                                $stmt->execute();
-                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                if (empty($resultados)) {
-                                                    echo '<option value=""> No results found </option>';
-                                                } else {
-                                                    foreach ($resultados as $resultado) {
-                                                        echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+        <!-- Segunda fila -->
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                    <input type="text" name="search_status_change" placeholder="Status Change"
+                        class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                    <input type="text" id="garantia" name="search_fecha_fin" placeholder="End date"
+                        class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    <input type="text" id="sgarantia" name="search_fecha_inicio"
+                        placeholder="Start date" class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tercera fila -->
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                    <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
+                        class="form-control shadow-sm bg-light" autocomplete="off" min="0">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                    <input type="text" id="search_user" name="search_user" placeholder="Last User"
+                        class="form-control shadow-sm bg-light" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                    <select id="search_purchase_country" name="search_purchase_country[]"
+                        class="shadow-sm form-control bg-light">
+                        <option value="0">Select a country</option>
+                        <?php
+                        include './Configuration/Connection.php';
+                        $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
+                        $stmt->execute();
+                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if (empty($resultados)) {
+                            echo '<option value=""> No results found </option>';
+                        } else {
+                            foreach ($resultados as $resultado) {
+                                echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                                 <div class="my-2 mb-2 d-flex justify-content-left">
                                     <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
                                         <i class="bi bi-search"></i> Search
@@ -361,6 +382,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     Register
                     new device</a>
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
+                <i class="fas fa-plus"></i>
                     Delete All Logs</button>
                 <script>
                     document.getElementById('deleteAllButton').addEventListener('click', function() {
@@ -437,7 +459,7 @@ if (session_status() === PHP_SESSION_NONE) {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="adminLoginModalLabel">Admin Login</h5>
+            <h5 class="modal-title" id="adminLoginModalLabel">Admin Login <i class="fas fa-user-alt"></i></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -453,7 +475,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
                 <div class="invalid-feedback">Please enter a valid password.</div>
               </div>
-              <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
+              <button type="submit" class="btn btn-primary w-100 border border-secondary">Send<i class="fas fa-paper-plane"></i></button>
               <div class="text-center mt-2">
                 <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
               </div>
