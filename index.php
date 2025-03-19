@@ -21,6 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/dark-mode.css">
     <link rel="stylesheet" href="./View/Css/Datatable.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
 </head>
 
@@ -426,59 +427,42 @@ if (session_status() === PHP_SESSION_NONE) {
             </table>
             <br>
             <br>
-            <label>Ctrl + Q to login as <a href="#" id="ShowmiFormulario" title="Login as Manager">Manager</a></label>
+            <center><label><h5>Ctrl + Q to login as <a href="#" id="showAdminModal" title="Login as Manager">Manager</a></h5></label></center>
             <br>
         </div>
     </div>
-    <div id="FormAdmin" class="container">
-        <div class="row d-flex justify-content-center align-items-center mt-5">
-            <div class="col-md-4 text-center">
-                <?php
-                // Generar un token CSRF si no existe
-                if (empty($_SESSION['csrf_token'])) {
-                    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-                }
-                ?>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const form = document.getElementById('miFormulario');
-                        const link = document.getElementById('ShowmiFormulario');
-
-                        // Función única para manejar el clic
-                        function toggleForm(event) {
-                            event.preventDefault();
-                            form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                        }
-                        // Eliminar cualquier listener previo y asignar uno nuevo
-                        link.removeEventListener('click', toggleForm);
-                        link.addEventListener('click', toggleForm);
-
-                        // Atajo de teclado
-                        document.addEventListener('keydown', (event) => {
-                            if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
-                                event.preventDefault();
-                                form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                            }
-                        });
-                    });
-                </script>
-                <form id="miFormulario" style="display: none;" action="./Admin/token.php" method="POST" class="bg-light p-4 rounded shadow-lg border border-secondary">
-                    <h2 id="totalC" class="text-center mb-4">Admin Login</h2>
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <div class="form-group mb-3">
-                        <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
-                        <div class="invalid-feedback">Please enter a valid password.</div>
-                    </div>
-                    <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
-                    <div class="text-center mt-2">
-                        <a href="./View/Int_forgot_pasword.php" id="" class="text-decoration-none">Forgot Password?</a>
-                    </div>
-                </form>
-            </div>
+    
+    <!-- Modal for Admin Login -->
+    <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="adminLoginModalLabel">Admin Login</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="./Admin/token.php" method="POST">
+              <?php
+              // Generar un token CSRF si no existe
+              if (empty($_SESSION['csrf_token'])) {
+                  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+              }
+              ?>
+              <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+              <div class="form-group mb-3">
+                <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
+                <div class="invalid-feedback">Please enter a valid password.</div>
+              </div>
+              <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send</button>
+              <div class="text-center mt-2">
+                <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
+              </div>
+            </form>
+          </div>
         </div>
-
-
+      </div>
     </div>
+    
     <!-- Scripts -->
     <script src="./View/Js/DatatableIndex.js"></script>
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
@@ -486,6 +470,40 @@ if (session_status() === PHP_SESSION_NONE) {
     <script src="./Configuration/bootstrap/js/bootstrap.min.js"></script>
     <script src="./View/Js/Change_query.js"></script>
     <script src="./Configuration/JQuery/sweetalert2@11.js"></script>
+    
+    <!-- Script para el modal de admin -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const showAdminModal = document.getElementById('showAdminModal');
+        const adminLoginModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
+        
+        // Configurar animaciones para el modal
+        const modalElement = document.getElementById('adminLoginModal');
+        modalElement.addEventListener('show.bs.modal', function () {
+          setTimeout(() => {
+            document.querySelector('.modal-dialog').classList.add('animate__animated', 'animate__fadeInDown');
+          }, 50);
+        });
+        
+        modalElement.addEventListener('hide.bs.modal', function () {
+          document.querySelector('.modal-dialog').classList.remove('animate__animated', 'animate__fadeInDown');
+        });
+        
+        // Manejador de clic para el enlace
+        showAdminModal.addEventListener('click', function(event) {
+          event.preventDefault();
+          adminLoginModal.show();
+        });
+        
+        // Atajo de teclado (Ctrl + Q)
+        document.addEventListener('keydown', function(event) {
+          if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
+            event.preventDefault();
+            adminLoginModal.show();
+          }
+        });
+      });
+    </script>
 </body>
 <footer class="container align-items-center text-center mt-5">
     <div class="row">
