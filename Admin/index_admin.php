@@ -3,13 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Iniciar sesión
 }
 
-$tiempo_inactivo = 4600; // Tiempo de expiración de la sesión (en segundos)
+$tiempo_inactivo = 4; // Tiempo de expiración de la sesión (en segundos)
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
     // Establecer una cookie con el mensaje de error por sesión expirada
     setcookie('error_message', 'Session expired, please try again.', time() + 30, '/');
     // Redirigir y cerrar sesión
-    header("Location: ../index.php");
     include_once '../Controller/Cerrar_sesion.php';
+    header("Location: ../index.php");
     exit();
 }
 

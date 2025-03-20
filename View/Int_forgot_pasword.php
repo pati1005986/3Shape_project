@@ -54,11 +54,10 @@
                     title="Please enter the correct security code (121312@)">
             </div>
             <br>
-            <button type="submit" class="btn btn-primary mb-5 my-4"
-                onclick="return confirm('Are you sure you want to send this information?')">Send<i class="fas fa-paper-plane"></i></button>
+            <button type="submit" class="btn btn-secondary mb-5 my-4"
+                onclick="return confirm('Are you sure you want to send this information?')">Send <i class="fas fa-paper-plane"></i></button>
             <div class="invalid-feedback">Please fill out this field.</div>
-            <a href="../index.php" class="btn btn-danger mb-5 my-4">Back
-                <i class="fas fa-arrow-left"></i>
+            <a href="../index.php" class="btn btn-danger mb-5 my-4">Back <i class="fas fa-arrow-left"></i>
             </a>
         </form>
     </div>

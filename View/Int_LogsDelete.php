@@ -10,9 +10,9 @@ $tiempo_inactivo = 4600;
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
     setcookie('error_message', 'Sesión expirada. Vuelve a iniciar sesión.', time() + 30, '/');
-    header("Location: ../index.php");
     include_once '../Controller/Cerrar_sesion.php';
     exit();
 }
@@ -21,7 +21,6 @@ $_SESSION['last_activity'] = time();
 
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     include_once '../Controller/Cerrar_sesion.php';
-    header("Location: ../index.php");
     exit("Acceso denegado.");
 }
 ?>

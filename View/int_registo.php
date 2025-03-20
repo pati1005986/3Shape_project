@@ -19,7 +19,7 @@ $asset_data = $_SESSION['asset_data'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
-    <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet"">
+    <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <title>Update Register</title>
