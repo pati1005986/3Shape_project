@@ -290,6 +290,7 @@ $_SESSION['last_activity'] = time();
                                         <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     </div>
+                                    <script src="../View/Js/ModalReport.js"></script>
                                 </div>
                             </div>
                         </div>
@@ -327,13 +328,6 @@ $_SESSION['last_activity'] = time();
 
                                     return false;
                                 }
-                            }
-                        </script>
-                        <script>
-                            // Function to show the modal
-                            function showModal() {
-                                const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
-                                modal.show();
                             }
                         </script>
                     </div>

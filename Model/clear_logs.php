@@ -12,8 +12,8 @@ $emptyLog = [
 try {
     // Escribir estructura vacía al archivo
     file_put_contents($logPath, json_encode($emptyLog, JSON_PRETTY_PRINT));
-    echo "Registros borrados exitosamente";
+    echo "Records deleted successfully";
 } catch (Exception $e) {
     http_response_code(500);
-    echo "Error al borrar registros: " . $e->getMessage();
+    echo "Error deleting records" . $e->getMessage();
 }

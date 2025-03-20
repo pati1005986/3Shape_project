@@ -1,11 +1,11 @@
 {
-    "success": [],
-    "error": [],
-    "error_message": [
+    "success": [
         {
-            "message": "Successful logout",
-            "timestamp": "2025-03-20 18:27:27"
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-03-20 20:34:13"
         }
     ],
+    "error": [],
+    "error_message": [],
     "warnings": []
 }

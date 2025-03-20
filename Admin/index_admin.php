@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Iniciar sesión
 }
 
-$tiempo_inactivo = 4; // Tiempo de expiración de la sesión (en segundos)
+$tiempo_inactivo = 5000; // Tiempo de expiración de la sesión (en segundos)
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
     // Establecer una cookie con el mensaje de error por sesión expirada
     setcookie('error_message', 'Session expired, please try again.', time() + 30, '/');
@@ -69,12 +69,6 @@ include_once "../Controller/validation_message.php";
             const hiddenWarnings = document.getElementById('hidden-warnings');
             hiddenWarnings.style.display = 'block'; // Muestra las advertencias ocultas
             event.target.style.display = 'none'; // Oculta el botón
-        }
-
-        // Function to show the modal
-        function showModal() {
-            const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
-            modal.show();
         }
 
         // Función generalizada para alternar la visibilidad de los formularios
@@ -626,21 +620,7 @@ include_once "../Controller/validation_message.php";
                 </div>
             </div>
 
-            <script>
-                function clearLogs() {
-                    if (confirm("Are you sure you want to delete all records?")){
-                        fetch('../Model/clear_logs.php', {
-                                method: 'POST'
-                            })
-                            .then(response => response.text())
-                            .then(data => {
-                                alert(data); // Mostrar respuesta del servidor
-                                location.reload(); // Recargar la página para ver cambios
-                            })
-                            .catch(error => console.error('Error:', error));
-                    }
-                }
-            </script>
+            <script src="../View/Js/ModalReport.js"></script>
 
             <div class="modal fade" id="repeatedSerialsModal" tabindex="-1" aria-labelledby="repeatedSerialsModalLabel"
                 aria-hidden="true">

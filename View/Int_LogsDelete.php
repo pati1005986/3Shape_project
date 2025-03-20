@@ -275,6 +275,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                 <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
+                            <script src="../View/Js/ModalReport.js"></script>
                         </div>
                     </div>
                 </div>
@@ -315,15 +316,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         }).buttons().container().appendTo('#mainTable_wrapper .col-md-6:eq(0)');
                     });
                 </script>
-
-                <script>
-                    // Function to show the modal
-                    function showModal() {
-                        const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
-                        modal.show();
-                    }
-                </script>
-
 </body>
 <footer class="container align-items-center text-center mt-5">
     <div class="row">
