@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     // Lista de campos prohibidos
-    $prohibitedFields = ['assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','new_laptop','fk_id','fk_assetname','user_status',
+    $prohibitedFields = ['assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','fk_id','fk_assetname','user_status',
     'last_user','job_title','status_change','cedula'];
     foreach ($fields as $field) {
         if (in_array($field, $prohibitedFields)) {
