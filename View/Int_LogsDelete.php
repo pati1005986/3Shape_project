@@ -44,7 +44,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 <body>
     <div class="container mt-5">
         <br>
-        <h2 id="totalC" class="mb-4 my-2 text-center">Log Files</h2>
+        <center>  <h2 id="totalC" class="mb-4 my-2 text-center">Log Files <i class="fas fa-file-alt"></i></h2></center>     
         <div id="FORMeditingLog" class="table-responsive">
             <table id="mainTable" class="shadow-lg table table-bordered table-striped fade-in">
                 <thead>
@@ -126,8 +126,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 </tbody>
             </table>
             <br>
-            <a href="../Admin/index_admin.php" class="btn btn-secondary">Back to Menu</a>
-
+            <center><a href="../Admin/index_admin.php" class="btn btn-secondary">Back to Menu</a></center>
             <?php
             // Handle file viewing // Manejo de vista del arhivo
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['view'])) {

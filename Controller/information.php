@@ -122,13 +122,13 @@ foreach ($resultados as $row) {
     $pdf->SetX(20); // Margen izquierdo aumentado
     $pdf->InfoRow('Serial:', empty($row['serial_number']) ? 'Indefinido' : $row['serial_number'], 15);
     $pdf->SetX(20);
-    $pdf->InfoRow('Estado del usuario:', empty($row['user_status']) ? 'Indefinido' : $row['user_status'], 34);
+    $pdf->InfoRow('Estado del usuario:', empty($row['user_status']) ? 'Indefinido' : $row['user_status'], 30);
     $pdf->SetX(20);
-    $pdf->InfoRow('Último Usuario:', empty($row['last_user']) ? 'Indefinido' : $row['last_user'], 30);
+    $pdf->InfoRow('Último Usuario:', empty($row['last_user']) ? 'Indefinido' : $row['last_user'], 24);
     $pdf->SetX(20);
-    $pdf->InfoRow('Cargo:', empty($row['job_title']) ? 'Indefinido' : $row['job_title'], 20);
+    $pdf->InfoRow('Cargo:', empty($row['job_title']) ? 'Indefinido' : $row['job_title'], 12);
     $pdf->SetX(20);
-    $pdf->InfoRow('Pais de compra:', empty($row['purchase_country']) ? 'Indefinido' : $row['purchase_country'], 28);
+    $pdf->InfoRow('Pais de compra:', empty($row['purchase_country']) ? 'Indefinido' : $row['purchase_country'], 25);
 
     // Columna derecha - Resetear a la posición Y inicial
     $maxY = $pdf->GetY(); // Capturamos la máxima Y alcanzada
@@ -139,7 +139,7 @@ foreach ($resultados as $row) {
     $pdf->SetXY(105, $initialY + 20); // Posicionamos en columna derecha (105mm desde izquierda) mas la poscicion porgresiva inicial de Y
     $pdf->InfoRow('Tipo ID:', empty($row['Tipo_ID']) ? 'Indefinido' : $row['Tipo_ID'], 15);
     $pdf->SetXY(105, $initialY + 30);
-    $pdf->InfoRow('Fecha Salida:', empty($row['fecha_salida']) ? 'Indefinida' : $row['fecha_salida'], 40);
+    $pdf->InfoRow('Fecha Salida:', empty($row['fecha_salida']) ? 'Indefinida' : $row['fecha_salida'], 25);
     $pdf->SetXY(105, $initialY + 40);
     $pdf->InfoRow('Fecha fin de garantia:', empty($row['warranty_enddate']) ? 'Indefinida' : $row['warranty_enddate'], 40);
     $pdf->Ln(10);
