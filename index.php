@@ -148,6 +148,18 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>
+                                        <li class="nav-item ms-auto " style="position: absolute; right: 0; top: 12;">
+                                            <a type="button" class="btn btn-secondary" onclick="showModal()">
+                                                <i class="fa-solid fa-bell"></i>
+                                            </a>
+                                            <script>
+                                                // Function to show the modal
+                                                function showModal() {
+                                                    const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+                                                    modal.show();
+                                                }
+                                            </script>
+                                        </li>
                                     </div>
                                 </div>
                         </nav>
@@ -262,6 +274,74 @@ if (session_status() === PHP_SESSION_NONE) {
                                 </div>
                             </div>
                         </div>
+                        <!-- Modal para mostrar las alertas -->
+                        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                            <?php
+                            $jsonFilePath = './Model/Logs/session_messages.json';
+                            $alerts = [];
+                            $maxMessages = 8;
+
+                            if (file_exists($jsonFilePath)) {
+                                $logData = json_decode(file_get_contents($jsonFilePath), true);
+
+                                // Procesar todos los tipos de mensajes
+                                foreach (['success', 'error', 'error_message', 'warnings'] as $type) {
+                                    if (!empty($logData[$type])) {
+                                        $alertClass = match ($type) {
+                                            'success' => 'success',
+                                            'error', 'error_message' => 'danger',
+                                            'warnings' => 'warning'
+                                        };
+
+                                        $count = 0;
+                                        foreach ($logData[$type] as $entry) {
+                                            $message = is_array($entry) ? $entry['message'] : $entry;
+                                            $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
+                                            $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp}</div>";
+                                            $count++;
+
+                                            // Limitar a $maxMessages mensajes por tipo
+                                            if ($count >= $maxMessages) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            ?>
+
+                            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-secondary text-white">
+                                        <h2 class="modal-title">Notification History</h2>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No notifications recorded. </p>' ?>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            function clearLogs() {
+                                if (confirm("Are you sure you want to delete all records?")) {
+                                    fetch('./Model/clear_logs.php', {
+                                            method: 'POST'
+                                        })
+                                        .then(response => response.text())
+                                        .then(data => {
+                                            alert(data); // Mostrar respuesta del servidor
+                                            location.reload(); // Recargar la página para ver cambios
+                                        })
+                                        .catch(error => console.error('Error:', error));
+                                }
+                            }
+                        </script>
 
                         <div class="my-2 mb-2 d-flex justify-content-left">
                             <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">

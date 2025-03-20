@@ -2,31 +2,10 @@
     "success": [
         {
             "message": "Record successfully deleted.",
-            "timestamp": "2025-03-20 12:37:54"
-        },
-        {
-            "message": "Field 'estadoHeadset' added successfully to table 'equipos'.",
-            "timestamp": "2025-03-20 12:50:17"
-        },
-        {
-            "message": "Field removed successfully and logged.",
-            "timestamp": "2025-03-20 13:13:06"
-        },
-        {
-            "message": "Field 'estadoHeadset' added successfully to table 'usuarios_equipos'.",
-            "timestamp": "2025-03-20 13:13:18"
-        },
-        {
-            "message": "Field removed successfully and logged.",
-            "timestamp": "2025-03-20 13:14:12"
+            "timestamp": "2025-03-20 16:58:38"
         }
     ],
-    "error": [
-        {
-            "message": "Database error: SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'estadoHeadset'",
-            "timestamp": "2025-03-20 13:13:25"
-        }
-    ],
+    "error": [],
     "error_message": [],
     "warnings": []
 }

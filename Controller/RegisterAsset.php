@@ -5,14 +5,6 @@ session_start();
 include "../Configuration/Connection.php";
 include "../Controller/sanitization.php";
 
-function validate_input_length($input, $field_name, $max_length) {
-    if (strlen($input) > $max_length) {
-        $_SESSION["error"] = "The $field_name must not exceed the $max_length characters.";
-        header("Location: ../index.php");
-        exit();
-    }
-}
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Recuperar datos del formulario
     $assetname = sanitize_input($_POST['assetname']) ?? null;
