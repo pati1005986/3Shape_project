@@ -66,6 +66,62 @@ $_SESSION['last_activity'] = time();
 </head>
 
 <body>
+<div class="row d-flex justify-content-center align-items-center">
+        <div class="row">
+            <br>
+            <br>
+            <br>
+            <div class="col-md-12">
+                <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
+                    <div class="container-fluid">
+                        <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
+                            <img src="../Configuration/logo.ico" alt="Logo" width="30" height="30">
+                            <small class="ms-2">3 Shape</small>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav d-flex w-100">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="homeindex" href="../index.php">Home</a>
+                                    <script>
+                                        document.getElementById('homeindex').addEventListener('click', function() {
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "This action will delete all logs permanently!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#6d6d6d',
+                                                confirmButtonText: 'Yes, delete all!'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = '../index.php';
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </li>
+                               
+                                <li class="nav-item ms-auto">
+                                    <a type="button" class="btn btn-secondary" onclick="showModal()">
+                                        <i class="fa-solid fa-bell"></i>
+                                    </a>
+                                    <a type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
+                                        <i class="fa-solid fa-info-circle"></i>
+                                    </a>
+                                    <a type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
+                                        <i class="fa-solid fa-gear"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -145,7 +201,7 @@ $_SESSION['last_activity'] = time();
                         <br>
                         <div class="my-2">
                             <button type="submit" class="btn btn-secondary" disabled>Change Network Address</button>
-                            <a href="../Admin/index_admin.php" class="btn btn-danger me-2"><i class="fas fa-arrow-left"></i> Return</a>
+                            <a href="../Admin/index_admin.php" class="btn btn-danger me-2"><i class="fas fa-arrow-left"></i> Return to Admin Menu</a>
                             
 
                             <script>
@@ -184,6 +240,58 @@ $_SESSION['last_activity'] = time();
                         </div>
                     </form>
                 </div>
+                  <!-- Modal para mostrar las alertas -->
+         <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                <?php
+                $jsonFilePath = '../Model/Logs/session_messages.json';
+                $alerts = [];
+                $maxMessages = 8;
+
+                if (file_exists($jsonFilePath)) {
+                    $logData = json_decode(file_get_contents($jsonFilePath), true);
+
+                    // Procesar todos los tipos de mensajes
+                    foreach (['success', 'error', 'error_message', 'warnings'] as $type) {
+                        if (!empty($logData[$type])) {
+                            $alertClass = match ($type) {
+                                'success' => 'success',
+                                'error', 'error_message' => 'danger',
+                                'warnings' => 'warning'
+                            };
+                    
+                            $count = 0;
+                            foreach ($logData[$type] as $entry) {
+                                $message = is_array($entry) ? $entry['message'] : $entry;
+                                $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
+                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp}</div>";
+                                $count++;
+                    
+                                // Limitar a $maxMessages mensajes por tipo
+                                if ($count >= $maxMessages) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                ?>
+
+                <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-secondary text-white">
+                            <h2 class="modal-title">Notification History</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No notifications recorded. </p>' ?>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <script>
                     function validateForm() {
                         var newPassword = document.getElementById("newPassword").value;
@@ -217,6 +325,13 @@ $_SESSION['last_activity'] = time();
                         }
                     }
                 </script>
+                <script>
+    // Function to show the modal
+    function showModal() {
+            const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+            modal.show();
+        }
+</script>
             </div>
         </div>
     </div>
