@@ -16,13 +16,14 @@ session_start();
     <link rel="stylesheet" href="../Configuration/JQuery/select2.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <title>Record of entry record</title>
     <!--Archivo de vista de proceso de salida de activos -->
     <style>
-         body {
-  background-color:rgb(239, 232, 233);
-}
+        body {
+            background-color: rgb(239, 232, 233);
+        }
+
         .select2-container--default .select2-selection--single {
             height: 38px;
             border-radius: 4px;
@@ -50,7 +51,6 @@ session_start();
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: inherit;
         }
-
     </style>
 </head>
 
@@ -60,7 +60,7 @@ session_start();
             <div id="FORMoutput" class="col-md-8 shadow p-5 rounded border border-secondary bg-light">
                 <form id="updateForm" action="../Controller/act_salida.php" method="post" class="">
                     <div class="p-5 rounded">
-                        <h1 id="totalC" class=""">Record of Departure Certificate</h1>
+                        <h1 id="totalC" class="">Record of Departure Certificate</h1>
 
                         <h4 class="my-3">Name of the Person:</h4>
                         <!--Consulta de equipos con condicionales basadas en el User Status y last user-->
@@ -92,46 +92,46 @@ session_start();
                         ?>
                         <br>
                         <h4 class="my-3">Departure date:</h4>
-<div class="form-group">
-    <input class="shadow-sm form-control" type="date" id="fechaSalida" name="fechaSalida"
-        autocomplete="off" required data-validate="true">
-</div>
+                        <div class="form-group">
+                            <input class="shadow-sm form-control" type="date" id="fechaSalida" name="fechaSalida"
+                                autocomplete="off" required data-validate="true">
+                        </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const garantiaInput = document.getElementById('fechaSalida');
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const garantiaInput = document.getElementById('fechaSalida');
 
-        // Formatear la fecha actual en formato YYYY-MM-DD para el input type="date"
-        const today = new Date().toISOString().split('T')[0];
-        garantiaInput.value = today;
+                                // Formatear la fecha actual en formato YYYY-MM-DD para el input type="date"
+                                const today = new Date().toISOString().split('T')[0];
+                                garantiaInput.value = today;
 
-        garantiaInput.addEventListener('blur', function(e) {
-            if (!garantiaInput.value) {
-                garantiaInput.classList.add('is-invalid');
-            } else {
-                garantiaInput.classList.remove('is-invalid');
-            }
-        });
+                                garantiaInput.addEventListener('blur', function(e) {
+                                    if (!garantiaInput.value) {
+                                        garantiaInput.classList.add('is-invalid');
+                                    } else {
+                                        garantiaInput.classList.remove('is-invalid');
+                                    }
+                                });
 
-        document.getElementById('updateForm').addEventListener('submit', function(event) {
-            if (garantiaInput.classList.contains('is-invalid')) {
-                event.preventDefault();
-                alert('Please enter a valid date.');
-            }
-        });
-    });
-</script>
+                                document.getElementById('updateForm').addEventListener('submit', function(event) {
+                                    if (garantiaInput.classList.contains('is-invalid')) {
+                                        event.preventDefault();
+                                        alert('Please enter a valid date.');
+                                    }
+                                });
+                            });
+                        </script>
 
                     </div>
                     <br>
                     <div class="text-center">
-    <button type="submit" class="btn btn-secondary">
-        <i class="fas fa-upload"></i> Update
-    </button>
-    <a href="../index.php" class="btn btn-danger">
-        <i class="fas fa-arrow-left"></i> Return
-    </a>
-</div>
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-upload"></i> Update
+                        </button>
+                        <a href="../index.php" class="btn btn-danger">
+                            <i class="fas fa-arrow-left"></i> Return
+                        </a>
+                    </div>
 
                     <br>
                 </form>

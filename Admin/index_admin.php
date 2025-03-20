@@ -54,6 +54,11 @@ include_once "../Controller/validation_message.php";
         .visible-form {
             display: block;
         }
+        .modal-body {
+        max-height: 400px; /* Altura máxima del modal */
+        overflow-y: auto;  /* Habilitar scroll vertical */
+        padding: 10px;
+        }
     </style>
 </head>
 
@@ -573,6 +578,7 @@ include_once "../Controller/validation_message.php";
                 <?php
                 $jsonFilePath = '../Model/Logs/session_messages.json';
                 $alerts = [];
+                $maxMessages = 8;
 
                 if (file_exists($jsonFilePath)) {
                     $logData = json_decode(file_get_contents($jsonFilePath), true);
@@ -585,11 +591,18 @@ include_once "../Controller/validation_message.php";
                                 'error', 'error_message' => 'danger',
                                 'warnings' => 'warning'
                             };
-
+                    
+                            $count = 0;
                             foreach ($logData[$type] as $entry) {
                                 $message = is_array($entry) ? $entry['message'] : $entry;
                                 $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                $alerts[] = "<div class='-{$alertClass}'>$message$timestamp</div>";
+                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp}</div>";
+                                $count++;
+                    
+                                // Limitar a $maxMessages mensajes por tipo
+                                if ($count >= $maxMessages) {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -603,7 +616,7 @@ include_once "../Controller/validation_message.php";
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No hay notificaciones registradas.</p>' ?>
+                            <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No notifications recorded. </p>' ?>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>

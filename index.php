@@ -23,7 +23,6 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/animate.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
@@ -50,20 +49,20 @@ if (session_status() === PHP_SESSION_NONE) {
                         }
                     </style>
                     <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
-                        <div id="div1" class="fa"></div>
+                    <div id="div1" class="fa"></div>
 
-                        <script>
-                            function openfolder() {
-                                var a;
-                                a = document.getElementById("div1");
-                                a.innerHTML = "&#xf114;";
-                                setTimeout(function() {
-                                    a.innerHTML = "&#xf115;";
-                                }, 1000);
-                            }
-                            openfolder();
-                            setInterval(openfolder, 2000);
-                        </script>
+                    <script>
+                        function openfolder() {
+                            var a;
+                            a = document.getElementById("div1");
+                            a.innerHTML = "&#xf114;";
+                            setTimeout(function() {
+                                a.innerHTML = "&#xf115;";
+                            }, 1000);
+                        }
+                        openfolder();
+                        setInterval(openfolder, 2000);
+                    </script>
                 </span>
                 <p class="form-paragraph"> File should be CSV or TXT</p>
                 <label for="file-input" class="drop-container">
@@ -133,238 +132,238 @@ if (session_status() === PHP_SESSION_NONE) {
 
                                 <!-- Contenido colapsable -->
                                 <div class="collapse navbar-collapse" id="navbarCollapse">
-    <div class="navbar-nav">
-        <a id="generatePDF" class="nav-link me-2" data-url="./Model/PruebaV.php" target="_blank" title="Generate General PDF">
-            <i class="far fa-file-pdf" style="color:red;"></i> Generate General PDF
-        </a>
-        <a id="generateActaSalida" class="nav-link me-2" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">
-            <i class="fas fa-file-export"></i> Generate Departure Certificate
-        </a>
-        <a id="generateActaEntrada" class="nav-link me-2" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">
-            <i class="far fa-file-alt"></i> Generate Entry Certificate
-        </a>
-        <a href="./View/Int_entrada.php" class="nav-link me-2" title="Change Asset">
-            <i class="bi bi-arrow-repeat me-1"></i> Change Asset
-        </a>
-        <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
-            <i class="bi bi-box-arrow-up me-1"></i> Output Asset
-        </a>
-    </div>
-</div>
+                                    <div class="navbar-nav">
+                                        <a id="generatePDF" class="nav-link me-2" data-url="./Model/PruebaV.php" target="_blank" title="Generate General PDF">
+                                            <i class="far fa-file-pdf" style="color:red;"></i> Generate General PDF
+                                        </a>
+                                        <a id="generateActaSalida" class="nav-link me-2" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">
+                                            <i class="fas fa-file-export"></i> Generate Departure Certificate
+                                        </a>
+                                        <a id="generateActaEntrada" class="nav-link me-2" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">
+                                            <i class="far fa-file-alt"></i> Generate Entry Certificate
+                                        </a>
+                                        <a href="./View/Int_entrada.php" class="nav-link me-2" title="Change Asset">
+                                            <i class="bi bi-arrow-repeat me-1"></i> Change Asset
+                                        </a>
+                                        <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
+                                            <i class="bi bi-box-arrow-up me-1"></i> Output Asset
+                                        </a>
+                                    </div>
+                                </div>
                         </nav>
-<!-- Formulario de Consulta -->
-<div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
-    <div class="col-md-12">
-        <!-- Primera fila -->
-        <div class="row g-2">
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                    <input type="text" name="search_assetname" placeholder="Asset Name"
-                        class="form-control shadow-sm bg-light"
-                        oninput="this.value = this.value.toUpperCase()" autocomplete="off">
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
-                    <input type="text" id="search_serial" name="search_serial"
-                        placeholder="Serial Number" class="form-control shadow-sm bg-light"
-                        autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                    <select id="search_user_status" name="search_user_status[]"
-                        class="shadow-sm form-control bg-light">
-                        <option value="0">Select a option</option>
-                        <?php
-                        include './Configuration/Connection.php';
-                        $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
-                        $stmt->execute();
-                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        if (empty($resultados)) {
-                            echo '<option value=""> No results found </option>';
-                        } else {
-                            foreach ($resultados as $resultado) {
-                                echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
-                            }
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Segunda fila -->
-        <div class="row g-2">
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-                    <input type="text" name="search_status_change" placeholder="Status Change"
-                        class="shadow-sm form-control bg-light">
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-                    <input type="text" id="garantia" name="search_fecha_fin" placeholder="End date"
-                        class="shadow-sm form-control bg-light">
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                    <input type="text" id="sgarantia" name="search_fecha_inicio"
-                        placeholder="Start date" class="shadow-sm form-control bg-light">
-                </div>
-            </div>
-        </div>
-
-        <!-- Tercera fila -->
-        <div class="row g-2">
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
-                    <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
-                        class="form-control shadow-sm bg-light" autocomplete="off" min="0">
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
-                    <input type="text" id="search_user" name="search_user" placeholder="Last User"
-                        class="form-control shadow-sm bg-light" autocomplete="off">
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mb-2">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-globe"></i></span>
-                    <select id="search_purchase_country" name="search_purchase_country[]"
-                        class="shadow-sm form-control bg-light">
-                        <option value="0">Select a country</option>
-                        <?php
-                        include './Configuration/Connection.php';
-                        $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
-                        $stmt->execute();
-                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        if (empty($resultados)) {
-                            echo '<option value=""> No results found </option>';
-                        } else {
-                            foreach ($resultados as $resultado) {
-                                echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
-                            }
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-                                <div class="my-2 mb-2 d-flex justify-content-left">
-                                    <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
-                                        <i class="bi bi-search"></i> Search
-                                    </button>
-                                    <button type="reset" class="shadow btn btn-light border-danger" id="reset_btn">Reset
-                                        <i class="bi bi-arrow-clockwise"></i>
-                                    </button>
+                        <!-- Formulario de Consulta -->
+                        <div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
+                            <div class="col-md-12">
+                                <!-- Primera fila -->
+                                <div class="row g-2">
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                                            <input type="text" name="search_assetname" placeholder="Asset Name"
+                                                class="form-control shadow-sm bg-light"
+                                                oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+                                            <input type="text" id="search_serial" name="search_serial"
+                                                placeholder="Serial Number" class="form-control shadow-sm bg-light"
+                                                autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                            <select id="search_user_status" name="search_user_status[]"
+                                                class="shadow-sm form-control bg-light">
+                                                <option value="0">Select a option</option>
+                                                <?php
+                                                include './Configuration/Connection.php';
+                                                $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
+                                                $stmt->execute();
+                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                if (empty($resultados)) {
+                                                    echo '<option value=""> No results found </option>';
+                                                } else {
+                                                    foreach ($resultados as $resultado) {
+                                                        echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <script>
-                                    // Boton de Restart
-                                    document.getElementById('reset_btn').addEventListener('click', function() {
-                                        const textInputs = document.querySelectorAll('input[type="text"]');
-                                        const numberInputs = document.querySelectorAll('input[type="number"]');
-                                        const selectElements = document.querySelectorAll('select');
+                                <!-- Segunda fila -->
+                                <div class="row g-2">
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                                            <input type="text" name="search_status_change" placeholder="Status Change"
+                                                class="shadow-sm form-control bg-light">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                                            <input type="text" id="garantia" name="search_fecha_fin" placeholder="End date"
+                                                class="shadow-sm form-control bg-light">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                                            <input type="text" id="sgarantia" name="search_fecha_inicio"
+                                                placeholder="Start date" class="shadow-sm form-control bg-light">
+                                        </div>
+                                    </div>
+                                </div>
 
-                                        textInputs.forEach(input => input.value = '');
-                                        numberInputs.forEach(input => input.value = '');
-                                        selectElements.forEach(select => select.selectedIndex = 0);
-                                    });
-                                </script>
+                                <!-- Tercera fila -->
+                                <div class="row g-2">
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                                            <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
+                                                class="form-control shadow-sm bg-light" autocomplete="off" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                                            <input type="text" id="search_user" name="search_user" placeholder="Last User"
+                                                class="form-control shadow-sm bg-light" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                            <select id="search_purchase_country" name="search_purchase_country[]"
+                                                class="shadow-sm form-control bg-light">
+                                                <option value="0">Select a country</option>
+                                                <?php
+                                                include './Configuration/Connection.php';
+                                                $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
+                                                $stmt->execute();
+                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                if (empty($resultados)) {
+                                                    echo '<option value=""> No results found </option>';
+                                                } else {
+                                                    foreach ($resultados as $resultado) {
+                                                        echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <script>
-                                //Funcion para la validacion de entrada de fecha
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const garantiaInput = document.getElementById('garantia');
-                                    const sgarantiaInput = document.getElementById('sgarantia');
-
-                                    function formatInputDate(input) {
-                                        input.addEventListener('input', function(e) {
-                                            let value = e.target.value.replace(/\D/g, '');
-                                            let formattedDate = '';
-
-                                            if (value.length > 8) {
-                                                value = value.substr(0, 8);
-                                            }
-
-                                            if (value.length > 0) {
-                                                formattedDate = value.substr(0, 2);
-                                                if (value.length > 2) {
-                                                    formattedDate += '/' + value.substr(2, 2);
-                                                }
-                                                if (value.length > 4) {
-                                                    formattedDate += '/' + value.substr(4);
-                                                }
-                                            }
-
-                                            let month = parseInt(value.substr(0, 2));
-                                            let day = parseInt(value.substr(2, 2));
-
-                                            if (month > 12) {
-                                                month = 12;
-                                                formattedDate = '12' + formattedDate.substr(2);
-                                            }
-
-                                            if (day > 31) {
-                                                day = 31;
-                                                formattedDate = formattedDate.substr(0, 3) + '31' +
-                                                    formattedDate.substr(5);
-                                            }
-
-                                            e.target.value = formattedDate;
-                                        });
-                                        input.addEventListener('blur', function(e) {
-                                            const datePattern =
-                                                /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-                                            if (!datePattern.test(e.target.value)) {
-                                                e.target.classList.add('is-invalid');
-                                            } else {
-                                                e.target.classList.remove('is-invalid');
-                                            }
-                                        });
-                                    }
-                                    formatInputDate(garantiaInput);
-                                    formatInputDate(sgarantiaInput);
-                                });
-                            </script>
                         </div>
-                        <div id="resultados3" class="text-center my-2"></div>
-                        <div id="resultados2" class="text-center my-2"></div>
-                        <div id="resultados" class="text-center my-2"></div>
+
+                        <div class="my-2 mb-2 d-flex justify-content-left">
+                            <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                            <button type="reset" class="shadow btn btn-light border-danger" id="reset_btn">Reset
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                        </div>
+
                         <script>
-                            //Script automatico para la busqueda del ultimo usuario
-                            document.getElementById('search_user').addEventListener('input', function() {
-                                const value = this.value;
-                                if (value.length > 0) {
-                                    this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '');
-                                }
+                            // Boton de Restart
+                            document.getElementById('reset_btn').addEventListener('click', function() {
+                                const textInputs = document.querySelectorAll('input[type="text"]');
+                                const numberInputs = document.querySelectorAll('input[type="number"]');
+                                const selectElements = document.querySelectorAll('select');
+
+                                textInputs.forEach(input => input.value = '');
+                                numberInputs.forEach(input => input.value = '');
+                                selectElements.forEach(select => select.selectedIndex = 0);
                             });
                         </script>
-                        <script src="./View/Js/Automatic_search.js"></script>
                     </div>
-                    <script src="./View/Js/Search_Selectors.js"></script>
-                    <div class="col-md-4">
-                        <?php
-                        include_once './Controller/busqueda_Multicriterio.php';
-                        ?>
-                    </div>
+                    <script>
+                        //Funcion para la validacion de entrada de fecha
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const garantiaInput = document.getElementById('garantia');
+                            const sgarantiaInput = document.getElementById('sgarantia');
+
+                            function formatInputDate(input) {
+                                input.addEventListener('input', function(e) {
+                                    let value = e.target.value.replace(/\D/g, '');
+                                    let formattedDate = '';
+
+                                    if (value.length > 8) {
+                                        value = value.substr(0, 8);
+                                    }
+
+                                    if (value.length > 0) {
+                                        formattedDate = value.substr(0, 2);
+                                        if (value.length > 2) {
+                                            formattedDate += '/' + value.substr(2, 2);
+                                        }
+                                        if (value.length > 4) {
+                                            formattedDate += '/' + value.substr(4);
+                                        }
+                                    }
+
+                                    let month = parseInt(value.substr(0, 2));
+                                    let day = parseInt(value.substr(2, 2));
+
+                                    if (month > 12) {
+                                        month = 12;
+                                        formattedDate = '12' + formattedDate.substr(2);
+                                    }
+
+                                    if (day > 31) {
+                                        day = 31;
+                                        formattedDate = formattedDate.substr(0, 3) + '31' +
+                                            formattedDate.substr(5);
+                                    }
+
+                                    e.target.value = formattedDate;
+                                });
+                                input.addEventListener('blur', function(e) {
+                                    const datePattern =
+                                        /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+                                    if (!datePattern.test(e.target.value)) {
+                                        e.target.classList.add('is-invalid');
+                                    } else {
+                                        e.target.classList.remove('is-invalid');
+                                    }
+                                });
+                            }
+                            formatInputDate(garantiaInput);
+                            formatInputDate(sgarantiaInput);
+                        });
+                    </script>
             </div>
-            <!--Inputs de Busqueda-->
+            <div id="resultados3" class="text-center my-2"></div>
+            <div id="resultados2" class="text-center my-2"></div>
+            <div id="resultados" class="text-center my-2"></div>
+            <script>
+                //Script automatico para la busqueda del ultimo usuario
+                document.getElementById('search_user').addEventListener('input', function() {
+                    const value = this.value;
+                    if (value.length > 0) {
+                        this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '');
+                    }
+                });
+            </script>
+            <script src="./View/Js/Automatic_search.js"></script>
         </div>
+        <script src="./View/Js/Search_Selectors.js"></script>
+        <div class="col-md-4">
+            <?php
+            include_once './Controller/busqueda_Multicriterio.php';
+            ?>
+        </div>
+    </div>
+    <!--Inputs de Busqueda-->
+    </div>
     </div>
     <br>
     </form>
@@ -382,7 +381,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     Register
                     new device</a>
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
-                <i class="fas fa-plus"></i>
+                    <i class="fas fa-plus"></i>
                     Delete All Logs</button>
                 <script>
                     document.getElementById('deleteAllButton').addEventListener('click', function() {
@@ -449,42 +448,44 @@ if (session_status() === PHP_SESSION_NONE) {
             </table>
             <br>
             <br>
-            <center><label><h5>Ctrl + Q to login as <a href="#" id="showAdminModal" title="Login as Manager">Manager</a></h5></label></center>
+            <center><label>
+                    <h5>Ctrl + Q to login as <a href="#" id="showAdminModal" title="Login as Manager">Manager</a></h5>
+                </label></center>
             <br>
         </div>
     </div>
-    
+
     <!-- Modal for Admin Login -->
     <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="adminLoginModalLabel">Admin Login <i class="fas fa-user-alt"></i></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="./Admin/token.php" method="POST">
-              <?php
-              // Generar un token CSRF si no existe
-              if (empty($_SESSION['csrf_token'])) {
-                  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-              }
-              ?>
-              <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-              <div class="form-group mb-3">
-                <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
-                <div class="invalid-feedback">Please enter a valid password.</div>
-              </div>
-              <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send<i class="fas fa-paper-plane"></i></button>
-              <div class="text-center mt-2">
-                <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
-              </div>
-            </form>
-          </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminLoginModalLabel">Admin Login <i class="fas fa-user-alt"></i></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./Admin/token.php" method="POST">
+                        <?php
+                        // Generar un token CSRF si no existe
+                        if (empty($_SESSION['csrf_token'])) {
+                            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+                        }
+                        ?>
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                        <div class="form-group mb-3">
+                            <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
+                            <div class="invalid-feedback">Please enter a valid password.</div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send<i class="fas fa-paper-plane"></i></button>
+                        <div class="text-center mt-2">
+                            <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    
+
     <!-- Scripts -->
     <script src="./View/Js/DatatableIndex.js"></script>
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
@@ -492,39 +493,39 @@ if (session_status() === PHP_SESSION_NONE) {
     <script src="./Configuration/bootstrap/js/bootstrap.min.js"></script>
     <script src="./View/Js/Change_query.js"></script>
     <script src="./Configuration/JQuery/sweetalert2@11.js"></script>
-    
+
     <!-- Script para el modal de admin -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const showAdminModal = document.getElementById('showAdminModal');
-        const adminLoginModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
-        
-        // Configurar animaciones para el modal
-        const modalElement = document.getElementById('adminLoginModal');
-        modalElement.addEventListener('show.bs.modal', function () {
-          setTimeout(() => {
-            document.querySelector('.modal-dialog').classList.add('animate__animated', 'animate__fadeInDown');
-          }, 50);
+        document.addEventListener('DOMContentLoaded', function() {
+            const showAdminModal = document.getElementById('showAdminModal');
+            const adminLoginModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
+
+            // Configurar animaciones para el modal
+            const modalElement = document.getElementById('adminLoginModal');
+            modalElement.addEventListener('show.bs.modal', function() {
+                setTimeout(() => {
+                    document.querySelector('.modal-dialog').classList.add('animate__animated', 'animate__fadeInDown');
+                }, 50);
+            });
+
+            modalElement.addEventListener('hide.bs.modal', function() {
+                document.querySelector('.modal-dialog').classList.remove('animate__animated', 'animate__fadeInDown');
+            });
+
+            // Manejador de clic para el enlace
+            showAdminModal.addEventListener('click', function(event) {
+                event.preventDefault();
+                adminLoginModal.show();
+            });
+
+            // Atajo de teclado (Ctrl + Q)
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
+                    event.preventDefault();
+                    adminLoginModal.show();
+                }
+            });
         });
-        
-        modalElement.addEventListener('hide.bs.modal', function () {
-          document.querySelector('.modal-dialog').classList.remove('animate__animated', 'animate__fadeInDown');
-        });
-        
-        // Manejador de clic para el enlace
-        showAdminModal.addEventListener('click', function(event) {
-          event.preventDefault();
-          adminLoginModal.show();
-        });
-        
-        // Atajo de teclado (Ctrl + Q)
-        document.addEventListener('keydown', function(event) {
-          if (event.ctrlKey && (event.key === 'q' || event.key === 'Q')) {
-            event.preventDefault();
-            adminLoginModal.show();
-          }
-        });
-      });
     </script>
 </body>
 <footer class="container align-items-center text-center mt-5">
