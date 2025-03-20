@@ -599,24 +599,33 @@ include_once "../Controller/validation_message.php";
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-secondary text-white">
-                            <h2 class="modal-title">Historial de Notificaciones</h2>
+                            <h2 class="modal-title">Notification History</h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No hay notificaciones registradas.</p>' ?>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" onclick="clearLog()">Limpiar Historial</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <script>
-                function clearLog() {
-                    fetch('../Controller/clear_log.php')
-                        .then(response => location.reload());
+                function clearLogs() {
+                    if (confirm("Are you sure you want to delete all records?")){
+                        fetch('../Model/clear_logs.php', {
+                                method: 'POST'
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                alert(data); // Mostrar respuesta del servidor
+                                location.reload(); // Recargar la página para ver cambios
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
                 }
             </script>
 

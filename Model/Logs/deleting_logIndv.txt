@@ -1,0 +1,21 @@
+[
+    {
+        "assetname": "CO-LPT-FEOR2",
+        "serial_number": "7X2K494",
+        "purchase_country": "Unknown",
+        "warranty_enddate": "Unknown",
+        "expired": "yes",
+        "new_laptop": "",
+        "HeadSet": "0",
+        "user_status": "Old User",
+        "last_user": "Felipe Lopez Orjuela",
+        "job_title": "Support Consultant 2nd Line LAB",
+        "status_change": "Pending",
+        "cedula": 1000588876,
+        "Dongle": 0,
+        "Carnet": "Pendiente",
+        "LLave": "Pendiente",
+        "Tipo_ID": "CC",
+        "fecha_salida": ""
+    }
+]
