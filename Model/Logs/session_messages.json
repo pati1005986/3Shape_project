@@ -1,12 +1,11 @@
 {
     "success": [
         {
-            "message": "Field 'estado_assetanme' added successfully to table 'usuarios_equipos'.",
-            "timestamp": "2025-03-19 21:04:17"
-        },
-        {
-            "message": "Field removed successfully and logged.",
-            "timestamp": "2025-03-19 21:05:52"
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-03-20 12:37:54"
         }
-    ]
+    ],
+    "error": [],
+    "error_message": [],
+    "warnings": []
 }
