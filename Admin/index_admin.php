@@ -165,10 +165,10 @@ include_once "../Controller/validation_message.php";
                                 </li>
                                 <li class="nav-item ms-auto">
                                     <a type="button" class="btn btn-secondary" onclick="showModal()">
-                                        <i class="fa-solid fa-bell"></i>
+                                        <i class="fa-solid fa-bell" style='color:yellow'></i>
                                     </a>
                                     <a type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
-                                        <i class="fa-solid fa-info-circle"></i>
+                                        <i class="fa-solid fa-info-circle" style="color:aqua"></i>
                                     </a>
                                     <a type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
                                         <i class="fa-solid fa-gear"></i>
