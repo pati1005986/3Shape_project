@@ -107,7 +107,7 @@ include_once "../Controller/validation_message.php";
 
     <div class="row d-flex justify-content-center align-items-center">
         <div class="row">
-            <h1 id="totalC" class="text-center my-5">Admin Dashboard</h1>
+       
             <br>
             <br>
             <br>
@@ -182,7 +182,12 @@ include_once "../Controller/validation_message.php";
             <br>
             <br>
         </div>
+<div>
+    <center>
+    <h1 id="totalC" class="text-center my-5" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Admin Dashboard <i class="fas fa-chart-bar"></i></h1>
+    </center>
 
+</div>
         <div class="row my-5">
             <div class="col-md-6 ">
                 <form action="add_fields.php" id="FormAddForm" style="display: block;" method="POST" class="shadow border border-secondary">
@@ -257,72 +262,189 @@ include_once "../Controller/validation_message.php";
             </div>
 
             <div class="col-md-6">
-                <canvas id="myChart" style="max-width: 100%; height: auto; display: block;"></canvas>
-                <br>
-                <script>
-                    // Grafica para estado de usuarios
-                    document.addEventListener("DOMContentLoaded", function() {
-                        var ctx = document.getElementById('myChart').getContext('2d');
-                        var counts = {};
-                        data.forEach(item => {
-                            var status = item['user_status'];
-                            counts[status] = (counts[status] || 0) + 1;
-                        });
-                        var labels = Object.keys(counts);
-                        var values = Object.values(counts);
-                        console.log("Labels:", labels);
-                        console.log("Values:", values);
-                        var myChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: 'Equipment Status',
-                                    data: values,
-                                    backgroundColor: 'rgba(13, 202, 240, 0.2)',
-                                    borderColor: 'rgba(13, 202, 240, 1)',
-                                    borderSkipped: false,
-                                    pointHoverRadius: 5,
-                                    pointHoverBorderWidth: 2,
-                                    pointBackgroundColor: 'rgb(14, 174, 206)',
-                                    pointBorderColor: 'rgba(13, 202, 240, 1)',
-                                    pointBorderWidth: 1,
-                                    pointHitRadius: 5
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: {
-                                            stepSize: 1,
-                                            callback: function(value) {
-                                                return value;
-                                            }
-                                        }
-                                    }
+        <canvas id="myChart" style="max-width: 100%; height: auto; display: block;"></canvas>
+        <br>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var counts = {};
+                data.forEach(item => {
+                    var status = item['user_status'];
+                    counts[status] = (counts[status] || 0) + 1;
+                });
+                var labels = Object.keys(counts);
+                var values = Object.values(counts);
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Equipment Status',
+                            data: values,
+                            backgroundColor: 'rgba(13, 202, 240, 0.2)',
+                            borderColor: 'rgba(13, 202, 240, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
                                 }
                             }
-                        });
-                    });
-                </script>
-                <?php
-                // Consulta para obtener el estado de los usuarios
+                        }
+                    }
+                });
+            });
+        </script>
+        <?php
+        try {
+            $sql = "SELECT user_status FROM vista_equipos_usuarios";
+            include '../Configuration/Connection.php';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo "<script>var data = " . json_encode($data) . ";</script>";
+        } catch (PDOException $e) {
+            echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
+        ?>
+    </div>
+
+    <div class="col-md-6">
+        <canvas id="myChart2" style="max-width: 100%; height: auto; display: block;"></canvas>
+        <br>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var ctx2 = document.getElementById('myChart2').getContext('2d');
+                var countryData = <?php
+                    try {
+                        $sql = "SELECT purchase_country, COUNT(*) AS total_ventas FROM equipos GROUP BY purchase_country ORDER BY total_ventas DESC LIMIT 5";
+                        include '../Configuration/Connection.php';
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->execute();
+                        $salesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        echo json_encode($salesData);
+                    } catch (PDOException $e) {
+                        echo '[]';
+                    }
+                ?>;
+                var countryLabels = countryData.map(item => item.purchase_country);
+                var countryValues = countryData.map(item => item.total_ventas);
+                var myChart2 = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: countryLabels,
+                        datasets: [{
+                            label: 'Top 5 countries with the most purchases',
+                            data: countryValues,
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderColor: 'rgba(255, 159, 64, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+
+    <div class="col-md-6">
+    <canvas id="expiredChart" style="max-width: 100%; height: auto; display: block;"></canvas>
+    <br>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ctx3 = document.getElementById('expiredChart').getContext('2d');
+            var expiredData = <?php
                 try {
-                    $sql = "SELECT user_status FROM vista_equipos_usuarios";
+                    $sql = "SELECT expired, COUNT(*) AS total FROM equipos GROUP BY expired ORDER BY total DESC";
                     include '../Configuration/Connection.php';
                     $stmt = $pdo->prepare($sql);
                     $stmt->execute();
-                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    echo "<script>";
-                    echo "var data = " . json_encode($data) . ";";
-                    echo "</script>";
+                    $expiredData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    // Transform the results to use more descriptive labels
+                    foreach ($expiredData as $key => $value) {
+                        if ($value['expired'] == 'Yes' || $value['expired'] == 'yes') {
+                            $expiredData[$key]['expired'] = 'Expired';
+                        } else if ($value['expired'] == 'No' || $value['expired'] == 'no') {
+                            $expiredData[$key]['expired'] = 'Not Expired';
+                        } else if ($value['expired'] == '' || $value['expired'] === null) {
+                            $expiredData[$key]['expired'] = 'Not Specified';
+                        }
+                    }
+                    
+                    echo json_encode($expiredData);
                 } catch (PDOException $e) {
-                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                    echo '[]';
                 }
-                ?>
-            </div>
+            ?>;
+            
+            var expiredLabels = expiredData.map(item => item.expired || "Not Specified");
+            var expiredValues = expiredData.map(item => item.total);
+            
+            // Custom colors for each status
+            var backgroundColors = expiredLabels.map(label => {
+                if (label === 'Expired') return 'rgba(255, 99, 132, 0.2)';
+                if (label === 'Not Expired') return 'rgba(75, 192, 192, 0.2)';
+                return 'rgba(201, 203, 207, 0.2)'; // for "Not Specified"
+            });
+            
+            var borderColors = expiredLabels.map(label => {
+                if (label === 'Expired') return 'rgba(255, 99, 132, 1)';
+                if (label === 'Not Expired') return 'rgba(75, 192, 192, 1)';
+                return 'rgba(201, 203, 207, 1)'; // for "Not Specified"
+            });
+            
+            var expiredChart = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: expiredLabels,
+                    datasets: [{
+                        label: 'Asset Warranty Status',
+                        data: expiredValues,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Asset Warranty Status Distribution',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</div>
+
 
             <div class="col-md-6">
                 <form action="remove_fields.php" id="RemoveForm" style="display: none;" method="post" class="shadow border border-secondary">

@@ -291,7 +291,7 @@ include "../Configuration/Connection.php";
                                 ?>
                             </div>
                             <div class="form-group my-2">
-                                <label for="status_change">status change: </label>
+                                <label for="status_change">Status change: </label>
                                 <?php
                                 include "../Configuration/Connection.php";
                                 try {

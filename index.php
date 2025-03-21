@@ -150,7 +150,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                         </a>
                                         <li class="nav-item ms-auto " style="position: absolute; right: 0; top: 12;">
                                             <a type="button" class="btn btn-secondary" onclick="showModal()">
-                                                <i class="fa-solid fa-bell"></i>
+                                                <i class="fa-solid fa-bell" style="color:yellow"></i>
                                             </a>
                                             <script>
                                                 // Function to show the modal
