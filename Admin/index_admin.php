@@ -47,14 +47,15 @@ include_once "../Controller/validation_message.php";
     <link rel="stylesheet" href="../View/Css/dark-mode.css">
     <link rel="stylesheet" href="../View/Css/Form.css">
     <style>
-        .hidden-form {
-            display: none;
-        }
+            .hidden {
+    display: none;
+}
 
         .visible-form {
             display: block;
         }
 
+   
         .modal-body {
             max-height: 400px;
             /* Altura máxima del modal */
@@ -63,7 +64,23 @@ include_once "../Controller/validation_message.php";
             padding: 10px;
         }
     </style>
-</head>
+
+    <style>
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .dashboard-item {
+            flex: 1 1 calc(50% - 10px); /* Ajusta para 2 columnas */
+            transition: all 0.3s ease-in-out;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+    </head>
+    
 
 <body>
     <script>
@@ -155,7 +172,7 @@ include_once "../Controller/validation_message.php";
                                     <a class="nav-link" id="showFormLink2" href="#">Add columns to the table</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink5" href="#">Export Data Base From CSV</a>
+                                    <a class="nav-link" id="showFormLink5" href="#">Export Data Base</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink6" href="#">Adding fields to all Forms</a>
@@ -165,7 +182,7 @@ include_once "../Controller/validation_message.php";
                                 </li>
                                 <li class="nav-item ms-auto">
                                     <a type="button" class="btn btn-secondary" onclick="showModal()">
-                                        <i class="fa-solid fa-bell" style='color:yellow'></i>
+                                        <i class="fa-solid fa-bell" style='color:aqua'></i>
                                     </a>
                                     <a type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
                                         <i class="fa-solid fa-info-circle" style="color:aqua"></i>
@@ -566,13 +583,23 @@ include_once "../Controller/validation_message.php";
                     </div>
 
                     <br>
+                    <h4>Format <span>*</span></h4>
+<div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="format" value="csv" id="format_csv" checked>
+    <label class="form-check-label" for="format_csv">CSV</label>
+</div>
+<div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="format" value="txt" id="format_txt">
+    <label class="form-check-label" for="format_txt">TXT</label>
+</div>
+
                     <div class="btn-block text-center">
-                        <button type="submit" class="btn btn-secondary">Export to CSV</button>
+                        <button type="submit" class="btn btn-secondary">Export</button>
                     </div>
 
                     <script>
                         document.getElementById('addBDCSV').addEventListener('submit', function(event) {
-                            if (!confirm('Are you sure you want to export the data to CSV?')) {
+                            if (!confirm('Are you sure you want to export the data in this format?')) {
                                 event.preventDefault(); // Cancelar el envío si el usuario no confirma
                             }
                         });
@@ -800,7 +827,17 @@ include_once "../Controller/validation_message.php";
             <script src="../Configuration/JQuery/Chart.js"></script>
 
 
-</body>
+
+    <script>
+        function toggleWidget(id) {
+            let element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle("hidden");
+            }
+        }
+    </script>
+    </body>
+    
 <footer class="container align-items-center text-center mt-5">
     <div class="row">
         <div class="col-md-4">
