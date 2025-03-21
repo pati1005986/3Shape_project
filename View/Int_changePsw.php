@@ -146,19 +146,7 @@ $_SESSION['last_activity'] = time();
                                 unset($_SESSION['success']);
                             }
                             ?>
-                            <?php if (!empty($_SESSION['debug_messages'])): ?>
-                                <div class="debug-panel">
-                                    <?php foreach ($_SESSION['debug_messages'] as $debug): ?>
-                                        <div class="debug-item">
-                                            <div class="debug-message"><?= htmlspecialchars($debug['message']) ?></div>
-                                            <?php if ($debug['data'] !== null): ?>
-                                                <div class="debug-data"><?= htmlspecialchars($debug['data']) ?></div>
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                    <?php unset($_SESSION['debug_messages']); ?>
-                                </div>
-                            <?php endif; ?>
+                          
                             <!-- Formulario para cambiar la contraseña -->
                             <form action="../Controller/proccess_change_psw.php" method="POST" id="changePasswordForm"
                                 onsubmit="return validateForm()">

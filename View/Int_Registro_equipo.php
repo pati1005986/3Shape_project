@@ -16,6 +16,7 @@ include "../Configuration/Connection.php";
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./Css/dark-mode.css">
+    <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
 
     <!--Arhivo con la funcion de ser la Interfaz de el proceso de Registro de activos-->
 </head>
@@ -26,7 +27,7 @@ include "../Configuration/Connection.php";
             <div id="FORMregistform" class="shadow-lg p-5 rounded bg-light">
                 <!--Formulario de registro de equipos con sus respectivas validaciones -->
                 <form id="registform" method="post" action="../Controller/RegisterAsset.php">
-                    <h1 id="totalC" class="text-center">Register Asset </h1>
+                    <h1 id="totalC" class="text-center mb-5 fw-bold">Register Asset </h1>
                     <br>
                     <br>
                     <div class="row">
@@ -324,7 +325,7 @@ include "../Configuration/Connection.php";
                             <div class="form-group">
                                 <label for="job_title">Job title: </label>
                                 <input class="shadow-sm form-control" type="text" id="job_title" name="job_title"
-                                    list="job_titles" data-validate="true" autocomplete="off" value="unknown">
+                                    list="job_titles" data-validate="true" autocomplete="off" value="Unknown">
                                 <datalist id="job_titles">
                                     <?php
                                     $job_titles = $pdo->prepare("SELECT DISTINCT job_title FROM usuarios_equipos ORDER BY job_title ASC");
@@ -441,8 +442,8 @@ include "../Configuration/Connection.php";
                             </div>
                         </div>
                         <div class="my-4">
-                            <button id="confirmAllButton" type="submit" class="btn btn-secondary">Send</button>
-                            <a href="../index.php" class="btn btn-danger">Return</a>
+                            <button id="confirmAllButton" type="submit" class="btn btn-secondary">Send <i class="fas fa-paper-plane"></i> </button>
+                            <a href="../index.php" class="btn btn-danger"> Return <i class="fas fa-arrow-left"></i></a>
                         </div>
                     </div>
                     <!-- Script para la validacion de caracteres especiales exceptuando el "/" y "-" -->

@@ -9,7 +9,12 @@
             "timestamp": "2025-03-21 13:17:12"
         }
     ],
-    "error": [],
+    "error": [
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-03-21 16:17:38"
+        }
+    ],
     "error_message": [],
     "warnings": []
 }

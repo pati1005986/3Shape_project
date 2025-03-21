@@ -60,7 +60,7 @@ session_start();
             <div id="FORMoutput" class="col-md-8 shadow p-5 rounded border border-secondary bg-light">
                 <form id="updateForm" action="../Controller/act_salida.php" method="post" class="">
                     <div class="p-5 rounded">
-                        <h1 id="totalC" class="">Record of Departure Certificate</h1>
+                        <h1 id="totalC" class="text-center mb-5 fw-bold">Record of Departure Certificate</h1>
 
                         <h4 class="my-3">Name of the Person:</h4>
                         <!--Consulta de equipos con condicionales basadas en el User Status y last user-->
