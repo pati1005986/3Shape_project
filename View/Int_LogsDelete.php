@@ -84,10 +84,10 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 
                                 <li class="nav-item ms-auto">
                                     <a type="button" class="btn btn-secondary" onclick="showModal()">
-                                        <i class="fa-solid fa-bell"></i>
+                                        <i class="fa-solid fa-bell" style='color:yellow'></i>
                                     </a>
                                     <a type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
-                                        <i class="fa-solid fa-info-circle"></i>
+                                        <i class="fa-solid fa-info-circle" style="color:aqua"></i>
                                     </a>
                                     <a type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
                                         <i class="fa-solid fa-gear"></i>
@@ -158,7 +158,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                         echo '<td>' . round(filesize($filePath) / 1024, 2) . ' KB' . '</td>';
                                         echo '<td>' . date("F d Y H:i:s.", filemtime($filePath)) . '</td>';
                                         // Funcion para descargar archivos
-                                        echo '<td title="Download"><a href="../Model/Logs/' . htmlspecialchars($file) . '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a></td>';
+                                        echo '<td title="Download"><a href="../Model/Logs/' . htmlspecialchars($file) . '" download class="btn btn-success btn-sm"><i class="fas fa-download"></i></a></td>';
                                         // Funcion para visualizar archivos
                                         echo '<td title="View"><a href="Int_LogsDelete.php?view=' . urlencode($file) . '" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a></td>';
                                         // Funcion para eliminar archivos
