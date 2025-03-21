@@ -54,10 +54,13 @@ include_once "../Controller/validation_message.php";
         .visible-form {
             display: block;
         }
+
         .modal-body {
-        max-height: 400px; /* Altura máxima del modal */
-        overflow-y: auto;  /* Habilitar scroll vertical */
-        padding: 10px;
+            max-height: 400px;
+            /* Altura máxima del modal */
+            overflow-y: auto;
+            /* Habilitar scroll vertical */
+            padding: 10px;
         }
     </style>
 </head>
@@ -585,14 +588,14 @@ include_once "../Controller/validation_message.php";
                                 'error', 'error_message' => 'danger',
                                 'warnings' => 'warning'
                             };
-                    
+                            
                             $count = 0;
                             foreach ($logData[$type] as $entry) {
                                 $message = is_array($entry) ? $entry['message'] : $entry;
                                 $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp}</div>";
+                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp} <button class='btn btn-danger btn-sm float-end' onclick='removeAlert(this)'> X </button></div>";
                                 $count++;
-                    
+
                                 // Limitar a $maxMessages mensajes por tipo
                                 if ($count >= $maxMessages) {
                                     break;
