@@ -17,5 +17,43 @@
         "LLave": "Pendiente",
         "Tipo_ID": "CC",
         "fecha_salida": ""
+    },
+    {
+        "assetname": "CO-LPT-6296",
+        "serial_number": "HCT2J64",
+        "purchase_country": "Colombia",
+        "warranty_enddate": "02\/11\/2025",
+        "expired": "yes",
+        "new_laptop": "",
+        "HeadSet": "0",
+        "user_status": "Stock",
+        "last_user": "62962",
+        "job_title": "unknown",
+        "status_change": "Active Warranty",
+        "cedula": 0,
+        "Dongle": 0,
+        "Carnet": "Pendiente",
+        "LLave": "Pendiente",
+        "Tipo_ID": "CC",
+        "fecha_salida": ""
+    },
+    {
+        "assetname": "CO-LPT-ANUA1",
+        "serial_number": "PF3JNFQM",
+        "purchase_country": "USA",
+        "warranty_enddate": "4\/21\/2025",
+        "expired": "no",
+        "new_laptop": "",
+        "HeadSet": "0",
+        "user_status": "Old User",
+        "last_user": "Andres Suarez",
+        "job_title": "unknown",
+        "status_change": "Active Warranty",
+        "cedula": 79956408,
+        "Dongle": 0,
+        "Carnet": "Pendiente",
+        "LLave": "Pendiente",
+        "Tipo_ID": "CC",
+        "fecha_salida": ""
     }
 ]

@@ -2,11 +2,11 @@
     "success": [
         {
             "message": "Record successfully deleted.",
-            "timestamp": "2025-03-20 20:34:13"
+            "timestamp": "2025-03-21 13:15:05"
         },
         {
-            "message": "Field 'estadoHeadset' added successfully to table 'usuarios_equipos'.",
-            "timestamp": "2025-03-20 20:56:01"
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-03-21 13:17:12"
         }
     ],
     "error": [],

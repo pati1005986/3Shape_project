@@ -249,7 +249,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                 foreach ($logData[$type] as $entry) {
                                     $message = is_array($entry) ? $entry['message'] : $entry;
                                     $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                    $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp}</div>";
+                                    $alerts[] = "<div class='p-3 mb-2 bg-light shadow-sm'>{$message} - {$timestamp} </div>";
                                     $count++;
 
                                     // Limitar a $maxMessages mensajes por tipo
@@ -269,7 +269,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No notifications recorded. </p>' ?>
+                                <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>

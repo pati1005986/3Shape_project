@@ -575,7 +575,7 @@ include_once "../Controller/validation_message.php";
                 <?php
                 $jsonFilePath = '../Model/Logs/session_messages.json';
                 $alerts = [];
-                $maxMessages = 8;
+                $maxMessages = 10;
 
                 if (file_exists($jsonFilePath)) {
                     $logData = json_decode(file_get_contents($jsonFilePath), true);
@@ -593,7 +593,7 @@ include_once "../Controller/validation_message.php";
                             foreach ($logData[$type] as $entry) {
                                 $message = is_array($entry) ? $entry['message'] : $entry;
                                 $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp} <button class='btn btn-danger btn-sm float-end' onclick='removeAlert(this)'> X </button></div>";
+                                $alerts[] = "<div class='p-3 mb-2 bg-light shadow-sm'>{$message} - {$timestamp} </div>";
                                 $count++;
 
                                 // Limitar a $maxMessages mensajes por tipo
@@ -613,7 +613,7 @@ include_once "../Controller/validation_message.php";
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No notifications recorded. </p>' ?>
+                            <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
