@@ -38,6 +38,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
+    <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <script src="../Configuration/JQuery/sweetalert2@11.js"></script>
+    <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
 </head>
 
 <body>
@@ -62,17 +65,17 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="homeindex" href="../index.php">Home</a>
+                                    <a class="nav-link active" id="homeindex">Home</a>
                                     <script>
                                         document.getElementById('homeindex').addEventListener('click', function() {
                                             Swal.fire({
                                                 title: 'Are you sure?',
-                                                text: "This action will delete all logs permanently!",
+                                                text: "Do you want to go to the home page?",
                                                 icon: 'warning',
                                                 showCancelButton: true,
                                                 confirmButtonColor: '#d33',
                                                 cancelButtonColor: '#6d6d6d',
-                                                confirmButtonText: 'Yes, delete all!'
+                                                confirmButtonText: 'Yes, go to home!'
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
                                                     window.location.href = '../index.php';
@@ -158,7 +161,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                         echo '<td>' . round(filesize($filePath) / 1024, 2) . ' KB' . '</td>';
                                         echo '<td>' . date("F d Y H:i:s.", filemtime($filePath)) . '</td>';
                                         // Funcion para descargar archivos
-                                        echo '<td title="Download"><a href="../Model/Logs/' . htmlspecialchars($file) . '" download class="btn btn-success btn-sm"><i class="fas fa-download"></i></a></td>';
+                                        echo '<td title="Download"><a href="../Model/Logs/' . htmlspecialchars($file) . '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a></td>';
                                         // Funcion para visualizar archivos
                                         echo '<td title="View"><a href="Int_LogsDelete.php?view=' . urlencode($file) . '" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a></td>';
                                         // Funcion para eliminar archivos
@@ -289,10 +292,13 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                             paging: true,
                             ordering: true,
                             scrollX: true,
-                            scrollY: '40vh',
+                            scrollY: '60vh', // Aumentado para mejor visualización
                             scrollCollapse: true,
                             stateSave: true,
-                            fixedHeader: true,
+                            fixedHeader: {
+                                header: true,
+                                footer: true
+                            },
                             responsive: true,
                             lengthMenu: [
                                 [5, 10, 25, 50, -1],
@@ -300,20 +306,28 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                             ],
                             pageLength: 25,
                             autoWidth: false,
-                            dom: '<"top"lB>rt<"bottom"ip><"clear">',
                             initComplete: function() {
+                                // Búsqueda por columnas en el footer
                                 this.api().columns().every(function() {
-                                    var column = this;
-                                    var input = $('<input type="text" placeholder="Search" />')
-                                        .appendTo($(column.footer()).empty())
+                                    let column = this;
+                                    let title = $(column.header()).text();
+
+                                    $('<div class="form-group"/>').append(
+                                        $('<input type="text" class="form-control form-control-sm" placeholder="Filtrar ' + title + '" />')
                                         .on('keyup change clear', function() {
                                             if (column.search() !== this.value) {
                                                 column.search(this.value).draw();
                                             }
-                                        });
+                                        })
+                                    ).appendTo($(column.footer()).empty());
                                 });
+
+                                // Añadir clase al search principal
+                                $('.dataTables_filter input').addClass('form-control form-control-sm');
                             }
-                        }).buttons().container().appendTo('#mainTable_wrapper .col-md-6:eq(0)');
+                        })
+                        // Mejorar estilo del length menu
+                        $('.dataTables_length select').addClass('form-control form-control-sm');
                     });
                 </script>
 </body>
