@@ -370,18 +370,6 @@ include_once "../Controller/validation_message.php";
                     $stmt = $pdo->prepare($sql);
                     $stmt->execute();
                     $expiredData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    // Transform the results to use more descriptive labels
-                    foreach ($expiredData as $key => $value) {
-                        if ($value['expired'] == 'Yes' || $value['expired'] == 'yes') {
-                            $expiredData[$key]['expired'] = 'Expired';
-                        } else if ($value['expired'] == 'No' || $value['expired'] == 'no') {
-                            $expiredData[$key]['expired'] = 'Not Expired';
-                        } else if ($value['expired'] == '' || $value['expired'] === null) {
-                            $expiredData[$key]['expired'] = 'Not Specified';
-                        }
-                    }
-                    
                     echo json_encode($expiredData);
                 } catch (PDOException $e) {
                     echo '[]';
@@ -391,28 +379,15 @@ include_once "../Controller/validation_message.php";
             var expiredLabels = expiredData.map(item => item.expired || "Not Specified");
             var expiredValues = expiredData.map(item => item.total);
             
-            // Custom colors for each status
-            var backgroundColors = expiredLabels.map(label => {
-                if (label === 'Expired') return 'rgba(255, 99, 132, 0.2)';
-                if (label === 'Not Expired') return 'rgba(75, 192, 192, 0.2)';
-                return 'rgba(201, 203, 207, 0.2)'; // for "Not Specified"
-            });
-            
-            var borderColors = expiredLabels.map(label => {
-                if (label === 'Expired') return 'rgba(255, 99, 132, 1)';
-                if (label === 'Not Expired') return 'rgba(75, 192, 192, 1)';
-                return 'rgba(201, 203, 207, 1)'; // for "Not Specified"
-            });
-            
             var expiredChart = new Chart(ctx3, {
                 type: 'bar',
                 data: {
                     labels: expiredLabels,
                     datasets: [{
-                        label: 'Asset Warranty Status',
+                        label: 'Expired Assets Status',
                         data: expiredValues,
-                        backgroundColor: backgroundColors,
-                        borderColor: borderColors,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     }]
                 },
@@ -429,7 +404,7 @@ include_once "../Controller/validation_message.php";
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Asset Warranty Status Distribution',
+                            text: 'Asset Warranty Expiration Status (Yes = Expired. No = Not Expired)',
                             font: {
                                 size: 16
                             }
@@ -697,7 +672,7 @@ include_once "../Controller/validation_message.php";
                 <?php
                 $jsonFilePath = '../Model/Logs/session_messages.json';
                 $alerts = [];
-                $maxMessages = 10;
+                $maxMessages = 8;
 
                 if (file_exists($jsonFilePath)) {
                     $logData = json_decode(file_get_contents($jsonFilePath), true);
@@ -715,7 +690,7 @@ include_once "../Controller/validation_message.php";
                             foreach ($logData[$type] as $entry) {
                                 $message = is_array($entry) ? $entry['message'] : $entry;
                                 $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                $alerts[] = "<div class='p-3 mb-2 bg-light shadow-sm'>{$message} - {$timestamp} </div>";
+                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp} <button class='btn btn-danger btn-sm float-end' onclick='removeAlert(this)'> X </button></div>";
                                 $count++;
 
                                 // Limitar a $maxMessages mensajes por tipo
@@ -735,7 +710,7 @@ include_once "../Controller/validation_message.php";
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
+                            <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No notifications recorded. </p>' ?>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>

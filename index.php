@@ -226,7 +226,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                     </div>
                                     <div class="col-md-4 col-sm-6 mb-2">
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                                             <input type="text" id="sgarantia" name="search_fecha_inicio"
                                                 placeholder="Start date" class="shadow-sm form-control bg-light">
                                         </div>
@@ -237,7 +237,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                 <div class="row g-2">
                                     <div class="col-md-4 col-sm-6 mb-2">
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                                            <span class="input-group-text"><i class="far fa-id-card"></i></span>
                                             <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
                                                 class="form-control shadow-sm bg-light" autocomplete="off" min="0">
                                         </div>
@@ -432,6 +432,44 @@ if (session_status() === PHP_SESSION_NONE) {
                         this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '');
                     }
                 });
+            </script>
+            <script>
+                //Script para visualizar la contraseña
+                // Password visibility toggle function
+document.addEventListener('DOMContentLoaded', function() {
+    // Create toggle button for password visibility
+    const passwordField = document.getElementById('passwordadmin');
+    const formGroup = passwordField.parentElement;
+    
+    // Create and insert toggle button
+    const toggleButton = document.createElement('button');
+    toggleButton.type = 'button';
+    toggleButton.className = 'btn btn-outline-secondary position-absolute end-0 top-0 h-100 d-flex align-items-center px-2';
+    toggleButton.style.borderTopLeftRadius = '0';
+    toggleButton.style.borderBottomLeftRadius = '0';
+    toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+    toggleButton.setAttribute('title', 'Show/Hide Password');
+    
+    // Create a wrapper div for the input with position relative
+    const inputWrapper = document.createElement('div');
+    inputWrapper.className = 'position-relative';
+    
+    // Move the password input into the wrapper
+    passwordField.parentNode.insertBefore(inputWrapper, passwordField);
+    inputWrapper.appendChild(passwordField);
+    inputWrapper.appendChild(toggleButton);
+    
+    // Add event listener for the toggle button
+    toggleButton.addEventListener('click', function() {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+        } else {
+            passwordField.type = 'password';
+            toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+        }
+    });
+});
             </script>
             <script src="./View/Js/Automatic_search.js"></script>
         </div>
