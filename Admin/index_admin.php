@@ -503,7 +503,7 @@ include_once "../Controller/validation_message.php";
     <div class="btn-block">
         <button id="RemoveFieldTable" type="submit" class="btn btn-danger">Remove Field</button>
         <div class="alert alert-warning mt-2">
-            <strong>Warning:</strong> Removing fields is permanent and cannot be undone. Proceed with caution.
+            <strong>Warning:</strong>If you want to reinsert a field that was deleted, use the "Add Fields to the Main Table" function. Proceed with caution.
         </div>
     </div>
 </form>

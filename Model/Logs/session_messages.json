@@ -27,6 +27,46 @@
         {
             "message": "Fields hidden from table successfully",
             "timestamp": "2025-03-25 19:50:05"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-03-25 20:05:28"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-03-25 20:05:31"
+        },
+        {
+            "message": "Fields hidden from table: Tipo_ID",
+            "timestamp": "2025-03-25 20:05:42"
+        },
+        {
+            "message": "Fields hidden from table successfully",
+            "timestamp": "2025-03-25 20:05:42"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-03-25 20:05:57"
+        },
+        {
+            "message": "Fields hidden from table: new_laptop, HeadSet, id, Dongle, Carnet, LLave, Tipo_ID, fecha_salida",
+            "timestamp": "2025-03-25 20:15:12"
+        },
+        {
+            "message": "Fields hidden from table successfully",
+            "timestamp": "2025-03-25 20:15:12"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-03-25 20:35:45"
+        },
+        {
+            "message": "Fields hidden from table: Tipo_ID",
+            "timestamp": "2025-03-25 20:40:39"
+        },
+        {
+            "message": "Fields hidden successfully: Tipo_ID",
+            "timestamp": "2025-03-25 20:40:39"
         }
     ],
     "error": [
@@ -41,6 +81,34 @@
         {
             "message": "Incorrect Password.",
             "timestamp": "2025-03-25 17:56:05"
+        },
+        {
+            "message": "Error during registration: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'CO-LPT-KIGO' for key 'PRIMARY'",
+            "timestamp": "2025-03-25 19:54:14"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-03-25 20:09:39"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-03-25 20:09:46"
+        },
+        {
+            "message": "Field Tipo_ID is already in the main table",
+            "timestamp": "2025-03-25 20:30:47"
+        },
+        {
+            "message": "Field \"Tipo_ID\" is already visible in the main table. Please remove it first if you want to add it again.",
+            "timestamp": "2025-03-25 20:35:48"
+        },
+        {
+            "message": "The following fields are already hidden: Tipo_ID. Please select only visible fields.",
+            "timestamp": "2025-03-25 20:38:32"
+        },
+        {
+            "message": "The following fields are already hidden: Tipo_ID. Please select only visible fields.",
+            "timestamp": "2025-03-25 20:38:45"
         }
     ],
     "error_message": [],

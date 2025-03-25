@@ -2,14 +2,14 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validar token CSRF
+    // 1. Validar token CSRF
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $_SESSION['error'] = 'CSRF token validation failed';
         header('Location: index_admin.php');
         exit();
     }
 
-    // Validar campos seleccionados
+    // 2. Validar campos seleccionados
     if (empty($_POST['removemfields'])) {
         $_SESSION['error'] = 'No fields selected for hiding';
         header('Location: index_admin.php');
@@ -18,22 +18,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $fieldsToHide = $_POST['removemfields'];
     
-    // Obtener los campos actualmente ocultos (si existen)
-    $hiddenFields = isset($_SESSION['hidden_fields']) ? $_SESSION['hidden_fields'] : [];
-    
-    // Combinar los campos existentes con los nuevos
-    $allHiddenFields = array_unique(array_merge($hiddenFields, $fieldsToHide));
-    
-    // Guardar en sesión
-    $_SESSION['hidden_fields'] = $allHiddenFields;
-    
-    // Actualizar los campos seleccionados para mostrar
-    if (isset($_SESSION['selected_fields'])) {
-        $_SESSION['selected_fields'] = array_diff($_SESSION['selected_fields'], $fieldsToHide);
+    // 3. Validar que hay campos visibles para ocultar
+    if (!isset($_SESSION['selected_fields']) || empty($_SESSION['selected_fields'])) {
+        $_SESSION['error'] = 'There are no visible fields to hide';
+        header('Location: index_admin.php');
+        exit();
     }
+
+    // 4. Filtrar solo los campos que están actualmente visibles
+    $validFieldsToHide = array_intersect($fieldsToHide, $_SESSION['selected_fields']);
     
-    // Registrar éxito
-    $logMessage = 'Fields hidden from table: ' . implode(', ', $fieldsToHide);
+    if (empty($validFieldsToHide)) {
+        $_SESSION['error'] = 'None of the selected fields are currently visible in the table';
+        header('Location: index_admin.php');
+        exit();
+    }
+
+    // 5. Actualizar las sesiones
+    // Campos ocultos (añadir los nuevos)
+    $_SESSION['hidden_fields'] = array_unique(array_merge(
+        $_SESSION['hidden_fields'] ?? [],
+        $validFieldsToHide
+    ));
+    
+    // Campos visibles (remover los ocultados)
+    $_SESSION['selected_fields'] = array_diff($_SESSION['selected_fields'], $validFieldsToHide);
+    
+    // 6. Registrar éxito
+    $logMessage = 'Fields hidden from table: ' . implode(', ', $validFieldsToHide);
     $logFile = '../Model/Logs/session_messages.json';
     $logs = file_exists($logFile) ? json_decode(file_get_contents($logFile), true) : [];
     $logs['success'][] = [
@@ -42,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
     file_put_contents($logFile, json_encode($logs));
     
-    $_SESSION['success'] = 'Fields hidden from table successfully';
+    $_SESSION['success'] = 'Fields hidden successfully: ' . implode(', ', $validFieldsToHide);
     header('Location: index_admin.php');
     exit();
 }
