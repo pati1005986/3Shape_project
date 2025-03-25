@@ -119,8 +119,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
                                 <a href="<?php echo $_SERVER['PHP_SELF']; ?>"
                                     class="navbar-brand d-flex align-items-center">
-                                    <img src="./Configuration/logo.ico" alt="Logo" width="30" height="30">
-                                    <span class="ms-2">3 Shape</span>
+                                    <img src="./Configuration/3shape-logo.png" alt="Logo"  width="150" height="31">
+                                   
                                 </a>
 
                                 <!-- Botón hamburguesa para móviles -->
@@ -499,7 +499,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     Register
                     new device</a>
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-trash-alt"></i>
                     Delete All Logs</button>
                 <script>
                     document.getElementById('deleteAllButton').addEventListener('click', function() {
@@ -662,5 +662,4 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </div>
 </footer>
-
 </html>

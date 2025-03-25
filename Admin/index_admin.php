@@ -148,8 +148,8 @@ include_once "../Controller/validation_message.php";
         // Relacion entre formulario y nav-links
         document.addEventListener('DOMContentLoaded', function() {
             toggleVisibility(
-                ['showFormLink', 'showFormLink1', 'showFormLink2', 'showFormLink5', 'showFormLink6', 'showFormLink7'],
-                ['FormAddForm', 'RemoveForm', 'FormAddTable', 'addBDCSV', 'addFormTodo', 'addLgColumn']
+                ['showFormLink', 'showFormLink1', 'showFormLink2','showFormLink3', 'showFormLink5', 'showFormLink6', 'showFormLink7'],
+                ['FormAddForm', 'RemoveForm', 'FormAddTable','RemoveFieldsTable', 'addBDCSV', 'addFormTodo', 'addLgColumn']
             );
         });
     </script>
@@ -163,8 +163,7 @@ include_once "../Controller/validation_message.php";
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
                         <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
-                            <img src="../Configuration/logo.ico" alt="Logo" width="30" height="30">
-                            <small class="ms-2">3 Shape</small>
+                            <img src="../Admin/3shape-logo.png" alt="Logo"  width="150" height="31">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -201,6 +200,9 @@ include_once "../Controller/validation_message.php";
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink2" href="#">Add columns to the table</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="showFormLink3" href="#">Remove columns from the table</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink5" href="#">Export Data Base</a>
@@ -462,6 +464,47 @@ include_once "../Controller/validation_message.php";
                 </form>
             </div>
 
+           <!-- Add this within the existing column in index_admin.php, similar to the "Add Fields to the Main Table" form -->
+<div class="col-md-6">
+<form action="remove-fields-table-script.php" method="post" id="RemoveFieldsTable" style="display: none;" 
+    class="shadow border border-secondary">
+    <h1 class="text-center">Remove Fields from the Main Table</h1>
+    <h4>Select Fields to Remove <span>*</span></h4>
+    <?php
+    try {
+        include '../Configuration/Connection.php';
+        $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','fk_id','fk_assetname','user_status',
+                'last_user','job_title','status_change','cedula') 
+                ORDER BY TABLE_NAME, ORDINAL_POSITION";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            echo '<select id="removemfields" class="shadow-sm form-select" name="removemfields[]" multiple required>';
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo '<option value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">' . 
+                     htmlspecialchars($row["Field"]) . '</option>';
+            }
+            echo '</select>';
+        } else {
+            echo '<p>No removable fields found.</p>';
+        }
+    } catch (PDOException $e) {
+        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+    }
+    ?>
+    <br>
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+    <div class="btn-block">
+        <button id="RemoveFieldTable" type="submit" class="btn btn-danger">Remove Field</button>
+        <div class="alert alert-warning mt-2">
+            <strong>Warning:</strong> Removing fields is permanent and cannot be undone. Proceed with caution.
+        </div>
+    </div>
+</form>
+</div>
             <div class="col-md-6 my-2">
                 <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
                     class="shadow border border-secondary p-3">

@@ -55,5 +55,24 @@
         "LLave": "Pendiente",
         "Tipo_ID": "CC",
         "fecha_salida": ""
+    },
+    {
+        "assetname": "CO-LPT-ALBO3",
+        "serial_number": "8D76Q34",
+        "purchase_country": "Colombia",
+        "warranty_enddate": "6\/12\/2029",
+        "expired": "no",
+        "new_laptop": "",
+        "HeadSet": "0",
+        "user_status": "Active User",
+        "last_user": "Alejandro Botero",
+        "job_title": "Team Coordinator",
+        "status_change": "Active Warranty",
+        "cedula": 1094935851,
+        "Dongle": 0,
+        "Carnet": "Pendiente",
+        "LLave": "Pendiente",
+        "Tipo_ID": "CC",
+        "fecha_salida": "0000-00-00"
     }
 ]

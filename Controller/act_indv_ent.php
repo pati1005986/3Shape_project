@@ -35,22 +35,22 @@ class PDF extends FPDF
         // Conditional text based on $tipo_id
         switch ($tipo_id) {
             case 'CE':
-                $tipo_text = " identificado(a) con Cédula de Extranjeria: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Extranjeria No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
             case 'PP':
-                $tipo_text = " identificado(a) con Pasaporte: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Pasaporte No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
             case 'RC':
-                $tipo_text = " identificado(a) con Cédula de Residencia: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Residencia No. $cedula,y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;  
             case 'CC':
-                $tipo_text = " identificado(a) con Cédula de Ciudadanía: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Ciudadanía No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
             case 'TI';
-                $tipo_text = " identificado(a) con Tarjeta de Identidad: $cedula, del cargo: $cargo se le hace entrega de los siguintes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Tarjeta de Identidad No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguintes activos que manejará en 3Shape.";
                 break;
             default:
-                $tipo_text = " identificado(a) con ID: $cedula, del cargo: $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con ID: $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
         }
 
@@ -153,7 +153,7 @@ foreach ($resultados as $index => $row) {
     $pdf->Ln(8);
 
     $pdf->SetFont('Arial', '', 12);
-    $pdf->MultiCell(0, 8, convertirTexto('El abajo firmante declara haber recibido a satisfacción los elementos antes mencionados con la condición de que cuidará de ellos.'), 0, 'L');
+    $pdf->MultiCell(0, 8, convertirTexto('El abajo firmante declara haber recibido con satisfacción los elementos antes mencionados con la condición de que cuidará de ellos.'), 0, 'L');
 
     $pdf->Ln(8); // Espacio para la firma
     $pdf->SetFont('Arial', 'B', 10);
