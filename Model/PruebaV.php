@@ -221,6 +221,3 @@ try {
 ob_end_flush(); 
 
 $pdf->Output('Reporte_Equipos.pdf', 'I');
-
-echo 10 / 0; // Provoca error de división por cero
-

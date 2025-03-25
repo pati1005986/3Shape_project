@@ -46,6 +46,9 @@ include_once "../Controller/validation_message.php";
     <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
     <link rel="stylesheet" href="../View/Css/dark-mode.css">
     <link rel="stylesheet" href="../View/Css/Form.css">
+    <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <script src="../Configuration/JQuery/sweetalert2@11.js"></script>
+    <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <style>
             .hidden {
     display: none;
@@ -141,26 +144,26 @@ include_once "../Controller/validation_message.php";
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="homeindex" href="../index.php">Home</a>
-                                    <script>
-                                        document.getElementById('homeindex').addEventListener('click', function() {
-                                            Swal.fire({
-                                                title: 'Are you sure?',
-                                                text: "This action will delete all logs permanently!",
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#d33',
-                                                cancelButtonColor: '#6d6d6d',
-                                                confirmButtonText: 'Yes, delete all!'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    window.location.href = '../index.php';
-                                                }
-                                            });
-                                        });
-                                    </script>
-                                </li>
+                            <li class="nav-item">
+    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
+    <script>
+        function confirmHomeRedirect() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to go to the home page?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6d6d6d',
+                confirmButtonText: 'Yes, go to home!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../index.php';
+                }
+            });
+        }
+    </script>
+</li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink" href="#">Add fields</a>
                                 </li>
@@ -183,13 +186,13 @@ include_once "../Controller/validation_message.php";
                                     <a class="nav-link" id="showFormLink7" href="#">Adding Logs in the columns</a>
                                 </li>
                                 <li class="nav-item ms-auto">
-                                    <a type="button" class="btn btn-secondary" onclick="showModal()">
+                                    <a title="Notifications" type="button" class="btn btn-secondary" onclick="showModal()">
                                         <i class="fa-solid fa-bell" style='color:aqua'></i>
                                     </a>
-                                    <a type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
+                                    <a title="Log Files" type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
                                         <i class="fa-solid fa-info-circle" style="color:aqua"></i>
                                     </a>
-                                    <a type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
+                                    <a title="Settings" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
                                         <i class="fa-solid fa-gear"></i>
                                     </a>
                                 </li>

@@ -11,6 +11,14 @@
         {
             "message": "Registration successful.",
             "timestamp": "2025-03-25 17:13:52"
+        },
+        {
+            "message": "Fields hidden from table: Tipo_ID",
+            "timestamp": "2025-03-25 17:57:55"
+        },
+        {
+            "message": "Fields hidden from table successfully",
+            "timestamp": "2025-03-25 17:57:55"
         }
     ],
     "error": [
@@ -21,6 +29,10 @@
         {
             "message": "Incorrect Password.",
             "timestamp": "2025-03-25 17:25:50"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-03-25 17:56:05"
         }
     ],
     "error_message": [],

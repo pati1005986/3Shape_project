@@ -108,13 +108,13 @@ $_SESSION['last_activity'] = time();
                                 </li>
 
                                 <li class="nav-item ms-auto">
-                                    <a type="button" class="btn btn-secondary" onclick="showModal()">
-                                        <i class="fa-solid fa-bell" style='color:yellow'></i>
+                                    <a title="Notifications" type="button" class="btn btn-secondary" onclick="showModal()">
+                                        <i class="fa-solid fa-bell" style='color:aqua'></i>
                                     </a>
-                                    <a type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
+                                    <a title="Log Files" type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
                                         <i class="fa-solid fa-info-circle" style="color:aqua"></i>
                                     </a>
-                                    <a type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
+                                    <a title="Settings" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
                                         <i class="fa-solid fa-gear"></i>
                                     </a>
                                 </li>
