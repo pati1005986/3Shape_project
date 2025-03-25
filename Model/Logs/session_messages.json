@@ -67,6 +67,10 @@
         {
             "message": "Fields hidden successfully: Tipo_ID",
             "timestamp": "2025-03-25 20:40:39"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-03-25 20:46:22"
         }
     ],
     "error": [
@@ -109,6 +113,22 @@
         {
             "message": "The following fields are already hidden: Tipo_ID. Please select only visible fields.",
             "timestamp": "2025-03-25 20:38:45"
+        },
+        {
+            "message": "There are no visible fields to hide",
+            "timestamp": "2025-03-25 20:45:14"
+        },
+        {
+            "message": "There are no visible fields to hide",
+            "timestamp": "2025-03-25 20:45:46"
+        },
+        {
+            "message": "This field is already hidden",
+            "timestamp": "2025-03-25 20:46:08"
+        },
+        {
+            "message": "Field \"LLave\" is already visible in the main table. Please remove it first if you want to add it again.",
+            "timestamp": "2025-03-25 20:46:24"
         }
     ],
     "error_message": [],

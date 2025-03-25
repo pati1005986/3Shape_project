@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // 3. Validar que hay campos visibles para ocultar
     if (!isset($_SESSION['selected_fields']) || empty($_SESSION['selected_fields'])) {
-        $_SESSION['error'] = 'There are no visible fields to hide';
+        $_SESSION['error'] = 'This field is already hidden';
         header('Location: index_admin.php');
         exit();
     }
