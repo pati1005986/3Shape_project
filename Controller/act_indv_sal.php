@@ -56,7 +56,7 @@ class PDF extends FPDF
 
         $this->Write(8, convertirTexto($tipo_text));
         $this->Ln(8);
-        $text3 = "adicionalmente, se declara que esta paz y salvo con la organización en cuanto a la entrega de los siguientes activos asignados para el desempeño de sus funciones: ";
+        $text3 = "Adicionalmente, se declara que esta paz y salvo con la organización en cuanto a la entrega de los siguientes activos asignados para el desempeño de sus funciones: ";
         $this->MultiCell(0, 8, convertirTexto($text3), 0, 'L');
 
         $this->Ln(10);
