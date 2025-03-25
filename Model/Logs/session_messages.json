@@ -2,32 +2,14 @@
     "success": [
         {
             "message": "Record successfully deleted.",
-            "timestamp": "2025-03-21 13:15:05"
+            "timestamp": "2025-03-25 14:57:26"
         },
         {
-            "message": "Record successfully deleted.",
-            "timestamp": "2025-03-21 13:17:12"
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-25 14:57:43"
         }
     ],
-    "error": [
-        {
-            "message": "Incorrect Password.",
-            "timestamp": "2025-03-21 16:17:38"
-        },
-        {
-            "message": "Incorrect Password.",
-            "timestamp": "2025-03-21 16:21:36"
-        },
-        {
-            "message": "No columns selected",
-            "timestamp": "2025-03-21 17:17:44"
-        }
-    ],
-    "error_message": [
-        {
-            "message": "Sesi\u00f3n expirada. Vuelve a iniciar sesi\u00f3n.",
-            "timestamp": "2025-03-21 19:43:51"
-        }
-    ],
+    "error": [],
+    "error_message": [],
     "warnings": []
 }
