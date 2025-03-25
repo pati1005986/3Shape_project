@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Register
                     new device</a>
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-trash-alt"></i>
                     Delete All Logs</button>
                 <script>
                     document.getElementById('deleteAllButton').addEventListener('click', function() {

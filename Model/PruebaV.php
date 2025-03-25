@@ -10,6 +10,7 @@ function convertirTexto($texto) {
 //Crear Clase en base a la Api de FPDF
 class PDF extends FPDF
 {
+    
    // Cabecera de página
    function Header()
    {
@@ -220,3 +221,6 @@ try {
 ob_end_flush(); 
 
 $pdf->Output('Reporte_Equipos.pdf', 'I');
+
+echo 10 / 0; // Provoca error de división por cero
+
