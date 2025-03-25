@@ -26,7 +26,7 @@
         <h1>Error 500</h1>
         <p>Sorry, an internal server error has occurred.</p>
         <p>Our team is working to resolve the issue. Please try again later.</p>
-        <a href="index.php">Back to Home.</a>
+        <a href="../index.php">Back to Home.</a>
     </div>
 </body>
 </html>

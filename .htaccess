@@ -1,6 +1,6 @@
 # Activar el manejo de errores personalizados
 ErrorDocument 404 /3Shape_project/errors/404.php
-ErrorDocument 500 /3Shape_project/500.php
+ErrorDocument 500 /3Shape_project/errors/500.php
 
 # Evitar listar archivos en el navegador
 Options -Indexes

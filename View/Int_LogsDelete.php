@@ -148,6 +148,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         </thead>
                         <tbody>
                             <?php
+                            date_default_timezone_set('America/Bogota');
                             // Listar archivos
                             $logDir = __DIR__ . '/../Model/Logs';
                             if (is_dir($logDir)) {
