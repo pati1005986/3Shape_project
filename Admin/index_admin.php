@@ -50,15 +50,14 @@ include_once "../Controller/validation_message.php";
     <script src="../Configuration/JQuery/sweetalert2@11.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <style>
-            .hidden {
-    display: none;
-}
+        .hidden {
+            display: none;
+        }
 
         .visible-form {
             display: block;
         }
 
-   
         .modal-body {
             max-height: 400px;
             /* Altura máxima del modal */
@@ -74,16 +73,19 @@ include_once "../Controller/validation_message.php";
             flex-wrap: wrap;
             gap: 10px;
         }
+
         .dashboard-item {
-            flex: 1 1 calc(50% - 10px); /* Ajusta para 2 columnas */
+            flex: 1 1 calc(50% - 10px);
+            /* Ajusta para 2 columnas */
             transition: all 0.3s ease-in-out;
         }
+
         .hidden {
             display: none;
         }
     </style>
-    </head>
-    
+
+
 
 <body>
     <script>
@@ -94,25 +96,55 @@ include_once "../Controller/validation_message.php";
             event.target.style.display = 'none'; // Oculta el botón
         }
 
-        // Función generalizada para alternar la visibilidad de los formularios
         function toggleVisibility(links, forms) {
+            function saveAllFormsState() {
+                forms.forEach(formId => {
+                    const form = document.getElementById(formId);
+                    localStorage.setItem(`form-${formId}`, form.style.display);
+                });
+            }
+
             links.forEach((linkId, index) => {
                 document.getElementById(linkId).addEventListener('click', function(event) {
-                    console.log('Clicked:', linkId); // Debugging line to check if the link is clicked
-                    event.preventDefault(); // Evitar comportamiento por defecto del enlace
-                    const form = document.getElementById(forms[index]);
-                    console.log('Toggling form:', forms[index]); // Debugging line to check which form is toggled
-                    form.style.display = (form.style.display === 'block' || form.style.display === '') ? 'none' : 'block';
-                    // Guardar el estado del formulario en el localStorage
-                    localStorage.setItem(`form-${forms[index]}`, form.style.display);
+                    event.preventDefault();
+
+                    // Ocultar todos los formularios
+                    forms.forEach(formId => {
+                        document.getElementById(formId).style.display = 'none';
+                    });
+
+                    // Mostrar y mover el formulario seleccionado
+                    const selectedForm = document.getElementById(forms[index]);
+                    const firstContainer = document.getElementById('tool');
+
+                    if (firstContainer && selectedForm) {
+                        // Mover el formulario después de first_container
+                        selectedForm.style.display = 'block';
+                        firstContainer.insertAdjacentElement('beforebegin', selectedForm);
+
+                        selectedForm.style.display = 'block';
+                    }
+
+                    saveAllFormsState();
                 });
             });
-            // Cargar el estado del formulario desde el localStorage
-            links.forEach((linkId, index) => {
-                const form = document.getElementById(forms[index]);
-                const storedDisplay = localStorage.getItem(`form-${forms[index]}`);
+
+            // Cargar estados y posicionar inicialmente los formularios visibles
+            forms.forEach(formId => {
+                const form = document.getElementById(formId);
+                const storedDisplay = localStorage.getItem(`form-${formId}`);
+
                 if (storedDisplay) {
                     form.style.display = storedDisplay;
+                    // Si el formulario está visible al cargar, moverlo
+                    if (storedDisplay === 'block') {
+                        const firstContainer = document.getElementById('tool');
+                        if (firstContainer) {
+                            firstContainer.insertAdjacentElement('beforebegin', form);
+                        }
+                    }
+                } else {
+                    form.style.display = 'none';
                 }
             });
         }
@@ -127,7 +159,6 @@ include_once "../Controller/validation_message.php";
 
     <div class="row d-flex justify-content-center align-items-center">
         <div class="row">
-       
             <br>
             <br>
             <br>
@@ -185,6 +216,13 @@ include_once "../Controller/validation_message.php";
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink7" href="#">Adding Logs in the columns</a>
                                 </li>
+                                <li class="nav-item">
+                                    <div class="btn-group">
+                                        <button class="nav-link chart-switch" data-chart="statusChart">Equipment Status</button>
+                                        <button class="nav-link chart-switch" data-chart="countryChart">Top Countries</button>
+                                        <button class="nav-link chart-switch" data-chart="expiredChart">Expired Assets</button>
+                                    </div>
+                                </li>
                                 <li class="nav-item ms-auto">
                                     <a title="Notifications" type="button" class="btn btn-secondary" onclick="showModal()">
                                         <i class="fa-solid fa-bell" style='color:aqua'></i>
@@ -196,6 +234,7 @@ include_once "../Controller/validation_message.php";
                                         <i class="fa-solid fa-gear"></i>
                                     </a>
                                 </li>
+
                             </ul>
                         </div>
                     </div>
@@ -204,14 +243,52 @@ include_once "../Controller/validation_message.php";
             <br>
             <br>
         </div>
-<div>
-    <center>
-    <h1 id="totalC" class="text-center my-5" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Admin Dashboard <i class="fas fa-chart-bar"></i></h1>
-    </center>
+        <div>
+            <center>
+                <h1 id="totalC" class="text-center my-5" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Admin Dashboard <i class="fas fa-chart-bar"></i></h1>
+            </center>
+        </div>
+        <div class="row my-5" style="display: flex; gap: 20px;">
+            <script src="../View/Js/diagrams.js"> </script>
+            <div class="col-md-5 ms-5">
+                <div id="tool" style="display: none;"></div>
+            </div>
 
-</div>
-        <div class="row my-5">
-            <div class="col-md-6 ">
+            <div class="col-md-6" id="first_container">
+                <div id="chartContainer" style="position: relative; min-height: 380px; display: flex;">
+                    <?php
+                    // Obtener todos los datos en una sola consulta
+                    try {
+                        include '../Configuration/Connection.php';
+
+                        // Datos para el primer gráfico
+                        $statusData = $pdo->query("SELECT user_status FROM vista_equipos_usuarios")->fetchAll(PDO::FETCH_ASSOC);
+
+                        // Datos para el segundo gráfico
+                        $countryData = $pdo->query("SELECT purchase_country, COUNT(*) AS total_ventas FROM equipos GROUP BY purchase_country ORDER BY total_ventas DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+
+                        // Datos para el tercer gráfico
+                        $expiredData = $pdo->query("SELECT expired, COUNT(*) AS total FROM equipos GROUP BY expired ORDER BY total DESC")->fetchAll(PDO::FETCH_ASSOC);
+
+                        echo "<script>
+                    var chartData = {
+                        status: " . json_encode($statusData) . ",
+                        country: " . json_encode($countryData) . ",
+                        expired: " . json_encode($expiredData) . "
+                    };
+                </script>";
+                    } catch (PDOException $e) {
+                        echo '<p class="text-danger">Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                    }
+                    ?>
+
+                    <!-- Los gráficos se crearán dinámicamente aquí -->
+                    <canvas id="statusChart" class="chart-canvas"></canvas>
+                    <canvas id="countryChart" class="chart-canvas d-none"></canvas>
+                    <canvas id="expiredChart" class="chart-canvas d-none"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
                 <form action="add_fields.php" id="FormAddForm" style="display: block;" method="POST" class="shadow border border-secondary">
                     <h1 class="text-center">Adding fields to the database</h1>
                     <h4>Data Type <span>*</span></h4>
@@ -282,167 +359,7 @@ include_once "../Controller/validation_message.php";
                 </form>
                 <br>
             </div>
-
-            <div class="col-md-6">
-        <canvas id="myChart" style="max-width: 100%; height: auto; display: block;"></canvas>
-        <br>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var counts = {};
-                data.forEach(item => {
-                    var status = item['user_status'];
-                    counts[status] = (counts[status] || 0) + 1;
-                });
-                var labels = Object.keys(counts);
-                var values = Object.values(counts);
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Equipment Status',
-                            data: values,
-                            backgroundColor: 'rgba(13, 202, 240, 0.2)',
-                            borderColor: 'rgba(13, 202, 240, 1)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                }
-                            }
-                        }
-                    }
-                });
-            });
-        </script>
-        <?php
-        try {
-            $sql = "SELECT user_status FROM vista_equipos_usuarios";
-            include '../Configuration/Connection.php';
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo "<script>var data = " . json_encode($data) . ";</script>";
-        } catch (PDOException $e) {
-            echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-        }
-        ?>
-    </div>
-
-    <div class="col-md-6">
-        <canvas id="myChart2" style="max-width: 100%; height: auto; display: block;"></canvas>
-        <br>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var ctx2 = document.getElementById('myChart2').getContext('2d');
-                var countryData = <?php
-                    try {
-                        $sql = "SELECT purchase_country, COUNT(*) AS total_ventas FROM equipos GROUP BY purchase_country ORDER BY total_ventas DESC LIMIT 5";
-                        include '../Configuration/Connection.php';
-                        $stmt = $pdo->prepare($sql);
-                        $stmt->execute();
-                        $salesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        echo json_encode($salesData);
-                    } catch (PDOException $e) {
-                        echo '[]';
-                    }
-                ?>;
-                var countryLabels = countryData.map(item => item.purchase_country);
-                var countryValues = countryData.map(item => item.total_ventas);
-                var myChart2 = new Chart(ctx2, {
-                    type: 'bar',
-                    data: {
-                        labels: countryLabels,
-                        datasets: [{
-                            label: 'Top 5 countries with the most purchases',
-                            data: countryValues,
-                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                            borderColor: 'rgba(255, 159, 64, 1)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            });
-        </script>
-    </div>
-
-    <div class="col-md-6">
-    <canvas id="expiredChart" style="max-width: 100%; height: auto; display: block;"></canvas>
-    <br>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var ctx3 = document.getElementById('expiredChart').getContext('2d');
-            var expiredData = <?php
-                try {
-                    $sql = "SELECT expired, COUNT(*) AS total FROM equipos GROUP BY expired ORDER BY total DESC";
-                    include '../Configuration/Connection.php';
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->execute();
-                    $expiredData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    echo json_encode($expiredData);
-                } catch (PDOException $e) {
-                    echo '[]';
-                }
-            ?>;
             
-            var expiredLabels = expiredData.map(item => item.expired || "Not Specified");
-            var expiredValues = expiredData.map(item => item.total);
-            
-            var expiredChart = new Chart(ctx3, {
-                type: 'bar',
-                data: {
-                    labels: expiredLabels,
-                    datasets: [{
-                        label: 'Expired Assets Status',
-                        data: expiredValues,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Asset Warranty Expiration Status (Yes = Expired. No = Not Expired)',
-                            font: {
-                                size: 16
-                            }
-                        },
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-</div>
-
-
             <div class="col-md-6">
                 <form action="remove_fields.php" id="RemoveForm" style="display: none;" method="post" class="shadow border border-secondary">
                     <h1 class="text-center">Remove Fields</h1>
@@ -630,14 +547,14 @@ include_once "../Controller/validation_message.php";
 
                     <br>
                     <h4>Format <span>*</span></h4>
-<div class="form-check mb-2">
-    <input class="form-check-input" type="radio" name="format" value="csv" id="format_csv" checked>
-    <label class="form-check-label" for="format_csv">CSV</label>
-</div>
-<div class="form-check mb-2">
-    <input class="form-check-input" type="radio" name="format" value="txt" id="format_txt">
-    <label class="form-check-label" for="format_txt">TXT</label>
-</div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="format" value="csv" id="format_csv" checked>
+                        <label class="form-check-label" for="format_csv">CSV</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="format" value="txt" id="format_txt">
+                        <label class="form-check-label" for="format_txt">TXT</label>
+                    </div>
 
                     <div class="btn-block text-center">
                         <button type="submit" class="btn btn-secondary">Export</button>
@@ -652,7 +569,6 @@ include_once "../Controller/validation_message.php";
                     </script>
                 </form>
             </div>
-
 
             <div class="col-md-6 my-2">
                 <form action="add_Logs.php" style="display: none" method="POST" id="addLgColumn" class="shadow border border-secondary">
@@ -758,7 +674,7 @@ include_once "../Controller/validation_message.php";
                                 'error', 'error_message' => 'danger',
                                 'warnings' => 'warning'
                             };
-                            
+
                             $count = 0;
                             foreach ($logData[$type] as $entry) {
                                 $message = is_array($entry) ? $entry['message'] : $entry;
@@ -794,7 +710,6 @@ include_once "../Controller/validation_message.php";
             </div>
 
             <script src="../View/Js/ModalReport.js"></script>
-
             <div class="modal fade" id="repeatedSerialsModal" tabindex="-1" aria-labelledby="repeatedSerialsModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -869,10 +784,12 @@ include_once "../Controller/validation_message.php";
                     });
                 });
             </script>
-            <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
-            <script src="../Configuration/JQuery/Chart.js"></script>
+            
 
-
+        </div>
+    </div>
+    <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../Configuration/JQuery/Chart.js"></script>
 
     <script>
         function toggleWidget(id) {
@@ -882,8 +799,8 @@ include_once "../Controller/validation_message.php";
             }
         }
     </script>
-    </body>
-    
+</body>
+
 <footer class="container align-items-center text-center mt-5">
     <div class="row">
         <div class="col-md-4">

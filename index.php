@@ -297,10 +297,10 @@ if (session_status() === PHP_SESSION_NONE) {
                                         foreach ($logData[$type] as $entry) {
                                             $message = is_array($entry) ? $entry['message'] : $entry;
                                             $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                            $alerts[] = "<div class='p-3 mb-2 bg-light shadow-sm'>{$message} - {$timestamp} </div>";
+                                            $alerts[] = "<div class='p-3 mb-2 bg-light shadow-sm'>{$message} - {$timestamp}</div>";
                                             $count++;
 
-                                            // Limitar a $maxMessages mensajes por tipo
+                                            // Limit to $maxMessages messages per type
                                             if ($count >= $maxMessages) {
                                                 break;
                                             }
@@ -436,40 +436,40 @@ if (session_status() === PHP_SESSION_NONE) {
             <script>
                 //Script para visualizar la contraseña
                 // Password visibility toggle function
-document.addEventListener('DOMContentLoaded', function() {
-    // Create toggle button for password visibility
-    const passwordField = document.getElementById('passwordadmin');
-    const formGroup = passwordField.parentElement;
-    
-    // Create and insert toggle button
-    const toggleButton = document.createElement('button');
-    toggleButton.type = 'button';
-    toggleButton.className = 'btn btn-outline-secondary position-absolute end-0 top-0 h-100 d-flex align-items-center px-2';
-    toggleButton.style.borderTopLeftRadius = '0';
-    toggleButton.style.borderBottomLeftRadius = '0';
-    toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
-    toggleButton.setAttribute('title', 'Show/Hide Password');
-    
-    // Create a wrapper div for the input with position relative
-    const inputWrapper = document.createElement('div');
-    inputWrapper.className = 'position-relative';
-    
-    // Move the password input into the wrapper
-    passwordField.parentNode.insertBefore(inputWrapper, passwordField);
-    inputWrapper.appendChild(passwordField);
-    inputWrapper.appendChild(toggleButton);
-    
-    // Add event listener for the toggle button
-    toggleButton.addEventListener('click', function() {
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
-        } else {
-            passwordField.type = 'password';
-            toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
-        }
-    });
-});
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Create toggle button for password visibility
+                    const passwordField = document.getElementById('passwordadmin');
+                    const formGroup = passwordField.parentElement;
+
+                    // Create and insert toggle button
+                    const toggleButton = document.createElement('button');
+                    toggleButton.type = 'button';
+                    toggleButton.className = 'btn btn-outline-secondary position-absolute end-0 top-0 h-100 d-flex align-items-center px-2';
+                    toggleButton.style.borderTopLeftRadius = '0';
+                    toggleButton.style.borderBottomLeftRadius = '0';
+                    toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+                    toggleButton.setAttribute('title', 'Show/Hide Password');
+
+                    // Create a wrapper div for the input with position relative
+                    const inputWrapper = document.createElement('div');
+                    inputWrapper.className = 'position-relative';
+
+                    // Move the password input into the wrapper
+                    passwordField.parentNode.insertBefore(inputWrapper, passwordField);
+                    inputWrapper.appendChild(passwordField);
+                    inputWrapper.appendChild(toggleButton);
+
+                    // Add event listener for the toggle button
+                    toggleButton.addEventListener('click', function() {
+                        if (passwordField.type === 'password') {
+                            passwordField.type = 'text';
+                            toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+                        } else {
+                            passwordField.type = 'password';
+                            toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+                        }
+                    });
+                });
             </script>
             <script src="./View/Js/Automatic_search.js"></script>
         </div>

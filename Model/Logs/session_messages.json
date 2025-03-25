@@ -19,6 +19,14 @@
         {
             "message": "Fields hidden from table successfully",
             "timestamp": "2025-03-25 17:57:55"
+        },
+        {
+            "message": "Fields hidden from table: fecha_salida",
+            "timestamp": "2025-03-25 19:50:05"
+        },
+        {
+            "message": "Fields hidden from table successfully",
+            "timestamp": "2025-03-25 19:50:05"
         }
     ],
     "error": [
