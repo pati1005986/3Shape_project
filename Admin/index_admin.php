@@ -151,8 +151,8 @@ include_once "../Controller/validation_message.php";
         // Relacion entre formulario y nav-links
         document.addEventListener('DOMContentLoaded', function() {
             toggleVisibility(
-                ['showFormLink', 'showFormLink1', 'showFormLink2','showFormLink3', 'showFormLink5', 'showFormLink6', 'showFormLink7'],
-                ['FormAddForm', 'RemoveForm', 'FormAddTable','RemoveFieldsTable', 'addBDCSV', 'addFormTodo', 'addLgColumn']
+                ['showFormLink', 'showFormLink1', 'showFormLink2', 'showFormLink3', 'showFormLink5', 'showFormLink6', 'showFormLink7'],
+                ['FormAddForm', 'RemoveForm', 'FormAddTable', 'RemoveFieldsTable', 'addBDCSV', 'addFormTodo', 'addLgColumn']
             );
         });
     </script>
@@ -166,7 +166,7 @@ include_once "../Controller/validation_message.php";
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
                         <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
-                            <img src="../Admin/3shape-logo.png" alt="Logo"  width="150" height="31">
+                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -175,26 +175,26 @@ include_once "../Controller/validation_message.php";
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
-                            <li class="nav-item">
-    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
-    <script>
-        function confirmHomeRedirect() {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to go to the home page?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6d6d6d',
-                confirmButtonText: 'Yes, go to home!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = '../index.php';
-                }
-            });
-        }
-    </script>
-</li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
+                                    <script>
+                                        function confirmHomeRedirect() {
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "Do you want to go to the home page?",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#6d6d6d',
+                                                confirmButtonText: 'Yes, go to home!'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = '../index.php';
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="showFormLink" href="#">Add fields</a>
                                 </li>
@@ -359,7 +359,7 @@ include_once "../Controller/validation_message.php";
                 </form>
                 <br>
             </div>
-            
+
             <div class="col-md-6">
                 <form action="remove_fields.php" id="RemoveForm" style="display: none;" method="post" class="shadow border border-secondary">
                     <h1 class="text-center">Remove Fields</h1>
@@ -467,47 +467,47 @@ include_once "../Controller/validation_message.php";
                 </form>
             </div>
 
-           <!-- Add this within the existing column in index_admin.php, similar to the "Add Fields to the Main Table" form -->
-<div class="col-md-6">
-<form action="remove-fields-table-script.php" method="post" id="RemoveFieldsTable" style="display: none;" 
-    class="shadow border border-secondary">
-    <h1 class="text-center">Remove Fields from the Main Table</h1>
-    <h4>Select Fields to Remove <span>*</span></h4>
-    <?php
-    try {
-        include '../Configuration/Connection.php';
-        $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
+            <!-- Add this within the existing column in index_admin.php, similar to the "Add Fields to the Main Table" form -->
+            <div class="col-md-6">
+                <form action="remove-fields-table-script.php" method="post" id="RemoveFieldsTable" style="display: none;"
+                    class="shadow border border-secondary">
+                    <h1 class="text-center">Remove Fields from the Main Table</h1>
+                    <h4>Select Fields to Remove <span>*</span></h4>
+                    <?php
+                    try {
+                        include '../Configuration/Connection.php';
+                        $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                 FROM INFORMATION_SCHEMA.COLUMNS 
                 WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
                 AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','fk_id','fk_assetname','user_status',
                 'last_user','job_title','status_change','cedula') 
                 ORDER BY TABLE_NAME, ORDINAL_POSITION";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            echo '<select id="removemfields" class="shadow-sm form-select" name="removemfields[]" multiple required>';
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo '<option value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">' . 
-                     htmlspecialchars($row["Field"]) . '</option>';
-            }
-            echo '</select>';
-        } else {
-            echo '<p>No removable fields found.</p>';
-        }
-    } catch (PDOException $e) {
-        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-    }
-    ?>
-    <br>
-    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-    <div class="btn-block">
-        <button id="RemoveFieldTable" type="submit" class="btn btn-danger">Remove Field</button>
-        <div class="alert alert-warning mt-2">
-            <strong>Warning:</strong>If you want to reinsert a field that was deleted, use the "Add Fields to the Main Table" function. Proceed with caution.
-        </div>
-    </div>
-</form>
-</div>
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->execute();
+                        if ($stmt->rowCount() > 0) {
+                            echo '<select id="removemfields" class="shadow-sm form-select" name="removemfields[]" multiple required>';
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo '<option value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">' .
+                                    htmlspecialchars($row["Field"]) . '</option>';
+                            }
+                            echo '</select>';
+                        } else {
+                            echo '<p>No removable fields found.</p>';
+                        }
+                    } catch (PDOException $e) {
+                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                    }
+                    ?>
+                    <br>
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                    <div class="btn-block">
+                        <button id="RemoveFieldTable" type="submit" class="btn btn-danger">Remove Field</button>
+                        <div class="alert alert-warning mt-2">
+                            <strong>Warning:</strong>If you want to reinsert a field that was deleted, use the "Add Fields to the Main Table" function. Proceed with caution.
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="col-md-6 my-2">
                 <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
                     class="shadow border border-secondary p-3">
@@ -679,7 +679,7 @@ include_once "../Controller/validation_message.php";
                             foreach ($logData[$type] as $entry) {
                                 $message = is_array($entry) ? $entry['message'] : $entry;
                                 $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp} <button class='btn btn-danger btn-sm float-end' onclick='removeAlert(this)'> X </button></div>";
+                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp}</div>";
                                 $count++;
 
                                 // Limitar a $maxMessages mensajes por tipo
@@ -784,7 +784,7 @@ include_once "../Controller/validation_message.php";
                     });
                 });
             </script>
-            
+
 
         </div>
     </div>
