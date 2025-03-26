@@ -189,7 +189,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                             <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
                                             <select id="search_user_status" name="search_user_status[]"
                                                 class="shadow-sm form-control bg-light">
-                                                <option value="0">Select a option</option>
+                                                <option value="0">Select an option</option>
                                                 <?php
                                                 include './Configuration/Connection.php';
                                                 $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");

@@ -71,6 +71,14 @@
         {
             "message": "Fields added to the table successfully",
             "timestamp": "2025-03-25 20:46:22"
+        },
+        {
+            "message": "Field removed successfully and logged.",
+            "timestamp": "2025-03-26 14:57:33"
+        },
+        {
+            "message": "Field 'Dongle' added successfully to table 'usuarios_equipos'.",
+            "timestamp": "2025-03-26 14:58:07"
         }
     ],
     "error": [
@@ -129,6 +137,18 @@
         {
             "message": "Field \"LLave\" is already visible in the main table. Please remove it first if you want to add it again.",
             "timestamp": "2025-03-25 20:46:24"
+        },
+        {
+            "message": "This field is already hidden",
+            "timestamp": "2025-03-26 15:26:26"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-03-26 15:41:31"
+        },
+        {
+            "message": "This field is already hidden",
+            "timestamp": "2025-03-26 15:48:35"
         }
     ],
     "error_message": [],
