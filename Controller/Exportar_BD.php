@@ -30,13 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($data) {
         // Determine file extension based on selected format
         $file_extension = ($format === 'txt') ? 'txt' : 'csv';
-        
+
         // Generacion del nombre del archivo
         $filename = "exportData_" . date('Y-m-d') . "." . $file_extension;
-        
+
         // Set appropriate content type
         $content_type = ($format === 'txt') ? 'text/plain' : 'text/csv';
-        
+
         // Encabezados HTTP
         header('Content-Type: ' . $content_type . '; charset=utf-8');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -53,17 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $headers = array_keys($data[0]);
 
         if ($format === 'txt') {
-            // For TXT format, use tab delimiter and write headers
-            fputcsv($output, $headers, "\t");
-            
-            // Write data rows with tab delimiter
-            foreach ($data as $row) {
-                fputcsv($output, $row, "\t");
+            foreach ($data as $row){
+                $outputData =  json_encode($row, JSON_PRETTY_PRINT);
+                fwrite($output, $outputData . "\n\n");
             }
         } else {
             // For CSV format (default)
             fputcsv($output, $headers);
-            
+
             // Write data rows with default delimiter (comma)
             foreach ($data as $row) {
                 fputcsv($output, $row);
@@ -72,19 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Se cierra el flujo de salida
         fclose($output);
-        
+
         // Limpiar buffer de salida y terminar ejecución
         ob_end_flush();
         exit();
-
     } else {
         $_SESSION['error'] = 'No data found';
         header('Location: ../Admin/index_admin.php');
         exit();
     }
+
 } else {
     $_SESSION['error'] = 'Invalid request';
     header('Location: ../Admin/index_admin.php');
     exit();
 }
-?>
