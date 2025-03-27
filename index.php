@@ -112,6 +112,10 @@ if (session_status() === PHP_SESSION_NONE) {
                                 }, 10);
                             </script>
                         </div>
+                        <div class="col-md-12 text-center mb-4">
+                            <h3><i class="bi bi-filter"></i> Filter Assets by Specific Criteria</h3>
+                            <p class="text-muted">Refine your search by selecting one or multiple criteria and quickly find asset information.</p>
+                        </div>
                         <!-- Barra Busqueda -->
                         <nav id="Navitem"
                             class="navbar navbar-expand-lg navbar-light bg-light fixed-top rounded shadow-sm">
@@ -149,8 +153,8 @@ if (session_status() === PHP_SESSION_NONE) {
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>
                                         <li class="nav-item ms-auto " style="position: absolute; right: 0; top: 12;">
-                                            <a type="button" class="btn btn-secondary" onclick="showModal()">
-                                                <i class="fa-solid fa-bell" style="color:yellow"></i>
+                                            <a type="button" class="btn btn-outline-warning" onclick="showModal()">
+                                                <i class="fa-solid fa-bell" style="color:black"></i>
                                             </a>
                                             <script>
                                                 // Function to show the modal
@@ -360,13 +364,16 @@ if (session_status() === PHP_SESSION_NONE) {
                             <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
                                 <i class="bi bi-search"></i> Search
                             </button>
-                            <button type="reset" class="shadow btn btn-light border-danger" id="reset_btn">Reset
-                                <i class="bi bi-arrow-clockwise"></i>
+                            <button type="reset" class="shadow btn btn-light border-danger me-1" id="reset_btn">Clear
+                                <i class="bi bi-eraser"></i>
+                            </button>
+                            <button type="button" class="shadow btn btn-light border-primary" id="refresh_btn">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
                             </button>
                         </div>
 
                         <script>
-                            // Boton de Restart
+                            // Botón de Clear
                             document.getElementById('reset_btn').addEventListener('click', function() {
                                 const textInputs = document.querySelectorAll('input[type="text"]');
                                 const numberInputs = document.querySelectorAll('input[type="number"]');
@@ -375,6 +382,11 @@ if (session_status() === PHP_SESSION_NONE) {
                                 textInputs.forEach(input => input.value = '');
                                 numberInputs.forEach(input => input.value = '');
                                 selectElements.forEach(select => select.selectedIndex = 0);
+                            });
+
+                            // Botón de Refresh
+                            document.getElementById('refresh_btn').addEventListener('click', function() {
+                                window.location.href = window.location.pathname;
                             });
                         </script>
                     </div>
@@ -496,7 +508,6 @@ if (session_status() === PHP_SESSION_NONE) {
     <!--Inputs de Busqueda-->
     </div>
     </div>
-    <br>
     </form>
     <div class="table-responsive my-5">
         <!--Boton para registrar un nuevo equipo-->

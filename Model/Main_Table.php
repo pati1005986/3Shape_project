@@ -32,10 +32,10 @@ if ($resultados) {
         }
 
         // Update button
-        echo '<td><a href="./Model/act_registro.php?assetname=' . $escapedRow["assetname"] . '" class="btn btn-secondary btn-sm"><i class="fas fa-sync-alt"></i></a></td>';
+        echo '<td title="Update Asset"><a href="./Model/act_registro.php?assetname=' . $escapedRow["assetname"] . '" class="btn btn-secondary btn-sm"><i class="fas fa-sync-alt"></i></a></td>';
         
         // Delete button with data attribute for SweetAlert
-        echo '<td><a href="javascript:void(0);" class="btn btn-danger btn-sm delete-item" data-assetname="' . $escapedRow["assetname"] . '"><i class="fa fa-times"></i></a></td>';
+        echo '<td title="Delete Asset"><a href="javascript:void(0);" class="btn btn-danger btn-sm delete-item" data-assetname="' . $escapedRow["assetname"] . '"><i class="fa fa-times"></i></a></td>';
         
         echo "</tr>";
     }
