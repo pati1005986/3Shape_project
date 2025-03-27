@@ -27,7 +27,7 @@
         <h1>Error 404</h1>
         <p>So sorry, the page you were looking for doesn't exist.</p>
         <p>You may have mistyped the address or the page may have moved.</p>
-        <a href="../index.php">Back to Home</a>
+        <a href="/3Shape_project/index.php">Back to Home</a>
     </div>
 </body>
 </html>
