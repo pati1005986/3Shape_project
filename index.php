@@ -223,19 +223,19 @@ if (session_status() === PHP_SESSION_NONE) {
                                     </div>
                                     <div class="col-md-4 col-sm-6 mb-2">
                                         <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            <input type="text" id="sgarantia" name="search_fecha_inicio"
+                                                placeholder="Start date (MM/DD/YYYY)" class="shadow-sm form-control bg-light">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
                                             <input type="text" id="garantia" name="search_fecha_fin" 
                                                 placeholder="End Date (MM/DD/YYYY)" 
                                                 class="shadow-sm form-control bg-light"
                                                 pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
                                                 title="Please enter date in MM/DD/YYYY format">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                            <input type="text" id="sgarantia" name="search_fecha_inicio"
-                                                placeholder="Start date (MM/DD/YYYY)" class="shadow-sm form-control bg-light">
                                         </div>
                                     </div>
                                 </div>
