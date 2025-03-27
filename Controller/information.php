@@ -23,12 +23,11 @@ class PDF extends FPDF
         // Encabezado izquierdo (Información de la empresa)
         $this->SetFont('Helvetica', 'B', 10);
         $this->SetTextColor($this->primaryColor[0], $this->primaryColor[1], $this->primaryColor[2]);
-        $this->Cell(100, 6, convertirTexto('3 Shape.'), 0, 1);
+        $this->Cell(100, 6, convertirTexto('3 Shape.'), 0, 1, 'L');
         $this->SetFont('Helvetica', '', 8);
-        $this->Cell(100, 4, convertirTexto('Carrera 9A # 99 - 02, Bogotá'), 0, 1);
-        $this->Cell(100, 4, convertirTexto('NIT: 900574780'), 0, 1);
+        $this->Cell(100, 4, convertirTexto('Carrera 9A # 99 - 02, Bogotá'), 0, 1, 'L');
+        $this->Cell(100, 4, convertirTexto('NIT: 900574780'), 0, 1, 'L');
         $this->Ln(10);
-
         // Logo
         $this->Image('../Model/logo.png', 155, 12, 35);
 

@@ -1,35 +1,94 @@
 <?php
-
 session_start();
-
 include "../Configuration/Connection.php";
 include "../Controller/sanitization.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Recuperar datos del formulario
-    $assetname = sanitize_input($_POST['assetname']) ?? null;
-    validate_input_length($assetname, "Assetname", 100);
-    $serial_number = sanitize_input($_POST['serial'])  ?? null;
-    validate_input_length($serial_number, "Serial Number", 30);
-    $purchase_country = sanitize_input($_POST['compra'])  ?? null;
-    validate_input_length($purchase_country, "Purchase Country", 100);
-    $warranty_enddate = sanitize_input($_POST['garantia'])  ?? null;
-    validate_input_length($warranty_enddate, "Warranty end date", 100);
-    $new_laptop = sanitize_input($_POST['newl']);
-    validate_input_length($new_laptop, "new laptop", 100);
-    $user_status = sanitize_input($_POST['usrStts'])  ?? null;
-    validate_input_length($user_status, "User State", 100);
-    $last_user = sanitize_input($_POST['nombre_usuario'])  ?? null;
-    validate_input_length($last_user, "Last User", 100);
-    $job_title = sanitize_input($_POST['job_title']); 
-    validate_input_length($job_title, "Job title", 100);
-    $status_change = sanitize_input($_POST['status_change'])  ?? null;
-    validate_input_length($status_change, "Status Change", 100);
-    $cedula = sanitize_input($_POST['id'])  ?? null;
-    validate_input_length($cedula, "ID", 100);
-    $carnet = sanitize_input($_POST['selectCard'])  ?? null;
-    $llave = sanitize_input($_POST['selectKEY'])  ?? null;
-    $tipoID = sanitize_input($_POST['type_id'])  ?? null;
+    $fields = [
+        [
+            'post_key' => 'assetname',
+            'var_name' => 'assetname',
+            'label' => 'Assetname',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'serial',
+            'var_name' => 'serial_number',
+            'label' => 'Serial Number',
+            'max_length' => 30
+        ],
+        [
+            'post_key' => 'compra',
+            'var_name' => 'purchase_country',
+            'label' => 'Purchase Country',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'garantia',
+            'var_name' => 'warranty_enddate',
+            'label' => 'Warranty end date',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'newl',
+            'var_name' => 'new_laptop',
+            'label' => 'new laptop',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'usrStts',
+            'var_name' => 'user_status',
+            'label' => 'User State',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'nombre_usuario',
+            'var_name' => 'last_user',
+            'label' => 'Last User',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'job_title',
+            'var_name' => 'job_title',
+            'label' => 'Job title',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'status_change',
+            'var_name' => 'status_change',
+            'label' => 'Status Change',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'id',
+            'var_name' => 'cedula',
+            'label' => 'ID',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'selectCard',
+            'var_name' => 'carnet'
+        ],
+        [
+            'post_key' => 'selectKEY',
+            'var_name' => 'llave'
+        ],
+        [
+            'post_key' => 'type_id',
+            'var_name' => 'tipoID'
+        ]
+    ];
+    
+    foreach ($fields as $field) {
+        // Sanitizar input
+        ${$field['var_name']} = sanitize_input($_POST[$field['post_key']] ?? null);
+        
+        // Validar longitud si está definido
+        if (isset($field['max_length'])) {
+            validate_input_length(${$field['var_name']}, $field['label'], $field['max_length']);
+        }
+    }
 
     // Validar estado de expiración en base a la fecha de garantía
     $fecha_actual = date('Y-m-d');

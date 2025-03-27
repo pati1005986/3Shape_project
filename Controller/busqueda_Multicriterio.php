@@ -26,10 +26,12 @@ function buildDateSearchQuery($searchParams)
 
     // Validate dates
     if ($fecha_inicio && !isValidDate($fecha_inicio)) {
-        $fecha_inicio = null; // Set to null if invalid
+        $fecha_inicio = null;
+        error_log("Fecha de inicio inválida: " . $fecha_inicio);
     }
     if ($fecha_fin && !isValidDate($fecha_fin)) {
-        $fecha_fin = null; // Set to null if invalid
+        $fecha_fin = null;
+        error_log("Fecha de fin inválida: " . $fecha_fin);
     }
 
     // Debugging information
@@ -211,15 +213,6 @@ if (!empty($_GET['search_purchase_country'])) {
     foreach ($params as $param_name => $value) {
         $stmt->bindValue($param_name, $value);
     }
-}
-
-// Añadir los nuevos bindValue para los nuevos parámetros
-if (!empty($_GET['search_fecha_fin'])) {
-    $stmt->bindValue(':warranty_end', $params[':warranty_end']);
-}
-
-if (isset($_GET['search_expired']) && $_GET['search_expired'] !== '') {
-    $stmt->bindValue(':today', $params[':today']);
 }
 
 // Ejecutar y obtener resultados

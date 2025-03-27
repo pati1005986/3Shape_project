@@ -5,30 +5,99 @@ include "../Configuration/Connection.php";
 include "../Controller/sanitization.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre_usuario = sanitize_input( $_POST['nombre_usuario']) ?? null;
-    validate_input_length($nombre_usuario,"Assetname",100);
-    $serial = sanitize_input( $_POST['serial']) ?? null;
-    validate_input_length($serial,"serial number",100);
-    $compra = sanitize_input( $_POST['compra']) ?? null;
-    validate_input_length($compra,"Purchase country",100);
-    $garantia = sanitize_input( $_POST['garantia']) ?? null;
-    validate_input_length($garantia,"Warranty end date",100);
-    $newl = sanitize_input( $_POST['newl']);
-    $usrStts = sanitize_input( $_POST['usrStts']) ?? null;
-    validate_input_length($usrStts,"User status",100);
-    $job_title = sanitize_input( $_POST['job_title']);
-    $stats_change = sanitize_input( $_POST['status_change']) ?? null;
-    validate_input_length($stats_change,"Status Change",100);
-    $cedula = sanitize_input( $_POST['id']) ?? null;
-    validate_input_length($cedula,"ID",100);
-    $carnet = sanitize_input( $_POST['selectCard']) ?? null;
-    validate_input_length($carnet,"",100);
-    $llave = sanitize_input( $_POST['selectKEY']) ?? null;
-    $tipoID = sanitize_input( $_POST['selectID']) ?? null;
-    $assetname = sanitize_input( $_POST['assetname']) ?? null;
-    validate_input_length($assetname,"Asset name",100);
-    $fk_assetname = sanitize_input( $_POST['fk_assetname']) ?? null;
-    validate_input_length($fk_assetname,"foreign key asset name",100);
+    // Recuperar datos del formulario
+    $fields = [
+        [
+            'post_key' => 'nombre_usuario',
+            'var_name' => 'nombre_usuario',
+            'label' => 'Assetname',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'serial',
+            'var_name' => 'serial',
+            'label' => 'serial number',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'compra',
+            'var_name' => 'compra',
+            'label' => 'Purchase country',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'garantia',
+            'var_name' => 'garantia',
+            'label' => 'Warranty end date',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'newl',
+            'var_name' => 'newl'
+        ],
+        [
+            'post_key' => 'usrStts',
+            'var_name' => 'usrStts',
+            'label' => 'User status',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'job_title',
+            'var_name' => 'job_title'
+        ],
+        [
+            'post_key' => 'status_change',
+            'var_name' => 'stats_change',
+            'label' => 'Status Change',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'id',
+            'var_name' => 'cedula',
+            'label' => 'ID',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'selectCard',
+            'var_name' => 'carnet',
+            'label' => '',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'selectKEY',
+            'var_name' => 'llave'
+        ],
+        [
+            'post_key' => 'selectID',
+            'var_name' => 'tipoID'
+        ],
+        [
+            'post_key' => 'assetname',
+            'var_name' => 'assetname',
+            'label' => 'Asset name',
+            'max_length' => 100
+        ],
+        [
+            'post_key' => 'fk_assetname',
+            'var_name' => 'fk_assetname',
+            'label' => 'foreign key asset name',
+            'max_length' => 100
+        ]
+    ];
+    
+    foreach ($fields as $field) {
+        // Sanitizar input con null coalescing
+        ${$field['var_name']} = sanitize_input($_POST[$field['post_key']] ?? null);
+        
+        // Validar longitud si está definido
+        if (isset($field['max_length'])) {
+            validate_input_length(
+                ${$field['var_name']},
+                $field['label'],
+                $field['max_length']
+            );
+        }
+    }
 
     // Check if assetname and fk_assetname are already set
     if ($assetname !== null) {
@@ -202,11 +271,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 } else {
-    $_SESSION["error"] = "Faltan datos obligatorios.";
+    $_SESSION["error"] = "Missing required data.";
     header("Location: ../index.php");
     exit();
 }
 } else {
-    $_SESSION["error"] = "Acceso no válido.";
+    $_SESSION["error"] = "Access not valid";
     header("Location: ../index.php");
 }

@@ -89,6 +89,22 @@
             "timestamp": "2025-03-27 13:48:57"
         },
         {
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-03-27 17:52:36"
+        },
+        {
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-03-27 18:07:46"
+        },
+        {
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-03-27 18:14:21"
+        },
+        {
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-03-27 18:14:29"
+        },
+        {
             "message": "Fields added to the table successfully",
             "timestamp": "2025-03-27 20:31:48"
         },
@@ -173,14 +189,6 @@
         {
             "message": "Incorrect Password.",
             "timestamp": "2025-03-26 19:47:03"
-        },
-        {
-            "message": "This field is already hidden",
-            "timestamp": "2025-03-27 20:32:21"
-        },
-        {
-            "message": "This field is already hidden",
-            "timestamp": "2025-03-27 20:32:26"
         }
     ],
     "error_message": [
