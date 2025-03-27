@@ -151,6 +151,34 @@ if (!empty($_GET['search_purchase_country'])) {
     }
 }
 
+// Filtro para Warranty End Date
+if (!empty($_GET['search_fecha_fin'])) {
+    $warranty_end = trim($_GET['search_fecha_fin']);
+    if (!empty($warranty_end)) {
+        // Convertir el formato de fecha MM/DD/YYYY a YYYY-MM-DD para la comparación
+        $date_parts = explode('/', $warranty_end);
+        if (count($date_parts) === 3) {
+            $formatted_date = $date_parts[2] . '-' . $date_parts[0] . '-' . $date_parts[1];
+            $where[] = "STR_TO_DATE(warranty_enddate, '%m/%d/%Y') = STR_TO_DATE(:warranty_end, '%Y-%m-%d')";
+            $params[':warranty_end'] = $formatted_date;
+        }
+    }
+}
+
+// Filtro para Expired
+if (isset($_GET['search_expired']) && $_GET['search_expired'] !== '') {
+    $expired = $_GET['search_expired'];
+    $today = date('Y-m-d');
+    if ($expired == '1') {
+        // Buscar equipos expirados
+        $where[] = "STR_TO_DATE(warranty_enddate, '%m/%d/%Y') < :today";
+    } else if ($expired == '0') {
+        // Buscar equipos no expirados
+        $where[] = "STR_TO_DATE(warranty_enddate, '%m/%d/%Y') >= :today";
+    }
+    $params[':today'] = $today;
+}
+
 // Agregar condiciones al SQL
 if (count($where) > 0) {
     $sql .= " WHERE " . implode(" AND ", $where);
@@ -184,6 +212,16 @@ if (!empty($_GET['search_purchase_country'])) {
         $stmt->bindValue($param_name, $value);
     }
 }
+
+// Añadir los nuevos bindValue para los nuevos parámetros
+if (!empty($_GET['search_fecha_fin'])) {
+    $stmt->bindValue(':warranty_end', $params[':warranty_end']);
+}
+
+if (isset($_GET['search_expired']) && $_GET['search_expired'] !== '') {
+    $stmt->bindValue(':today', $params[':today']);
+}
+
 // Ejecutar y obtener resultados
 $stmt->execute();
 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
