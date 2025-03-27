@@ -64,27 +64,10 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="homeindex">Home</a>
-                                    <script>
-                                        document.getElementById('homeindex').addEventListener('click', function() {
-                                            Swal.fire({
-                                                title: 'Are you sure?',
-                                                text: "Do you want to go to the home page?",
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#d33',
-                                                cancelButtonColor: '#6d6d6d',
-                                                confirmButtonText: 'Yes, go to home!'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    window.location.href = '../index.php';
-                                                }
-                                            });
-                                        });
-                                    </script>
+                            <li class="nav-item">
+                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
                                 </li>
-
+                                <script src="../View/Js/confirm_home_redirect.js"></script>
                                 <li class="nav-item ms-auto">
                                     <a title="Notifications" type="button" class="btn btn-secondary" onclick="showModal()">
                                         <i class="fa-solid fa-bell" style='color:aqua'></i>
@@ -332,21 +315,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                     });
                 </script>
 </body>
-<footer class="container align-items-center text-center mt-5">
-    <div class="row">
-        <div class="col-md-4">
-            <p>&copy; <?php echo date("Y"); ?> - All rights reserved.</p>
-            <p>Page created on: <?php echo date("F j, Y", filectime(__FILE__)); ?></p>
-        </div>
-        <div class="col-md-4">
-            <p>Developed by: Daniel Patiño</p>
-            <p>Contact: <a href="mailto:Daniel.Cortes@3Shape.com">Daniel.Cortes@3Shape.com</a></p>
-        </div>
-        <div class="col-md-4">
-            <p class="text-muted">Version: 3.0.0</p>
-            <p class="text-muted">Last updated: <?php echo date("F j, Y", filemtime(__FILE__)); ?></p>
-        </div>
-    </div>
-</footer>
+<?php include '../View/Fragments/footer.php'; ?>
 
 </html>
