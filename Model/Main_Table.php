@@ -3,20 +3,13 @@
 // Precalcula el colspan una vez
 $colspan = count($selectedColumns) + 12;
 
-if (isset($_SESSION['resultados']) && !empty($_SESSION['resultados'])) {
-    $resultados = $_SESSION['resultados']; // Use session data if available
-} else {
-    // Assume $resultados is fetched from the database here
-    $_SESSION['resultados'] = $resultados; // Store the results in session
-}
-
 if ($resultados) {
     foreach ($resultados as $row) { 
         // Escapar todos los campos
         $escapedRow = array_map('htmlspecialchars', $row);
         
         // Determinar clase de garantía usando el timestamp de SQL
-        $warranty_class = ($row['warranty_enddate'] < time()) 
+        $warranty_class = ($row['warranty_enddate'] > time()) 
             ? 'text-danger' 
             : 'text-success';
         
@@ -72,15 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`./Model/elim_registro.php?assetname=${assetname}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => console.log(data))
-                    .catch(error => console.error('Error:', error));
+                    window.location.href = './Model/elim_registro.php?assetname=' + assetname;
                 }
             });
         });
