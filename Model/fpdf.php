@@ -1,7 +1,7 @@
 <?php
 /*******************************************************************************
  * FPDF                                                                         *
- *Importacion co la cual se pueden realizar pdfs y editar el contenido de los mismos (recomendacion: no editar)                                                                              *
+ * Importacion co la cual se pueden realizar pdfs y editar el contenido de los mismos (recomendacion: no editar)                                                                              *
  * Version: 1.86                                                                *
  * Date:    2023-06-25                                                          *
  * Author:  Olivier PLATHEY                                                     *
