@@ -199,6 +199,6 @@ session_start();
         <script src="../View/Js/Background.js"></script>
 
 </body>
-<?php include '../View/Fragments/footer.php'; ?>
+<?php include './Fragments/footer.php'; ?>
 
 </html>

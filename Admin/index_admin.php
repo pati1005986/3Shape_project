@@ -233,7 +233,7 @@ include_once "../Controller/validation_message.php";
         </div>
         <div class="row my-5" style="display: flex; gap: 20px;">
             <script src="../View/Js/diagrams.js"> </script>
-            <div class="col-md-5 ms-5">
+            <div class="col-md-5 ms-2">
                 <div id="tool" style="display: none;"></div>
             </div>
 
@@ -283,18 +283,6 @@ include_once "../Controller/validation_message.php";
                         <option value="BOOLEAN">Boolean</option>
                         <option value="BIGINT">BigInteger</option>
                     </select>
-                    <div id="boolean" class="alert alert-warning mt-2" style="display: none;">
-                        Warning: BOOLEAN data type selected. this function may not work correctly
-                    </div>
-                    <script>
-                        document.querySelector('select[name="data_type"]').addEventListener('change', function() {
-                            if (this.value === 'BOOLEAN') {
-                                document.getElementById('boolean').style.display = 'block';
-                            } else {
-                                document.getElementById('boolean').style.display = 'none';
-                            }
-                        });
-                    </script>
                     <h4>Name of Data <span>*</span></h4>
                     <input type="text" id="field_name" name="field_name" required onfocus="showNetworkAddressInfo()"
                         oninput="validateInput()" />
@@ -348,6 +336,7 @@ include_once "../Controller/validation_message.php";
                     <h1 class="text-center">Remove Fields</h1>
                     <h4>Name Field <span>*</span></h4>
                     <?php
+                    // Mostrar los campos creados
                     try {
                         include '../Configuration/Connection.php';
                         $sql = "SELECT COLUMN_NAME as Field 
@@ -360,6 +349,7 @@ include_once "../Controller/validation_message.php";
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
+                            // Si hay campos creados mostrar select
                             echo '<select id="removefields" class="shadow-sm form-select" name="removefields" onfocus="showNetworkInfo()">';
                             echo '<option value="0" selected>Select a field</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -416,14 +406,17 @@ include_once "../Controller/validation_message.php";
                     <h1 class="text-center">Add Fields to the Main Table</h1>
                     <h4>Name Field <span>*</span></h4>
                     <?php
+                    // Check if the field already exists in the table
                     try {
                         include '../Configuration/Connection.php';
+                        // Create a prepared statement
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                         FROM INFORMATION_SCHEMA.COLUMNS 
                         WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
                         AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
                         'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
                         ORDER BY TABLE_NAME, ORDINAL_POSITION";
+                        // Execute the query
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
@@ -459,15 +452,17 @@ include_once "../Controller/validation_message.php";
                     <?php
                     try {
                         include '../Configuration/Connection.php';
+                        // Create a prepared statement
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
-                FROM INFORMATION_SCHEMA.COLUMNS 
-                WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','fk_id','fk_assetname','user_status',
-                'last_user','job_title','status_change','cedula') 
-                ORDER BY TABLE_NAME, ORDINAL_POSITION";
+                                FROM INFORMATION_SCHEMA.COLUMNS 
+                                WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','fk_id','fk_assetname','user_status',
+                                'last_user','job_title','status_change','cedula') 
+                                ORDER BY TABLE_NAME, ORDINAL_POSITION";
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
+                            // Display the select options
                             echo '<select id="removemfields" class="shadow-sm form-select" name="removemfields[]" multiple required>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 echo '<option value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">' .
@@ -491,7 +486,8 @@ include_once "../Controller/validation_message.php";
                     </div>
                 </form>
             </div>
-            <div class="col-md-6 my-2">
+            <!--Formulario para la exportacion de datos en formato CSV y TXT -->
+            <div class="col-md-6 my-2">                
                 <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
                     class="shadow border border-secondary p-3">
                     <h1 class="text-center">Export Data to CSV</h1>
@@ -724,6 +720,7 @@ include_once "../Controller/validation_message.php";
                 </div>
             </div>
             <script>
+                // Delete repeated serials, first check if there are any serial
                 document.addEventListener('DOMContentLoaded', function() {
                     fetch('../Controller/check_repeated_serials.php')
                         .then(response => response.json())
@@ -773,17 +770,7 @@ include_once "../Controller/validation_message.php";
     </div>
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
     <script src="../Configuration/JQuery/Chart.js"></script>
-
-    <script>
-        function toggleWidget(id) {
-            let element = document.getElementById(id);
-            if (element) {
-                element.classList.toggle("hidden");
-            }
-        }
-    </script>
-   
-<script src="../View/Js/confirm_home_redirect.js"></script>
+    <script src="../View/Js/confirm_home_redirect.js"></script>
 </body>
 
 <?php include '../View/Fragments/footer.php'; ?>

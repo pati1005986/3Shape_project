@@ -308,6 +308,6 @@ $_SESSION['last_activity'] = time();
             <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
             <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
 </body>
-<?php include '../View/Fragments/footer.php'; ?>
+<?php include './Fragments/footer.php'; ?>
 
 </html>

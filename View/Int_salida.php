@@ -174,6 +174,6 @@ session_start();
     <script src="../Configuration/JQuery/select2.min.js"></script>
 </body>
 <!--footer-->
-<?php include '../View/Fragments/footer.php'; ?>
+<?php include './Fragments/footer.php'; ?>
 
 </html>

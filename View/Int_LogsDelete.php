@@ -315,6 +315,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                     });
                 </script>
 </body>
-<?php include '../View/Fragments/footer.php'; ?>
+<?php include './Fragments/footer.php'; ?>
 
 </html>
