@@ -283,6 +283,18 @@ include_once "../Controller/validation_message.php";
                         <option value="BOOLEAN">Boolean</option>
                         <option value="BIGINT">BigInteger</option>
                     </select>
+                    <div id="boolean" class="alert alert-warning mt-2" style="display: none;">
+                        Warning: BOOLEAN data type selected. this function may not work correctly
+                    </div>
+                    <script>
+                        document.querySelector('select[name="data_type"]').addEventListener('change', function() {
+                            if (this.value === 'BOOLEAN') {
+                                document.getElementById('boolean').style.display = 'block';
+                            } else {
+                                document.getElementById('boolean').style.display = 'none';
+                            }
+                        });
+                    </script>
                     <h4>Name of Data <span>*</span></h4>
                     <input type="text" id="field_name" name="field_name" required onfocus="showNetworkAddressInfo()"
                         oninput="validateInput()" />
@@ -336,7 +348,6 @@ include_once "../Controller/validation_message.php";
                     <h1 class="text-center">Remove Fields</h1>
                     <h4>Name Field <span>*</span></h4>
                     <?php
-                    // Mostrar los campos creados
                     try {
                         include '../Configuration/Connection.php';
                         $sql = "SELECT COLUMN_NAME as Field 
@@ -349,9 +360,6 @@ include_once "../Controller/validation_message.php";
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
-                            // Si hay campos creados mostrar select
-                            echo '<select id="removefields" class="shadow-sm form-select" name="removefields" onfocus="showNetworkInfo()">';
-                            echo '<option value="0" selected>Select a field</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 echo '<div class="col-md-4 col-sm-6 mb-2">';
                                 echo '<div class="form-check">';
@@ -410,17 +418,14 @@ include_once "../Controller/validation_message.php";
                     <h1 class="text-center">Add Fields to the Main Table</h1>
                     <h4>Name Field <span>*</span></h4>
                     <?php
-                    // Check if the field already exists in the table
                     try {
                         include '../Configuration/Connection.php';
-                        // Create a prepared statement
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                         FROM INFORMATION_SCHEMA.COLUMNS 
                         WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
                         AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
                         'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
                         ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                        // Execute the query
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
@@ -461,7 +466,6 @@ include_once "../Controller/validation_message.php";
                     <?php
                     try {
                         include '../Configuration/Connection.php';
-                        // Create a prepared statement
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                                 FROM INFORMATION_SCHEMA.COLUMNS 
                                 WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -471,8 +475,7 @@ include_once "../Controller/validation_message.php";
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
-                            // Display the select options
-                            echo '<select id="removemfields" class="shadow-sm form-select" name="removemfields[]" multiple required>';
+                            echo '<div class="row">';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 echo '<div class="col-md-4 col-sm-6 mb-2">';
                                 echo '<div class="form-check">';
@@ -499,8 +502,7 @@ include_once "../Controller/validation_message.php";
                     </div>
                 </form>
             </div>
-            <!--Formulario para la exportacion de datos en formato CSV y TXT -->
-            <div class="col-md-6 my-2">                
+            <div class="col-md-6 my-2">
                 <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
                     class="shadow border border-secondary p-3">
                     <h1 class="text-center">Export Data to CSV</h1>
@@ -585,8 +587,8 @@ include_once "../Controller/validation_message.php";
                                 echo '<div class="col-md-4 col-sm-6 mb-2">';
                                 echo '<div class="form-check">';
                                 echo '<input class="form-check-input" type="checkbox" name="columns[]" value="' . htmlspecialchars($row["TABLE_NAME"]) . '|' . htmlspecialchars($row["COLUMN_NAME"]) . '" id="log_' . htmlspecialchars($row["COLUMN_NAME"]) . '">';
-                                echo '<label class="form-check-label" for="log_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' . 
-                                     htmlspecialchars($row["COLUMN_NAME"]) . ' (' . htmlspecialchars($row["TABLE_NAME"]) . ')</label>';
+                                echo '<label class="form-check-label" for="log_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' .
+                                    htmlspecialchars($row["COLUMN_NAME"]) . ' (' . htmlspecialchars($row["TABLE_NAME"]) . ')</label>';
                                 echo '</div>';
                                 echo '</div>';
                             }
@@ -735,7 +737,6 @@ include_once "../Controller/validation_message.php";
                 </div>
             </div>
             <script>
-                // Delete repeated serials, first check if there are any serial
                 document.addEventListener('DOMContentLoaded', function() {
                     fetch('../Controller/check_repeated_serials.php')
                         .then(response => response.json())
