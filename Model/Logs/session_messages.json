@@ -103,6 +103,18 @@
         {
             "message": "Record successfully deleted.",
             "timestamp": "2025-03-27 18:14:29"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-03-27 20:31:48"
+        },
+        {
+            "message": "Fields hidden from table: new_laptop, Carnet, LLave",
+            "timestamp": "2025-03-27 20:32:03"
+        },
+        {
+            "message": "Fields hidden successfully: new_laptop, Carnet, LLave",
+            "timestamp": "2025-03-27 20:32:03"
         }
     ],
     "error": [
@@ -177,12 +189,13 @@
         {
             "message": "Incorrect Password.",
             "timestamp": "2025-03-26 19:47:03"
-        },
-        {
-            "message": "Incorrect Password.",
-            "timestamp": "2025-03-27 17:28:05"
         }
     ],
-    "error_message": [],
+    "error_message": [
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-03-27 20:01:55"
+        }
+    ],
     "warnings": []
 }

@@ -353,9 +353,13 @@ include_once "../Controller/validation_message.php";
                             echo '<select id="removefields" class="shadow-sm form-select" name="removefields" onfocus="showNetworkInfo()">';
                             echo '<option value="0" selected>Select a field</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo '<option value="' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</option>';
+                                echo '<div class="col-md-4 col-sm-6 mb-2">';
+                                echo '<div class="form-check">';
+                                echo '<input class="form-check-input" type="checkbox" name="removefields[]" value="' . htmlspecialchars($row["Field"]) . '" id="remove_' . htmlspecialchars($row["Field"]) . '">';
+                                echo '<label class="form-check-label" for="remove_' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</label>';
+                                echo '</div>';
+                                echo '</div>';
                             }
-                            echo '</select>';
                         } else {
                             echo '<p>No data found.</p>';
                         }
@@ -420,11 +424,16 @@ include_once "../Controller/validation_message.php";
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
-                            echo '<select id="addmfields" class="shadow-sm form-select" name="addmfields[]" multiple required>';
+                            echo '<div class="row">';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo '<option value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">' . htmlspecialchars($row["Field"]) . '</option>';
+                                echo '<div class="col-md-4 col-sm-6 mb-2">';
+                                echo '<div class="form-check">';
+                                echo '<input class="form-check-input" type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '" id="add_' . htmlspecialchars($row["Field"]) . '">';
+                                echo '<label class="form-check-label" for="add_' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</label>';
+                                echo '</div>';
+                                echo '</div>';
                             }
-                            echo '</select>';
+                            echo '</div>';
                         } else {
                             echo '<p>No data found.</p>';
                         }
@@ -465,10 +474,14 @@ include_once "../Controller/validation_message.php";
                             // Display the select options
                             echo '<select id="removemfields" class="shadow-sm form-select" name="removemfields[]" multiple required>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo '<option value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">' .
-                                    htmlspecialchars($row["Field"]) . '</option>';
+                                echo '<div class="col-md-4 col-sm-6 mb-2">';
+                                echo '<div class="form-check">';
+                                echo '<input class="form-check-input" type="checkbox" name="removemfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '" id="remove_table_' . htmlspecialchars($row["Field"]) . '">';
+                                echo '<label class="form-check-label" for="remove_table_' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</label>';
+                                echo '</div>';
+                                echo '</div>';
                             }
-                            echo '</select>';
+                            echo '</div>';
                         } else {
                             echo '<p>No removable fields found.</p>';
                         }
@@ -481,7 +494,7 @@ include_once "../Controller/validation_message.php";
                     <div class="btn-block">
                         <button id="RemoveFieldTable" type="submit" class="btn btn-danger">Remove Field</button>
                         <div class="alert alert-warning mt-2">
-                            <strong>Warning:</strong>If you want to reinsert a field that was deleted, use the "Add Fields to the Main Table" function. Proceed with caution.
+                            <strong>Warning:</strong> If you want to reinsert a field that was deleted, use the "Add Fields to the Main Table" function. Proceed with caution.
                         </div>
                     </div>
                 </form>
@@ -558,7 +571,6 @@ include_once "../Controller/validation_message.php";
                     <?php
                     try {
                         include '../Configuration/Connection.php';
-                        // Consulta corregida para incluir TABLE_NAME
                         $sql = "SELECT TABLE_NAME, COLUMN_NAME 
                     FROM INFORMATION_SCHEMA.COLUMNS 
                     WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -568,14 +580,17 @@ include_once "../Controller/validation_message.php";
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
                         if ($stmt->rowCount() > 0) {
-                            echo '<select id="columns" class="shadow-sm form-select" name="columns[]" required>';
+                            echo '<div class="row">';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                // Generar opciones con TABLE_NAME y COLUMN_NAME
-                                echo '<option value="' . htmlspecialchars($row["TABLE_NAME"]) . '|' . htmlspecialchars($row["COLUMN_NAME"]) . '">'
-                                    . htmlspecialchars($row["COLUMN_NAME"]) . ' (' . htmlspecialchars($row["TABLE_NAME"]) . ')'
-                                    . '</option>';
+                                echo '<div class="col-md-4 col-sm-6 mb-2">';
+                                echo '<div class="form-check">';
+                                echo '<input class="form-check-input" type="checkbox" name="columns[]" value="' . htmlspecialchars($row["TABLE_NAME"]) . '|' . htmlspecialchars($row["COLUMN_NAME"]) . '" id="log_' . htmlspecialchars($row["COLUMN_NAME"]) . '">';
+                                echo '<label class="form-check-label" for="log_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' . 
+                                     htmlspecialchars($row["COLUMN_NAME"]) . ' (' . htmlspecialchars($row["TABLE_NAME"]) . ')</label>';
+                                echo '</div>';
+                                echo '</div>';
                             }
-                            echo '</select>';
+                            echo '</div>';
                         } else {
                             echo '<p>No data found.</p>';
                         }
