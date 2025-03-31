@@ -1,5 +1,4 @@
 <?php
-
 // Precalcula el colspan una vez
 $colspan = count($selectedColumns) + 12;
 
