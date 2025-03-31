@@ -181,6 +181,15 @@ if (isset($_GET['search_expired']) && $_GET['search_expired'] !== '') {
     $params[':today'] = $today;
 }
 
+// Filtro de job title
+if (!empty($_GET['search_job_title'])) {
+    $job_title = trim($_GET['search_job_title']); // Elimina espacios en blanco al inicio y al final
+    if (!empty($job_title)) {
+        $where[] = "LOWER(job_title) LIKE LOWER(:job_title)";
+        $params[':job_title'] = '%' . $job_title . '%';
+    }
+}
+
 // Agregar condiciones al SQL
 if (count($where) > 0) {
     $sql .= " WHERE " . implode(" AND ", $where);
@@ -199,6 +208,9 @@ if (!empty($_GET['search_cedula'])) {
 }
 if (!empty($_GET['search_user'])) {
     $stmt->bindValue(':user', '%' . $_GET['search_user'] . '%');
+}
+if (!empty($_GET['search_job_title'])) {
+    $stmt->bindValue(':job_title', '%' . $_GET['search_job_title'] . '%');
 }
 if (!empty($_GET['search_status_change'])) {
     $stmt->bindValue(':status_change', '%' . $_GET['search_status_change'] . '%');

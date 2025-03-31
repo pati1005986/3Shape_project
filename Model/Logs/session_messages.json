@@ -115,6 +115,42 @@
         {
             "message": "Fields hidden successfully: new_laptop, Carnet, LLave",
             "timestamp": "2025-03-27 20:32:03"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:44:47"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:45:20"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:46:32"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:46:46"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:47:07"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:47:32"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:48:03"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:48:23"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-03-31 16:49:01"
         }
     ],
     "error": [

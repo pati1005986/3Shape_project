@@ -167,130 +167,144 @@ if (session_status() === PHP_SESSION_NONE) {
                                     </div>
                                 </div>
                         </nav>
-                        <!-- Formulario de Consulta -->
-                        <div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
-                            <div class="col-md-12">
-                                <!-- Primera fila -->
-                                <div class="row g-2">
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                                            <input type="text" name="search_assetname" placeholder="Asset Name"
-                                                class="form-control shadow-sm bg-light"
-                                                oninput="this.value = this.value.toUpperCase()" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
-                                            <input type="text" id="search_serial" name="search_serial"
-                                                placeholder="Serial Number" class="form-control shadow-sm bg-light"
-                                                autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                            <select id="search_user_status" name="search_user_status[]"
-                                                class="shadow-sm form-control bg-light">
-                                                <option value="0">Select an option</option>
-                                                <?php
-                                                include './Configuration/Connection.php';
-                                                $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
-                                                $stmt->execute();
-                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                if (empty($resultados)) {
-                                                    echo '<option value=""> No results found </option>';
-                                                } else {
-                                                    foreach ($resultados as $resultado) {
-                                                        echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                       <!-- Formulario de Consulta -->
+<div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
+    <div class="col-md-12">
+        <!-- Primera fila - 3 columnas -->
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                    <input type="text" name="search_assetname" placeholder="Asset Name"
+                        class="form-control shadow-sm bg-light"
+                        oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+                    <input type="text" id="search_serial" name="search_serial"
+                        placeholder="Serial Number" class="form-control shadow-sm bg-light"
+                        autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                    <select id="search_user_status" name="search_user_status[]"
+                        class="shadow-sm form-control bg-light">
+                        <option value="0">Select an option</option>
+                        <?php
+                        include './Configuration/Connection.php';
+                        $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
+                        $stmt->execute();
+                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if (empty($resultados)) {
+                            echo '<option value=""> No results found </option>';
+                        } else {
+                            foreach ($resultados as $resultado) {
+                                echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-                                <!-- Segunda fila -->
-                                <div class="row g-2">
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-                                            <input type="text" name="search_status_change" placeholder="Status Change"
-                                                class="shadow-sm form-control bg-light">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                            <input type="text" id="sgarantia" name="search_fecha_inicio"
-                                                placeholder="Start date (MM/DD/YYYY)" class="shadow-sm form-control bg-light">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-                                            <input type="text" id="garantia" name="search_fecha_fin" 
-                                                placeholder="End Date (MM/DD/YYYY)" 
-                                                class="shadow-sm form-control bg-light"
-                                                pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
-                                                title="Please enter date in MM/DD/YYYY format">
-                                        </div>
-                                    </div>
-                                </div>
+        <!-- Segunda fila - 3 columnas -->
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                    <input type="text" name="search_status_change" placeholder="Status Change"
+                        class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                    <input type="text" id="sgarantia" name="search_fecha_inicio"
+                        placeholder="Start date (MM/DD/YYYY)" class="shadow-sm form-control bg-light">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                    <input type="text" id="garantia" name="search_fecha_fin" 
+                        placeholder="End Date (MM/DD/YYYY)" 
+                        class="shadow-sm form-control bg-light"
+                        pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
+                        title="Please enter date in MM/DD/YYYY format">
+                </div>
+            </div>
+        </div>
 
-                                <!-- Tercera fila -->
-                                <div class="row g-2">
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="far fa-id-card"></i></span>
-                                            <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
-                                                class="form-control shadow-sm bg-light" autocomplete="off" min="0">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
-                                            <input type="text" id="search_user" name="search_user" placeholder="Last User"
-                                                class="form-control shadow-sm bg-light" autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6 mb-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-globe"></i></span>
-                                            <select id="search_purchase_country" name="search_purchase_country[]"
-                                                class="shadow-sm form-control bg-light">
-                                                <option value="0">Select a country</option>
-                                                <?php
-                                                include './Configuration/Connection.php';
-                                                $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
-                                                $stmt->execute();
-                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                if (empty($resultados)) {
-                                                    echo '<option value=""> No results found </option>';
-                                                } else {
-                                                    foreach ($resultados as $resultado) {
-                                                        echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6 mb-2">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-exclamation-triangle"></i></span>
-                                        <select name="search_expired" class="shadow-sm form-control bg-light">
-                                            <option value="">Select Expired Status</option>
-                                            <option value="1">Expired</option>
-                                            <option value="0">Not Expired</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Tercera fila - 3 columnas -->
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="far fa-id-card"></i></span>
+                    <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
+                        class="form-control shadow-sm bg-light" autocomplete="off" min="0">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                    <input type="text" id="search_user" name="search_user" placeholder="Last User"
+                        class="form-control shadow-sm bg-light" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                    <input type="text" id="search_job_title" name="search_job_title" placeholder="Job Title"
+                           class="form-control shadow-sm bg-light" autocomplete="off">
+                </div>
+            </div>
+        </div>
+
+        <!-- Cuarta fila - 2 columnas -->
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                    <select id="search_purchase_country" name="search_purchase_country[]"
+                        class="shadow-sm form-control bg-light">
+                        <option value="0">Select a country</option>
+                        <?php
+                        include './Configuration/Connection.php';
+                        $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
+                        $stmt->execute();
+                        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if (empty($resultados)) {
+                            echo '<option value=""> No results found </option>';
+                        } else {
+                            foreach ($resultados as $resultado) {
+                                echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-exclamation-triangle"></i></span>
+                    <select name="search_expired" class="shadow-sm form-control bg-light">
+                        <option value="">Select Expired Status</option>
+                        <option value="1">Expired</option>
+                        <option value="0">Not Expired</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-2">
+                <!-- This is an empty column to maintain the grid structure -->
+            </div>
+        </div>
+    </div>
+</div>
                         <!-- Modal para mostrar las alertas -->
                         <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
                             <?php
@@ -606,13 +620,6 @@ if (session_status() === PHP_SESSION_NONE) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="./Admin/token.php" method="POST">
-                        <?php
-                        // Generar un token CSRF si no existe
-                        if (empty($_SESSION['csrf_token'])) {
-                            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-                        }
-                        ?>
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                         <div class="form-group mb-3">
                             <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
