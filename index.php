@@ -620,13 +620,6 @@ if (session_status() === PHP_SESSION_NONE) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="./Admin/token.php" method="POST">
-                        <?php
-                        // Generar un token CSRF si no existe
-                        if (empty($_SESSION['csrf_token'])) {
-                            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-                        }
-                        ?>
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                         <div class="form-group mb-3">
                             <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
@@ -649,6 +642,13 @@ if (session_status() === PHP_SESSION_NONE) {
     <script src="./Configuration/bootstrap/js/bootstrap.min.js"></script>
     <script src="./View/Js/Change_query.js"></script>
     <script src="./Configuration/JQuery/sweetalert2@11.js"></script>
+
+    <!-- Script para el modal de admin -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showAdminModal = document.getElementById('showAdminModal');
+            const adminLoginModal = new bootstrap.Modal(document.getElementById('adminLoginModal'));
+
             // Configurar animaciones para el modal
             const modalElement = document.getElementById('adminLoginModal');
             modalElement.addEventListener('show.bs.modal', function() {
