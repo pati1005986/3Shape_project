@@ -8,6 +8,7 @@ $tiempo_inactivo = 4600;
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
     // Si la sesión ha expirado
     setcookie('error_message', 'Sesión expirada. Vuelve a iniciar sesión.', time() + 30, '/');
@@ -86,7 +87,7 @@ $_SESSION['last_activity'] = time();
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
-                            <li class="nav-item">
+                                <li class="nav-item">
                                     <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
                                 </li>
                                 <script src="../View/Js/confirm_home_redirect.js"></script>
@@ -130,7 +131,7 @@ $_SESSION['last_activity'] = time();
                                 unset($_SESSION['success']);
                             }
                             ?>
-                          
+
                             <!-- Formulario para cambiar la contraseña -->
                             <form action="../Controller/proccess_change_psw.php" method="POST" id="changePasswordForm"
                                 onsubmit="return validateForm()">
@@ -216,39 +217,8 @@ $_SESSION['last_activity'] = time();
                         <!-- Modal para mostrar las alertas -->
                         <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
                             <?php
-                            $jsonFilePath = '../Model/Logs/session_messages.json';
-                            $alerts = [];
-                            $maxMessages = 8;
-
-                            if (file_exists($jsonFilePath)) {
-                                $logData = json_decode(file_get_contents($jsonFilePath), true);
-
-                                // Procesar todos los tipos de mensajes
-                                foreach (['success', 'error', 'error_message', 'warnings'] as $type) {
-                                    if (!empty($logData[$type])) {
-                                        $alertClass = match ($type) {
-                                            'success' => 'success',
-                                            'error', 'error_message' => 'danger',
-                                            'warnings' => 'warning'
-                                        };
-
-                                        $count = 0;
-                                        foreach ($logData[$type] as $entry) {
-                                            $message = is_array($entry) ? $entry['message'] : $entry;
-                                            $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                            $alerts[] = "<div class='p-3 mb-2 bg-light shadow-sm'>{$message} - {$timestamp} </div>";
-                                            $count++;
-
-                                            // Limitar a $maxMessages mensajes por tipo
-                                            if ($count >= $maxMessages) {
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            include_once '../Controller/Notify.php'
                             ?>
-
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header bg-secondary text-white">
@@ -256,6 +226,7 @@ $_SESSION['last_activity'] = time();
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <input type="text" id="notificationFilter" class="form-control mb-3" placeholder="Filter notifications...">
                                         <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
                                     </div>
                                     <div class="modal-footer">
@@ -265,6 +236,15 @@ $_SESSION['last_activity'] = time();
                                     <script src="../View/Js/ModalReport.js"></script>
                                 </div>
                             </div>
+                            <script>
+                                // Filter notifications
+                                $('#notificationFilter').on('keyup', function() {
+                                    const filterValue = $(this).val().toLowerCase();
+                                    $('.modal-body div').filter(function() {
+                                        $(this).toggle($(this).text().toLowerCase().indexOf(filterValue) > -1);
+                                    });
+                                });
+                            </script>
                         </div>
                         <script>
                             function validateForm() {

@@ -3,7 +3,6 @@ ob_start();
 
 session_start(); // Iniciar sesión
 
-
 // Tiempo de expiración de la sesión (en segundos)
 $tiempo_inactivo = 4600;
 
@@ -64,7 +63,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
-                            <li class="nav-item">
+                                <li class="nav-item">
                                     <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
                                 </li>
                                 <script src="../View/Js/confirm_home_redirect.js"></script>
@@ -95,7 +94,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                             <tr>
                                 <th>File Name</th>
                                 <th>Total Size (Formatted):
-
                                     <?php
                                     // Formato de tamaño de archivo
                                     $logDir = __DIR__ . '/../Model/Logs';
@@ -119,7 +117,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                         return round($size, 2) . ' ' . $units[$index];
                                     }
                                     $formattedSize = formatFileSize($folderSize);
-
                                     echo '(' . $formattedSize . ')';
                                     ?>
                                 </th>
@@ -209,44 +206,13 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                             echo '<div class="alert alert-danger mt-3">File not found.</div>';
                         }
                     }
-
                     ?>
                 </div>
 
                 <!-- Modal para mostrar las alertas -->
                 <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
                     <?php
-                    $jsonFilePath = '../Model/Logs/session_messages.json';
-                    $alerts = [];
-                    $maxMessages = 8;
-
-                    if (file_exists($jsonFilePath)) {
-                        $logData = json_decode(file_get_contents($jsonFilePath), true);
-
-                        // Procesar todos los tipos de mensajes
-                        foreach (['success', 'error', 'error_message', 'warnings'] as $type) {
-                            if (!empty($logData[$type])) {
-                                $alertClass = match ($type) {
-                                    'success' => 'success',
-                                    'error', 'error_message' => 'danger',
-                                    'warnings' => 'warning'
-                                };
-
-                                $count = 0;
-                                foreach ($logData[$type] as $entry) {
-                                    $message = is_array($entry) ? $entry['message'] : $entry;
-                                    $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                    $alerts[] = "<div class='p-3 mb-2 bg-light shadow-sm'>{$message} - {$timestamp} </div>";
-                                    $count++;
-
-                                    // Limitar a $maxMessages mensajes por tipo
-                                    if ($count >= $maxMessages) {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    include_once '../Controller/Notify.php'
                     ?>
 
                     <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -256,6 +222,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <input type="text" id="notificationFilter" class="form-control mb-3" placeholder="Filter notifications...">
                                 <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
                             </div>
                             <div class="modal-footer">
@@ -312,9 +279,16 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         })
                         // Mejorar estilo del length menu
                         $('.dataTables_length select').addClass('form-control form-control-sm');
+
+                        // Filter notifications
+                        $('#notificationFilter').on('keyup', function() {
+                            const filterValue = $(this).val().toLowerCase();
+                            $('.modal-body div').filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(filterValue) > -1);
+                            });
+                        });
                     });
                 </script>
 </body>
 <?php include './Fragments/footer.php'; ?>
-
 </html>

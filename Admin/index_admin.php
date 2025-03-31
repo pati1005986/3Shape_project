@@ -42,6 +42,7 @@ include_once "../Controller/validation_message.php";
 
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
     <link rel="stylesheet" href="../View/Css/dark-mode.css">
@@ -84,9 +85,6 @@ include_once "../Controller/validation_message.php";
             display: none;
         }
     </style>
-
-
-
 <body>
     <script>
         // Funcion para mostrar advertencias 
@@ -162,6 +160,7 @@ include_once "../Controller/validation_message.php";
             <br>
             <br>
             <br>
+            <!--Navbar-->
             <div class="col-md-12">
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
@@ -271,6 +270,7 @@ include_once "../Controller/validation_message.php";
                     <canvas id="expiredChart" class="chart-canvas d-none"></canvas>
                 </div>
             </div>
+            <!--Formulario para agregar columnas en la base de datos-->
             <div class="col-md-6">
                 <form action="add_fields.php" id="FormAddForm" style="display: block;" method="POST" class="shadow border border-secondary">
                     <h1 class="text-center">Adding fields to the database</h1>
@@ -342,7 +342,7 @@ include_once "../Controller/validation_message.php";
                 </form>
                 <br>
             </div>
-
+            <!--Formulario pra eliminar columans de la base de datos-->
             <div class="col-md-6">
                 <form action="remove_fields.php" id="RemoveForm" style="display: none;" method="post" class="shadow border border-secondary">
                     <h1 class="text-center">Remove Fields</h1>
@@ -411,7 +411,7 @@ include_once "../Controller/validation_message.php";
                     <br>
                 </form>
             </div>
-
+            <!--Formulario para agregar campos dinamicos en la tabla principal de index-->
             <div class="col-md-6">
                 <form action="add_fieldsTable.php" method="post" id="FormAddTable" style="display: none;"
                     class="shadow border border-secondary">
@@ -456,7 +456,6 @@ include_once "../Controller/validation_message.php";
                     </div>
                 </form>
             </div>
-
             <!-- Add this within the existing column in index_admin.php, similar to the "Add Fields to the Main Table" form -->
             <div class="col-md-6">
                 <form action="remove-fields-table-script.php" method="post" id="RemoveFieldsTable" style="display: none;"
@@ -502,6 +501,7 @@ include_once "../Controller/validation_message.php";
                     </div>
                 </form>
             </div>
+            <!--Exportar datos de ,a base de datos a formato CSV y TXT-->
             <div class="col-md-6 my-2">
                 <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
                     class="shadow border border-secondary p-3">
@@ -563,7 +563,7 @@ include_once "../Controller/validation_message.php";
                     </script>
                 </form>
             </div>
-
+            <!--Formulario para agregar registros en la base de datos en los campos de seleccion-->
             <div class="col-md-6 my-2">
                 <form action="add_Logs.php" style="display: none" method="POST" id="addLgColumn" class="shadow border border-secondary">
                     <h1 class="text-center">Add Logs in the Column</h1>
@@ -609,6 +609,7 @@ include_once "../Controller/validation_message.php";
                         onclick="return confirm('Are you sure you want to add this log?')">Add Log</button>
                 </form>
             </div>
+            <!--Formulario para agregar campos dinamicos en todos los formularios-->
             <div class="col-md-6">
                 <form action="add_fieldTDO.php" method="post" style="display: none;" id="addFormTodo" class="shadow border border-secondary p-3">
                     <h1 class="text-center">Add Fields to All Forms</h1>
@@ -655,39 +656,8 @@ include_once "../Controller/validation_message.php";
             <!-- Modal para mostrar las alertas -->
             <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
                 <?php
-                $jsonFilePath = '../Model/Logs/session_messages.json';
-                $alerts = [];
-                $maxMessages = 8;
-
-                if (file_exists($jsonFilePath)) {
-                    $logData = json_decode(file_get_contents($jsonFilePath), true);
-
-                    // Procesar todos los tipos de mensajes
-                    foreach (['success', 'error', 'error_message', 'warnings'] as $type) {
-                        if (!empty($logData[$type])) {
-                            $alertClass = match ($type) {
-                                'success' => 'success',
-                                'error', 'error_message' => 'danger',
-                                'warnings' => 'warning'
-                            };
-
-                            $count = 0;
-                            foreach ($logData[$type] as $entry) {
-                                $message = is_array($entry) ? $entry['message'] : $entry;
-                                $timestamp = is_array($entry) ? " ({$entry['timestamp']})" : '';
-                                $alerts[] = "<div class='p-3 mb-2 bg-light'>{$message} - {$timestamp}</div>";
-                                $count++;
-
-                                // Limitar a $maxMessages mensajes por tipo
-                                if ($count >= $maxMessages) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                include_once '../Controller/Notify.php'
                 ?>
-
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-secondary text-white">
@@ -695,7 +665,8 @@ include_once "../Controller/validation_message.php";
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <?= !empty($alerts) ? implode('', $alerts) : '<p class="text-muted">No notifications recorded. </p>' ?>
+                            <input type="text" id="notificationFilter" class="form-control mb-3" placeholder="Filter notifications...">
+                            <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
@@ -703,6 +674,15 @@ include_once "../Controller/validation_message.php";
                         </div>
                     </div>
                 </div>
+                <script>
+                    // Filter notifications
+                    $('#notificationFilter').on('keyup', function() {
+                        const filterValue = $(this).val().toLowerCase();
+                        $('.modal-body div').filter(function() {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(filterValue) > -1);
+                        });
+                    });
+                </script>
             </div>
 
             <script src="../View/Js/ModalReport.js"></script>
@@ -786,9 +766,8 @@ include_once "../Controller/validation_message.php";
     </div>
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
     <script src="../Configuration/JQuery/Chart.js"></script>
+    <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <script src="../View/Js/confirm_home_redirect.js"></script>
 </body>
-
 <?php include '../View/Fragments/footer.php'; ?>
-
 </html>
