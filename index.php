@@ -224,7 +224,10 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                                             <input type="text" id="sgarantia" name="search_fecha_inicio"
-                                                placeholder="Start date (MM/DD/YYYY)" class="shadow-sm form-control bg-light">
+                                                placeholder="Start date (MM/DD/YYYY)"
+                                                class="shadow-sm form-control bg-light"
+                                                pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
+                                                title="Please enter date in MM/DD/YYYY format">
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-6 mb-2">

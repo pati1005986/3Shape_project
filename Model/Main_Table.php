@@ -3,58 +3,64 @@
 $colspan = count($selectedColumns) + 12;
 
 if ($resultados) {
+    $currentTimestamp = time(); // Tiempo actual fuera del bucle
+    $htmlRows = []; // Almacenar todas las filas
+
     foreach ($resultados as $row) {
-        // Escapar todos los campos
-        $escapedRow = array_map('htmlspecialchars', $row);
+        // Optimización 1: Validación de fecha más eficiente
+        $warranty_class = 'text-warning';
+        $dateStr = $row['warranty_enddate'];
 
-        // Determinar clase de garantía usando el timestamp de SQL
-        $warrantyDate = DateTime::createFromFormat('m/d/Y', $row['warranty_enddate']);
-        if ($warrantyDate !== false) {
-            $warrantyTimestamp = $warrantyDate->getTimestamp();
-            $currentTimestamp = time();
-            $warranty_class = ($warrantyTimestamp < $currentTimestamp)
-                ? 'text-danger'  // Fecha futura: rojo
-                : 'text-success'; // Fecha pasada: verde
-        } else {
-            // Manejo de fecha inválida (opcional)
-            $warranty_class = 'text-warning';
+        // Parseo manual más rápido que DateTime
+        if (sscanf($dateStr, "%d/%d/%d", $month, $day, $year) === 3 && checkdate($month, $day, $year)) {
+            $warrantyTimestamp = mktime(0, 0, 0, $month, $day, $year);
+            $warranty_class = $warrantyTimestamp < $currentTimestamp
+                ? 'text-danger'
+                : 'text-success';
         }
 
-        // Construir fila como string
-        $html = "<tr>
-            <td><input type='checkbox' name='selected_assets[]' value='{$escapedRow['assetname']}'></td>
-            <td>{$escapedRow['assetname']}</td>
-            <td>{$escapedRow['serial_number']}</td>
-            <td>{$escapedRow['user_status']}</td>
-            <td>{$escapedRow['last_user']}</td>
-            <td>{$escapedRow['job_title']}</td>
-            <td>{$escapedRow['status_change']}</td>
-            <td>{$escapedRow['purchase_country']}</td>
-            <td><span class='$warranty_class'>{$escapedRow['warranty_enddate']}</span></td>
-            <td>{$escapedRow['expired']}</td>
-            <td>{$escapedRow['cedula']}</td>";
+        // Optimización 2: Escapar solo cuando se usa y construir HTML como array
+        $assetname = htmlspecialchars($row['assetname']);
+        $rowHtml = [
+            "<tr>",
+            "<td><input type='checkbox' name='selected_assets[]' value='$assetname'></td>",
+            "<td>" . htmlspecialchars($row['assetname']) . "</td>",
+            "<td>" . htmlspecialchars($row['serial_number']) . "</td>",
+            "<td>" . htmlspecialchars($row['user_status']) . "</td>",
+            "<td>" . htmlspecialchars($row['last_user']) . "</td>",
+            "<td>" . htmlspecialchars($row['job_title']) . "</td>",
+            "<td>" . htmlspecialchars($row['status_change']) . "</td>",
+            "<td>" . htmlspecialchars($row['purchase_country']) . "</td>",
+            "<td><span class='$warranty_class'>" . htmlspecialchars($row['warranty_enddate']) . "</span></td>",
+            "<td>" . htmlspecialchars($row['expired']) . "</td>",
+            "<td>" . htmlspecialchars($row['cedula']) . "</td>"
+        ];
 
-        // Campos dinámicos (asumiendo que existen)
+        // Optimización 3: Procesamiento de columnas dinámicas
         foreach ($selectedColumns as $column) {
-            $value = is_numeric($escapedRow[$column]) && in_array($escapedRow[$column], ['0', '1'])
-                ? ($escapedRow[$column] == '1' ? 'Yes' : 'No')
-                : $escapedRow[$column];
-            $html .= "<td>$value</td>";
+            $value = $row[$column];
+            $processed = (is_numeric($value) && in_array($value, ['0', '1'], true))
+                ? ($value == '1' ? 'Yes' : 'No')
+                : $value;
+            $rowHtml[] = "<td>" . htmlspecialchars($processed) . "</td>";
         }
 
-        // Botones
-        $html .= "
-            <td><a href='./Model/act_registro.php?assetname={$escapedRow['assetname']}' class='btn btn-secondary btn-sm'><i class='fas fa-sync-alt'></i></a></td>
-            <td><a href='javascript:void(0);' class='btn btn-danger btn-sm delete-item' data-assetname='{$escapedRow['assetname']}'><i class='fa fa-times'></i></a></td>
-        </tr>";
+        // Botones con valor ya escapado
+        $rowHtml[] = "<td><a href='./Model/act_registro.php?assetname=$assetname' class='btn btn-secondary btn-sm'>" .
+            "<i class='fas fa-sync-alt'></i></a></td>" .
+            "<td><a href='javascript:void(0);' class='btn btn-danger btn-sm delete-item' " .
+            "data-assetname='$assetname'><i class='fa fa-times'></i></a></td>".
+            "</tr>";
 
-        echo $html;
+        // Optimización 4: Unir partes de la fila
+        $htmlRows[] = implode('', $rowHtml);
     }
+
+    echo implode('', $htmlRows);
 } else {
     echo "<tr><td colspan='$colspan'>No data found</td></tr>";
 }
 ?>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.delete-item').forEach(button => {
