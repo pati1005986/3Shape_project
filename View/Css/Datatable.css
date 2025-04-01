@@ -4,6 +4,7 @@
   border-collapse: separate;
   border-spacing: 0;
   animation: fadeIn 1s ease-out;
+  will-change: opacity;
 }
 
 #mainTable th {
@@ -16,7 +17,7 @@
   padding: 0.5em;
   border-radius: 4px 4px 0 0;
   word-break: break-word;
-  animation: slideIn 1s ease-out;
+  transition: background-color 0.3s ease;
 }
 
 #mainTable td {
@@ -24,6 +25,7 @@
   border-bottom: 1px solid #ddd;
   color: #333;
   word-break: break-word;
+  transition: color 0.3s ease;
 }
 
 /* Scrollbar optimizada */
@@ -50,18 +52,6 @@
   }
 
   100% {
-      opacity: 1;
-  }
-}
-
-@keyframes slideIn {
-  0% {
-      transform: translateY(-10px);
-      opacity: 0;
-  }
-
-  100% {
-      transform: translateY(0);
       opacity: 1;
   }
 }

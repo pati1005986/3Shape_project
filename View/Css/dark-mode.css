@@ -64,11 +64,6 @@ h3 {
     font-style: italic;
 }
 
-#mainTable {
-    width: 100%;
-    border-collapse: collapse;
-    animation: simpleFadeIn 0.6s ease;
-}
 
 @keyframes simpleFadeIn {
     from {
@@ -91,12 +86,16 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 nav {
-    will-change: transform;
-    transform: translatex(0);
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: slideRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    /* Use transform3d to trigger GPU acceleration */
+    transform: translate3d(0, 0, 0);
+    /* Reduce transition duration for better performance */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Optimize animation with opacity for smoother rendering */
+    animation: slideRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    /* Composite properties that commonly change */
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
-
 @keyframes slideRight {
     0% {
         transform: translatex(-40%);
