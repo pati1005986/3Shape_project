@@ -346,7 +346,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                 // Uso de caché para el archivo JSON
                                 $cacheKey = 'notification_' . filemtime($jsonFilePath);
                                 $logData = isset($_SESSION[$cacheKey]) ? $_SESSION[$cacheKey] : null;
-                                
+
                                 if (!$logData) {
                                     $logData = json_decode(file_get_contents($jsonFilePath), true);
                                     $_SESSION[$cacheKey] = $logData;
@@ -381,17 +381,53 @@ if (session_status() === PHP_SESSION_NONE) {
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header bg-secondary text-white">
-                                        <h2 class="modal-title">Notification History</h2>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <h2 class="modal-title fs-4">
+                                            <i class="bi bi-bell-fill me-2"></i>
+                                            Notification History
+                                        </h2>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
+                                        <input type="text" id="notificationFilter" class="form-control mb-3" placeholder="Filter notifications...">
+                                        <div class="notification-container">
+                                            <?php if (!empty($alerts)): ?>
+                                                <div class="notification-list">
+                                                    <?= implode('', array_map(function ($alert) {
+                                                        return str_replace(
+                                                            'class=\'p-3 mb-2 bg-light shadow-sm\'',
+                                                            'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-secondary\'',
+                                                            $alert
+                                                        );
+                                                    }, $alerts)) ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="text-center p-4">
+                                                    <i class="bi bi-inbox-fill fs-1 text-muted"></i>
+                                                    <p class="mt-3 text-muted">No notifications recorded.</p>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger" onclick="clearLogs()">
+                                            <i class="bi bi-trash-fill me-1"></i>
+                                            Clean History
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            <i class="bi bi-x-lg me-1"></i>
+                                            Close
+                                        </button>
                                     </div>
                                 </div>
+                                <script>
+                                    // Filter notifications
+                                    $('#notificationFilter').on('keyup', function() {
+                                        const filterValue = $(this).val().toLowerCase();
+                                        $('.modal-body div').filter(function() {
+                                            $(this).toggle($(this).text().toLowerCase().indexOf(filterValue) > -1);
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
 

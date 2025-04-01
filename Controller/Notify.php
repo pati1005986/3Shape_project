@@ -7,7 +7,6 @@ if (file_exists($jsonFilePath)) {
     $logData = json_decode(file_get_contents($jsonFilePath), true);
     $messageType = $_GET['message_type'] ?? null;
     $keyword = $_GET['keyword'] ?? null;
-    
     // Uso de caché para el archivo JSON
     $cacheKey = 'notification_' . filemtime($jsonFilePath);
     $logData = isset($_SESSION[$cacheKey]) ? $_SESSION[$cacheKey] : null;
