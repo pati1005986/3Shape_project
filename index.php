@@ -100,16 +100,27 @@ if (session_status() === PHP_SESSION_NONE) {
                             </h1>
                             <script>
                                 const counterElement = document.getElementById('total-client');
-                                const counter = parseInt(counterElement.textContent);
-                                let count = 0;
-                                const intervalId = setInterval(() => {
-                                    if (count < counter) {
-                                        count++;
-                                        counterElement.textContent = count.toString().padStart(counter.toString().length, '0');
+                                const targetCount = parseInt(counterElement.textContent);
+                                const duration = 1000; // Animation duration in ms
+                                const steps = 50; // Number of steps
+                                const increment = targetCount / steps;
+                                let currentCount = 0;
+
+                                // Use requestAnimationFrame for smoother animation
+                                const animate = () => {
+                                    currentCount += increment;
+
+                                    if (currentCount <= targetCount) {
+                                        counterElement.textContent = Math.floor(currentCount)
+                                            .toString()
+                                            .padStart(targetCount.toString().length, '0');
+                                        requestAnimationFrame(animate);
                                     } else {
-                                        clearInterval(intervalId);
+                                        counterElement.textContent = targetCount;
                                     }
-                                }, 10);
+                                };
+
+                                requestAnimationFrame(animate);
                             </script>
                         </div>
                         <div class="col-md-12 text-center mb-4">
