@@ -27,7 +27,7 @@ if (isset($_GET['ids']) && is_array($_GET['ids'])) {
 
     if (!empty($asset_data)) {
         $_SESSION['asset_data'] = $asset_data; // Guarda todos los datos en la sesión
-        header('Location: ../Controller/act_indv_ent.php'); // Redirige al script del PDF
+        header('Location: ../View/firma_act_indv_ent.php'); // Redirige al script del PDF
         exit;
     } else {
         echo 'No logs found for the selected asset names';

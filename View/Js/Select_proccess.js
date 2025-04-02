@@ -66,7 +66,7 @@ document.getElementById('btnCancelar').onclick = function(event) {
     }
     // Redirigir a la sección de firma
     const urlFirma =
-        `${window.location.origin}/3Shape_project/View/firma_act_indv_ent.php?${parametros}`;
+        `${window.location.origin}/3Shape_project/Model/prcsr_indv_ent.php?${parametros}`;
     console.log(`Redirigiendo a: ${urlFirma}`);
     window.location.href = urlFirma;
 

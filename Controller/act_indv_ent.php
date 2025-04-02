@@ -1,7 +1,16 @@
 <?php
+ob_start();
+session_start();
 require('../Model/fpdf.php');
 include "../Configuration/Connection.php";
 
+// Inicializar variables de sesión si no existen
+if (!isset($_SESSION['signature'])) {
+    $_SESSION['signature'] = array();
+}
+if (!isset($_SESSION['vobo_signature'])) {
+    $_SESSION['vobo_signature'] = '';
+}
 // Verificar y guardar las firmas si se enviaron
 if (isset($_POST['signature']) && isset($_POST['vobo_signature'])) {
     // Configurar directorio de firmas
@@ -25,7 +34,7 @@ if (isset($_POST['signature']) && isset($_POST['vobo_signature'])) {
     file_put_contents($voboSignaturePath, $voboSignatureData);
 
     // Guardar rutas en sesión
-    $_SESSION['signature'] = $signaturePath;
+    $_SESSION['signature'][] = $signaturePath;
     $_SESSION['vobo_signature'] = $voboSignaturePath;
 }
 
@@ -95,9 +104,6 @@ class PDF extends FPDF {
     }
 }
 
-ob_start();
-session_start();
-
 // Al inicio del archivo, después de session_start():
 if (isset($_SESSION['signature_data']) && isset($_SESSION['vobo_signature_data'])) {
     $signatureDir = __DIR__ . '/../signatures/';
@@ -119,7 +125,7 @@ if (isset($_SESSION['signature_data']) && isset($_SESSION['vobo_signature_data']
     file_put_contents($voboSignaturePath, $voboSignatureData);
 
     // Guardar rutas en sesión
-    $_SESSION['signature'] = $signaturePath;
+    $_SESSION['signature'][] = $signaturePath;
     $_SESSION['vobo_signature'] = $voboSignaturePath;
 
     // Limpiar los datos temporales
@@ -147,8 +153,10 @@ foreach ($resultados as $index => $row) {
     }
     
     if ($count >= 15) break;
+    
+    $count++;
 
-    $last_user = $row['last_user'];
+    $last_user = $row['last_user'] ?? '';
     $cedula = $row['cedula'];
     $serial = $row['serial_number'];
     $headSet = $row['HeadSet'];
@@ -214,8 +222,8 @@ foreach ($resultados as $index => $row) {
     
     // Firma del colaborador
     $pdf->Cell(44, 15, convertirTexto('Firma del Colaborador'), 1, 0, 'C');
-    if (isset($_SESSION['signature']) && file_exists($_SESSION['signature'])) {
-        $pdf->Image($_SESSION['signature'], $pdf->GetX(), $pdf->GetY(), 44, 15);
+    if (isset($_SESSION['signature'][$count - 1]) && file_exists($_SESSION['signature'][$count - 1])) {
+        $pdf->Image($_SESSION['signature'][$count - 1], $pdf->GetX(), $pdf->GetY(), 44, 15);
     }
     $pdf->Cell(44, 15, '', 1, 0, 'C');
     
@@ -227,23 +235,33 @@ foreach ($resultados as $index => $row) {
     $pdf->Cell(44, 15, '', 1, 0, 'C');
 
     // Limpiar archivos temporales y variables de sesión
-    if (isset($_SESSION['signature']) && file_exists($_SESSION['signature'])) {
-        @unlink($_SESSION['signature']);
-        unset($_SESSION['signature']);
-    }
-    if (isset($_SESSION['vobo_signature']) && file_exists($_SESSION['vobo_signature'])) {
-        @unlink($_SESSION['vobo_signature']);
-        unset($_SESSION['vobo_signature']);
-    }
-
     if ($count < $totalRegistros) {
         $pdf->AddPage();
     }
 }
 
-// Generar nombre de archivo
-$last_user_filename = strtoupper(preg_replace('/[^a-zA-Z0-9 ]/', '_', $last_user));
+$last_user_filename = 'default.pdf';
+if (!empty($last_user)) {
+    $last_user_filename = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '_', $last_user)) . '.pdf';
+}
 
-$pdf->Output('I', "$last_user_filename.pdf");
+$pdf->Output('I', $last_user_filename);
+
+// 5. Eliminar archivos de firmas DESPUÉS de generar el PDF
+if (!empty($_SESSION['signature'])) {
+    foreach ($_SESSION['signature'] as $file) {
+        if (file_exists($file)) @unlink($file);
+    }
+    unset($_SESSION['signature']);
+}
+
+if (!empty($_SESSION['vobo_signature'])) {
+    if (file_exists($_SESSION['vobo_signature'])) @unlink($_SESSION['vobo_signature']);
+    unset($_SESSION['vobo_signature']);
+}
+
+
+
+
 ob_end_flush();
 ?>
