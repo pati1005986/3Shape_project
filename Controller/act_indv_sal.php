@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['signature']) || !isset($_SESSION['vobo_signature']) || 
+    !isset($_SESSION['it_signature']) || !isset($_SESSION['admin_signature'])) {
+    header("Location: /3Shape_project/View/firma_act_indv_sal.php");
+    exit();
+}
 require('../Model/fpdf.php');
 include "../Configuration/Connection.php";
 
@@ -79,7 +85,6 @@ class PDF extends FPDF
 
 // Inicia el almacenamiento en búfer para evitar errores
 ob_start();
-session_start();
 $resultados = isset($_SESSION['asset_data']) ? $_SESSION['asset_data'] : [];
 if (empty($resultados)) {
     die('No se encontraron datos en $_SESSION[\'asset_data\'] para generar el PDF.');
@@ -166,20 +171,55 @@ foreach ($resultados as $index => $row) {
     $pdf->Cell(44, 6, convertirTexto(''), 1, 1, 'C');
     $pdf->Ln(12);
 
-    $pdf->SetFont('Arial', '', 12);
-    $pdf->MultiCell(0, 8, convertirTexto('El abajo firmante declara haber recibido a satisfacción los elementos antes mencionados y no tener pendiente ninguna entrega adicional de activos o documentación relevante a la empresa.'), 0, 'L');
-    $pdf->Ln(6);
+   // Sección de firmas - reemplaza el bloque actual
+$pdf->Ln(12);
 
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(44, 10, convertirTexto('Firma Colaborador'), 1, 0, 'C');
-    $pdf->Cell(48, 10, convertirTexto('Firma del Jefe Inmediato'), 1, 0, 'C');
-    $pdf->Cell(44, 10, convertirTexto('Vo.Bo.IT'), 1, 0, 'C');
-    $pdf->Cell(44, 10, convertirTexto('Vo.Bo.Administrativo'), 1, 1, 'C');
+// Títulos de las firmas
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(44, 10, convertirTexto('Firma Colaborador'), 1, 0, 'C');
+$pdf->Cell(48, 10, convertirTexto('Firma Jefe Inmediato'), 1, 0, 'C');
+$pdf->Cell(44, 10, convertirTexto('Vo.Bo. IT'), 1, 0, 'C');
+$pdf->Cell(44, 10, convertirTexto('Vo.Bo. Administrativo'), 1, 1, 'C');
 
-    $pdf->Cell(44, 10, convertirTexto(''), 1, 0, 'C');
-    $pdf->Cell(48, 10, convertirTexto(''), 1, 0, 'C');
-    $pdf->Cell(44, 10, convertirTexto(''), 1, 0, 'C');
-    $pdf->Cell(44, 10, convertirTexto(''), 1, 1, 'C');
+// Espacio para las firmas con imágenes
+$y = $pdf->GetY();
+$x = $pdf->GetX();
+
+// Firma Colaborador
+if (isset($_SESSION['signature']) && file_exists($_SESSION['signature'])) {
+    $pdf->Image($_SESSION['signature'], $x, $y, 44, 15);
+}
+$pdf->Cell(44, 15, '', 1, 0, 'C');
+$x += 44;
+
+// Firma Jefe Inmediato
+if (isset($_SESSION['vobo_signature']) && file_exists($_SESSION['vobo_signature'])) {
+    $pdf->Image($_SESSION['vobo_signature'], $x, $y, 48, 15);
+}
+$pdf->Cell(48, 15, '', 1, 0, 'C');
+$x += 48;
+
+// Firma IT
+if (isset($_SESSION['it_signature']) && file_exists($_SESSION['it_signature'])) {
+    $pdf->Image($_SESSION['it_signature'], $x, $y, 44, 15);
+}
+$pdf->Cell(44, 15, '', 1, 0, 'C');
+$x += 44;
+
+// Firma Administrativo
+if (isset($_SESSION['admin_signature']) && file_exists($_SESSION['admin_signature'])) {
+    $pdf->Image($_SESSION['admin_signature'], $x, $y, 44, 15);
+}
+$pdf->Cell(44, 15, '', 1, 1, 'C');
+
+// Limpieza de archivos temporales
+$signatures = ['signature', 'vobo_signature', 'it_signature', 'admin_signature'];
+foreach ($signatures as $sig) {
+    if (isset($_SESSION[$sig]) && file_exists($_SESSION[$sig])) {
+        @unlink($_SESSION[$sig]);
+        unset($_SESSION[$sig]);
+    }
+}
 
     $count++;
     if ($count < $totalRegistros) {
