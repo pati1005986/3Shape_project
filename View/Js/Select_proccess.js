@@ -58,17 +58,20 @@ window.onload = function() {
         window.location.href = urlOpcion1;
     };
 
-    document.getElementById('btnCancelar').onclick = function(event) {
-        event.preventDefault(); // Prevenir comportamiento por defecto
-        if (!parametros) {
-            console.error("Error: Parameters not defined.")
-            return;
-        }
-        // Redirigir a la URL de la opción 2
-        const urlOpcion2 =
-            `${window.location.origin}/3Shape_project/Model/prcsr_indv_ent.php?${parametros}`;
-        console.log(`Redirigiendo a: ${urlOpcion2}`);
-        window.location.href = urlOpcion2;
+document.getElementById('btnCancelar').onclick = function(event) {
+    event.preventDefault(); // Prevenir comportamiento por defecto
+    if (!parametros) {
+        console.error("Error: Parameters not defined.")
+        return;
+    }
+    // Redirigir a la sección de firma
+    const urlFirma =
+        `${window.location.origin}/3Shape_project/View/firma_act_indv_ent.php?${parametros}`;
+    console.log(`Redirigiendo a: ${urlFirma}`);
+    window.location.href = urlFirma;
+
+    // After signature is completed, redirect to the PDF document
+    // This part will need to be implemented in the firma_act_indv_ent.php file
     };
 
     document.getElementById('btnOpcion3').onclick = function(event) {
