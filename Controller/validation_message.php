@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Bogota');
 // Función optimizada para mostrar alertas
 
 function displayAlert($type, $content, $isList = false) {
