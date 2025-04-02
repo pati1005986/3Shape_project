@@ -16,6 +16,15 @@ window.onload = function() {
 
     // Manejador de clic del botón
     document.getElementById('procesarSeleccionados').addEventListener('click', function() {
+        // Añadir efecto de spinning al icono
+        let icon = this.querySelector('i');
+        icon.classList.add('spin');
+
+        // Detener la animación después de 2 segundos
+        setTimeout(() => {
+            icon.classList.remove('spin');
+        }, 2000);
+        
         const checkboxesSeleccionados = document.querySelectorAll(
             'input[name="selected_assets[]"]:checked');
         // Validar que haya al menos un checkbox seleccionado
@@ -51,11 +60,10 @@ window.onload = function() {
             console.error("Error: Parameters not defined.");
             return;
         }
-        // Redirigir a la URL de la opción 1
-        const urlOpcion1 =
-            `${window.location.origin}/3Shape_project/Model/prcsr_indv_sal.php?${parametros}`;
-        console.log(`Redirigiendo a: ${urlOpcion1}`);
-        window.location.href = urlOpcion1;
+        // Redirigir a la URL de la opción 1, Firma de acta de salida
+        const urlFirmaSalida = `${window.location.origin}/3Shape_project/View/firma_act_indv_sal.php?${parametros}`;
+        console.log(`Redirigiendo a: ${urlFirmaSalida}`);
+        window.location.href = urlFirmaSalida;
     };
 
 document.getElementById('btnCancelar').onclick = function(event) {
@@ -70,8 +78,8 @@ document.getElementById('btnCancelar').onclick = function(event) {
     console.log(`Redirigiendo a: ${urlFirma}`);
     window.location.href = urlFirma;
 
-    // After signature is completed, redirect to the PDF document
-    // This part will need to be implemented in the firma_act_indv_ent.php file
+        // After signature is completed, redirect to the PDF document
+        // This part will need to be implemented in the firma_act_indv_ent.php file
     };
 
     document.getElementById('btnOpcion3').onclick = function(event) {
