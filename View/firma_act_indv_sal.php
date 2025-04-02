@@ -27,7 +27,7 @@ if (!isset($_SESSION['asset_data'])) {
             margin: 2rem auto;
             padding: 30px;
             background: #fff;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
 
@@ -123,18 +123,19 @@ if (!isset($_SESSION['asset_data'])) {
                 margin: 1rem;
                 padding: 15px;
             }
-            
+
             .signature-actions {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .buttons {
                 justify-content: space-between;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="signature-container">
         <h1>Exit Certificate - Signature Capture</h1>
@@ -149,8 +150,8 @@ if (!isset($_SESSION['asset_data'])) {
                 <button id="clear" class="btn btn-secondary">Clear Signature</button>
                 <button id="undo" class="btn btn-danger">Undo</button>
             </div>
-        </div>
-        
+        <?php endfor; ?>
+
         <div class="signature-section">
             <h2>Direct Supervisor Signature</h2>
             <p class="signature-instructions">Please sign in the area below as approval from the employee's direct supervisor</p>
@@ -193,7 +194,6 @@ if (!isset($_SESSION['asset_data'])) {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 <script>
     // Initialize signature pads for employee and direct supervisor
@@ -391,4 +391,5 @@ if (!isset($_SESSION['asset_data'])) {
     });
 </script>
 </body>
+
 </html>
