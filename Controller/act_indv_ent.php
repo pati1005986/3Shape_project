@@ -1,8 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['signature']) || !isset($_SESSION['vobo_signature'])) {
-    die("Error: Debes capturar las firmas primero.");
-}
 require('../Model/fpdf.php');
 include "../Configuration/Connection.php";
 
