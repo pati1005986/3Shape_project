@@ -146,7 +146,7 @@ if (!isset($_SESSION['asset_data'])) {
         $max_colaboradores = min(count($_SESSION['asset_data']), 10);
         for ($i = 0; $i < $max_colaboradores; $i++): ?>
             <div class="signature-section">
-                <h2>Collaborator Signature - <?php echo $_SESSION['asset_data'][$i]['last_user']; ?></h2>
+                <h2>Employee Signature - <?php echo $_SESSION['asset_data'][$i]['last_user']; ?></h2>
                 <p class="signature-instructions">Please sign in the area below using your mouse or finger on touch devices</p>
                 <div class="signature-pad-container">
                     <canvas id="signature-pad-<?php echo $i; ?>"></canvas>
@@ -160,7 +160,7 @@ if (!isset($_SESSION['asset_data'])) {
 
         <div class="signature-section">
             <h2>Immediate Supervisor Signature</h2>
-            <p class="signature-instructions">Please sign in the area below as approval from the collaborator's immediate supervisor</p>
+            <p class="signature-instructions">Please sign in the area below as approval from the employee's immediate supervisor</p>
             <div class="signature-pad-container">
                 <canvas id="vobo-signature-pad"></canvas>
             </div>
@@ -231,18 +231,6 @@ if (!isset($_SESSION['asset_data'])) {
             </div>
         </div>
 
-<div class="signature-section">
-    <h2>Administrative Approval</h2>
-    <p class="signature-instructions">Please sign in the area below as approval from the administrative department</p>
-    <div class="signature-pad-container">
-        <canvas id="admin-signature-pad"></canvas>
-    </div>
-    <div class="buttons">
-        <button id="clear-admin" class="btn btn-secondary">Clear Signature</button>
-        <button id="undo-admin" class="btn btn-danger">Undo</button>
-    </div>
-</div>
-        
         <div class="signature-actions">
             <button id="cancel" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
             <button id="save" class="btn btn-primary">Save Signatures and Generate Form</button>
@@ -250,212 +238,92 @@ if (!isset($_SESSION['asset_data'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-<script>
-    // Initialize signature pads for employee and direct supervisor
-    const canvas = document.getElementById('signature-pad');
-    const signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'rgba(255, 255, 255, 0)',
-        penColor: 'rgb(0, 0, 0)',
-        velocityFilterWeight: 0.7,
-        minWidth: 0.5,
-        maxWidth: 2.5,
-        throttle: 16
-    });
-    
-    const voboCanvas = document.getElementById('vobo-signature-pad');
-    const voboSignaturePad = new SignaturePad(voboCanvas, {
-        backgroundColor: 'rgba(255, 255, 255, 0)',
-        penColor: 'rgb(0, 0, 0)',
-        velocityFilterWeight: 0.7,
-        minWidth: 0.5,
-        maxWidth: 2.5,
-        throttle: 16
-    });
-    
-    // Initialize signature pads for IT and Admin
-    const itCanvas = document.getElementById('it-signature-pad');
-    const itSignaturePad = new SignaturePad(itCanvas, {
-        backgroundColor: 'rgba(255, 255, 255, 0)',
-        penColor: 'rgb(0, 0, 0)',
-        velocityFilterWeight: 0.7,
-        minWidth: 0.5,
-        maxWidth: 2.5,
-        throttle: 16
-    });
-    
-    const adminCanvas = document.getElementById('admin-signature-pad');
-    const adminSignaturePad = new SignaturePad(adminCanvas, {
-        backgroundColor: 'rgba(255, 255, 255, 0)',
-        penColor: 'rgb(0, 0, 0)',
-        velocityFilterWeight: 0.7,
-        minWidth: 0.5,
-        maxWidth: 2.5,
-        throttle: 16
-    });
-    
-    // Function to resize canvas
-    function resizeCanvas(canvas, signaturePad) {
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
-        canvas.getContext("2d").scale(ratio, ratio);
-        signaturePad.clear(); // Clear the pad when size changes
-    }
-    
-    // Adjust canvas size on load
-    window.addEventListener('load', () => {
-        resizeCanvas(canvas, signaturePad);
-        resizeCanvas(voboCanvas, voboSignaturePad);
-        resizeCanvas(itCanvas, itSignaturePad);
-        resizeCanvas(adminCanvas, adminSignaturePad);
-    });
-    
-    // Adjust canvas size on resize
-    window.addEventListener('resize', () => {
-        resizeCanvas(canvas, signaturePad);
-        resizeCanvas(voboCanvas, voboSignaturePad);
-        resizeCanvas(itCanvas, itSignaturePad);
-        resizeCanvas(adminCanvas, adminSignaturePad);
-    });
-    
-    // Events for clearing signatures
-    document.getElementById('clear').addEventListener('click', () => {
-        signaturePad.clear();
-    });
-    
-    document.getElementById('clear-vobo').addEventListener('click', () => {
-        voboSignaturePad.clear();
-    });
-    
-    document.getElementById('clear-it').addEventListener('click', () => {
-        itSignaturePad.clear();
-    });
-    
-    document.getElementById('clear-admin').addEventListener('click', () => {
-        adminSignaturePad.clear();
-    });
-    
-    // Events for undoing strokes
-    document.getElementById('undo').addEventListener('click', () => {
-        const data = signaturePad.toData();
-        if (data.length > 0) {
-            data.pop();
-            signaturePad.fromData(data);
-        }
-    });
-    
-    document.getElementById('undo-vobo').addEventListener('click', () => {
-        const data = voboSignaturePad.toData();
-        if (data.length > 0) {
-            data.pop();
-            voboSignaturePad.fromData(data);
-        }
-    });
-    
-    document.getElementById('undo-it').addEventListener('click', () => {
-        const data = itSignaturePad.toData();
-        if (data.length > 0) {
-            data.pop();
-            itSignaturePad.fromData(data);
-        }
-    });
-    
-    document.getElementById('undo-admin').addEventListener('click', () => {
-        const data = adminSignaturePad.toData();
-        if (data.length > 0) {
-            data.pop();
-            adminSignaturePad.fromData(data);
-        }
-    });
-    
-    // Function to validate signatures
-    function validateSignatures() {
-        if (signaturePad.isEmpty()) {
-            alert("Please provide the employee signature.");
-            return false;
-        }
-        
-        if (voboSignaturePad.isEmpty()) {
-            alert("Please provide the direct supervisor signature.");
-            return false;
-        }
-        
-        if (itSignaturePad.isEmpty()) {
-            alert("Please provide the IT Department approval signature.");
-            return false;
-        }
-        
-        if (adminSignaturePad.isEmpty()) {
-            alert("Please provide the Administrative approval signature.");
-            return false;
-        }
-        
-        return true;
-    }
-    
-    // Event for saving signatures
-    document.getElementById('save').addEventListener('click', () => {
-        if (!validateSignatures()) return;
-        
-        const saveBtn = document.getElementById('save');
-        const originalText = saveBtn.textContent;
-        saveBtn.textContent = 'Processing...';
-        saveBtn.disabled = true;
-        
-        const dataURL = signaturePad.toDataURL('image/png');
-        const voboDataURL = voboSignaturePad.toDataURL('image/png');
-        const itDataURL = itSignaturePad.toDataURL('image/png');
-        const adminDataURL = adminSignaturePad.toDataURL('image/png');
-        
-        // Send all 4 signatures to the server
-        fetch('../Controller/guardar_firma_salida_indv.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `signature=${encodeURIComponent(dataURL)}&vobo_signature=${encodeURIComponent(voboDataURL)}&it_signature=${encodeURIComponent(itDataURL)}&admin_signature=${encodeURIComponent(adminDataURL)}`
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error in server response');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if(data.success) {
-                window.location.href = '/3Shape_project/Controller/act_indv_sal.php';
-            } else {
-                throw new Error(data.message || 'Error saving signatures');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("Error sending signatures: " + error.message);
-            saveBtn.textContent = originalText;
-            saveBtn.disabled = false;
-        });
-    });
-    
-    // Prevent accidental navigation
-    window.addEventListener('beforeunload', (e) => {
-        if (!signaturePad.isEmpty() || !voboSignaturePad.isEmpty() || !itSignaturePad.isEmpty() || !adminSignaturePad.isEmpty()) {
-            e.preventDefault();
-            e.returnValue = 'You have unsaved signatures. Are you sure you want to leave?';
-            return e.returnValue;
+    <script>
+        // Dynamically initialize signature pads for employees
+        const signaturePads = [];
+        for (let i = 0; i < <?php echo $max_colaboradores; ?>; i++) {
+            const canvas = document.getElementById(`signature-pad-${i}`);
+            const signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                penColor: 'rgb(0, 0, 0)',
+                velocityFilterWeight: 0.7,
+                minWidth: 0.5,
+                maxWidth: 2.5,
+                throttle: 16
+            });
+            signaturePads.push(signaturePad);
+
+            // Configure events for each pad
+            document.getElementById(`clear-${i}`).addEventListener('click', () => {
+                signaturePad.clear();
+            });
+
+            document.getElementById(`undo-${i}`).addEventListener('click', () => {
+                const data = signaturePad.toData();
+                if (data.length > 0) {
+                    data.pop();
+                    signaturePad.fromData(data);
+                }
+            });
         }
 
-        // Ajustar el tamaño del canvas al cargar
-        window.addEventListener('load', () => {
-            // Resize all collaborator signature pads
-            for (let i = 0; i < signaturePads.length; i++) {
-                resizeCanvas(document.getElementById(`signature-pad-${i}`), signaturePads[i]);
+        const voboCanvas = document.getElementById('vobo-signature-pad');
+        const voboSignaturePad = new SignaturePad(voboCanvas, {
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            penColor: 'rgb(0, 0, 0)',
+            velocityFilterWeight: 0.7,
+            minWidth: 0.5,
+            maxWidth: 2.5,
+            throttle: 16
+        });
+
+        // Initialize signature pads for IT and Admin
+        const itCanvas = document.getElementById('it-signature-pad');
+        const itSignaturePad = new SignaturePad(itCanvas, {
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            penColor: 'rgb(0, 0, 0)',
+            velocityFilterWeight: 0.7,
+            minWidth: 0.5,
+            maxWidth: 2.5,
+            throttle: 16
+        });
+
+        const adminCanvas = document.getElementById('admin-signature-pad');
+        const adminSignaturePad = new SignaturePad(adminCanvas, {
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            penColor: 'rgb(0, 0, 0)',
+            velocityFilterWeight: 0.7,
+            minWidth: 0.5,
+            maxWidth: 2.5,
+            throttle: 16
+        });
+
+        // Function to resize the canvas
+        function resizeCanvas(canvas, signaturePad) {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+
+            // Redraw the existing signature if there is one
+            if (!signaturePad.isEmpty()) {
+                const data = signaturePad.toData();
+                signaturePad.clear();
+                signaturePad.fromData(data);
+            } else {
+                signaturePad.clear();
             }
+        }
+
+        // Adjust canvas size on load
+        window.addEventListener('load', () => {
+            resizeCanvas(canvas, signaturePad);
             resizeCanvas(voboCanvas, voboSignaturePad);
             resizeCanvas(itCanvas, itSignaturePad);
             resizeCanvas(adminCanvas, adminSignaturePad);
         });
 
-        // Ajustar el tamaño del canvas al redimensionar
+        // Adjust canvas size on resize
         window.addEventListener('resize', () => {
             for (let i = 0; i < signaturePads.length; i++) {
                 resizeCanvas(document.getElementById(`signature-pad-${i}`), signaturePads[i]);
@@ -465,7 +333,7 @@ if (!isset($_SESSION['asset_data'])) {
             resizeCanvas(adminCanvas, adminSignaturePad);
         });
 
-        // Eventos para limpiar firmas - Eliminado evento innecesario
+        // Events to clear signatures - Unnecessary event removed
 
         document.getElementById('clear-vobo').addEventListener('click', () => {
             voboSignaturePad.clear();
@@ -479,7 +347,8 @@ if (!isset($_SESSION['asset_data'])) {
             adminSignaturePad.clear();
         });
 
-        // Eventos para deshacer trazos - Eliminado evento innecesario
+        // Events to undo strokes - Unnecessary event removed
+
         document.getElementById('undo-vobo').addEventListener('click', () => {
             const data = voboSignaturePad.toData();
             if (data.length > 0) {
@@ -504,7 +373,7 @@ if (!isset($_SESSION['asset_data'])) {
             }
         });
 
-        // Función para validar firmas
+        // Function to validate signatures
         function validateSignatures() {
             let allFilled = true;
             for (let i = 0; i < signaturePads.length; i++) {
@@ -513,11 +382,30 @@ if (!isset($_SESSION['asset_data'])) {
                     break;
                 }
             }
+            if (!allFilled) {
+                alert("Please provide all employee signatures.");
+                return false;
+            }
+
+            if (voboSignaturePad.isEmpty()) {
+                alert("Please provide the immediate supervisor signature.");
+                return false;
+            }
+
+            if (itSignaturePad.isEmpty()) {
+                alert("Please provide the IT Department approval signature.");
+                return false;
+            }
+
+            if (adminSignaturePad.isEmpty()) {
+                alert("Please provide the Administrative approval signature.");
+                return false;
+            }
 
             return true;
         }
 
-        // Evento para guardar firmas
+        // Event to save signatures
         document.getElementById('save').addEventListener('click', () => {
             if (!validateSignatures()) return;
 
@@ -531,7 +419,7 @@ if (!isset($_SESSION['asset_data'])) {
             const itDataURL = itSignaturePad.toDataURL('image/png');
             const adminDataURL = adminSignaturePad.toDataURL('image/png');
 
-            // Enviar las 4 firmas al servidor
+            // Send the 4 signatures to the server
             fetch('../Controller/guardar_firma_salida.php', {
                     method: 'POST',
                     headers: {
@@ -565,12 +453,12 @@ if (!isset($_SESSION['asset_data'])) {
                 });
         });
 
-        // Prevenir navegación accidental
+        // Prevent accidental navigation
         window.addEventListener('beforeunload', (e) => {
-            // Verificar si alguna firma no está vacía
+            // Check if any signature is not empty
             let hasSignatures = false;
             
-            // Verificar firmas de colaboradores
+            // Check employee signatures
             for (let i = 0; i < signaturePads.length; i++) {
                 if (!signaturePads[i].isEmpty()) {
                     hasSignatures = true;
@@ -578,7 +466,7 @@ if (!isset($_SESSION['asset_data'])) {
                 }
             }
             
-            // Verificar otras firmas
+            // Check other signatures
             if (!hasSignatures && (!voboSignaturePad.isEmpty() || !itSignaturePad.isEmpty() || !adminSignaturePad.isEmpty())) {
                 hasSignatures = true;
             }
