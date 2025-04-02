@@ -48,15 +48,17 @@ h4 {
         opacity: 1;
     }
 }
-
 form {
     width: 100%;
     padding: 20px;
     background: #fff;
     box-shadow: 0 2px 5px #ccc;
-    animation: slideIn 0.4s ease-out;
-    transform: translatez(0);
-    /* Crea capa GPU solo cuando sea necesario */
+    animation: slideIn 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    /* Optimized GPU acceleration */
 }
 
 span {

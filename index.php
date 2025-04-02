@@ -12,7 +12,9 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <link rel="shortcut icon" href="./Configuration/logo.ico" type="image/x-icon">
+    <!-- Carga de jQuery primero para evitar errores de dependencia -->
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
+    <!-- Consolidación de CSS -->
     <link href="./Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./Configuration/bootstrap/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/all.min.css">
@@ -22,7 +24,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/Datatable.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/animate.min.css">
-    <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <!-- Carga diferida de scripts no críticos -->
+    <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
 </head>
 
 <body>
@@ -74,15 +77,15 @@ if (session_status() === PHP_SESSION_NONE) {
             </form>
         </div>
         <?php
-        include './Configuration/Connection.php';
+        include_once './Configuration/Connection.php';
 
         try {
-            //Consulta para contar el numero de registros
-            $stmt = $pdo->prepare("SELECT serial_number FROM vista_equipos_usuarios");
+            // Consulta optimizada para contar el número de registros
+            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM vista_equipos_usuarios");
             $stmt->execute();
-            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // Lista de CLientes (Numero de Registros)
-            $Totalclient = count($resultados);
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Total de registros
+            $Totalclient = $resultado['total'];
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -99,17 +102,33 @@ if (session_status() === PHP_SESSION_NONE) {
                                 </strong>
                             </h1>
                             <script>
-                                const counterElement = document.getElementById('total-client');
-                                const counter = parseInt(counterElement.textContent);
-                                let count = 0;
-                                const intervalId = setInterval(() => {
-                                    if (count < counter) {
-                                        count++;
-                                        counterElement.textContent = count.toString().padStart(counter.toString().length, '0');
-                                    } else {
-                                        clearInterval(intervalId);
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const counterElement = document.getElementById('total-client');
+                                    const targetCount = parseInt(counterElement.textContent.replace(/\./g, ''));
+                                    const duration = 1000; // Animation duration in ms
+                                    const steps = 50; // Number of steps
+                                    const increment = targetCount / steps;
+                                    let currentCount = 0;
+
+                                    // Función para formatear números con separadores de miles
+                                    function formatNumber(num) {
+                                        return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                                     }
-                                }, 10);
+
+                                    // Use requestAnimationFrame for smoother animation
+                                    const animate = () => {
+                                        currentCount += increment;
+
+                                        if (currentCount <= targetCount) {
+                                            counterElement.textContent = formatNumber(currentCount);
+                                            requestAnimationFrame(animate);
+                                        } else {
+                                            counterElement.textContent = formatNumber(targetCount);
+                                        }
+                                    };
+
+                                    requestAnimationFrame(animate);
+                                });
                             </script>
                         </div>
                         <div class="col-md-12 text-center mb-4">
@@ -194,16 +213,20 @@ if (session_status() === PHP_SESSION_NONE) {
                                                 class="shadow-sm form-control bg-light">
                                                 <option value="0">Select an option</option>
                                                 <?php
-                                                include './Configuration/Connection.php';
-                                                $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
-                                                $stmt->execute();
-                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                if (empty($resultados)) {
-                                                    echo '<option value=""> No results found </option>';
-                                                } else {
-                                                    foreach ($resultados as $resultado) {
-                                                        echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
+                                                // Reutilización de la conexión existente
+                                                try {
+                                                    $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
+                                                    $stmt->execute();
+                                                    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                    if (empty($resultados)) {
+                                                        echo '<option value=""> No results found </option>';
+                                                    } else {
+                                                        foreach ($resultados as $resultado) {
+                                                            echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
+                                                        }
                                                     }
+                                                } catch (PDOException $e) {
+                                                    echo '<option value="">Error loading options</option>';
                                                 }
                                                 ?>
                                             </select>
@@ -224,7 +247,10 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                                             <input type="text" id="sgarantia" name="search_fecha_inicio"
-                                                placeholder="Start date (MM/DD/YYYY)" class="shadow-sm form-control bg-light">
+                                                placeholder="Start date (MM/DD/YYYY)"
+                                                class="shadow-sm form-control bg-light"
+                                                pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
+                                                title="Please enter date in MM/DD/YYYY format">
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-6 mb-2">
@@ -273,16 +299,20 @@ if (session_status() === PHP_SESSION_NONE) {
                                                 class="shadow-sm form-control bg-light">
                                                 <option value="0">Select a country</option>
                                                 <?php
-                                                include './Configuration/Connection.php';
-                                                $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
-                                                $stmt->execute();
-                                                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                if (empty($resultados)) {
-                                                    echo '<option value=""> No results found </option>';
-                                                } else {
-                                                    foreach ($resultados as $resultado) {
-                                                        echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                                                // Reutilización de la conexión existente
+                                                try {
+                                                    $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
+                                                    $stmt->execute();
+                                                    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                    if (empty($resultados)) {
+                                                        echo '<option value=""> No results found </option>';
+                                                    } else {
+                                                        foreach ($resultados as $resultado) {
+                                                            echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                                                        }
                                                     }
+                                                } catch (PDOException $e) {
+                                                    echo '<option value="">Error loading options</option>';
                                                 }
                                                 ?>
                                             </select>
@@ -307,12 +337,20 @@ if (session_status() === PHP_SESSION_NONE) {
                         <!-- Modal para mostrar las alertas -->
                         <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
                             <?php
+                            // Optimización: Carga de notificaciones más eficiente
                             $jsonFilePath = './Model/Logs/session_messages.json';
                             $alerts = [];
                             $maxMessages = 8;
 
                             if (file_exists($jsonFilePath)) {
-                                $logData = json_decode(file_get_contents($jsonFilePath), true);
+                                // Uso de caché para el archivo JSON
+                                $cacheKey = 'notification_' . filemtime($jsonFilePath);
+                                $logData = isset($_SESSION[$cacheKey]) ? $_SESSION[$cacheKey] : null;
+
+                                if (!$logData) {
+                                    $logData = json_decode(file_get_contents($jsonFilePath), true);
+                                    $_SESSION[$cacheKey] = $logData;
+                                }
 
                                 // Procesar todos los tipos de mensajes
                                 foreach (['success', 'error', 'error_message', 'warnings'] as $type) {
@@ -343,17 +381,53 @@ if (session_status() === PHP_SESSION_NONE) {
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header bg-secondary text-white">
-                                        <h2 class="modal-title">Notification History</h2>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <h2 class="modal-title fs-4">
+                                            <i class="bi bi-bell-fill me-2"></i>
+                                            Notification History
+                                        </h2>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <?= !empty($alerts) ? implode('', $alerts) : '<div class="p-3 mb-2 bg-light shadow-sm">No notifications recorded. </div>' ?>
+                                        <input type="text" id="notificationFilter" class="form-control mb-3" placeholder="Filter notifications...">
+                                        <div class="notification-container">
+                                            <?php if (!empty($alerts)): ?>
+                                                <div class="notification-list">
+                                                    <?= implode('', array_map(function ($alert) {
+                                                        return str_replace(
+                                                            'class=\'p-3 mb-2 bg-light shadow-sm\'',
+                                                            'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-secondary\'',
+                                                            $alert
+                                                        );
+                                                    }, $alerts)) ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="text-center p-4">
+                                                    <i class="bi bi-inbox-fill fs-1 text-muted"></i>
+                                                    <p class="mt-3 text-muted">No notifications recorded.</p>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" onclick="clearLogs()">Clean History </button>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger" onclick="clearLogs()">
+                                            <i class="bi bi-trash-fill me-1"></i>
+                                            Clean History
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            <i class="bi bi-x-lg me-1"></i>
+                                            Close
+                                        </button>
                                     </div>
                                 </div>
+                                <script>
+                                    // Filter notifications
+                                    $('#notificationFilter').on('keyup', function() {
+                                        const filterValue = $(this).val().toLowerCase();
+                                        $('.modal-body div').filter(function() {
+                                            $(this).toggle($(this).text().toLowerCase().indexOf(filterValue) > -1);
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
 
@@ -477,36 +551,38 @@ if (session_status() === PHP_SESSION_NONE) {
                 document.addEventListener('DOMContentLoaded', function() {
                     // Create toggle button for password visibility
                     const passwordField = document.getElementById('passwordadmin');
-                    const formGroup = passwordField.parentElement;
+                    if (passwordField) {
+                        const formGroup = passwordField.parentElement;
 
-                    // Create and insert toggle button
-                    const toggleButton = document.createElement('button');
-                    toggleButton.type = 'button';
-                    toggleButton.className = 'btn btn-outline-secondary position-absolute end-0 top-0 h-100 d-flex align-items-center px-2';
-                    toggleButton.style.borderTopLeftRadius = '0';
-                    toggleButton.style.borderBottomLeftRadius = '0';
-                    toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
-                    toggleButton.setAttribute('title', 'Show/Hide Password');
+                        // Create and insert toggle button
+                        const toggleButton = document.createElement('button');
+                        toggleButton.type = 'button';
+                        toggleButton.className = 'btn btn-outline-secondary position-absolute end-0 top-0 h-100 d-flex align-items-center px-2';
+                        toggleButton.style.borderTopLeftRadius = '0';
+                        toggleButton.style.borderBottomLeftRadius = '0';
+                        toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+                        toggleButton.setAttribute('title', 'Show/Hide Password');
 
-                    // Create a wrapper div for the input with position relative
-                    const inputWrapper = document.createElement('div');
-                    inputWrapper.className = 'position-relative';
+                        // Create a wrapper div for the input with position relative
+                        const inputWrapper = document.createElement('div');
+                        inputWrapper.className = 'position-relative';
 
-                    // Move the password input into the wrapper
-                    passwordField.parentNode.insertBefore(inputWrapper, passwordField);
-                    inputWrapper.appendChild(passwordField);
-                    inputWrapper.appendChild(toggleButton);
+                        // Move the password input into the wrapper
+                        passwordField.parentNode.insertBefore(inputWrapper, passwordField);
+                        inputWrapper.appendChild(passwordField);
+                        inputWrapper.appendChild(toggleButton);
 
-                    // Add event listener for the toggle button
-                    toggleButton.addEventListener('click', function() {
-                        if (passwordField.type === 'password') {
-                            passwordField.type = 'text';
-                            toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
-                        } else {
-                            passwordField.type = 'password';
-                            toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
-                        }
-                    });
+                        // Add event listener for the toggle button
+                        toggleButton.addEventListener('click', function() {
+                            if (passwordField.type === 'password') {
+                                passwordField.type = 'text';
+                                toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+                            } else {
+                                passwordField.type = 'password';
+                                toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+                            }
+                        });
+                    }
                 });
             </script>
             <script src="./View/Js/Automatic_search.js"></script>
@@ -641,13 +717,13 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="./View/Js/DatatableIndex.js"></script>
-    <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
-    <script src="./Configuration/DataTables/datatables.min.js"></script>
-    <script src="./Configuration/bootstrap/js/bootstrap.min.js"></script>
-    <script src="./View/Js/Change_query.js"></script>
-    <script src="./Configuration/JQuery/sweetalert2@11.js"></script>
+    <!-- Scripts optimizados con carga diferida -->
+    <script src="./View/Js/DatatableIndex.js" defer></script>
+    <!-- jQuery ya está cargado en el head -->
+    <script src="./Configuration/DataTables/datatables.min.js" defer></script>
+    <script src="./Configuration/bootstrap/js/bootstrap.min.js" defer></script>
+    <script src="./View/Js/Change_query.js" defer></script>
+    <script src="./Configuration/JQuery/sweetalert2@11.js" defer></script>
 
     <!-- Script para el modal de admin -->
     <script>
