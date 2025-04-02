@@ -61,7 +61,7 @@ window.onload = function() {
             return;
         }
         // Redirigir a la URL de la opción 1, Firma de acta de salida
-        const urlFirmaSalida = `${window.location.origin}/3Shape_project/View/firma_act_indv_sal.php?${parametros}`;
+        const urlFirmaSalida = `${window.location.origin}/3Shape_project/View/prcsr_indv_sal.php?${parametros}`;
         console.log(`Redirigiendo a: ${urlFirmaSalida}`);
         window.location.href = urlFirmaSalida;
     };

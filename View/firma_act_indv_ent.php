@@ -145,7 +145,7 @@ if (!isset($_SESSION['asset_data'])) {
         $max_colaboradores = min(count($_SESSION['asset_data']), 10);
         for ($i = 0; $i < $max_colaboradores; $i++): ?>
             <div class="signature-section">
-                <h2>Firma del Colaborador <?php echo $i + 1; ?></h2>
+                <h2>Firma del Colaborador - <?php echo $_SESSION['asset_data'][$i]['last_user']; ?></h2>
                 <p class="signature-instructions">Por favor, firme en el área inferior usando el mouse o tu dedo en dispositivos táctiles</p>
                 <div class="signature-pad-container">
                     <canvas id="signature-pad-<?php echo $i; ?>"></canvas>
