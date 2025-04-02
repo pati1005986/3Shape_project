@@ -228,11 +228,11 @@ foreach ($resultados as $index => $row) {
     $pdf->Cell(44, 15, '', 1, 0, 'C');
     
     // Firma Vo.Bo.
-    $pdf->Cell(44, 15, convertirTexto('Vo.Bo. Departamento de IT'), 1, 0, 'C');
+    $pdf->Cell(47, 15, convertirTexto('Vo.Bo. Departamento de IT'), 1, 0, 'C');
     if (isset($_SESSION['vobo_signature']) && file_exists($_SESSION['vobo_signature'])) {
         $pdf->Image($_SESSION['vobo_signature'], $pdf->GetX(), $pdf->GetY(), 44, 15);
     }
-    $pdf->Cell(44, 15, '', 1, 0, 'C');
+    $pdf->Cell(47, 15, '', 1, 0, 'C');
 
     // Limpiar archivos temporales y variables de sesión
     if ($count < $totalRegistros) {

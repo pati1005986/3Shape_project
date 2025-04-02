@@ -4,11 +4,6 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
     
-    if (!isset($data['signatures']) || !is_array($data['signatures']) || empty($data['vobo_signature'])) {
-        echo json_encode(['success' => false, 'message' => 'Formato de firmas incorrecto']);
-        exit;
-    }
-
     // Crear directorio si no existe
     $signatureDir = __DIR__ . '/../signatures/';
     if (!file_exists($signatureDir)) {

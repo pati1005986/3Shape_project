@@ -5,14 +5,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recibir datos JSON
     $data = json_decode(file_get_contents('php://input'), true);
     
-    // Verificar que se recibieron todas las firmas
-    if (!isset($data['signatures']) || !is_array($data['signatures']) || 
-        empty($data['vobo_signature']) || empty($data['it_signature']) || 
-        empty($data['admin_signature'])) {
-        echo json_encode(['success' => false, 'message' => 'Formato de firmas incorrecto']);
-        exit;
-    }
-
     // Configurar directorio de firmas
     $signatureDir = __DIR__ . '/../signatures/';
     if (!file_exists($signatureDir)) {

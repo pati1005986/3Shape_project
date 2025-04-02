@@ -272,15 +272,6 @@ if (!isset($_SESSION['asset_data'])) {
                     break;
                 }
             }
-            if (!allFilled) {
-                alert("Por favor, proporcione la firma del colaborador.");
-                return false;
-            }
-
-            if (voboSignaturePad.isEmpty()) {
-                alert("Por favor, proporcione la firma de Vo.Bo. del Departamento de IT.");
-                return false;
-            }
 
             return true;
         }

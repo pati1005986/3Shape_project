@@ -1,20 +1,20 @@
 <?php
 session_start();
 
-// Verificar si hay datos de activos en la sesión
+// Check if there is asset data in the session
 if (!isset($_SESSION['asset_data'])) {
-    // Si no hay datos, redirigir a la página principal
+    // If no data, redirect to main page
     header("Location: /3Shape_project/index.php");
     exit();
 }
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Captura de Firmas - Acta de Salida</title>
+    <title>Signature Capture - Exit Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -139,34 +139,34 @@ if (!isset($_SESSION['asset_data'])) {
 
 <body>
     <div class="signature-container">
-        <h1>Acta de Salida - Captura de Firmas</h1>
+        <h1>Exit Form - Signature Capture</h1>
 
 
         <?php
         $max_colaboradores = min(count($_SESSION['asset_data']), 10);
         for ($i = 0; $i < $max_colaboradores; $i++): ?>
             <div class="signature-section">
-                <h2>Firma del Colaborador - <?php echo $_SESSION['asset_data'][$i]['last_user']; ?></h2>
-                <p class="signature-instructions">Por favor, firme en el área inferior usando el mouse o tu dedo en dispositivos táctiles</p>
+                <h2>Collaborator Signature - <?php echo $_SESSION['asset_data'][$i]['last_user']; ?></h2>
+                <p class="signature-instructions">Please sign in the area below using your mouse or finger on touch devices</p>
                 <div class="signature-pad-container">
                     <canvas id="signature-pad-<?php echo $i; ?>"></canvas>
                 </div>
                 <div class="buttons">
-                    <button id="clear-<?php echo $i; ?>" class="btn btn-secondary">Limpiar Firma</button>
-                    <button id="undo-<?php echo $i; ?>" class="btn btn-danger">Deshacer</button>
+                    <button id="clear-<?php echo $i; ?>" class="btn btn-secondary">Clear Signature</button>
+                    <button id="undo-<?php echo $i; ?>" class="btn btn-danger">Undo</button>
                 </div>
             </div>
         <?php endfor; ?>
 
         <div class="signature-section">
-            <h2>Firma del Jefe Inmediato</h2>
-            <p class="signature-instructions">Por favor, firme en el área inferior como aprobación del jefe inmediato del colaborador</p>
+            <h2>Immediate Supervisor Signature</h2>
+            <p class="signature-instructions">Please sign in the area below as approval from the collaborator's immediate supervisor</p>
             <div class="signature-pad-container">
                 <canvas id="vobo-signature-pad"></canvas>
             </div>
             <div class="buttons">
-                <button id="clear-vobo" class="btn btn-secondary">Limpiar Firma</button>
-                <button id="undo-vobo" class="btn btn-danger">Deshacer</button>
+                <button id="clear-vobo" class="btn btn-secondary">Clear Signature</button>
+                <button id="undo-vobo" class="btn btn-danger">Undo</button>
                 <script>
                     document.getElementById('clear-vobo').addEventListener('click', () => {
                         voboSignaturePad.clear();
@@ -183,14 +183,14 @@ if (!isset($_SESSION['asset_data'])) {
         </div>
 
         <div class="signature-section">
-            <h2>Vo.Bo. Departamento de IT</h2>
-            <p class="signature-instructions">Por favor, firme en el área inferior como aprobación del departamento de IT</p>
+            <h2>IT Department Approval</h2>
+            <p class="signature-instructions">Please sign in the area below as approval from the IT department</p>
             <div class="signature-pad-container">
                 <canvas id="it-signature-pad"></canvas>
             </div>
             <div class="buttons">
-                <button id="clear-it" class="btn btn-secondary">Limpiar Firma</button>
-                <button id="undo-it" class="btn btn-danger">Deshacer</button>
+                <button id="clear-it" class="btn btn-secondary">Clear Signature</button>
+                <button id="undo-it" class="btn btn-danger">Undo</button>
 
                 <script>
                     document.getElementById('clear-it').addEventListener('click', () => {
@@ -208,14 +208,14 @@ if (!isset($_SESSION['asset_data'])) {
         </div>
 
         <div class="signature-section">
-            <h2>Vo.Bo. Administrativo</h2>
-            <p class="signature-instructions">Por favor, firme en el área inferior como aprobación del departamento administrativo</p>
+            <h2>Administrative Approval</h2>
+            <p class="signature-instructions">Please sign in the area below as approval from the administrative department</p>
             <div class="signature-pad-container">
                 <canvas id="admin-signature-pad"></canvas>
             </div>
             <div class="buttons">
-                <button id="clear-admin" class="btn btn-secondary">Limpiar Firma</button>
-                <button id="undo-admin" class="btn btn-danger">Deshacer</button>
+                <button id="clear-admin" class="btn btn-secondary">Clear Signature</button>
+                <button id="undo-admin" class="btn btn-danger">Undo</button>
                 <script>
                     document.getElementById('clear-admin').addEventListener('click', () => {
                         adminSignaturePad.clear();
@@ -232,8 +232,8 @@ if (!isset($_SESSION['asset_data'])) {
         </div>
 
         <div class="signature-actions">
-            <button id="cancel" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
-            <button id="save" class="btn btn-primary">Guardar Firmas y Generar Acta</button>
+            <button id="cancel" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+            <button id="save" class="btn btn-primary">Save Signatures and Generate Form</button>
         </div>
     </div>
 
@@ -317,7 +317,10 @@ if (!isset($_SESSION['asset_data'])) {
 
         // Ajustar el tamaño del canvas al cargar
         window.addEventListener('load', () => {
-            resizeCanvas(canvas, signaturePad);
+            // Resize all collaborator signature pads
+            for (let i = 0; i < signaturePads.length; i++) {
+                resizeCanvas(document.getElementById(`signature-pad-${i}`), signaturePads[i]);
+            }
             resizeCanvas(voboCanvas, voboSignaturePad);
             resizeCanvas(itCanvas, itSignaturePad);
             resizeCanvas(adminCanvas, adminSignaturePad);
@@ -348,7 +351,6 @@ if (!isset($_SESSION['asset_data'])) {
         });
 
         // Eventos para deshacer trazos - Eliminado evento innecesario
-
         document.getElementById('undo-vobo').addEventListener('click', () => {
             const data = voboSignaturePad.toData();
             if (data.length > 0) {
@@ -382,25 +384,6 @@ if (!isset($_SESSION['asset_data'])) {
                     break;
                 }
             }
-            if (!allFilled) {
-                alert("Por favor, proporcione todas las firmas de los colaboradores.");
-                return false;
-            }
-
-            if (voboSignaturePad.isEmpty()) {
-                alert("Por favor, proporcione la firma del jefe inmediato.");
-                return false;
-            }
-
-            if (itSignaturePad.isEmpty()) {
-                alert("Por favor, proporcione la firma de Vo.Bo. del Departamento de IT.");
-                return false;
-            }
-
-            if (adminSignaturePad.isEmpty()) {
-                alert("Por favor, proporcione la firma de Vo.Bo. Administrativo.");
-                return false;
-            }
 
             return true;
         }
@@ -411,7 +394,7 @@ if (!isset($_SESSION['asset_data'])) {
 
             const saveBtn = document.getElementById('save');
             const originalText = saveBtn.textContent;
-            saveBtn.textContent = 'Procesando...';
+            saveBtn.textContent = 'Processing...';
             saveBtn.disabled = true;
 
             const colaboradoresDataURL = signaturePads.map(pad => pad.toDataURL('image/png'));
@@ -434,7 +417,7 @@ if (!isset($_SESSION['asset_data'])) {
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Error en la respuesta del servidor');
+                        throw new Error('Error in server response');
                     }
                     return response.json();
                 })
@@ -442,12 +425,12 @@ if (!isset($_SESSION['asset_data'])) {
                     if (data.success) {
                         window.location.href = '/3Shape_project/Controller/act_indv_sal.php';
                     } else {
-                        throw new Error(data.message || 'Error al guardar las firmas');
+                        throw new Error(data.message || 'Error saving signatures');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("Error al enviar las firmas: " + error.message);
+                    alert("Error sending signatures: " + error.message);
                     saveBtn.textContent = originalText;
                     saveBtn.disabled = false;
                 });
@@ -473,7 +456,7 @@ if (!isset($_SESSION['asset_data'])) {
             
             if (hasSignatures) {
                 e.preventDefault();
-                e.returnValue = 'Tienes firmas sin guardar. ¿Estás seguro de que quieres salir?';
+                e.returnValue = 'You have unsaved signatures. Are you sure you want to leave?';
                 return e.returnValue;
             }
         });
