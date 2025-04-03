@@ -10,13 +10,7 @@
     <link rel="stylesheet" href="../View/Css/dark-mode.css">
     <link rel="stylesheet" href="../View/Css/Form.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
-    <style>
-        body {
-            background-color: rgb(239, 232, 233);
-        }
-    </style>
 </head>
-
 <body>
     <div id="FormRestore" class="col-md-10 mx-auto align-items-center d-flex justify-content-center">
         <!-- Formulario de restablecer contraseña -->
