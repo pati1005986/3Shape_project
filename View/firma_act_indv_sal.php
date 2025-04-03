@@ -382,25 +382,6 @@ if (!isset($_SESSION['asset_data'])) {
                     break;
                 }
             }
-            if (!allFilled) {
-                alert("Please provide all employee signatures.");
-                return false;
-            }
-
-            if (voboSignaturePad.isEmpty()) {
-                alert("Please provide the immediate supervisor signature.");
-                return false;
-            }
-
-            if (itSignaturePad.isEmpty()) {
-                alert("Please provide the IT Department approval signature.");
-                return false;
-            }
-
-            if (adminSignaturePad.isEmpty()) {
-                alert("Please provide the Administrative approval signature.");
-                return false;
-            }
 
             return true;
         }
