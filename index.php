@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Asset Management System</title>
     <link rel="shortcut icon" href="./Configuration/logo.ico" type="image/x-icon">
     <!-- Carga de jQuery primero para evitar errores de dependencia -->
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
@@ -152,21 +152,26 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
 
-                                <!-- Contenido colapsable -->
+                                <!-- Contenido colapsable con múltiples funciones -->
                                 <div class="collapse navbar-collapse" id="navbarCollapse">
                                     <div class="navbar-nav">
-                                        <a id="generatePDF" class="nav-link me-2" data-url="./Model/PruebaV.php" target="_blank" title="Generate General PDF">
+                                          <!-- Reporte PDF que contiene la información de todos los activos registrados -->
+                                        <a id="generatePDF" class="nav-link me-2" data-url="./Model/GeneralReport.php" target="_blank" title="Generate General PDF">
                                             <i class="far fa-file-pdf" style="color:red;"></i> Generate General PDF
                                         </a>
+                                          <!-- Documento PDF con las actas de salida de la empresa de los empleados y activos -->
                                         <a id="generateActaSalida" class="nav-link me-2" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">
                                             <i class="fas fa-file-export"></i> Generate Departure Certificate
                                         </a>
+                                          <!-- Documento PDF con las actas de ingreso de la empresa de los empleados y activos que se les entregan -->
                                         <a id="generateActaEntrada" class="nav-link me-2" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">
                                             <i class="far fa-file-alt"></i> Generate Entry Certificate
                                         </a>
+                                          <!-- Formulario para cambiar de aquipo a un usuario  -->
                                         <a href="./View/Int_entrada.php" class="nav-link me-2" title="Change Asset">
                                             <i class="bi bi-arrow-repeat me-1"></i> Change Asset
                                         </a>
+                                          <!-- Formulario para asignar una fecha de salida de un empleado y un activo-->
                                         <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>

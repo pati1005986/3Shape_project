@@ -490,7 +490,7 @@ input[type="text"]:focus, select:focus {
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="fieldsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-database"></i> Database Operations
+                            <i class="fa-solid fa-database"></i> Admin's Operations
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="fieldsDropdown">
                             <li><a class="dropdown-item" id="showFormLink" href="#"><i class="fa-solid fa-plus"></i> Add fields</a></li>

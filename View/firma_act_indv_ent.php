@@ -236,6 +236,7 @@ if (!isset($_SESSION['asset_data'])) {
         <h1>Delivery Certificate - Signature Capture</h1>
 
         <?php
+        //Espacio para la firma del colaborador o empleado al que se le entrega el equipo
         $max_colaboradores = min(count($_SESSION['asset_data']), 10);
         for ($i = 0; $i < $max_colaboradores; $i++): ?>
             <div class="signature-section">
@@ -252,6 +253,7 @@ if (!isset($_SESSION['asset_data'])) {
         <?php endfor; ?>
 
         <div class="signature-section">
+            <!--Firma de Departamento de IT para aprobar entrega de equipo -->
             <h2>IT Department Approval</h2>
             <p class="signature-instructions">Please sign in the area below as approval from the IT department</p>
             <div class="signature-pad-container">

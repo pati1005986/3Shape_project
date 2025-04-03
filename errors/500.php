@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <!--Página que aparece en caso de errores de lógica o de la base de datos-->
     <title>Error 500 - Internal Server Error</title>
     <style>
         body {
