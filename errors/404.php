@@ -3,6 +3,7 @@
 <head>
 <link rel="shortcut icon" href="./Configuration/logo.ico" type="image/x-icon">
     <meta charset="UTF-8">
+    <!--Página que aparece en caso de dirigirse a una página inexistente, eliminada o movida-->
     <title>Error 404 - Page Not Found</title>
     <style>
         body {

@@ -218,7 +218,7 @@ if (!isset($_SESSION['asset_data'])) {
         }
     }
     
-    /* Animation for saving button */
+    /* Animación para el botón de guardado */
     @keyframes pulse {
         0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
         70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
@@ -235,7 +235,7 @@ if (!isset($_SESSION['asset_data'])) {
     <div class="signature-container">
         <h1>Exit Form - Signature Capture</h1>
 
-
+<!--Espacio para la firma del empleado o colaborador-->
         <?php
         $max_colaboradores = min(count($_SESSION['asset_data']), 10);
         for ($i = 0; $i < $max_colaboradores; $i++): ?>
@@ -251,7 +251,7 @@ if (!isset($_SESSION['asset_data'])) {
                 </div>
             </div>
         <?php endfor; ?>
-
+<!--Espacio para la firma del jefe inmediato o supervisor-->
         <div class="signature-section">
             <h2>Immediate Supervisor Signature</h2>
             <p class="signature-instructions">Please sign in the area below as approval from the employee's immediate supervisor</p>
@@ -275,7 +275,7 @@ if (!isset($_SESSION['asset_data'])) {
                 </script>
             </div>
         </div>
-
+<!--Espacio para la firma de aprobación del departamento de IT-->
         <div class="signature-section">
             <h2>IT Department Approval</h2>
             <p class="signature-instructions">Please sign in the area below as approval from the IT department</p>
@@ -300,6 +300,8 @@ if (!isset($_SESSION['asset_data'])) {
                 </script>
             </div>
         </div>
+
+<!--Espacio para la firma de administración-->
 
         <div class="signature-section">
             <h2>Administrative Approval</h2>

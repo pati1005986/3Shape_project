@@ -72,7 +72,7 @@ document.getElementById('btnCancelar').onclick = function(event) {
         console.error("Error: Parameters not defined.")
         return;
     }
-    // Redirigir a la sección de firma
+    // Redirigir a la sección de firma de acta de entrada
     const urlFirma =
         `${window.location.origin}/3Shape_project/Model/prcsr_indv_ent.php?${parametros}`;
     console.log(`Redirigiendo a: ${urlFirma}`);
@@ -88,7 +88,7 @@ document.getElementById('btnCancelar').onclick = function(event) {
             console.error("Error: Parameters not defined.");
             return;
         }
-        // Redirigir a la URL de la opción 3
+        // Redirigir a la URL de la opción 3 que es un Reporte con la información de los activos seleccionador
         const urlOpcion3 =
             `${window.location.origin}/3Shape_project/Model/prcr_nuevo_info.php?${parametros}`;
         console.log(`Redirigiendo a: ${urlOpcion3}`);
