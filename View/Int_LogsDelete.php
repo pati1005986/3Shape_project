@@ -52,9 +52,8 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             <div class="col-md-12">
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
-                        <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
-                            <img src="../Configuration/logo.ico" alt="Logo" width="30" height="30">
-                            <small class="ms-2">3 Shape</small>
+                    <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
+                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -64,7 +63,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
+                                <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> Home</a>
                                 </li>
                                 <script src="../View/Js/confirm_home_redirect.js"></script>
                                 <li class="nav-item ms-auto">
