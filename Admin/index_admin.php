@@ -51,39 +51,349 @@ include_once "../Controller/validation_message.php";
     <script src="../Configuration/JQuery/sweetalert2@11.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <style>
-        .hidden {
-            display: none;
-        }
+       /* Estilos base */
+:root {
+  --primary-color: #0056b3;
+  --secondary-color: #6c757d;
+  --accent-color: #0ea021;
+  --light-bg: #f8f9fa;
+  --dark-bg: #343a40;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
 
-        .visible-form {
-            display: block;
-        }
+body {
+  background-color: #f5f5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        .modal-body {
-            max-height: 400px;
-            /* Altura máxima del modal */
-            overflow-y: auto;
-            /* Habilitar scroll vertical */
-            padding: 10px;
-        }
-    </style>
+/* Estilizar el dashboard */
+.dashboard-container {
+  margin-top: 2rem;
+}
 
-    <style>
-        .dashboard-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+.card {
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  border: none;
+  margin-bottom: 1.5rem;
+}
 
-        .dashboard-item {
-            flex: 1 1 calc(50% - 10px);
-            /* Ajusta para 2 columnas */
-            transition: all 0.3s ease-in-out;
-        }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
 
-        .hidden {
-            display: none;
-        }
+.card-header {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+  padding: 1rem;
+}
+
+/* Estilos para formularios */
+form {
+  border-radius: var(--border-radius) !important;
+  padding: 1.5rem !important;
+  background-color: white;
+  transition: var(--transition);
+}
+
+form h1 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+form h4 {
+  font-size: 1.1rem;
+  color: var(--dark-bg);
+  margin-top: 1rem;
+}
+
+form h4 span {
+  color: #dc3545;
+}
+
+/* Mejorar los controles del formulario */
+input[type="text"], select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  transition: var(--transition);
+}
+
+input[type="text"]:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilo personalizado para checkboxes */
+.checkbox-btn {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+}
+
+.checkbox-btn input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-btn label {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border: 2.5px solid #adb5bd;
+  border-radius: 4px;
+  transition: .2s linear;
+  background-color: white;
+}
+
+.checkbox-btn input:checked ~ .checkmark {
+  background-color: transparent;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  left: 50%;
+  top: 40%;
+  width: 10px;
+  height: 14px;
+  border: 2px solid var(--accent-color);
+  filter: drop-shadow(0px 0px 10px var(--accent-color));
+  border-width: 0 2.5px 2.5px 0;
+  transition: .2s linear;
+  transform: translate(-50%, -50%) rotate(-90deg) scale(0.2);
+}
+
+.checkbox-btn input:checked ~ .checkmark:after {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  animation: pulse 1s ease-in;
+}
+
+.checkbox-btn input:checked ~ .checkmark {
+  transform: rotate(45deg);
+  border: none;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1.6);
+  }
+}
+
+/* Estilos para botones */
+.btn {
+  border-radius: 5px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+  transform: translateY(-2px);
+}
+
+.btn-primary:hover {
+  background-color:rgb(58, 15, 211);
+  border-color: #545b62;
+  transform: translateY(-2px);
+}
+
+.btn-info:hover {
+    background-color:rgb(136, 181, 223);
+    border-color: #545b62;
+    transform: translateY(-2px);
+}
+
+.btn-dark:hover {
+    background-color: #333;
+    border-color: #545b62;
+    transform: translateY(-2px);
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+}
+
+/* Navbar mejorado */
+.navbar {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.5rem !important;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: #495057 !important;
+  padding: 0.5rem 1rem !important;
+  transition: var(--transition);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--primary-color) !important;
+}
+
+.chart-switch {
+  color: #6c757d;
+  background: none;
+  border: none;
+  margin-right: 5px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+.chart-switch:hover, .chart-switch.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Estilo para gráficos */
+#chartContainer {
+  background-color: white;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 2rem;
+}
+
+.chart-canvas {
+  min-height: 400px;
+}
+
+/* Modal personalizado */
+.modal-header {
+  border-bottom: none;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.modal-content {
+  border-radius: var(--border-radius);
+  border: none;
+}
+
+.notification-item {
+  transition: var(--transition);
+}
+
+.notification-item:hover {
+  transform: translateX(5px);
+}
+
+/* Alertas personalizadas */
+.alert {
+  border-radius: var(--border-radius);
+}
+
+/* Mejorar responsividad */
+@media (max-width: 768px) {
+  .dashboard-item {
+    flex: 1 1 100%;
+  }
+  
+  .navbar .container-fluid {
+    justify-content: space-between;
+  }
+  
+  #chartContainer {
+    min-height: 300px;
+  }
+}
+
+/* Modo oscuro */
+.dark-mode {
+  background-color: #222;
+  color: #f5f5f5;
+}
+
+.dark-mode .card, 
+.dark-mode form {
+  background-color: #333;
+  color: #f5f5f5;
+}
+
+.dark-mode .form-check-label {
+  color: #f5f5f5;
+}
+
+.dark-mode .navbar {
+  background-color: #333 !important;
+}
+
+.dark-mode .nav-link {
+  color: #f5f5f5 !important;
+}
+
+.dark-mode input, .dark-mode select {
+  background-color: #444;
+  color: #f5f5f5;
+  border-color: #555;
+}
+
+.dark-mode .checkmark {
+  border-color: #888;
+}
+
+/* Hover dropdown styles */
+.navbar .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; /* remove the gap so it doesn't close */
+}
+
+.dropdown-menu {
+    margin-top: 0; /* remove the gap so it doesn't close */
+    transition: all 0.3s ease;
+    display: none; /* hidden by default, shown on hover */
+}
+
+/* Keep dropdown open when hovering over menu */
+.dropdown-menu:hover {
+    display: block;
+}
+        
     </style>
 
 <body>
@@ -163,66 +473,66 @@ include_once "../Controller/validation_message.php";
             <br>
             <!--Navbar-->
             <div class="col-md-12">
-                <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
-                    <div class="container-fluid">
-                        <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
-                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
+    <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow sticky-top">
+        <div class="container-fluid">
+            <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
+                <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav d-flex w-100">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="fieldsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-database"></i> Database Operations
                         </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav d-flex w-100">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink" href="#">Add fields</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink1" href="#">Remove fields</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink2" href="#">Add columns to the table</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink3" href="#">Remove columns from the table</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink5" href="#">Export Data Base</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink6" href="#">Adding fields to all Forms</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="showFormLink7" href="#">Adding Logs in the columns</a>
-                                </li>
-                                <li class="nav-item">
-                                    <div class="btn-group">
-                                        <button class="nav-link chart-switch" data-chart="statusChart">Equipment Status</button>
-                                        <button class="nav-link chart-switch" data-chart="countryChart">Top Countries</button>
-                                        <button class="nav-link chart-switch" data-chart="expiredChart">Expired Assets</button>
-                                    </div>
-                                </li>
-                                <li class="nav-item ms-auto">
-                                    <a title="Notifications" type="button" class="btn btn-secondary" onclick="showModal()">
-                                        <i class="fa-solid fa-bell" style='color:aqua'></i>
-                                    </a>
-                                    <a title="Log Files" type="button" class="btn btn-secondary" href="../View/Int_LogsDelete.php">
-                                        <i class="fa-solid fa-info-circle" style="color:aqua"></i>
-                                    </a>
-                                    <a title="Settings" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
-                                        <i class="fa-solid fa-gear"></i>
-                                    </a>
-                                </li>
-
-                            </ul>
+                        <ul class="dropdown-menu" aria-labelledby="fieldsDropdown">
+                            <li><a class="dropdown-item" id="showFormLink" href="#"><i class="fa-solid fa-plus"></i> Add fields</a></li>
+                            <li><a class="dropdown-item" id="showFormLink1" href="#"><i class="fa-solid fa-trash"></i> Remove fields</a></li>
+                            <li><a class="dropdown-item" id="showFormLink2" href="#"><i class="fa-solid fa-table"></i> Add columns to table</a></li>
+                            <li><a class="dropdown-item" id="showFormLink3" href="#"><i class="fa-solid fa-minus"></i> Remove columns from table</a></li>
+                            <li><a class="dropdown-item" id="showFormLink5" href="#"><i class="fa-solid fa-file-export"></i> Export Data Base</a></li>
+                            <li><a class="dropdown-item" id="showFormLink6" href="#"><i class="fa-solid fa-list"></i> Adding fields to all Forms</a></li>
+                            <li><a class="dropdown-item" id="showFormLink7" href="#"><i class="fa-solid fa-history"></i> Adding Logs in columns</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="chartsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-chart-line"></i> Charts
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="chartsDropdown">
+                            <li><button class="dropdown-item chart-switch" data-chart="statusChart"><i class="fa-solid fa-laptop"></i> Equipment Status</button></li>
+                            <li><button class="dropdown-item chart-switch" data-chart="countryChart"><i class="fa-solid fa-globe"></i> Top Countries</button></li>
+                            <li><button class="dropdown-item chart-switch" data-chart="expiredChart"><i class="fa-solid fa-calendar-times"></i> Expired Assets</button></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ms-auto">
+                        <div class="btn-group">
+                            <a title="Notifications" type="button" class="btn btn-primary" onclick="showModal()">
+                                <i class="fa-solid fa-bell"></i>
+                            </a>
+                            <a title="Log Files" type="button" class="btn btn-info" href="../View/Int_LogsDelete.php">
+                                <i class="fa-solid fa-info-circle"></i>
+                            </a>
+                            <a title="Settings" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
+                                <i class="fa-solid fa-gear"></i>
+                            </a>
+                            <button id="darkModeToggle" class="btn btn-dark" title="Toggle Dark Mode">
+                                <i class="fa-solid fa-moon"></i>
+                            </button>
                         </div>
-                    </div>
-                </nav>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
+</div>
             <br>
             <br>
         </div>
@@ -349,33 +659,35 @@ include_once "../Controller/validation_message.php";
                     <h1 class="text-center">Remove Fields</h1>
                     <h4>Name Field <span>*</span></h4>
                     <?php
-                    try {
-                        include '../Configuration/Connection.php';
-                        $sql = "SELECT COLUMN_NAME as Field 
-                                FROM INFORMATION_SCHEMA.COLUMNS 
-                                WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
-                                'last_user', 'job_title', 'cedula', 'fecha_salida','purchase_country','user_status','status_change'
-                                ,'new_laptop','LLave','Carnet','Tipo_ID') 
-                                ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                        $stmt = $pdo->prepare($sql);
-                        $stmt->execute();
-                        if ($stmt->rowCount() > 0) {
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo '<div class="col-md-4 col-sm-6 mb-2">';
-                                echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="checkbox" name="removefields[]" value="' . htmlspecialchars($row["Field"]) . '" id="remove_' . htmlspecialchars($row["Field"]) . '">';
-                                echo '<label class="form-check-label" for="remove_' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</label>';
-                                echo '</div>';
-                                echo '</div>';
-                            }
-                        } else {
-                            echo '<p>No data found.</p>';
-                        }
-                    } catch (PDOException $e) {
-                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                    }
-                    ?>
+try {
+    include '../Configuration/Connection.php';
+    $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
+            FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
+            AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
+            'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
+            ORDER BY TABLE_NAME, ORDINAL_POSITION";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        echo '<div class="row">';
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo '<div class="col-md-4 col-sm-6 mb-2">';
+            echo '<label class="checkbox-btn">';
+            echo '<input type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">';
+            echo '<span class="checkmark"></span>';
+            echo '<label>' . htmlspecialchars($row["Field"]) . '</label>';
+            echo '</label>';
+            echo '</div>';
+        }
+        echo '</div>';
+    } else {
+        echo '<p>No data found.</p>';
+    }
+} catch (PDOException $e) {
+    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+}
+?>
                     <br>
                     <input type="hidden" name="csrf_token"
                         value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
@@ -419,34 +731,35 @@ include_once "../Controller/validation_message.php";
                     <h1 class="text-center">Add Fields to the Main Table</h1>
                     <h4>Name Field <span>*</span></h4>
                     <?php
-                    try {
-                        include '../Configuration/Connection.php';
-                        $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
-                        FROM INFORMATION_SCHEMA.COLUMNS 
-                        WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                        AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
-                        'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
-                        ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                        $stmt = $pdo->prepare($sql);
-                        $stmt->execute();
-                        if ($stmt->rowCount() > 0) {
-                            echo '<div class="row">';
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo '<div class="col-md-4 col-sm-6 mb-2">';
-                                echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '" id="add_' . htmlspecialchars($row["Field"]) . '">';
-                                echo '<label class="form-check-label" for="add_' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</label>';
-                                echo '</div>';
-                                echo '</div>';
-                            }
-                            echo '</div>';
-                        } else {
-                            echo '<p>No data found.</p>';
-                        }
-                    } catch (PDOException $e) {
-                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                    }
-                    ?>
+try {
+    include '../Configuration/Connection.php';
+    $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
+            FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
+            AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
+            'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
+            ORDER BY TABLE_NAME, ORDINAL_POSITION";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+        echo '<div class="row">';
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo '<div class="col-md-4 col-sm-6 mb-2">';
+            echo '<label class="checkbox-btn">';
+            echo '<input type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">';
+            echo '<span class="checkmark"></span>';
+            echo '<label>' . htmlspecialchars($row["Field"]) . '</label>';
+            echo '</label>';
+            echo '</div>';
+        }
+        echo '</div>';
+    } else {
+        echo '<p>No data found.</p>';
+    }
+} catch (PDOException $e) {
+    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+}
+?>
                     <br>
                     <div id="dynamicInput"></div>
                     <input type="hidden" name="csrf_token"
@@ -478,10 +791,11 @@ include_once "../Controller/validation_message.php";
                             echo '<div class="row">';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 echo '<div class="col-md-4 col-sm-6 mb-2">';
-                                echo '<div class="form-check">';
-                                echo '<input class="form-check-input" type="checkbox" name="removemfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '" id="remove_table_' . htmlspecialchars($row["Field"]) . '">';
-                                echo '<label class="form-check-label" for="remove_table_' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</label>';
-                                echo '</div>';
+                                echo '<label class="checkbox-btn">';
+                                echo '<input type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">';
+                                echo '<span class="checkmark"></span>';
+                                echo '<label>' . htmlspecialchars($row["Field"]) . '</label>';
+                                echo '</label>';
                                 echo '</div>';
                             }
                             echo '</div>';
@@ -619,33 +933,35 @@ include_once "../Controller/validation_message.php";
 
                     <div class="row">
                         <?php
-                        try {
-                            include '../Configuration/Connection.php';
-                            $sql = "SELECT COLUMN_NAME 
-                            FROM INFORMATION_SCHEMA.COLUMNS 
-                            WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                            AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','new_laptop','fk_id','fk_assetname','user_status',
-                            'last_user','job_title','status_change','cedula','Carnet','LLave','Tipo_ID') 
-                            ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute();
-
-                            if ($stmt->rowCount() > 0) {
-                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo '<div class="col-md-4 col-sm-6 mb-2">';
-                                    echo '<div class="form-check">';
-                                    echo '<input class="form-check-input" type="checkbox" name="columns[]" value="' . htmlspecialchars($row["COLUMN_NAME"]) . '" id="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">';
-                                    echo '<label class="form-check-label" for="col_' . htmlspecialchars($row["COLUMN_NAME"]) . '">' . htmlspecialchars($row["COLUMN_NAME"]) . '</label>';
-                                    echo '</div>';
-                                    echo '</div>';
-                                }
-                            } else {
-                                echo '<p>No data found.</p>';
+                       try {
+                        include '../Configuration/Connection.php';
+                        $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
+                                FROM INFORMATION_SCHEMA.COLUMNS 
+                                WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
+                                'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
+                                ORDER BY TABLE_NAME, ORDINAL_POSITION";
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->execute();
+                        if ($stmt->rowCount() > 0) {
+                            echo '<div class="row">';
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo '<div class="col-md-4 col-sm-6 mb-2">';
+                                echo '<label class="checkbox-btn">';
+                                echo '<input type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">';
+                                echo '<span class="checkmark"></span>';
+                                echo '<label>' . htmlspecialchars($row["Field"]) . '</label>';
+                                echo '</label>';
+                                echo '</div>';
                             }
-                        } catch (PDOException $e) {
-                            echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                            echo '</div>';
+                        } else {
+                            echo '<p>No data found.</p>';
                         }
-                        ?>
+                    } catch (PDOException $e) {
+                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                    }
+                    ?>
                     </div>
 
                     <br>
@@ -701,6 +1017,49 @@ include_once "../Controller/validation_message.php";
                         </div>
                     </div>
                 </div>
+                <script>
+    // Función para alternar el modo oscuro
+    document.getElementById('darkModeToggle').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        
+        // Guardar preferencia en localStorage
+        if(document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('darkMode', 'enabled');
+            this.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        } else {
+            localStorage.setItem('darkMode', 'disabled');
+            this.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        }
+    });
+    
+    // Cargar preferencia al iniciar
+    if(localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeToggle').innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
+    
+    // Función para los botones de gráficos
+    document.querySelectorAll('.chart-switch').forEach(button => {
+        button.addEventListener('click', function() {
+            // Remover clase active de todos los botones
+            document.querySelectorAll('.chart-switch').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Añadir clase active al botón clickeado
+            this.classList.add('active');
+            
+            // Ocultar todos los gráficos
+            document.querySelectorAll('.chart-canvas').forEach(chart => {
+                chart.classList.add('d-none');
+            });
+            
+            // Mostrar el gráfico seleccionado
+            const chartId = this.getAttribute('data-chart');
+            document.getElementById(chartId).classList.remove('d-none');
+        });
+    });
+</script>
                 <script>
                     // Filter notifications
                     $('#notificationFilter').on('keyup', function() {
@@ -787,13 +1146,52 @@ include_once "../Controller/validation_message.php";
                     });
                 });
             </script>
-
+<script>
+// Hover dropdown functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+        // Show on hover
+        dropdown.addEventListener('mouseenter', function() {
+            const menu = this.querySelector('.dropdown-menu');
+            if (menu) {
+                menu.style.display = 'block';
+            }
+        });
+        
+        // Hide when mouse leaves
+        dropdown.addEventListener('mouseleave', function() {
+            const menu = this.querySelector('.dropdown-menu');
+            if (menu) {
+                menu.style.display = 'none';
+            }
+        });
+    });
+    
+    // Keep dropdown open when hovering over menu
+    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+    dropdownMenus.forEach(menu => {
+        menu.addEventListener('mouseenter', function() {
+            this.style.display = 'block';
+        });
+        
+        menu.addEventListener('mouseleave', function() {
+            this.style.display = 'none';
+        });
+    });
+});
+</script>
 
         </div>
     </div>
-    <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../Configuration/JQuery/Chart.js"></script>
-    <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
+   <!-- Load jQuery first -->
+<script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
+<!-- Then load Bootstrap JS -->
+<script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
+<!-- Then load other scripts -->
+<script src="../Configuration/JQuery/Chart.js"></script>
+<!-- Remove the duplicate jQuery loading at the bottom -->
     <script src="../View/Js/confirm_home_redirect.js"></script>
 </body>
 <?php include '../View/Fragments/footer.php'; ?>
