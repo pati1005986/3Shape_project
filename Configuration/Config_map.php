@@ -114,7 +114,8 @@ $fieldMap = [
         'title',
         'Job_Position',
         'Position_Title',
-        'jobtitle'
+        'jobtitle',
+        'Job Title'
     ],
     STATUS_CHANGE => [
         'statuschange',

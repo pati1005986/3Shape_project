@@ -53,7 +53,6 @@ function insertData($pdo, $data)
     $assetname = preg_replace('/\s+/u', '', $data['assetname']); // Elimina todo tipo de espacios
     $assetname = strtoupper($assetname);
     $data['assetname'] = $assetname;
-    
     // Generar assetname si está vacío
     if (empty($data['assetname'])) {
         $data['assetname'] = generateUniqueAssetName($pdo);
@@ -79,43 +78,25 @@ function insertData($pdo, $data)
         }
     }
 
-    // Forzar la inserción de datos
-    $data['Dongle'] = $data['Dongle'] ?? 0;
+    // Forzar la insersion de datos
+    $data['Dongle'] = $data['Dongle'] ?? 0; // Si es null, usa 0
     $data['Dongle'] = (int)$data['Dongle'];
-    $data['job_title'] = $data['job_title'] ?? 'unknown';
+    $data['job_title'] = $data['job_title'] ?? 'unknown'; // Si es null, usa 'unknown'
     $data['job_title'] = (string)$data['job_title'];
-    $data['last_user'] = $data['last_user'] ?? 'No user';
+    $data['last_user'] = $data['last_user'] ?? 'No user'; // Si es null, usa 'No user'
     $data['last_user'] = (string)$data['last_user'];
-    $data['HeadSet'] = $data['HeadSet'] ?? 'unknown';
+    $data['HeadSet'] = $data['HeadSet'] ?? 'unknown'; // Si
     $data['HeadSet'] = (int)$data['HeadSet'];
-
-    // Procesar warranty_enddate y determinar expired automáticamente
-    if (!empty($data['warranty_enddate'])) {
-        $warrantyDate = DateTime::createFromFormat('m/d/Y', $data['warranty_enddate']);
-        if (!$warrantyDate) {
-            throw new InvalidArgumentException("Formato de warranty_enddate inválido. Use mm/dd/yyyy.");
-        }
-
-        $currentDate = new DateTime();
-        // Comparar solo la parte de la fecha (sin hora)
-        $warrantyDate->setTime(0, 0, 0);
-        $currentDate->setTime(0, 0, 0);
-
-        $data['expired'] = ($warrantyDate < $currentDate) ? 'yes' : 'no';
-    } else {
-        // Si warranty_enddate está vacío, considerar como expirado
-        $data['expired'] = 'yes';
-    }
 
     try {
         $pdo->beginTransaction();
         // Insertar en equipos
         $stmtEquipos = $pdo->prepare("
-            INSERT INTO equipos 
-            (assetname, serial_number, purchase_country, warranty_enddate, expired, new_laptop, HeadSet)
-            VALUES 
-            (:assetname, :serial_number, :purchase_country, :warranty_enddate, :expired, :new_laptop, :HeadSet)
-        ");
+        INSERT INTO equipos 
+        (assetname, serial_number, purchase_country, warranty_enddate, expired, new_laptop, HeadSet)
+        VALUES 
+        (:assetname, :serial_number, :purchase_country, :warranty_enddate, :expired, :new_laptop, :HeadSet)
+         ");
 
         $stmtEquipos->execute([
             ':assetname' => $data['assetname'],
@@ -130,9 +111,9 @@ function insertData($pdo, $data)
         // Insertar en usuarios_equipos
         $stmtUsuarios = $pdo->prepare(
             "INSERT INTO usuarios_equipos 
-            (fk_assetname, user_status, last_user, job_title, status_change, cedula, Dongle, Carnet, LLave, Tipo_ID, fecha_salida)
-            VALUES 
-            (:fk_assetname, :user_status, :last_user, :job_title, :status_change, :cedula, :Dongle, :Carnet, :LLave, :Tipo_ID, :fecha_salida)"
+        (fk_assetname, user_status, last_user, job_title, status_change, cedula, Dongle, Carnet, LLave, Tipo_ID, fecha_salida)
+        VALUES 
+        (:fk_assetname, :user_status, :last_user, :job_title, :status_change, :cedula, :Dongle, :Carnet, :LLave, :Tipo_ID, :fecha_salida)"
         );
 
         $stmtUsuarios->execute([
@@ -150,7 +131,7 @@ function insertData($pdo, $data)
         ]);
         $pdo->commit();
     } catch (Exception $e) {
-        $pdo->rollBack();
+        $pdo->rollBack(); // Revertir en caso de error
         throw $e;
     }
 }
@@ -312,7 +293,7 @@ if (isset($_FILES['Proyeccion_garan']) && $_FILES['Proyeccion_garan']['error'] =
         if (!validateFile($_FILES['Proyeccion_garan'])) {
             throw new Exception("Invalid file format");
         }
-
+        
         $filePath = $_FILES['Proyeccion_garan']['tmp_name'];
         $fileExtension = pathinfo($_FILES['Proyeccion_garan']['name'], PATHINFO_EXTENSION);
 
