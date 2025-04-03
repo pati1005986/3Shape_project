@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itPath = $signatureDir . $itFilename;
     $adminPath = $signatureDir . $adminFilename;
 
-    // Guardar las imágenes
+    // Guardar las imágenes (Temporalmente)
     file_put_contents($voboPath, base64_decode($voboData));
     file_put_contents($itPath, base64_decode($itData));
     file_put_contents($adminPath, base64_decode($adminData));

@@ -68,7 +68,7 @@ session_start();
                                 include "../Configuration/Connection.php";
 
                                 try {
-                                    // Seleccionar todos los equipos que no estén en uso
+                                    // Seleccionar todos los equipos que no estén en uso, los que se encuentran en estado de Stock
                                     $sql = "SELECT * FROM vista_equipos_usuarios
                             WHERE serial_number IS NOT NULL AND serial_number != '' 
                             ORDER BY serial_number ASC;";
