@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Manual</title>
+    <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
+    <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
+    <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
+    <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
+    <link rel="stylesheet" href="../Configuration/DataTables/datatables.min.css">
+    <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
+    <link rel="stylesheet" href="../Configuration/JQuery/animate.min.css">
+    <link rel="stylesheet" href="../View/Css/manual.css">
+    <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="../Configuration/3shape-logo.png" alt="Logo" width="150" height="31">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#inicio">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gestion-activos">Asset Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#registro-equipos">Equipment Registration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#notificaciones">Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#admin-features">Administrative Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.php">Back</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 80px;">
+        <section id="inicio">
+            <h1 class="text-center mb-4">User Manual - 3Shape System</h1>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Introduction</h3>
+                    <p class="card-text">Welcome to the 3Shape asset and equipment management system, a comprehensive platform designed to optimize the control and tracking of equipment in your company. This system provides advanced tools for efficient enterprise asset management, allowing precise inventory control, movement tracking, and preventive maintenance.</p>
+                    <p class="card-text">Main system features:</p>
+                    <ul>
+                        <li>Intuitive and user-friendly interface</li>
+                        <li>Centralized asset management</li>
+                        <li>Real-time notification system</li>
+                        <li>Automatic report generation</li>
+                        <li>Complete equipment lifecycle tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="gestion-activos" class="mt-5">
+            <h2 class="mb-4">Asset Management</h2>
+            <div class="card position-relative">
+                <div class="card-body">
+                    <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="feature-icon"><i class="fas fa-laptop"></i></div>
+                    <h4>Inventory Control</h4>
+                    <p>The system allows complete inventory management:</p>
+                    <ul>
+                        <li>Detailed asset registration with complete technical information (model, serial number, specifications)</li>
+                        <li>Real-time tracking of each equipment's status (available, in use, under maintenance)</li>
+                        <li>Complete history of movements and maintenance with dates and responsible parties</li>
+                        <li>Advanced search with multiple criteria (location, status, assigned user)</li>
+                        <li>Flexible equipment categorization by type, department, or project</li>
+                        <li>Warranty management and scheduled maintenance dates</li>
+                        <li>Customizable reports for inventory analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="registro-equipos" class="mt-5">
+            <h2 class="mb-4">Check-In and Check-Out Registration</h2>
+            <div class="card position-relative">
+                <div class="card-body">
+                    <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#movementModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="feature-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <h4>Movement Control</h4>
+                    <p>Main features of movement control:</p>
+                    <ul>
+                        <li>Detailed equipment check-in and check-out records with date</li>
+                        <li>Digital signature system for movement validation with biometric security</li>
+                        <li>Automatic generation of certificates and supporting documents in PDF format</li>
+                        <li><strong>Coming soon:</strong>Photographic record of equipment condition at each movement</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="notificaciones" class="mt-5 mb-5">
+            <h2 class="mb-4">Notification System</h2>
+            <div class="card position-relative">
+                <div class="card-body">
+                    <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#alertsModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                    <h4>Alerts and Monitoring</h4>
+                    <p>Características del sistema de notificaciones:</p>
+                    <ul>
+                        <li>Scheduled maintenance alerts</li>
+                        <li>Equipment movement notifications</li>
+                        <li><strong>Coming soon:</strong> Warranty expiration notices</li>
+                        <li>System activity logging</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="admin-features" class="mt-5 mb-5">
+            <h2 class="mb-4">Administrative Features</h2>
+            <div class="card position-relative">
+                <div class="card-body">
+                    <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#fieldsModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
+                    <h4>Dynamic Fields Management</h4>
+                    <p>Advanced database customization features:</p>
+                    <ul>
+                        <li>Dynamic field creation for asset and user tables</li>
+                        <li>Custom field type selection (text, number, date, etc.)</li>
+                        <li>Field validation rules configuration</li>
+                        <li>Real-time form updates without system restart</li>
+                        <li>Automatic database structure synchronization</li>
+                        <li>Field dependency management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-4 position-relative">
+                <div class="card-body">
+                    <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#dbAdminModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="feature-icon"><i class="fas fa-database"></i></div>
+                    <h4>Database Administration</h4>
+                    <p>Comprehensive database tools:</p>
+                    <ul>
+                        <li>Database backup and restore functionality</li>
+                        <li>Table structure modification tools</li>
+                        <li>Data import/export in multiple formats</li>
+                        <li>Automated data validation checks</li>
+                        <li>Database optimization utilities</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-4 position-relative">
+                <div class="card-body">
+                    <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#dashboardModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h4>Dashboard and Analytics</h4>
+                    <p>Statistical monitoring features:</p>
+                    <ul>
+                        <li>Equipment status distribution charts</li>
+                        <li>Top countries analysis for asset distribution</li>
+                        <li>Warranty expiration tracking visualization</li>
+                        <li>Real-time data monitoring and updates</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-4 position-relative">
+                <div class="card-body">
+                    <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="feature-icon"><i class="fas fa-tools"></i></div>
+                    <h4>System Maintenance</h4>
+                    <p>Administrative maintenance tools:</p>
+                    <ul>
+                        <li>Log file management and monitoring</li>
+                        <li>System notifications configuration</li>
+                        <li>User access control and settings</li>
+                        <li>Database structure modifications</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modales para cada sección -->
+    <div class="modal fade" id="inventoryModal" tabindex="-1" aria-labelledby="inventoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inventoryModalLabel">Inventory Control Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The main objective of
+                        this service is to optimize asset data management for users. It provides detailed functionalities covering the equipment lifecycle, such as:
+                        
+                        Registering new assets.
+                        Updating asset information.
+                        Managing equipment check-outs (assignments) and changes/swaps.
+                        Deleting obsolete or decommissioned assets.
+                        Additionally, it includes real-time validation to verify asset existence and the uniqueness of the equipment's serial number.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="movementModal" tabindex="-1" aria-labelledby="movementModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="movementModalLabel">Movement Control Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The main objective of this service is to retrieve specific asset information from the database, identifying them by their 'assetname', in order to generate documents or reports in PDF format.
+
+                        Additionally, it offers key functionalities such as:
+                        
+                        Digital Signature: Allows adding a digital signature to the selected PDF documents before their final generation or distribution.
+                        Asset Management (Separate Functionality): The overall system also includes options to modify an asset's information or to decommission it (remove it from the system)."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="alertsModal" tabindex="-1" aria-labelledby="alertsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertsModalLabel">Alerts and Monitoring Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The main objective of the notification system is to obtain detailed information
+                        about the various alert messages
+                        or actions previously generated by the user. In turn,
+                        this service provides an option to perform basic filtering of the notification messages
+                        and another option for history deletion.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="fieldsModal" tabindex="-1" aria-labelledby="fieldsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fieldsModalLabel">Dynamic Fields Management Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The dynamic fields system is a powerful feature designed to enhance software maintainability and provide administrators with greater control over the application. This system enables:</p>
+                    <ul>
+                        <li>Addition of new custom fields to the database, enhancing data collection and user experience</li>
+                        <li>Flexible field management with options to add or remove columns as needed</li>
+                        <li>Advanced data administration system for the main table display</li>
+                        <li>Dynamic data insertion and deletion capabilities (requires active administrator session)</li>
+                        <li>Database export functionality in CSV or TXT formats</li>
+                        <li>Comprehensive dynamic data management allowing field integration with corresponding forms</li>
+                        <li>Real-time form updates for both registration and modification processes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dbAdminModal" tabindex="-1" aria-labelledby="dbAdminModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dbAdminModalLabel">Database Administration Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Database administration features include:</p>
+                    <ul>
+                        <li>Automated backup and restore</li>
+                        <li>Table structure modifications</li>
+                        <li>Data import/export capabilities</li>
+                        <li>Database optimization tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dashboardModal" tabindex="-1" aria-labelledby="dashboardModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dashboardModalLabel">Dashboard and Analytics Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>The analytical dashboard integrates multiple real-time data sources:</p>
+                    <ul>
+                        <li>Equipment status visualization through activity logs</li>
+                        <li>Geographic analysis using location data from the assets table</li>
+                        <li>Warranty tracking linked to the maintenance_records table</li>
+                        <li>Custom report generation (PDF/CSV) with log history</li>
+                        <li>Data updated every 5 minutes from the main database</li>
+                        <li>Integration with existing database administration tools</li>
+                    </ul>
+                    <p class="mt-3 text-muted">Reports use the same PDF generation mechanisms as the movements module (see Int_LogsDelete.php)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="maintenanceModal" tabindex="-1" aria-labelledby="maintenanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="maintenanceModalLabel">System Maintenance Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>System maintenance tools include:</p>
+                    <ul>
+                        <li>Log file management</li>
+                        <li>System notification configuration</li>
+                        <li>User access control</li>
+                        <li>Database structure management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para manejar la expansión/colapso de las descripciones
+        function toggleDescription(element) {
+            const description = element.nextElementSibling;
+            if (description.style.display === 'none' || !description.style.display) {
+                description.style.display = 'block';
+                element.textContent = 'Ver menos detalles';
+            } else {
+                description.style.display = 'none';
+                element.textContent = 'Ver más detalles';
+            }
+        }
+        document.querySelector('a[href="../index.php"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to return to the main page?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4a4a4a',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, return',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../index.php';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
