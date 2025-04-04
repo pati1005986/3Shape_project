@@ -4,6 +4,10 @@
         {
             "message": "Incorrect Password.",
             "timestamp": "2025-04-02 13:15:12"
+        },
+        {
+            "message": "No fields selected for hiding",
+            "timestamp": "2025-04-04 08:17:27"
         }
     ],
     "error_message": [],
