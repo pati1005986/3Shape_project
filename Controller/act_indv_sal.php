@@ -1,8 +1,24 @@
 <?php
 session_start();
+
+// Inicializar variables de sesión si no existen
+if (!isset($_SESSION['signature'])) {
+    $_SESSION['signature'] = array();
+}
+if (!isset($_SESSION['vobo_signature'])) {
+    $_SESSION['vobo_signature'] = '';
+}
+if (!isset($_SESSION['it_signature'])) {
+    $_SESSION['it_signature'] = '';
+}
+if (!isset($_SESSION['admin_signature'])) {
+    $_SESSION['admin_signature'] = '';
+}
+
+// Verificar si todas las firmas necesarias están presentes
 if (
-    !isset($_SESSION['signature']) || !isset($_SESSION['vobo_signature']) ||
-    !isset($_SESSION['it_signature']) || !isset($_SESSION['admin_signature'])
+    empty($_SESSION['signature']) || empty($_SESSION['vobo_signature']) ||
+    empty($_SESSION['it_signature']) || empty($_SESSION['admin_signature'])
 ) {
     header("Location: /3Shape_project/View/firma_act_indv_sal.php");
     exit();
@@ -187,17 +203,8 @@ foreach ($resultados as $index => $row) {
     $x = $pdf->GetX();
 
     // Firma Colaborador
-    if (isset($_SESSION['signature'])) {
-        // Verificar si es un array o una cadena
-        if (is_array($_SESSION['signature']) && !empty($_SESSION['signature'])) {
-            // Usar la firma correspondiente al índice actual
-            $firma_index = min($index, count($_SESSION['signature']) - 1);
-            if (file_exists($_SESSION['signature'][$firma_index])) {
-                $pdf->Image($_SESSION['signature'][$firma_index], $x, $y, 44, 15);
-            }
-        } elseif (is_string($_SESSION['signature']) && file_exists($_SESSION['signature'])) {
-            $pdf->Image($_SESSION['signature'], $x, $y, 44, 15);
-        }
+    if (isset($_SESSION['signature'][$index]) && file_exists($_SESSION['signature'][$index])) {
+        $pdf->Image($_SESSION['signature'][$index], $x, $y, 44, 15);
     }
     $pdf->Cell(44, 15, '', 1, 0, 'C');
     $x += 44;
@@ -222,23 +229,26 @@ foreach ($resultados as $index => $row) {
     }
     $pdf->Cell(44, 15, '', 1, 1, 'C');
 
-    // Limpieza de archivos temporales
-    $signatures = ['vobo_signature', 'it_signature', 'admin_signature'];
-    foreach ($signatures as $sig) {
-        if (isset($_SESSION[$sig]) && file_exists($_SESSION[$sig])) {
-            @unlink($_SESSION[$sig]);
-            unset($_SESSION[$sig]);
+    // Limpieza de archivos temporales al final del proceso
+    if ($index === count($resultados) - 1) {
+        // Limpiar firmas de colaboradores
+        if (isset($_SESSION['signature']) && is_array($_SESSION['signature'])) {
+            foreach ($_SESSION['signature'] as $sig_path) {
+                if (file_exists($sig_path)) {
+                    @unlink($sig_path);
+                }
+            }
+            unset($_SESSION['signature']);
         }
-    }
 
-    // Limpieza especial para el array de firmas de colaboradores
-    if (isset($_SESSION['signature']) && is_array($_SESSION['signature'])) {
-        foreach ($_SESSION['signature'] as $sig_path) {
-            if (file_exists($sig_path)) {
-                @unlink($sig_path);
+        // Limpiar otras firmas
+        $signatures = ['vobo_signature', 'it_signature', 'admin_signature'];
+        foreach ($signatures as $sig) {
+            if (isset($_SESSION[$sig]) && file_exists($_SESSION[$sig])) {
+                @unlink($_SESSION[$sig]);
+                unset($_SESSION[$sig]);
             }
         }
-        unset($_SESSION['signature']);
     }
 
     $count++;
