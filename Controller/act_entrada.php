@@ -1,4 +1,24 @@
 <?php
+/**
+ * Asset Check-In Controller
+ * 
+ * Handles the check-in/entry of assets in the system. Processes form submissions,
+ * validates input data, and manages asset status changes between 'Active' and 'Stock'.
+ * 
+ * Features:
+ * - Validates input data and checks for duplicates
+ * - Handles asset data swapping between statuses
+ * - Updates equipment and user status records
+ * - Uses database transactions for data integrity
+ * 
+ * Database Tables/Views:
+ * - equipos: Stores asset technical details
+ * - usuarios_equipos: Stores user-related asset information
+ * - vista_equipos_usuarios: View for asset-user relationships
+ * 
+ * @package Controller
+ */
+
 session_start();
 include "../Configuration/Connection.php";
 

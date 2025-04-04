@@ -1,6 +1,27 @@
 <?php
-ob_start();
+/**
+ * Log Management Interface
+ * 
+ * Provides administrative interface for managing system log files.
+ * Allows viewing, downloading, and deletion of log files with proper access control.
+ * 
+ * Features:
+ * - Secure session management with timeout
+ * - Admin access control enforcement
+ * - Log file listing with metadata
+ * - Download/view/delete functionality
+ * - Responsive DataTables interface
+ * 
+ * Security:
+ * - CSRF protection
+ * - Admin-only access
+ * - Session timeout
+ * 
+ * @package View
+ * @subpackage Admin
+ */
 
+ob_start();
 session_start(); // Iniciar sesión
 
 // Tiempo de expiración de la sesión (en segundos)

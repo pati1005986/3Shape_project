@@ -454,17 +454,32 @@ if (session_status() === PHP_SESSION_NONE) {
                             }
                         </script>
 
-                        <div class="my-2 mb-2 d-flex justify-content-left">
-                            <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
-                                <i class="bi bi-search"></i> Search
-                            </button>
-                            <button type="reset" class="shadow btn btn-light border-danger me-1" id="reset_btn">Clear
-                                <i class="bi bi-eraser"></i>
-                            </button>
-                            <button type="button" class="shadow btn btn-light border-primary" id="refresh_btn">
-                                <i class="bi bi-arrow-clockwise"></i> Refresh
-                            </button>
-                        </div>
+<style>
+    /* Define la animación de giro */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Aplica la animación al icono cuando se hace hover en el botón */
+    #refresh_btn:hover .bi-arrow-clockwise {
+        animation: spin 2s linear infinite;
+        display: inline-block; /* Necesario para que la transformación funcione */
+    }
+</style>
+
+<div class="my-2 mb-2 d-flex justify-content-left">
+    <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
+        <i class="bi bi-search"></i> Search
+    </button>
+    <button type="reset" class="shadow btn btn-light border-danger me-1" id="reset_btn">Clear
+        <i class="bi bi-eraser"></i>
+    </button>
+    <button type="button" class="shadow btn btn-light border-primary" id="refresh_btn">
+        <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+</div>
+
 
                         <script>
                             // Botón de Clear
@@ -614,10 +629,8 @@ if (session_status() === PHP_SESSION_NONE) {
             $selectedColumns = isset($_SESSION['selected_fields']) ? $_SESSION['selected_fields'] : [];
             ?>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <a href="./View/Int_Registro_equipo.php" class="shadow btn btn-secondary "><i
-                        class="fas fa-plus"></i>
-                    Register
-                    new device</a>
+                <a href="./View/Int_Registro_equipo.php" class="shadow btn btn-secondary "><i class="fas fa-plus"></i>
+                    Register new device</a>
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
                     <i class="fas fa-trash-alt"></i>
                     Delete All Logs</button>
@@ -682,6 +695,24 @@ if (session_status() === PHP_SESSION_NONE) {
                         <button id="btnOpcion3" class="btn btn-secondary my-2"> Option 3: Asset Information </button>
                     </div>
                 </div>
+                <style>
+                    /* Animación de giro para el icono */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Aplica la animación al icono cuando se hace hover en el botón */
+#procesarSeleccionados:hover .fa-cog {
+    animation: spin 2s linear infinite;
+    display: inline-block; /* Necesario para transformaciones */
+}
+
+/* Opcional: Animación cuando se hace clic (como en tu código JS) */
+.fa-cog.spin {
+    animation: spin 2s linear infinite;
+}
+                </style>
                 <script src="./View/Js/Select_proccess.js"></script>
             </table>
             <br>
