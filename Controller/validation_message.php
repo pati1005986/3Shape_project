@@ -85,14 +85,34 @@ echo implode('', $alerts);
 ?>
 
 <style>
-/* Animaciones CSS optimizadas */
+/* Estilos modernos para alertas */
 .alert {
     position: relative;
-    margin: 1rem 0;
+    margin: 0.75rem 0;
     padding: 1rem;
-    border-radius: 4px;
+    border-radius: 6px;
     overflow: hidden;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-left: 3px solid #dc2626;
+}
+
+.alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border-left: 3px solid #16a34a;
+}
+
+.alert-warning {
+    background-color: #fffbeb;
+    color: #92400e;
+    border-left: 3px solid #d97706;
 }
 
 .animate-slide-in {
@@ -101,24 +121,24 @@ echo implode('', $alerts);
 
 .alert.fade-out {
     opacity: 0;
-    transform: translateX(100%);
-    transition: all 0.3s ease;
+    transform: translateX(100%) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .alert-progress {
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 3px;
-    background: rgba(0,0,0,0.1);
+    height: 4px;
+    background: linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
     width: 100%;
     transform-origin: left;
-    animation: progress 5s linear forwards;
+    animation: progress 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes slideIn {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+    from { transform: translateX(100%) scale(0.95); opacity: 0; }
+    to { transform: translateX(0) scale(1); opacity: 1; }
 }
 
 @keyframes fadeIn {
@@ -131,7 +151,7 @@ echo implode('', $alerts);
     to { transform: scaleX(0); }
 }
 
-/* Mejorar rendimiento de animaciones */
+/* Optimización de rendimiento */
 @media (prefers-reduced-motion: no-preference) {
     .alert {
         will-change: transform, opacity;
@@ -139,29 +159,31 @@ echo implode('', $alerts);
 }
 
 .alert-scroll-container {
-    max-height: 200px; /* Altura máxima equivalente a ~10 elementos */
+    max-height: 200px;
     overflow-y: auto;
-    margin: 8px 0;
-    padding-right: 5px;
+    margin: 10px 0;
+    padding-right: 8px;
+    border-radius: 6px;
 }
 
-/* Estilizar scrollbar para mejor apariencia */
+/* Scrollbar moderno */
 .alert-scroll-container::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 .alert-scroll-container::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1);
-    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
 }
 
 .alert-scroll-container::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.2);
-    border-radius: 3px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    transition: background 0.3s ease;
 }
 
 .alert-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.3);
 }
 
 .alert-scroll-container ul {
@@ -171,9 +193,15 @@ echo implode('', $alerts);
 }
 
 .alert-scroll-container li {
-    padding: 4px 0;
-    line-height: 1.4;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 8px 12px;
+    line-height: 1.5;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+}
+
+.alert-scroll-container li:hover {
+    background-color: rgba(255,255,255,0.05);
 }
 
 .alert-scroll-container li:last-child {
