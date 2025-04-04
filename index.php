@@ -30,9 +30,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
     <div class="row align-items-center justify-content-center mb-3">
+        <!-- script para la validacion de estado de garantia -->
+        <script src="./View/Js/warranty-check.js"></script>
 
         <div class="col-md-3 mb-2 my-5">
-            <!--Condiciones para traer los datos en caso de error o alerta y confirmacion de subida de datos-->
+            <!--archivo para traer los datos en caso de error o alerta y confirmacion de subida de datos-->
             <?php
             include_once "./Controller/validation_message.php";
             ?>
