@@ -394,6 +394,28 @@ input[type="text"]:focus, select:focus {
     display: block;
 }
         
+/* Añade esto al bloque de estilos */
+.nav-arrow {
+    min-width: 120px;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+}
+
+.nav-arrow:hover {
+    transform: translateY(-2px);
+}
+
+/* Mejor espaciado para los formularios */
+form {
+    margin-bottom: 2rem;
+    padding: 1.5rem !important;
+}
+
+/* Ajustar el contenedor principal */
+.dashboard-container {
+    max-width: 95%;
+    margin: 0 auto;
+}
     </style>
 
 <body>
@@ -646,10 +668,20 @@ input[type="text"]:focus, select:focus {
                         <option value="usuarios_equipos">Users</option>
                         <option value="equipos">Assets</option>
                     </select>
-                    <div class="btn-block">
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+        <i class="fas fa-arrow-left"></i> Previous
+    </button>
+    
+    <div class="btn-block">
                         <button id="Addfield" type="submit" onclick="return validateForm()"
                             class="btn btn-secondary">Add Field</button>
                     </div>
+    
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
                 </form>
                 <br>
             </div>
@@ -691,8 +723,20 @@ try {
                     <br>
                     <input type="hidden" name="csrf_token"
                         value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <div class="btn-block">
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+        <i class="fas fa-arrow-left"></i> Previous
+    </button>
+    
+    <div class="btn-block">
                         <button id="Removefield" type="submit" class="btn btn-secondary">Remove Field</button>
+                    </div>
+    
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
+                  
                         <div id="networkInfo" class="alert alert-warning mt-2" style="display: none;">
                             <strong>Warning:</strong> This action cannot be undone. Please be sure before removing the field.
                         </div>
@@ -764,10 +808,21 @@ try {
                     <div id="dynamicInput"></div>
                     <input type="hidden" name="csrf_token"
                         value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <div class="btn-block">
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+        <i class="fas fa-arrow-left"></i> Previous
+    </button>
+    
+    <div class="btn-block">
                         <button id="AddfieldTable" type="submit" class="btn btn-secondary">Add Field</button>
                         <br>
                     </div>
+    
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
+                   
                 </form>
             </div>
             <!-- Add this within the existing column in index_admin.php, similar to the "Add Fields to the Main Table" form -->
@@ -808,8 +863,19 @@ try {
                     ?>
                     <br>
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <div class="btn-block">
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+        <i class="fas fa-arrow-left"></i> Previous
+    </button>
+    
+    <div class="btn-block">
                         <button id="RemoveFieldTable" type="submit" class="btn btn-danger">Remove Field</button>
+                    </div>
+    
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
                         <div class="alert alert-warning mt-2">
                             <strong>Warning:</strong> If you want to reinsert a field that was deleted, use the "Add Fields to the Main Table" function. Proceed with caution.
                         </div>
@@ -864,11 +930,22 @@ try {
                         <input class="form-check-input" type="radio" name="format" value="txt" id="format_txt">
                         <label class="form-check-label" for="format_txt">TXT</label>
                     </div>
-
-                    <div class="btn-block text-center">
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+        <i class="fas fa-arrow-left"></i> Previous
+    </button>
+    
+    <div class="btn-block text-center">
                         <button type="submit" class="btn btn-secondary">Export</button>
                     </div>
 
+    
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
+                   
                     <script>
                         document.getElementById('addBDCSV').addEventListener('submit', function(event) {
                             if (!confirm('Are you sure you want to export the data in this format?')) {
@@ -920,8 +997,18 @@ try {
                     <input class="input-group mb-3" type="text" id="Log_name" name="Log_name" required
                         pattern="[a-zA-Z0-9_ ]+" title="Only letters, numbers, underscores and spaces allowed" />
                     <br>
-                    <button id="AddLogfield" type="submit" class="btn btn-secondary mb-3"
-                        onclick="return confirm('Are you sure you want to add this log?')">Add Log</button>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+        <i class="fas fa-arrow-left"></i> Previous
+    </button>
+    
+    <button id="AddLogfield" type="submit" class="btn btn-secondary mb-3"
+    onclick="return confirm('Are you sure you want to add this log?')">Add Log</button>
+    
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
                 </form>
             </div>
             <!--Formulario para agregar campos dinamicos en todos los formularios-->
@@ -965,9 +1052,19 @@ try {
                     </div>
 
                     <br>
-                    <div class="btn-block text-center">
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+        <i class="fas fa-arrow-left"></i> Previous
+    </button>
+    
+    <div class="btn-block text-center">
                         <button type="submit" class="btn btn-secondary">Add Field</button>
                     </div>
+    
+    <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+        Next <i class="fas fa-arrow-right"></i>
+    </button>
+</div>                
                 </form>
             </div>
             <!-- Modal para mostrar las alertas -->
@@ -1181,6 +1278,54 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+</script>
+
+<!--Navegabilidad-->
+<script>
+    // Mapeo de formularios en orden
+    const formOrder = [
+        'FormAddForm', 
+        'RemoveForm', 
+        'FormAddTable', 
+        'RemoveFieldsTable', 
+        'addBDCSV', 
+        'addFormTodo', 
+        'addLgColumn'
+    ];
+    
+    function navigateTo(direction) {
+        const currentFormId = document.querySelector('form:not([style*="none"])')?.id;
+        if (!currentFormId) return;
+        
+        const currentIndex = formOrder.indexOf(currentFormId);
+        if (currentIndex === -1) return;
+        
+        let nextIndex;
+        if (direction === 'next') {
+            nextIndex = (currentIndex + 1) % formOrder.length;
+        } else {
+            nextIndex = (currentIndex - 1 + formOrder.length) % formOrder.length;
+        }
+        
+        // Ocultar todos los formularios
+        formOrder.forEach(id => {
+            document.getElementById(id).style.display = 'none';
+        });
+        
+        // Mostrar el formulario seleccionado
+        const nextForm = document.getElementById(formOrder[nextIndex]);
+        if (nextForm) {
+            nextForm.style.display = 'block';
+            // Mover al principio del contenedor
+            const firstContainer = document.getElementById('tool');
+            if (firstContainer) {
+                firstContainer.insertAdjacentElement('beforebegin', nextForm);
+            }
+            
+            // Scroll suave al formulario
+            nextForm.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 </script>
 
         </div>

@@ -188,7 +188,6 @@ include "../Configuration/Connection.php";
             min-width: 120px;
         }
     </style>
-    </style>
 
     <!--Arhivo con la funcion de ser la Interfaz de el proceso de Registro de activos-->
 </head>

@@ -8,12 +8,20 @@
         {
             "message": "No fields selected for hiding",
             "timestamp": "2025-04-04 08:17:27"
+        },
+        {
+            "message": "Invalid field selected",
+            "timestamp": "2025-04-04 15:20:29"
         }
     ],
     "error_message": [
         {
             "message": "Session expired, please try again.",
             "timestamp": "2025-04-04 10:23:16"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-04-04 15:10:25"
         }
     ],
     "warnings": []
