@@ -13,47 +13,15 @@ session_start();
     <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <link href="../Configuration/JQuery/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
+    <link rel="stylesheet" href="../View/Css/Form_cambio.css">
 
     <center><title>Record of Entry</title></center>
-    <style>
-        body {
-  background-color:rgb(239, 232, 233);
-}
-        .select2-container--default .select2-selection--single {
-            height: 38px;
-            border-radius: 4px;
-            border: 1px solid #ced4da;
-            padding: 0 10px;
-            font-size: 14px;
-            line-height: 22px;
-            box-sizing: border-box;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .select2-container--default .select2-selection--single:hover {
-            border-color: #80bdff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .select2-container--default .select2-selection--single:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: inherit;
-        }
-    </style>
-
 </head>
 
 <body>
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center vh-100">
-            <div class="col-md-6 shadow p-5 rounded border border-secondary bg-light">
+            <div class="col-md-6 shadow p-5 rounded border-0 bg-white">
                 <div class="">
                     <div id="FORMinput" class="card-body">
                         <form id="updateForm" action="../Controller/act_entrada.php" method="post">

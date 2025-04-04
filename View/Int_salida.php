@@ -17,41 +17,9 @@ session_start();
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
+    <link rel="stylesheet" href="../View/Css/Form_salida.css">
     <title>Record of entry record</title>
     <!--Archivo de vista de proceso de salida de activos -->
-    <style>
-        body {
-            background-color: rgb(239, 232, 233);
-        }
-
-        .select2-container--default .select2-selection--single {
-            height: 38px;
-            border-radius: 4px;
-            border: 1px solid #ced4da;
-            padding: 0 10px;
-            font-size: 14px;
-            line-height: 22px;
-            box-sizing: border-box;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .select2-container--default .select2-selection--single:hover {
-            border-color: #80bdff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .select2-container--default .select2-selection--single:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: inherit;
-        }
-    </style>
 </head>
 
 <body>
