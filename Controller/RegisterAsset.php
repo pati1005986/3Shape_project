@@ -1,4 +1,24 @@
 <?php
+/**
+ * Asset Registration Controller
+ * 
+ * Handles the registration of new assets in the system. Processes form submissions,
+ * validates and sanitizes input data, and stores information in the database.
+ * 
+ * Features:
+ * - Processes both standard and dynamic form fields
+ * - Validates input lengths and formats
+ * - Determines warranty expiration status
+ * - Uses database transactions for data integrity
+ * - Handles errors gracefully with rollback
+ * 
+ * Database Tables:
+ * - equipos: Stores asset technical details
+ * - usuarios_equipos: Stores user-related asset information
+ * 
+ * @package Controller
+ */
+
 session_start();
 include "../Configuration/Connection.php";
 include "../Controller/sanitization.php";

@@ -1,4 +1,21 @@
 <?php
+/**
+ * Asset Check-Out Controller
+ * 
+ * Handles the check-out of assets in the system. Processes form submissions,
+ * updates asset status to 'Stock', and records check-out dates.
+ * 
+ * Features:
+ * - Validates input data
+ * - Updates user status and check-out date
+ * - Manages session messages for success/error
+ * 
+ * Database Tables:
+ * - usuarios_equipos: Updates user status and check-out date
+ * 
+ * @package Controller
+ */
+
 session_start();
 include "../Configuration/Connection.php";
 

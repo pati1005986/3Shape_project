@@ -17,6 +17,178 @@ include "../Configuration/Connection.php";
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4682B4;
+            --secondary-color: #6c757d;
+            --accent-color: #3a5f7d;
+            --light-bg: #f8f9fa;
+            --border-radius: 0.5rem;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --input-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #FORMregistform {
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+        }
+
+        #FORMregistform:hover {
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+        }
+
+        #totalC {
+            color: var(--primary-color);
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        #totalC:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            border-radius: var(--border-radius);
+            border: 1px solid #ced4da;
+            padding: 0.6rem 0.75rem;
+            transition: var(--transition);
+            box-shadow: var(--input-shadow);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(70, 130, 180, 0.25);
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--input-shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+            border-color: #bb2d3b;
+            transform: translateY(-2px);
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .text-danger {
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Card selectors styling */
+        .card-selector-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-selector {
+            flex: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card-selector-group {
+                flex-direction: column;
+            }
+            
+            #FORMregistform {
+                padding: 1.5rem !important;
+            }
+        }
+
+        /* Field animation */
+        .form-control, .form-select {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-control:focus + .focus-border,
+        .form-select:focus + .focus-border {
+            transform: scaleX(1);
+            transition: transform 0.3s ease;
+        }
+
+        .focus-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            z-index: 0;
+        }
+
+        /* Small field groups */
+        .field-group-sm {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .field-group-sm .form-group {
+            flex: 1;
+            min-width: 120px;
+        }
+    </style>
+    </style>
 
     <!--Arhivo con la funcion de ser la Interfaz de el proceso de Registro de activos-->
 </head>
@@ -322,9 +494,9 @@ include "../Configuration/Connection.php";
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="job_title">Job title: </label>
-                                <input class="shadow-sm form-control" type="text" id="job_title" name="job_title"
+                            <div class="form-group position-relative">
+                                <label for="job_title">Job title:</label>
+                                <input class="form-control" type="text" id="job_title" name="job_title"
                                     list="job_titles" data-validate="true" autocomplete="off" value="Unknown">
                                 <datalist id="job_titles">
                                     <?php
@@ -373,11 +545,11 @@ include "../Configuration/Connection.php";
                         </div>
 
                         <!--Input relacionado algun nueva columna que se haya seleccionado-->
-                        <?php if (isset($_SESSION['new_reg_fields'])): ?>
+                      <?php if (isset($_SESSION['new_reg_fields'])): ?>
                             <?php foreach ($_SESSION['new_reg_fields'] as $field_name): ?>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="mb-2" for="<?php echo htmlspecialchars($field_name); ?>">
+                                    <div class="form-group position-relative">
+                                        <label for="<?php echo htmlspecialchars($field_name); ?>">
                                             <?php echo htmlspecialchars($field_name); ?>:
                                         </label>
                                         <?php
@@ -385,12 +557,12 @@ include "../Configuration/Connection.php";
                                         $field_type = $_SESSION['new_fieldR_types'][$field_name];
                                         ?>
                                         <?php if ($field_type === 'date'): ?>
-                                            <input class="form-control shadow-sm" type="date"
+                                            <input class="form-control" type="date"
                                                 id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>"
-                                                value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true"><br>
+                                                value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true">
                                         <?php elseif ($field_type === 'tinyint'): ?>
-                                            <select class="form-control shadow-sm" id="<?php echo htmlspecialchars($field_name); ?>"
+                                            <select class="form-select" id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>" autocomplete="off"
                                                 data-validate="true">
                                                 <option value="0" <?php echo (empty($field_value) || $field_value == 0) ? 'selected' : ''; ?>>No
@@ -398,52 +570,59 @@ include "../Configuration/Connection.php";
                                                 <option value="1" <?php echo ($field_value == 1) ? 'selected' : ''; ?>>Yes</option>
                                             </select>
                                         <?php elseif (in_array($field_type, ['int', 'bigint', 'smallint'])): ?>
-                                            <input class="form-control shadow-sm" type="number"
+                                            <input class="form-control" type="number"
                                                 id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>"
                                                 value="<?php echo $field_value ? $field_value : 0; ?>" autocomplete="off" min="0"
-                                                oninput="this.value = Math.abs(this.value)"><br>
+                                                oninput="this.value = Math.abs(this.value)">
                                         <?php else: ?>
-                                            <input class="form-control shadow-sm" type="text"
+                                            <input class="form-control" type="text"
                                                 id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>"
-                                                value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true"><br>
+                                                value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true">
                                         <?php endif; ?>
+                                        <div class="focus-border"></div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
-                        <div class="col-md-6 d-flex justify-content-right">
-                            <div class="form-group me-2">
-                                <label for="selectCard">Card: </label>
-                                <select class="shadow-sm form-select form-select-sm" name="selectCard" id="selectCard">
-                                    <option value="No">No</option>
-                                    <option value="Si">Yes</option>
-                                    <option value="Pendiente" selected>Pending</option>
-                                </select>
-                            </div>
-                            <div class="form-group me-2">
-                                <label for="selectKEY">Key: </label>
-                                <select class="shadow-sm form-select form-select-sm" name="selectKEY" id="selectKEY">
-                                    <option value="No">No</option>
-                                    <option value="Si">Yes</option>
-                                    <option value="Pendiente" selected>Pending</option>
-                                </select>
-                            </div>
-                            <div class="form-group me-2">
-                                <label for="typeId">Type ID</label>
-                                <select class="shadow-sm form-select form-select-sm" name="type_id" id="type_id">
-                                    <option value="CC" selected>CC</option>
-                                    <option value="CE">CE</option>
-                                    <option value="PP">PP</option>
-                                    <option value="TI">TI</option>
-                                    <option value="RC">RC</option>
-                                </select>
-                            </div>
+                        <div class="col-md-6">
+                            <label>Additional Information:</label>
+                            <div class="field-group-sm">
+                                <div class="form-group">
+                                    <label for="selectCard">Card:</label>
+                                    <select class="form-select form-select-sm" name="selectCard" id="selectCard">
+                                        <option value="No">No</option>
+                                        <option value="Si">Yes</option>
+                                        <option value="Pendiente" selected>Pending</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="selectKEY">Key:</label>
+                                    <select class="form-select form-select-sm" name="selectKEY" id="selectKEY">
+                                        <option value="No">No</option>
+                                        <option value="Si">Yes</option>
+                                        <option value="Pendiente" selected>Pending</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="typeId">Type ID:</label>
+                                    <select class="form-select form-select-sm" name="type_id" id="type_id">
+                                        <option value="CC" selected>CC</option>
+                                        <option value="CE">CE</option>
+                                        <option value="PP">PP</option>
+                                        <option value="TI">TI</option>
+                                        <option value="RC">RC</option>
+                                    </select>
+                                </div>
                         </div>
-                        <div class="my-4">
-                            <button id="confirmAllButton" type="submit" class="btn btn-secondary">Send <i class="fas fa-paper-plane"></i> </button>
-                            <a href="../index.php" class="btn btn-danger"> Return <i class="fas fa-arrow-left"></i></a>
+                        <div class="col-12 mt-4 d-flex justify-content-center gap-3">
+                            <button id="confirmAllButton" type="submit" class="btn btn-secondary">
+                                <i class="fas fa-paper-plane me-2"></i>Send
+                            </button>
+                            <a href="../index.php" class="btn btn-danger">
+                                <i class="fas fa-arrow-left me-2"></i>Return
+                            </a>
                         </div>
                     </div>
                     <!-- Script para la validacion de caracteres especiales exceptuando el "/" y "-" -->
