@@ -2,6 +2,9 @@
 session_start();
 
 include "../Configuration/Connection.php";
+
+// Verificar si el usuario es administrador
+$is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
 ?>
 
 
@@ -17,7 +20,36 @@ include "../Configuration/Connection.php";
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
+    <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
     <style>
+        /* Estilos para el panel de administrador */
+        .admin-panel {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6 !important;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .admin-panel:hover {
+            box-shadow: var(--box-shadow);
+        }
+
+        .admin-panel h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .admin-panel .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .admin-panel .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
         :root {
             --primary-color: #4682B4;
             --secondary-color: #6c757d;
@@ -196,6 +228,56 @@ include "../Configuration/Connection.php";
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center vh-100">
             <div id="FORMregistform" class="shadow-lg p-5 rounded bg-light">
+                <?php if ($is_admin): ?>
+                <!-- Panel de Administrador para Campos Dinámicos -->
+                <div class="admin-panel mb-4 p-3 border rounded bg-light">
+                    <h4 class="mb-3"><i class="fa-solid fa-cog"></i> Field Management</h4>
+                    <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                        <?php
+                        try {
+                            // Get columns from both tables
+                            $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+                            
+                            $sql = "SELECT COLUMN_NAME, DATA_TYPE 
+                                   FROM INFORMATION_SCHEMA.COLUMNS 
+                                   WHERE TABLE_SCHEMA = 'garantias' 
+                                   AND TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                                   ORDER BY TABLE_NAME, COLUMN_NAME";
+                            
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute();
+                            $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            
+                            echo '<div class="col-md-12 mb-3">';
+                            echo '<label class="form-label">Available Fields</label>';
+                            echo '<div class="table-responsive">';
+                            echo '<table class="table table-sm table-bordered">';
+                            echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
+                            echo '<tbody>';
+                            
+                            foreach ($columns as $column) {
+                                if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
+                                    echo '<tr>';
+                                    echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
+                                    echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
+                                    echo '</tr>';
+                                }
+                            }
+                            
+                            echo '</tbody></table></div></div>';
+                            
+                        } catch (PDOException $e) {
+                            echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
+                        }
+                        ?>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Update Fields</button>
+                        </div>
+                    </form>
+                </div>
+                <?php endif; ?>
                 <!--Formulario de registro de equipos con sus respectivas validaciones -->
                 <form id="registform" method="post" action="../Controller/RegisterAsset.php">
                     <h1 id="totalC" class="text-center mb-5 fw-bold">Register Asset </h1>
@@ -342,7 +424,6 @@ include "../Configuration/Connection.php";
                                 <input class="shaodw-sm form-control" type="text" id="garantia" name="garantia"
                                     autocomplete="off" required data-validate="true" placeholder="mm/dd/yyyy" required>
                             </div>
-                            <!--Script para la validación de ingreso de la fecha-->
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     const garantiaInput = document.getElementById('garantia');

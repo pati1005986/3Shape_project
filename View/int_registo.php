@@ -10,6 +10,8 @@ if (!isset($_SESSION['asset_data'])) {
 
 // Obtener los datos desde la sesión
 $asset_data = $_SESSION['asset_data'];
+
+$is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
 ?>
 
 <!DOCTYPE html>
@@ -24,11 +26,261 @@ $asset_data = $_SESSION['asset_data'];
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <title>Update Register</title>
 </head>
+<style>
+        /* Estilos para el panel de administrador */
+        .admin-panel {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6 !important;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .admin-panel:hover {
+            box-shadow: var(--box-shadow);
+        }
+
+        .admin-panel h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .admin-panel .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .admin-panel .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        :root {
+            --primary-color: #4682B4;
+            --secondary-color: #6c757d;
+            --accent-color: #3a5f7d;
+            --light-bg: #f8f9fa;
+            --border-radius: 0.5rem;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --input-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #FORMregistform {
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+        }
+
+        #FORMregistform:hover {
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+        }
+
+        #totalC {
+            color: var(--primary-color);
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        #totalC:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control, .form-select {
+            border-radius: var(--border-radius);
+            border: 1px solid #ced4da;
+            padding: 0.6rem 0.75rem;
+            transition: var(--transition);
+            box-shadow: var(--input-shadow);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(70, 130, 180, 0.25);
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--input-shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+            border-color: #bb2d3b;
+            transform: translateY(-2px);
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .text-danger {
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Card selectors styling */
+        .card-selector-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-selector {
+            flex: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card-selector-group {
+                flex-direction: column;
+            }
+            
+            #FORMregistform {
+                padding: 1.5rem !important;
+            }
+        }
+
+        /* Field animation */
+        .form-control, .form-select {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-control:focus + .focus-border,
+        .form-select:focus + .focus-border {
+            transform: scaleX(1);
+            transition: transform 0.3s ease;
+        }
+
+        .focus-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            z-index: 0;
+        }
+
+        /* Small field groups */
+        .field-group-sm {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .field-group-sm .form-group {
+            flex: 1;
+            min-width: 120px;
+        }
+</style>
 
 <body>
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center vh-100">
             <div id="FORMupdateform" class="shadow-lg p-5 rounded bg-light">
+            <?php if ($is_admin): ?>
+                <!-- Panel de Administrador para Campos Dinámicos -->
+                <div class="admin-panel mb-4 p-3 border rounded bg-light">
+                    <h4 class="mb-3"><i class="fa-solid fa-cog"></i> Field Management</h4>
+                    <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
+                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                        <?php
+                        try {
+                            // Get columns from both tables
+                            $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+                            
+                            $sql = "SELECT COLUMN_NAME, DATA_TYPE 
+                                   FROM INFORMATION_SCHEMA.COLUMNS 
+                                   WHERE TABLE_SCHEMA = 'garantias' 
+                                   AND TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                                   ORDER BY TABLE_NAME, COLUMN_NAME";
+                            
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute();
+                            $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            
+                            echo '<div class="col-md-12 mb-3">';
+                            echo '<label class="form-label">Available Fields</label>';
+                            echo '<div class="table-responsive">';
+                            echo '<table class="table table-sm table-bordered">';
+                            echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
+                            echo '<tbody>';
+                            
+                            foreach ($columns as $column) {
+                                if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
+                                    echo '<tr>';
+                                    echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
+                                    echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
+                                    echo '</tr>';
+                                }
+                            }
+                            
+                            echo '</tbody></table></div></div>';
+                            
+                        } catch (PDOException $e) {
+                            echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
+                        }
+                        ?>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Update Fields</button>
+                        </div>
+                    </form>
+                </div>
+                <?php endif; ?>
+
                 <!--Formulario de Actualizacion donde trae los datos del activo seleccionado-->
                 <form id="updateform" action="../Controller/procesar_datos.php" method="post">
                     <h2 id="totalC" class="text-center">Update Register</h2>
@@ -582,5 +834,6 @@ $asset_data = $_SESSION['asset_data'];
     </div>
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
 </body>
+
 
 </html>

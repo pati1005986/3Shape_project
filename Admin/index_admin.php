@@ -1019,36 +1019,44 @@ try {
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
                     <div class="row">
-                        <?php
-                       try {
-                        include '../Configuration/Connection.php';
-                        $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
-                                FROM INFORMATION_SCHEMA.COLUMNS 
-                                WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
-                                'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
-                                ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                        $stmt = $pdo->prepare($sql);
-                        $stmt->execute();
-                        if ($stmt->rowCount() > 0) {
-                            echo '<div class="row">';
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo '<div class="col-md-4 col-sm-6 mb-2">';
-                                echo '<label class="checkbox-btn">';
-                                echo '<input type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">';
-                                echo '<span class="checkmark"></span>';
-                                echo '<label>' . htmlspecialchars($row["Field"]) . '</label>';
-                                echo '</label>';
-                                echo '</div>';
+                    <?php
+                        try {
+                            // Get columns from both tables
+                            $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+                            
+                            $sql = "SELECT COLUMN_NAME, DATA_TYPE 
+                                   FROM INFORMATION_SCHEMA.COLUMNS 
+                                   WHERE TABLE_SCHEMA = 'garantias' 
+                                   AND TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                                   ORDER BY TABLE_NAME, COLUMN_NAME";
+                            
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute();
+                            $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            
+                            echo '<div class="col-md-12 mb-3">';
+                            echo '<label class="form-label">Available Fields</label>';
+                            echo '<div class="table-responsive">';
+                            echo '<table class="table table-sm table-bordered">';
+                            echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
+                            echo '<tbody>';
+                            
+                            foreach ($columns as $column) {
+                                if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
+                                    echo '<tr>';
+                                    echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
+                                    echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
+                                    echo '</tr>';
+                                }
                             }
-                            echo '</div>';
-                        } else {
-                            echo '<p>No data found.</p>';
+                            
+                            echo '</tbody></table></div></div>';
+                            
+                        } catch (PDOException $e) {
+                            echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
                         }
-                    } catch (PDOException $e) {
-                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                    }
-                    ?>
+                        ?>
                     </div>
 
                     <br>
