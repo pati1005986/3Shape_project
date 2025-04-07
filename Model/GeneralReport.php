@@ -1,4 +1,5 @@
 <?php
+ob_start();
 //Archivo que consulta la mayoria de los datos de los activos osea registros y los trae a el pdf principal como pdf
 require './fpdf.php';
 include '../Configuration/Connection.php';
@@ -14,68 +15,73 @@ class PDF extends FPDF
    // Cabecera de página
    function Header()
    {
+    // Configuración inicial
+    $this->SetMargins(10, 10, 10);
+    
+    // Fondo del encabezado
+    $this->SetFillColor(245, 245, 245);
+    $this->Rect(0, 0, $this->GetPageWidth(), 50, 'F');
+    
     // Logo
-    $this->Image('logo.png', 10, 6, 30); 
+    $this->Image('logo.png', 15, 10, 35);
     
-    // Move to the right
-    $this->Cell(80);
+    // Línea decorativa
+    $this->SetDrawColor(164, 0, 125);
+    $this->SetLineWidth(0.5);
+    $this->Line(55, 15, $this->GetPageWidth() - 15, 15);
     
-    // Line break
-    $this->Ln(5); 
+    // Título principal
+    $this->SetFont('Arial', 'B', 24);
+    $this->SetTextColor(50, 50, 50);
+    $this->SetXY(55, 20);
+    $this->Cell(0, 10, convertirTexto("General Report"), 0, 1, 'L');
     
-    // title
-    $this->SetTextColor(164, 0, 125); 
-    $this->SetFont('Arial', 'B', 20);
-    $this->Cell(0, 10, convertirTexto("General Report"), 0, 1, 'C');
-    
-    // Line break
-    $this->Ln(5); 
-    
-    // Additional Information
-    $this->SetFont('Arial', 'I', 10);
+    // Fecha de generación
+    $this->SetFont('Arial', '', 11);
     $this->SetTextColor(100, 100, 100);
-    $this->Cell(0, 10, convertirTexto("Generated on: " . date('d/m/Y')), 0, 1, 'C');
+    $this->SetXY(55, 32);
+    $this->Cell(0, 10, convertirTexto("Generated on: " . date('d/m/Y')), 0, 1, 'L');
     
-    // Line break
-    $this->Ln(5);
-    // Line break
-    $this->Ln(10);
+    // Espacio antes de la tabla
+    $this->Ln(20);
+    
+    // Estilo de la tabla
+    $this->SetFillColor(164, 0, 125);
+    $this->SetTextColor(255, 255, 255);
+    $this->SetDrawColor(190, 190, 190);
+    $this->SetLineWidth(0.2);
+    $this->SetFont('Arial', 'B', 8); // Aumentado ligeramente el tamaño para mejor legibilidad
 
-      //
-
-      /* CAMPOS DE LA TABLA */
-      $this->SetFillColor(164, 0, 125); 
-      $this->SetTextColor(255, 255, 255); 
-      $this->SetDrawColor(163, 163, 163); 
-      $this->SetFont('Arial', 'B', 7); // Fuente más pequeña para ajustar todo
-
-      // Ajustar el ancho de cada columna
-      $this->Cell(22, 10, convertirTexto('AssetName'), 1, 0, 'C', 1);
-      $this->Cell(18, 10, convertirTexto('Serial'), 1, 0, 'C', 1);
-      $this->Cell(19, 10, convertirTexto('User Status'), 1, 0, 'C', 1);
-      $this->Cell(30, 10, convertirTexto('Last User'), 1, 0, 'C', 1);
-      $this->Cell(23, 10, convertirTexto('Status Change'), 1, 0, 'C', 1);
-      $this->Cell(20, 10, convertirTexto('Purchase '), 1, 0, 'C', 1);
-      $this->Cell(25, 10, convertirTexto('Warranty Enddate'), 1, 0, 'C', 1);
-      $this->Cell(15, 10, convertirTexto('Expired'), 1, 0, 'C', 1);
-      $this->Cell(20, 10, convertirTexto('New Laptop'), 1, 0, 'C', 1);
-      $this->Cell(20, 10, convertirTexto('ID'), 1, 1, 'C', 1); // Salto de línea
+      // Encabezados de tabla con mejor espaciado y diseño
+      $cellHeight = 12;
+      $this->Cell(22, $cellHeight, convertirTexto('Asset Name'), 1, 0, 'C', 1);
+      $this->Cell(18, $cellHeight, convertirTexto('Serial'), 1, 0, 'C', 1);
+      $this->Cell(19, $cellHeight, convertirTexto('User Status'), 1, 0, 'C', 1);
+      $this->Cell(30, $cellHeight, convertirTexto('Last User'), 1, 0, 'C', 1);
+      $this->Cell(23, $cellHeight, convertirTexto('Status Change'), 1, 0, 'C', 1);
+      $this->Cell(20, $cellHeight, convertirTexto('Purchase'), 1, 0, 'C', 1);
+      $this->Cell(25, $cellHeight, convertirTexto('Warranty End'), 1, 0, 'C', 1);
+      $this->Cell(15, $cellHeight, convertirTexto('Expired'), 1, 0, 'C', 1);
+      $this->Cell(20, $cellHeight, convertirTexto('ID'), 1, 1, 'C', 1);
    }
 
    // Pie de página
    function Footer()
    {
-      $this->SetY(-15); 
-      $this->SetFont('Arial', 'I', 7); 
-      $this->Cell(0, 10, convertirTexto('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C'); 
-      $this->SetY(-10); 
-      $this->SetFont('Arial', 'I', 8); 
-      $hoy = date('d/m/Y');
-      $this->Cell(355, 10, convertirTexto($hoy), 0, 0, 'C'); 
+      // Línea separadora
+      $this->SetY(-20);
+      $this->SetDrawColor(164, 0, 125);
+      $this->SetLineWidth(0.5);
+      $this->Line(15, $this->GetY(), $this->GetPageWidth() - 15, $this->GetY());
+      
+      // Información del pie de página
+      $this->SetY(-15);
+      $this->SetFont('Arial', '', 8);
+      $this->SetTextColor(100, 100, 100);
+      $this->Cell(0, 10, convertirTexto('Página ' . $this->PageNo() . '/{nb}'), 0, 0, 'C');
    }
 }
 
-ob_start();
 $pdf = new PDF();//CREAR PDF
 $pdf->SetLeftMargin(0); // Ajusta este valor si necesitas un pequeño margen
 $pdf->AddPage();
@@ -196,28 +202,35 @@ try {
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($resultados) {
+        $fillColor = false; // Inicializar la variable antes del bucle
         foreach ($resultados as $row) {
             if ($row['cedula'] == 0 || $row['user_status'] == 'Stock') {
                 continue; // Saltar registros según los criterios
             }
-            // Generar contenido del PDF
-            $pdf->Cell(22, 10, convertirTexto($row["assetname"]), 1, 0, 'C', 0);
-            $pdf->Cell(18, 10, convertirTexto($row["serial_number"]), 1, 0, 'C', 0);
-            $pdf->Cell(19, 10, convertirTexto($row["user_status"]), 1, 0, 'C', 0);
-            $pdf->Cell(30, 10, convertirTexto($row["last_user"]), 1, 0, 'C', 0);
-            $pdf->Cell(23, 10, convertirTexto($row["status_change"]), 1, 0, 'C', 0);
-            $pdf->Cell(20, 10, convertirTexto($row["purchase_country"]), 1, 0, 'C', 0);
-            $pdf->Cell(25, 10, convertirTexto($row["warranty_enddate"]), 1, 0, 'C', 0);
-            $pdf->Cell(15, 10, convertirTexto($row["expired"]), 1, 0, 'C', 0);
-            $pdf->Cell(20, 10, convertirTexto($row["new_laptop"]), 1, 0, 'C', 0);
-            $pdf->Cell(20, 10, convertirTexto($row["cedula"]), 1, 1, 'C', 0);
+            // Generar contenido del PDF con filas alternadas
+            $fillColor = !$fillColor;
+            $pdf->SetFillColor($fillColor ? 245 : 255, $fillColor ? 245 : 255, $fillColor ? 245 : 255);
+            $pdf->SetTextColor(50, 50, 50);
+            $pdf->SetFont('Arial', '', 8);
+            
+            $pdf->Cell(22, 10, convertirTexto($row["assetname"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(18, 10, convertirTexto($row["serial_number"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(19, 10, convertirTexto($row["user_status"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(30, 10, convertirTexto($row["last_user"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(23, 10, convertirTexto($row["status_change"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(20, 10, convertirTexto($row["purchase_country"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(25, 10, convertirTexto($row["warranty_enddate"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(15, 10, convertirTexto($row["expired"]), 1, 0, 'C', $fillColor);
+            $pdf->Cell(20, 10, convertirTexto($row["cedula"]), 1, 1, 'C', $fillColor);
         }
     } else {
         $pdf->Cell(0, 10, 'No data found', 1, 1, 'C', 0);
     }
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    ob_end_clean(); // Limpiar el buffer en caso de error
+    die("Error: " . $e->getMessage());
 }
-ob_end_flush(); 
 
+// Limpiar cualquier salida en el buffer antes de enviar el PDF
+ob_end_clean();
 $pdf->Output('Reporte_Equipos.pdf', 'I');

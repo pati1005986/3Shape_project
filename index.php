@@ -181,13 +181,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                             <a type="button" class="btn btn-outline-warning" onclick="showModal()">
                                                 <i class="fa-solid fa-bell" style="color:black"></i>
                                             </a>
-                                            <script>
-                                                // Function to show the modal
-                                                function showModal() {
-                                                    const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
-                                                    modal.show();
-                                                }
-                                            </script>
+                                            <script src="./View/Js/ModalReport.js"></script>
                                         </li>
                                     </div>
                                 </div>
