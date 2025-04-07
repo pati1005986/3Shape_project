@@ -564,7 +564,7 @@ form {
             </center>
         </div>
         <div class="row my-5" style="display: flex; gap: 20px;">
-            <script src="../View/Js/diagrams.js"> </script>
+            <script src="../View/Js/diagram.js"> </script>
             <div class="col-md-5 ms-2">
                 <div id="tool" style="display: none;"></div>
             </div>

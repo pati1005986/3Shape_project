@@ -1,0 +1,40 @@
+:root {
+    --secondary-color: #0d6efd;
+    --secondary-hover: #0a58ca;
+}
+
+.btn-secondary {
+    background: var(--secondary-color) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-radius: 12px !important;
+    padding: 10px 25px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    background: linear-gradient(120deg, var(--secondary-hover), var(--secondary-color)) !important;
+}
+
+.btn-secondary:focus {
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25) !important;
+}
+
+@media screen and (max-width: 768px) {
+    .btn-secondary {
+        padding: 8px 20px !important;
+        font-size: 14px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .btn-secondary {
+        padding: 6px 15px !important;
+        font-size: 13px !important;
+    }
+}

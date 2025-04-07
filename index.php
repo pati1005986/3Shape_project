@@ -22,6 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/DataTables/datatables.min.css">
     <link rel="stylesheet" href="./View/Css/dark-mode.css">
     <link rel="stylesheet" href="./View/Css/Datatable.css">
+    <link rel="stylesheet" href="./View/Css/button-styles.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/animate.min.css">
     <!-- Carga diferida de scripts no críticos -->
