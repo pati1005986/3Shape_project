@@ -56,6 +56,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../Configuration/DataTables/datatables.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
+    <link rel="stylesheet" href="../View/Css/button-styles.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
@@ -596,7 +597,7 @@ label {
                     <script src="../View/Js/ModalReport.js"></script>
                     <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header bg-secondary text-white">
+                            <div class="modal-header bg-primary text-white">
                                 <h2 class="modal-title fs-4">
                                     <i class="bi bi-bell-fill me-2"></i>
                                     Notification History
@@ -612,7 +613,7 @@ label {
                                             <?= implode('', array_map(function ($alert) {
                                                 return str_replace(
                                                     'class=\'p-3 mb-2 bg-light shadow-sm\'',
-                                                    'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-secondary\'',
+                                                    'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-primary\'',
                                                     $alert
                                                 );
                                             }, $alerts)) ?>

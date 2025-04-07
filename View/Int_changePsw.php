@@ -44,6 +44,7 @@ $_SESSION['last_activity'] = time();
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Change</title>
+    <link rel="stylesheet" href="../View/Css/button-styles.css">
     <link rel="shortcut icon" href="../Configuracion/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
@@ -221,7 +222,7 @@ $_SESSION['last_activity'] = time();
                             ?>
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header bg-secondary text-white">
+                                    <div class="modal-header bg-primary text-white">
                                         <h2 class="modal-title fs-4">
                                             <i class="bi bi-bell-fill me-2"></i>
                                             Notification History
@@ -236,7 +237,7 @@ $_SESSION['last_activity'] = time();
                                                     <?= implode('', array_map(function ($alert) {
                                                         return str_replace(
                                                             'class=\'p-3 mb-2 bg-light shadow-sm\'',
-                                                            'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-secondary\'',
+                                                            'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-primary\'',
                                                             $alert
                                                         );
                                                     }, $alerts)) ?>
