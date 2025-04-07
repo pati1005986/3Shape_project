@@ -6,25 +6,25 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Configuración de colores
+    // Configuración de colores modernos y armónicos
     const colors = {
         status: [
-            'rgba(63, 81, 181, 0.8)',   // Azul índigo
-            'rgba(0, 150, 136, 0.8)',    // Verde azulado
-            'rgba(255, 152, 0, 0.8)',    // Naranja
-            'rgba(156, 39, 176, 0.8)',   // Púrpura
-            'rgba(121, 85, 72, 0.8)'     // Marrón
+            'rgba(9, 87, 205, 0.75)',    // Azul principal
+            'rgba(41, 121, 255, 0.75)',   // Azul secundario
+            'rgba(83, 148, 250, 0.75)',   // Azul claro 
+            'rgba(13, 110, 253, 0.75)',   // Azul acento
+            'rgba(10, 88, 202, 0.75)'     // Azul oscuro
         ],
         country: [
-            'rgba(3, 169, 244, 0.8)',    // Azul claro
-            'rgba(139, 195, 74, 0.8)',   // Verde lima
-            'rgba(233, 30, 99, 0.8)',    // Rosa
-            'rgba(255, 193, 7, 0.8)',    // Ámbar
-            'rgba(96, 125, 139, 0.8)'    // Azul grisáceo
+            'rgba(9, 87, 205, 0.75)',    // Azul principal
+            'rgba(0, 150, 136, 0.75)',    // Verde azulado
+            'rgba(13, 110, 253, 0.75)',   // Azul acento
+            'rgba(138, 72, 188, 0.75)',   // Púrpura
+            'rgba(83, 148, 250, 0.75)'    // Azul claro
         ],
         expired: [
-            'rgba(76, 175, 80, 0.8)',    // Verde
-            'rgba(244, 67, 54, 0.8)'     // Rojo
+            'rgba(13, 110, 253, 0.75)',   // Azul acento
+            'rgba(220, 53, 69, 0.75)'     // Rojo
         ]
     };
 
@@ -66,6 +66,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 responsive: true,
                 maintainAspectRatio: false,
                 cutout: '70%',
+                animation: {
+                    animateScale: true,
+                    animateRotate: true,
+                    duration: 1200,
+                    easing: 'easeInOutQuart',
+                    onComplete: function(animation) {
+                        const ctx = animation.chart.ctx;
+                        ctx.save();
+                        ctx.fillStyle = '#666';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.font = '16px "Segoe UI", Arial, sans-serif';
+                        const text = 'Total';
+                        const total = animation.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        ctx.fillText(text, animation.chart.width / 2, animation.chart.height / 2 - 15);
+                        ctx.font = 'bold 24px "Segoe UI", Arial, sans-serif';
+                        ctx.fillText(total, animation.chart.width / 2, animation.chart.height / 2 + 15);
+                        ctx.restore();
+                    }
+                },
                 plugins: {
                     legend: {
                         position: 'right',
@@ -150,6 +170,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 responsive: true,
                 maintainAspectRatio: false,
                 indexAxis: 'y',
+                animation: {
+                    delay: function(context) {
+                        return context.dataIndex * 100;
+                    },
+                    duration: 1000,
+                    easing: 'easeOutElastic',
+                    from: function(context) {
+                        if (context.type === 'data') {
+                            if (context.mode === 'default' && !context.dropped) {
+                                context.dropped = true;
+                                return {
+                                    x: context.chart.width,
+                                    y: context.dataPoint.y
+                                };
+                            }
+                        }
+                        return false;
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
@@ -241,6 +280,12 @@ document.addEventListener('DOMContentLoaded', function() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1500,
+                    easing: 'easeOutBounce'
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -329,10 +374,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Función para adaptar los gráficos cuando cambia el tamaño de la ventana
+    // Función mejorada para adaptar los gráficos cuando cambia el tamaño de la ventana
+    let resizeTimeout;
     window.addEventListener('resize', function() {
-        statusChart.resize();
-        countryChart.resize();
-        expiredChart.resize();
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            const chartContainer = document.querySelector('.chart-container');
+            if (chartContainer) {
+                const containerWidth = chartContainer.offsetWidth;
+                const containerHeight = window.innerHeight * 0.6; // 60% de la altura de la ventana
+
+                statusChart.resize(containerWidth, containerHeight);
+                countryChart.resize(containerWidth, containerHeight);
+                expiredChart.resize(containerWidth, containerHeight);
+
+                // Actualizar opciones responsivas
+                const fontSize = containerWidth < 768 ? 12 : 14;
+                const legendPosition = containerWidth < 768 ? 'bottom' : 'right';
+
+                [statusChart, countryChart, expiredChart].forEach(chart => {
+                    if (chart.options.plugins.legend) {
+                        chart.options.plugins.legend.position = legendPosition;
+                        chart.options.plugins.legend.labels.font.size = fontSize;
+                    }
+                    if (chart.options.plugins.title) {
+                        chart.options.plugins.title.font.size = fontSize + 6;
+                    }
+                    chart.update('none');
+                });
+            }
+        }, 250); // Debounce de 250ms
     });
 });
