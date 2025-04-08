@@ -5,20 +5,12 @@
 
 .btn-secondary {
     background: var(--secondary-color) !important;
-    color: white !important;
-    border: none !important;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08) !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    border-radius: 15px !important;
-    padding: 12px 28px !important;
-    font-size: 15px !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     font-weight: 500 !important;
 }
 
 .btn-secondary:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12) !important;
-    background: linear-gradient(135deg, var(--secondary-hover), var(--secondary-color)) !important;
+    transform: translateY(-2px) !important;
 }
 
 .btn-secondary:focus {

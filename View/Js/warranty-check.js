@@ -1,28 +1,29 @@
 $(document).ready(function() {
     const swalCustomClass = {
-        popup: 'card shadow-lg',
-        title: 'modal-title fw-bold',
-        htmlContainer: 'modal-body py-3',
-        confirmButton: 'btn btn-primary me-2',
-        cancelButton: 'btn btn-outline-secondary'
+        popup: 'card shadow-lg rounded-4',
+        title: 'modal-title fw-bold fs-4',
+        htmlContainer: 'modal-body py-4 px-3',
+        confirmButton: 'btn btn-primary me-2 px-4 py-2',
+        cancelButton: 'btn btn-outline-secondary px-4 py-2'
     };
 
     const swalCustomStyle = {
         customClass: swalCustomClass,
-        backdrop: `rgba(33, 37, 41, 0.6)`,
+        backdrop: `rgba(33, 37, 41, 0.7)`,
         showClass: {
-            popup: 'animate__animated animate__fadeIn'
+            popup: 'animate__animated animate__fadeInDown animate__faster'
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOut'
+            popup: 'animate__animated animate__fadeOutUp animate__faster'
         },
         buttonsStyling: false,
         padding: '2.5rem',
-        borderRadius: '16px',
-        background: '#fff',
+        borderRadius: '1rem',
+        background: '#f8f9fa',
         color: '#212529',
         width: 'auto',
-        maxWidth: '32rem'
+        maxWidth: '34rem',
+        timerProgressBar: true
     };
 
     function checkWarranty() {
@@ -113,8 +114,8 @@ $(document).ready(function() {
     // Add button to check warranties
     const checkButton = $('<button>', {
         text: 'Check Warranties',
-        class: 'btn btn-primary btn-lg shadow-sm',
-        style: 'margin: 20px 0; padding: 12px 24px; font-weight: 500;',
+        class: 'btn btn-primary btn-lg shadow-sm hover-scale',
+        style: 'margin: 20px 0; padding: 14px 28px; font-weight: 600; letter-spacing: 0.5px;',
         click: checkWarranty
     }).prepend('<i class="fas fa-shield-alt me-2"></i>');
 

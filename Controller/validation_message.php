@@ -104,15 +104,15 @@ echo implode('', $alerts);
 }
 
 .alert-success {
-    background-color: #f0fdf4;
-    color: #166534;
-    border-left: 3px solid #16a34a;
+    background-color: #f0f9ff;
+    color: #075985;
+    border-left: 3px solid #0ea5e9;
 }
 
 .alert-warning {
     background-color: #fffbeb;
     color: #92400e;
-    border-left: 3px solid #d97706;
+    border-left: 3px solidrgb(217, 157, 6);
 }
 
 .animate-slide-in {

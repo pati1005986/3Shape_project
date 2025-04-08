@@ -382,7 +382,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header bg-secondary text-white">
+                                    <div class="modal-header bg-primary text-white">
                                         <h2 class="modal-title fs-4">
                                             <i class="bi bi-bell-fill me-2"></i>
                                             Notification History
@@ -397,7 +397,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                                     <?= implode('', array_map(function ($alert) {
                                                         return str_replace(
                                                             'class=\'p-3 mb-2 bg-light shadow-sm\'',
-                                                            'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-secondary\'',
+                                                            'class=\'notification-item p-3 mb-2 bg-white rounded shadow-sm border-start border-4 border-primary\'',
                                                             $alert
                                                         );
                                                     }, $alerts)) ?>
