@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error'] = 'Invalid fields selected';
     }
 
-    header('Location: index_admin.php');
+    header('Location: ../index.php');
     exit();
 }
 ?>

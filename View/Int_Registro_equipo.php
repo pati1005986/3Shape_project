@@ -29,55 +29,88 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
             <div id="FORMregistform" class="shadow-lg p-5 rounded bg-light">
-                <?php if ($is_admin): ?>
-                <!-- Panel de Administrador para Campos Dinámicos -->
-                <div class="admin-panel mb-4 p-3 border rounded bg-light">
-                    <h4 class="mb-3"><i class="fa-solid fa-cog"></i> Field Management</h4>
-                    <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                        <?php
-                        try {
-                            // Get columns from both tables
-                            $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
-                            
-                            $sql = "SELECT COLUMN_NAME, DATA_TYPE 
+                <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+                    <button id="toggleFieldPanel" class="btn btn-primary mb-3">Show/Hide Panel</button>
+                    <script>
+                        document.getElementById('toggleFieldPanel').addEventListener('click', function() {
+                            var panel = document.querySelector('.admin-panel');
+
+                            // Add transition styles if not already present
+                            if (!panel.style.transition) {
+                                panel.style.transition = 'all 0.3s ease-in-out';
+                            }
+
+                            // Set initial height/opacity for animation
+                            if (panel.style.display === 'none' || !panel.style.display) {
+                                panel.style.display = 'block';
+                                panel.style.opacity = '0';
+                                panel.style.maxHeight = '0';
+
+                                // Force reflow
+                                panel.offsetHeight;
+
+                                // Animate in
+                                panel.style.opacity = '1';
+                                panel.style.maxHeight = panel.scrollHeight + 'px';
+                            } else {
+                                // Animate out
+                                panel.style.opacity = '0';
+                                panel.style.maxHeight = '0';
+
+                                // Hide after animation
+                                setTimeout(() => {
+                                    panel.style.display = 'none';
+                                }, 300);
+                            }
+                        });
+                    </script>
+                    <!-- Panel de Administrador para Campos Dinámicos -->
+                    <div class="admin-panel mb-4 p-3 border rounded bg-light" style="display: none;">
+                        <h4 class="mb-3"><i class="fa-solid fa-cog"></i> Field Management</h4>
+                        <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                            <?php
+                            try {
+                                // Get columns from both tables
+                                $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+
+                                $sql = "SELECT COLUMN_NAME, DATA_TYPE 
                                    FROM INFORMATION_SCHEMA.COLUMNS 
                                    WHERE TABLE_SCHEMA = 'garantias' 
                                    AND TABLE_NAME IN ('equipos', 'usuarios_equipos')
                                    ORDER BY TABLE_NAME, COLUMN_NAME";
-                            
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute();
-                            $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            
-                            echo '<div class="col-md-12 mb-3">';
-                            echo '<label class="form-label">Available Fields</label>';
-                            echo '<div class="table-responsive">';
-                            echo '<table class="table table-sm table-bordered">';
-                            echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
-                            echo '<tbody>';
-                            
-                            foreach ($columns as $column) {
-                                if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
-                                    echo '<tr>';
-                                    echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
-                                    echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
-                                    echo '</tr>';
+
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute();
+                                $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                echo '<div class="col-md-12 mb-3">';
+                                echo '<label class="form-label">Available Fields</label>';
+                                echo '<div class="table-responsive">';
+                                echo '<table class="table table-sm table-bordered">';
+                                echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
+                                echo '<tbody>';
+
+                                foreach ($columns as $column) {
+                                    if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
+                                        echo '<tr>';
+                                        echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
+                                        echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
+                                        echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
+                                        echo '</tr>';
+                                    }
                                 }
+
+                                echo '</tbody></table></div></div>';
+                            } catch (PDOException $e) {
+                                echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
                             }
-                            
-                            echo '</tbody></table></div></div>';
-                            
-                        } catch (PDOException $e) {
-                            echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
-                        }
-                        ?>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Update Fields</button>
-                        </div>
-                    </form>
-                </div>
+                            ?>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Update Fields</button>
+                            </div>
+                        </form>
+                    </div>
                 <?php endif; ?>
                 <!--Formulario de registro de equipos con sus respectivas validaciones -->
                 <form id="registform" method="post" action="../Controller/RegisterAsset.php">
@@ -426,7 +459,7 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
                         </div>
 
                         <!--Input relacionado algun nueva columna que se haya seleccionado-->
-                      <?php if (isset($_SESSION['new_reg_fields'])): ?>
+                        <?php if (isset($_SESSION['new_reg_fields'])): ?>
                             <?php foreach ($_SESSION['new_reg_fields'] as $field_name): ?>
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
@@ -496,88 +529,88 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
                                         <option value="RC">RC</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-12 mt-4 d-flex justify-content-center gap-3">
+                                <button id="confirmAllButton" type="submit" class="btn btn-secondary">
+                                    <i class="fas fa-paper-plane me-2"></i>Send
+                                </button>
+                                <a href="../index.php" class="btn">
+                                    <i class="fas fa-arrow-left me-2"></i>Return
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-12 mt-4 d-flex justify-content-center gap-3">
-                            <button id="confirmAllButton" type="submit" class="btn btn-secondary">
-                                <i class="fas fa-paper-plane me-2"></i>Send
-                            </button>
-                            <a href="../index.php" class="btn">
-                                <i class="fas fa-arrow-left me-2"></i>Return
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Script para la validacion de caracteres especiales exceptuando el "/" y "-" -->
-                    <script>
-                        // Función general para validar que no se ingresen caracteres especiales excepto "/" y "-"
-                        function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
-                            // Ajustar la expresión regular para incluir "/" y "-" y Ñ
-                            const regex = /^[a-zA-Z0-9\s\/\-Ññ\?/]+$/; // Permite letras, números, espacios, "/" y "-"
+                        <!-- Script para la validacion de caracteres especiales exceptuando el "/" y "-" -->
+                        <script>
+                            // Función general para validar que no se ingresen caracteres especiales excepto "/" y "-"
+                            function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
+                                // Ajustar la expresión regular para incluir "/" y "-" y Ñ
+                                const regex = /^[a-zA-Z0-9\s\/\-Ññ\?/]+$/; // Permite letras, números, espacios, "/" y "-"
 
-                            inputElement.addEventListener('input', function() {
-                                const inputValue = this.value;
+                                inputElement.addEventListener('input', function() {
+                                    const inputValue = this.value;
 
-                                if (!regex.test(inputValue)) {
-                                    mensajeElement.textContent =
-                                        'Characters are not allowed except "/" and "-" and Ñ.';
-                                    // Remover caracteres no válidos excepto "/" y "-" y Ñ
-                                    this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-Ññ]/g, '');
+                                    if (!regex.test(inputValue)) {
+                                        mensajeElement.textContent =
+                                            'Characters are not allowed except "/" and "-" and Ñ.';
+                                        // Remover caracteres no válidos excepto "/" y "-" y Ñ
+                                        this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-Ññ]/g, '');
+                                    } else {
+                                        mensajeElement.textContent = '';
+                                    }
+
+                                    // Validar longitud máxima (usar data-max-length o 50 por defecto)
+                                    const maxLength = inputElement.dataset.maxLength ? parseInt(inputElement.dataset.maxLength) : 100;
+                                    const currentValue = this.value;
+
+                                    if (currentValue.length > maxLength) {
+                                        mensajeElement.textContent = `Maximum ${maxLength} characters allowed.`;
+                                        this.value = currentValue.slice(0, maxLength);
+                                    }
+                                });
+                            }
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const fieldsToValidate = document.querySelectorAll('[data-validate="true"]');
+                                fieldsToValidate.forEach(inputElement => {
+                                    const mensajeElement = document.createElement('p');
+                                    mensajeElement.classList.add('text-danger');
+                                    inputElement.parentNode.appendChild(mensajeElement);
+
+                                    validarSinCaracteresEspeciales(inputElement, mensajeElement);
+                                });
+                            });
+                        </script>
+                        <script>
+                            // validacion reciclada para el impedimento del envio del formulario sus lescel no estan seleccionados
+                            document.getElementById('registform').addEventListener('submit', function(event) {
+                                const select1 = document.getElementById('compra');
+                                const select2 = document.getElementById('usrStts');
+                                const select3 = document.getElementById('status_change');
+
+                                let errorMessage = "Please fix the following errors: \n";
+                                let hasError = false;
+
+                                if (select1.value === '0') {
+                                    errorMessage += "- Select a Purchase Country.\n";
+                                    hasError = true;
+                                }
+                                if (select2.value === '0') {
+                                    errorMessage += "- Select a User Status.\n";
+                                    hasError = true;
+                                }
+                                if (select3.value === '0') {
+                                    errorMessage += "- Select a Status Change.\n";
+                                    hasError = true;
+                                }
+                                if (hasError) {
+                                    event.preventDefault();
+                                    alert(errorMessage);
                                 } else {
-                                    mensajeElement.textContent = '';
-                                }
-
-                                // Validar longitud máxima (usar data-max-length o 50 por defecto)
-                                const maxLength = inputElement.dataset.maxLength ? parseInt(inputElement.dataset.maxLength) : 100;
-                                const currentValue = this.value;
-
-                                if (currentValue.length > maxLength) {
-                                    mensajeElement.textContent = `Maximum ${maxLength} characters allowed.`;
-                                    this.value = currentValue.slice(0, maxLength);
+                                    if (!confirm('Are you sure you want to update this data?')) {
+                                        event.preventDefault(); // Cancelar el envío si el usuario no confirma
+                                    }
                                 }
                             });
-                        }
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const fieldsToValidate = document.querySelectorAll('[data-validate="true"]');
-                            fieldsToValidate.forEach(inputElement => {
-                                const mensajeElement = document.createElement('p');
-                                mensajeElement.classList.add('text-danger');
-                                inputElement.parentNode.appendChild(mensajeElement);
-
-                                validarSinCaracteresEspeciales(inputElement, mensajeElement);
-                            });
-                        });
-                    </script>
-                    <script>
-                        // validacion reciclada para el impedimento del envio del formulario sus lescel no estan seleccionados
-                        document.getElementById('registform').addEventListener('submit', function(event) {
-                            const select1 = document.getElementById('compra');
-                            const select2 = document.getElementById('usrStts');
-                            const select3 = document.getElementById('status_change');
-
-                            let errorMessage = "Please fix the following errors: \n";
-                            let hasError = false;
-
-                            if (select1.value === '0') {
-                                errorMessage += "- Select a Purchase Country.\n";
-                                hasError = true;
-                            }
-                            if (select2.value === '0') {
-                                errorMessage += "- Select a User Status.\n";
-                                hasError = true;
-                            }
-                            if (select3.value === '0') {
-                                errorMessage += "- Select a Status Change.\n";
-                                hasError = true;
-                            }
-                            if (hasError) {
-                                event.preventDefault();
-                                alert(errorMessage);
-                            } else {
-                                if (!confirm('Are you sure you want to update this data?')) {
-                                    event.preventDefault(); // Cancelar el envío si el usuario no confirma
-                                }
-                            }
-                        });
-                    </script>
+                        </script>
                 </form>
             </div>
         </div>

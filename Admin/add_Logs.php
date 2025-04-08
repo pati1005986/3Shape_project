@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validar existencia de datos
     if (empty($_POST['columns']) || empty($_POST['Log_name'])) {
         $_SESSION['error'] = "Faltan campos requeridos";
-        header('Location: index_admin.php');
+        header('Location: ../index.php');
         exit();
     }
 
