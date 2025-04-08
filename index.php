@@ -450,16 +450,44 @@ if (session_status() === PHP_SESSION_NONE) {
                         </script>
 
 <style>
-    /* Define la animación de giro */
+    /* Animación de infinito para la lupa */
+    @keyframes infinity {
+        0% { transform: translateX(0) rotate(0deg); }
+        25% { transform: translateX(3px) rotate(10deg); }
+        50% { transform: translateX(0) rotate(0deg); }
+        75% { transform: translateX(-3px) rotate(-10deg); }
+        100% { transform: translateX(0) rotate(0deg); }
+    }
+    
+    /* Animación de movimiento lateral para el borrador */
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(3px); }
+        50% { transform: translateX(0); }
+        75% { transform: translateX(-3px); }
+        100% { transform: translateX(0); }
+    }
+    
+    /* Animación de giro para refresh */
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
     
-    /* Aplica la animación al icono cuando se hace hover en el botón */
+    /* Aplica las animaciones al hacer hover */
+    #search_btn:hover .bi-search {
+        animation: infinity 1.5s ease-in-out infinite;
+        display: inline-block;
+    }
+    
+    #reset_btn:hover .bi-eraser {
+        animation: shake 0.5s ease-in-out infinite;
+        display: inline-block;
+    }
+    
     #refresh_btn:hover .bi-arrow-clockwise {
         animation: spin 2s linear infinite;
-        display: inline-block; /* Necesario para que la transformación funcione */
+        display: inline-block;
     }
 </style>
 
@@ -563,6 +591,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 });
             </script>
             <script>
+                //Coment
                 //Script para visualizar la contraseña
                 // Password visibility toggle function
                 document.addEventListener('DOMContentLoaded', function() {
@@ -648,6 +677,15 @@ if (session_status() === PHP_SESSION_NONE) {
                 </script>
 
             </div>
+            <style>
+    .sync-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .btn:hover .sync-icon {
+        transform: rotate(30deg);
+    }
+</style>
             <table id="mainTable" class="shadow-lg table table-bordered table-striped fade-in">
                 <thead class="text-center">
                     <tr class="align-items-center text-center">

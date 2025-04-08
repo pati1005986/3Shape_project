@@ -1,6 +1,40 @@
 {
-    "success": [],
+    "success": [
+        {
+            "message": "Fields added to both forms and table successfully",
+            "timestamp": "2025-04-08 15:02:09"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-04-08 15:17:24"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-04-08 15:18:17"
+        },
+        {
+            "message": "Fields added to both forms and table successfully",
+            "timestamp": "2025-04-08 15:18:52"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-04-08 15:19:19"
+        },
+        {
+            "message": "Fields added to both forms and table successfully",
+            "timestamp": "2025-04-08 15:21:25"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-04-08 15:22:56"
+        }
+    ],
     "error": [],
-    "error_message": [],
+    "error_message": [
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-04-08 13:21:43"
+        }
+    ],
     "warnings": []
 }
