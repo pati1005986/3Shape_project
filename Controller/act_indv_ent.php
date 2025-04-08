@@ -155,16 +155,28 @@ foreach ($resultados as $index => $row) {
     if ($count >= 15) break;
     
     $count++;
-
-    $last_user = $row['last_user'] ?? '';
-    $cedula = $row['cedula'];
-    $serial = $row['serial_number'];
-    $headSet = $row['HeadSet'];
-    $dongle = $row['Dongle'];
-    $cargo = $row['job_title'];
-    $tipo_id = $row['Tipo_ID'];
-    $carnet = !empty($row['Carnet']) ? $row['Carnet'] : 'Pendiente';
-    $llave = !empty($row['LLave']) ? $row['LLave'] : 'Pendiente';
+// Obtenemos todos los nuevos campos
+$tipo_id = $row['Tipo_ID'];
+$last_user = $row['last_user'];
+$cedula = $row['cedula'];
+$serial = $row['serial_number'];
+$cargo = $row['job_title'];
+$asset_status = $row['asset_status'] ?? '';
+$asset_observations = $row['asset_observations'] ?? '';
+$monitor = $row['Monitor'] ?? '';
+$monitor_status = $row['monitor_status'] ?? '';
+$monitor_observations = $row['monitor_observations'] ?? '';
+$headSet = $row['HeadSet'] ?? '';
+$headSet_status = $row['headset_status'] ?? '';
+$headSet_observations = $row['headset_observations'] ?? '';
+$dongle = $row['Dongle'] ?? '';
+$dongle_status = $row['dongle_status'] ?? '';
+$dongle_observations = $row['dongle_observations'] ?? '';
+$celular = $row['Celular'] ?? '';
+$celular_status = $row['celular_status'] ?? '';
+$celular_observations = $row['celular_observations'] ?? '';
+$carnet = !empty($row['Carnet']) ? $row['Carnet'] : 'Pendiente';
+$llave = !empty($row['LLave']) ? $row['LLave'] : 'Pendiente';
 
     // Añadir texto de certificado
     $pdf->addCertificadoTexto(
@@ -176,26 +188,48 @@ foreach ($resultados as $index => $row) {
 
     $itemCounter = 1;
 
-    // Añadir filas de datos del activo
+   
+    // Computador
     $pdf->Cell(22, 10, convertirTexto($itemCounter++), 1, 0, 'C');
     $pdf->Cell(40, 10, convertirTexto('Computador Personal'), 1, 0, 'C');
     $pdf->Cell(29, 10, convertirTexto($serial), 1, 0, 'C');
-    $pdf->Cell(29,10, convertirTexto(''),1,0,'C');
-    $pdf->Cell(38, 10, convertirTexto(''), 1, 1, 'C');
-    
+    $pdf->Cell(29, 10, convertirTexto($asset_status), 1, 0, 'C');
+    $pdf->Cell(38, 10, convertirTexto($asset_observations), 1, 1, 'C');
+
+    // Monitor (si existe)
+    if (!empty($monitor)) {
+        $pdf->Cell(22, 10, convertirTexto($itemCounter++), 1, 0, 'C');
+        $pdf->Cell(40, 10, convertirTexto('Monitor'), 1, 0, 'C');
+        $pdf->Cell(29, 10, convertirTexto($monitor), 1, 0, 'C');
+        $pdf->Cell(29, 10, convertirTexto($monitor_status), 1, 0, 'C');
+        $pdf->Cell(38, 10, convertirTexto($monitor_observations), 1, 1, 'C');
+    }
+
+    // HeadSet (si existe)
     if (!empty($headSet)) {
         $pdf->Cell(22, 10, convertirTexto($itemCounter++), 1, 0, 'C');
         $pdf->Cell(40, 10, convertirTexto('Head Set'), 1, 0, 'C');
         $pdf->Cell(29, 10, convertirTexto($headSet), 1, 0, 'C');
-        $pdf->Cell(29,10, convertirTexto(''),1,0,'C');
-        $pdf->Cell(38, 10, convertirTexto(''), 1, 1, 'C');
+        $pdf->Cell(29, 10, convertirTexto($headSet_status), 1, 0, 'C');
+        $pdf->Cell(38, 10, convertirTexto($headSet_observations), 1, 1, 'C');
     }
+
+    // Dongle (si existe)
     if (!empty($dongle)) {
         $pdf->Cell(22, 10, convertirTexto($itemCounter++), 1, 0, 'C');
         $pdf->Cell(40, 10, convertirTexto('Dongle'), 1, 0, 'C');
         $pdf->Cell(29, 10, convertirTexto($dongle), 1, 0, 'C');
-        $pdf->Cell(29,10, convertirTexto(''),1,0,'C');
-        $pdf->Cell(38, 10, convertirTexto(''), 1, 1, 'C');
+        $pdf->Cell(29, 10, convertirTexto($dongle_status), 1, 0, 'C');
+        $pdf->Cell(38, 10, convertirTexto($dongle_observations), 1, 1, 'C');
+    }
+
+    // Celular (si existe)
+    if (!empty($celular)) {
+        $pdf->Cell(22, 10, convertirTexto($itemCounter++), 1, 0, 'C');
+        $pdf->Cell(40, 10, convertirTexto('Celular'), 1, 0, 'C');
+        $pdf->Cell(29, 10, convertirTexto($celular), 1, 0, 'C');
+        $pdf->Cell(29, 10, convertirTexto($celular_status), 1, 0, 'C');
+        $pdf->Cell(38, 10, convertirTexto($celular_observations), 1, 1, 'C');
     }
     
     $pdf->Ln(10);
