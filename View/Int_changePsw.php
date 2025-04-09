@@ -66,6 +66,31 @@ $_SESSION['last_activity'] = time();
             border-radius: 10px;
             background-color: #f8f9fa;
         }
+        
+        /* Estilos para los contenedores de contraseña */
+        .password-container {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            z-index: 2;
+        }
+        
+        .password-toggle:hover {
+            color: #333;
+        }
+        
+        .form-control {
+            padding-right: 40px; /* Espacio para el botón de toggle */
+        }
     </style>
 </head>
 
@@ -133,22 +158,37 @@ $_SESSION['last_activity'] = time();
                             }
                             ?>
 
-                            <!-- Formulario para cambiar la contraseña -->
+                            <!-- Formulario para cambiar la contraseña con botones para mostrar/ocultar -->
                             <form action="../Controller/proccess_change_psw.php" method="POST" id="changePasswordForm"
                                 onsubmit="return validateForm()">
                                 <div class="form-group">
                                     <label for="currentPassword">Current Password</label>
-                                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                    <div class="password-container">
+                                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                        <button type="button" class="password-toggle" onclick="togglePassword('currentPassword')">
+                                            <i class="fa-solid fa-eye" id="currentPassword-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="newPassword">New Password</label>
-                                    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                    <div class="password-container">
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                        <button type="button" class="password-toggle" onclick="togglePassword('newPassword')">
+                                            <i class="fa-solid fa-eye" id="newPassword-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirm New Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                                        required>
+                                    <div class="password-container">
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fa-solid fa-eye" id="confirmPassword-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <br>
                                 <button type="submit" class="btn btn-secondary "><i class="fas fa-key"></i> Change Password</button>
@@ -273,7 +313,23 @@ $_SESSION['last_activity'] = time();
                                 });
                             </script>
                         </div>
+                        <!-- Script para mostrar/ocultar contraseñas -->
                         <script>
+                            function togglePassword(inputId) {
+                                const passwordInput = document.getElementById(inputId);
+                                const eyeIcon = document.getElementById(inputId + '-eye');
+                                
+                                if (passwordInput.type === 'password') {
+                                    passwordInput.type = 'text';
+                                    eyeIcon.classList.remove('fa-eye');
+                                    eyeIcon.classList.add('fa-eye-slash');
+                                } else {
+                                    passwordInput.type = 'password';
+                                    eyeIcon.classList.remove('fa-eye-slash');
+                                    eyeIcon.classList.add('fa-eye');
+                                }
+                            }
+                            
                             function validateForm() {
                                 var newPassword = document.getElementById("newPassword").value;
                                 var confirmPassword = document.getElementById("confirmPassword").value;
@@ -291,6 +347,14 @@ $_SESSION['last_activity'] = time();
                                     return false;
                                 }
                                 return true;
+                            }
+                            
+                            function confirmNetworkChange() {
+                                return confirm("Are you sure you want to change the network address?");
+                            }
+                            
+                            function showModal() {
+                                new bootstrap.Modal(document.getElementById('notificationModal')).show();
                             }
                         </script>
                         <style>

@@ -29,11 +29,20 @@
             "timestamp": "2025-04-08 15:22:56"
         }
     ],
-    "error": [],
+    "error": [
+        {
+            "message": "Invalid field selected",
+            "timestamp": "2025-04-09 07:24:54"
+        }
+    ],
     "error_message": [
         {
             "message": "Session expired, please try again.",
             "timestamp": "2025-04-08 13:21:43"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-04-09 11:55:56"
         }
     ],
     "warnings": []
