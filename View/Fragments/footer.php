@@ -12,10 +12,10 @@
                 <i class="fas fa-address-card me-2"></i>Contact
             </h6>
             <p class="mb-2"><i class="fas fa-user me-2"></i>Developed by: Daniel Patiño</p>
-<p class="mb-2"><i class="fas fa-envelope me-2"></i><a href="mailto:Daniel.Cortes@3Shape.com" class="text-decoration-none text-primary hover-opacity">Daniel.Cortes@3Shape.com</a></p>
-<p class="mb-2"><i class="fab fa-github me-2"></i><a href="https://github.com/pati1005986" class="text-decoration-none text-primary hover-opacity">pati1005986</a></p>
-<p class="mb-2"><i class="fab fa-linkedin me-2"></i><a href="#" class="text-decoration-none text-primary hover-opacity">LinkedIn</a></p>
-<p><i class="fas fa-book me-2"></i><a href="/3Shape_project/View/Int_manual.html" class="text-decoration-none text-primary hover-opacity">User Manual</a></p>
+            <p class="mb-2"><i class="fas fa-envelope me-2"></i><a href="mailto:Daniel.Cortes@3Shape.com" class="text-decoration-none text-primary hover-opacity">Daniel.Cortes@3Shape.com</a></p>
+            <p class="mb-2"><i class="fab fa-github me-2"></i><a href="https://github.com/pati1005986" class="text-decoration-none text-primary hover-opacity">pati1005986</a></p>
+            <p class="mb-2"><i class="fab fa-linkedin me-2"></i><a href="#" class="text-decoration-none text-primary hover-opacity">LinkedIn</a></p>
+            <p><i class="fas fa-book me-2"></i><a href="/3Shape_project/View/Int_manual.html" class="text-decoration-none text-primary hover-opacity">User Manual</a></p>
         </div>
         <div class="col-md-4 mb-4">
             <h6 class="text-uppercase fw-bold mb-3 d-flex align-items-center">
