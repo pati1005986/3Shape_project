@@ -158,23 +158,23 @@ if (session_status() === PHP_SESSION_NONE) {
                                 <!-- Contenido colapsable con múltiples funciones -->
                                 <div class="collapse navbar-collapse" id="navbarCollapse">
                                     <div class="navbar-nav">
-                                          <!-- Reporte PDF que contiene la información de todos los activos registrados -->
+                                        <!-- Reporte PDF que contiene la información de todos los activos registrados -->
                                         <a id="generatePDF" class="nav-link me-2" data-url="./Model/GeneralReport.php" target="_blank" title="Generate General PDF">
                                             <i class="far fa-file-pdf" style="color:red;"></i> Generate General PDF
                                         </a>
-                                          <!-- Documento PDF con las actas de salida de la empresa de los empleados y activos -->
+                                        <!-- Documento PDF con las actas de salida de la empresa de los empleados y activos -->
                                         <a id="generateActaSalida" class="nav-link me-2" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">
                                             <i class="fas fa-file-export"></i> Generate Departure Certificate
                                         </a>
-                                          <!-- Documento PDF con las actas de ingreso de la empresa de los empleados y activos que se les entregan -->
+                                        <!-- Documento PDF con las actas de ingreso de la empresa de los empleados y activos que se les entregan -->
                                         <a id="generateActaEntrada" class="nav-link me-2" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">
                                             <i class="far fa-file-alt"></i> Generate Entry Certificate
                                         </a>
-                                          <!-- Formulario para cambiar de aquipo a un usuario  -->
+                                        <!-- Formulario para cambiar de aquipo a un usuario  -->
                                         <a href="./View/Int_entrada.php" class="nav-link me-2" title="Change Asset">
                                             <i class="bi bi-arrow-repeat me-1"></i> Change Asset
                                         </a>
-                                          <!-- Formulario para asignar una fecha de salida de un empleado y un activo-->
+                                        <!-- Formulario para asignar una fecha de salida de un empleado y un activo-->
                                         <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>
@@ -449,31 +449,37 @@ if (session_status() === PHP_SESSION_NONE) {
                             }
                         </script>
 
-<style>
-    /* Define la animación de giro */
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    /* Aplica la animación al icono cuando se hace hover en el botón */
-    #refresh_btn:hover .bi-arrow-clockwise {
-        animation: spin 2s linear infinite;
-        display: inline-block; /* Necesario para que la transformación funcione */
-    }
-</style>
+                        <style>
+                            /* Define la animación de giro */
+                            @keyframes spin {
+                                0% {
+                                    transform: rotate(0deg);
+                                }
 
-<div class="my-2 mb-2 d-flex justify-content-left">
-    <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
-        <i class="bi bi-search"></i> Search
-    </button>
-    <button type="reset" class="shadow btn btn-light border-danger me-1" id="reset_btn">Clear
-        <i class="bi bi-eraser"></i>
-    </button>
-    <button type="button" class="shadow btn btn-light border-primary" id="refresh_btn">
-        <i class="bi bi-arrow-clockwise"></i> Refresh
-    </button>
-</div>
+                                100% {
+                                    transform: rotate(360deg);
+                                }
+                            }
+
+                            /* Aplica la animación al icono cuando se hace hover en el botón */
+                            #refresh_btn:hover .bi-arrow-clockwise {
+                                animation: spin 2s linear infinite;
+                                display: inline-block;
+                                /* Necesario para que la transformación funcione */
+                            }
+                        </style>
+
+                        <div class="my-2 mb-2 d-flex justify-content-left">
+                            <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                            <button type="reset" class="shadow btn btn-light border-danger me-1" id="reset_btn">Clear
+                                <i class="bi bi-eraser"></i>
+                            </button>
+                            <button type="button" class="shadow btn btn-light border-primary" id="refresh_btn">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+                        </div>
 
 
                         <script>
@@ -629,6 +635,33 @@ if (session_status() === PHP_SESSION_NONE) {
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
                     <i class="fas fa-trash-alt"></i>
                     Delete All Logs</button>
+                <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
+                    <!-- Modal Admin -->
+                    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title" id="adminModalLabel">Admin Tools</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="dynamicForms">
+                                        <!-- Los formularios se cargarán aquí dinámicamente -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+                        <button class="shadow btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;" id="adminButton">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <script src="./View/Js/AdminModal.js"></script> 
+                    </div>
+                <?php endif; ?>
+                <!-- Scripts para el modal de administración -->
+                
                 <script>
                     document.getElementById('deleteAllButton').addEventListener('click', function() {
                         Swal.fire({
@@ -692,21 +725,27 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
                 <style>
                     /* Animación de giro para el icono */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+                    @keyframes spin {
+                        0% {
+                            transform: rotate(0deg);
+                        }
 
-/* Aplica la animación al icono cuando se hace hover en el botón */
-#procesarSeleccionados:hover .fa-cog {
-    animation: spin 2s linear infinite;
-    display: inline-block; /* Necesario para transformaciones */
-}
+                        100% {
+                            transform: rotate(360deg);
+                        }
+                    }
 
-/* Opcional: Animación cuando se hace clic (como en tu código JS) */
-.fa-cog.spin {
-    animation: spin 2s linear infinite;
-}
+                    /* Aplica la animación al icono cuando se hace hover en el botón */
+                    #procesarSeleccionados:hover .fa-cog {
+                        animation: spin 2s linear infinite;
+                        display: inline-block;
+                        /* Necesario para transformaciones */
+                    }
+
+                    /* Opcional: Animación cuando se hace clic (como en tu código JS) */
+                    .fa-cog.spin {
+                        animation: spin 2s linear infinite;
+                    }
                 </style>
                 <script src="./View/Js/Select_proccess.js"></script>
             </table>
@@ -755,7 +794,6 @@ if (session_status() === PHP_SESSION_NONE) {
     <!-- jQuery ya está cargado en el head -->
     <script src="./Configuration/DataTables/datatables.min.js" defer></script>
     <script src="./Configuration/bootstrap/js/bootstrap.min.js" defer></script>
-    <script src="./View/Js/Change_query.js" defer></script>
     <script src="./Configuration/JQuery/sweetalert2@11.js" defer></script>
 
     <!-- Script para el modal de admin -->
@@ -791,6 +829,7 @@ if (session_status() === PHP_SESSION_NONE) {
             });
         });
     </script>
+    <script src="./Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 <?php include './View/Fragments/footer.php'; ?>
 

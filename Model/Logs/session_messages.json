@@ -1,6 +1,48 @@
 {
-    "success": [],
-    "error": [],
+    "success": [
+        {
+            "message": "Field 'Jose' added successfully to table 'usuarios_equipos'.",
+            "timestamp": "2025-04-09 10:56:12"
+        },
+        {
+            "message": "Field 'Daniel' added successfully to table 'usuarios_equipos'.",
+            "timestamp": "2025-04-09 12:55:26"
+        }
+    ],
+    "error": [
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 10:48:44"
+        },
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 10:49:01"
+        },
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 10:55:39"
+        },
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 11:25:40"
+        },
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 11:44:06"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-04-09 12:45:10"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-04-09 12:45:20"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-04-09 12:45:30"
+        }
+    ],
     "error_message": [],
     "warnings": []
 }

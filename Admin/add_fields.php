@@ -29,15 +29,15 @@ try {
 
     // Redirigir a la página de inicio con un mensaje de éxito
     $_SESSION['success'] = "Field '$fieldName' added successfully to table '$tableName'.";
-    header('Location: index_admin.php');
+    header('Location: ../index.php');
     exit();
 } catch (PDOException $e) {
     $_SESSION['error'] = "Database error: " . $e->getMessage();
-    header('Location: index_admin.php');
+    header('Location: ../index.php');
     exit();
 } catch (Exception $e) {
     $_SESSION['error'] = "Error: " . $e->getMessage();
-    header('Location: index_admin.php');
+    header('Location: ../index.php');
     exit();
 }
 ?>

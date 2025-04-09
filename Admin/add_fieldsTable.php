@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Mostrar un mensaje de éxito
     $_SESSION['success'] = 'Fields added to the table successfully';
-    header('Location: index_admin.php');
+    header('Location: ../index.php');
     exit();
 }
 ?>
