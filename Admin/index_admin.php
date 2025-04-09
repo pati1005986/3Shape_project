@@ -32,7 +32,10 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 include_once "../Controller/validation_message.php";
 include '../Configuration/Connection.php';
 ?>
-
+                         <?php
+// Array de mapeo de nombres 
+$fieldLabels = require '../View/Fragments/field_labels.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -200,7 +203,7 @@ include '../Configuration/Connection.php';
             </center>
         </div>
         <div class="row my-5" style="display: flex; gap: 20px;">
-            <script src="../View/Js/diagram.js"> </script>
+        <script src="../View/Js/diagram.js"> </script>
             <div class="col-md-5 ms-2">
                 <div id="tool" style="display: none;"></div>
             </div>
@@ -676,8 +679,11 @@ include '../Configuration/Connection.php';
 
                     foreach ($columns as $column) {
                         if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
+                            $fieldName = $column['COLUMN_NAME'];
+                            $displayName = isset($fieldLabels[$fieldName]) ? $fieldLabels[$fieldName] : $fieldName;
+                            
                             echo '<tr>';
-                            echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
+                            echo '<td>' . htmlspecialchars($displayName) . '</td>';
                             echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
                             echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
                             echo '</tr>';

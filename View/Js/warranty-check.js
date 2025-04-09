@@ -120,5 +120,5 @@ $(document).ready(function() {
     }).prepend('<i class="fas fa-shield-alt me-2"></i>');
 
     // Add the button to the DOM (adjust the selector according to your HTML structure)
-    $('.container').first().prepend(checkButton);
+    $('#warranty-check-placeholder').html(checkButton);
 });

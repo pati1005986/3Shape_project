@@ -74,6 +74,10 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
                         <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
                             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                             <?php
+// Array de mapeo de nombres 
+$fieldLabels = require '../View/Fragments/field_labels.php';
+?>
+                           <?php
                             try {
                                 // Get columns from both tables
                                 $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
@@ -97,14 +101,16 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
 
                                 foreach ($columns as $column) {
                                     if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
+                                        $fieldName = $column['COLUMN_NAME'];
+                                        $displayName = isset($fieldLabels[$fieldName]) ? $fieldLabels[$fieldName] : $fieldName;
+                                        
                                         echo '<tr>';
-                                        echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
+                                        echo '<td>' . htmlspecialchars($displayName) . '</td>';
                                         echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
                                         echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
                                         echo '</tr>';
                                     }
                                 }
-
                                 echo '</tbody></table></div></div>';
                             } catch (PDOException $e) {
                                 echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
