@@ -1,80 +1,49 @@
 {
     "success": [
         {
-            "message": "Fields added to both forms and table successfully",
-            "timestamp": "2025-04-08 15:02:09"
+            "message": "Field 'Jose' added successfully to table 'usuarios_equipos'.",
+            "timestamp": "2025-04-09 10:56:12"
         },
         {
-            "message": "Correctly updated data.",
-            "timestamp": "2025-04-08 15:17:24"
-        },
-        {
-            "message": "Correctly updated data.",
-            "timestamp": "2025-04-08 15:18:17"
-        },
-        {
-            "message": "Fields added to both forms and table successfully",
-            "timestamp": "2025-04-08 15:18:52"
-        },
-        {
-            "message": "Correctly updated data.",
-            "timestamp": "2025-04-08 15:19:19"
-        },
-        {
-            "message": "Fields added to both forms and table successfully",
-            "timestamp": "2025-04-08 15:21:25"
-        },
-        {
-            "message": "Correctly updated data.",
-            "timestamp": "2025-04-08 15:22:56"
-        },
-        {
-            "message": "Correctly updated data.",
-            "timestamp": "2025-04-09 14:11:25"
-        },
-        {
-            "message": "File processed successfully",
-            "timestamp": "2025-04-09 14:18:43"
-        },
-        {
-            "message": "Fields added to both forms and table successfully",
-            "timestamp": "2025-04-09 14:27:35"
-        },
-        {
-            "message": "Fields added to both forms and table successfully",
-            "timestamp": "2025-04-09 15:45:56"
+            "message": "Field 'Daniel' added successfully to table 'usuarios_equipos'.",
+            "timestamp": "2025-04-09 12:55:26"
         }
     ],
     "error": [
         {
-            "message": "Invalid field selected",
-            "timestamp": "2025-04-09 07:24:54"
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 10:48:44"
+        },
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 10:49:01"
+        },
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 10:55:39"
+        },
+        {
+            "message": "Error: All fields are required.",
+            "timestamp": "2025-04-09 11:25:40"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-04-08 15:22:56"
         }
     ],
-    "error_message": [
+    "error": [
         {
-            "message": "Session expired, please try again.",
-            "timestamp": "2025-04-08 13:21:43"
+            "message": "Incorrect Password.",
+            "timestamp": "2025-04-09 12:45:10"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-04-09 12:45:20"
         },
         {
             "message": "Session expired, please try again.",
             "timestamp": "2025-04-09 11:55:56"
-        },
-        {
-            "message": "Session expired, please try again.",
-            "timestamp": "2025-04-09 16:00:00"
         }
     ],
-    "warnings": [
-        "Missing required field 'serial_number' in row222",
-        "Error in rowfile 552: Duplicate Assetname",
-        "Error in rowfile 691: Duplicate Assetname",
-        "Error in rowfile 828: Duplicate Assetname",
-        "Error in rowfile 1013: Duplicate Assetname",
-        "Error in rowfile 1213: Duplicate Assetname",
-        "Error in rowfile 1360: Duplicate Assetname",
-        "Error in rowfile 1510: Duplicate Assetname",
-        "Error in rowfile 1692: Duplicate Assetname",
-        "Error in rowfile 1872: Duplicate Assetname"
-    ]
+    "warnings": []
 }

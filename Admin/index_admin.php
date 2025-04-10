@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $tiempo_inactivo = 5000; // Tiempo de expiración de la sesión (en segundos)
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
-    // Establecer una cookie con el mensaje de error por sesión expirada
+    // Establecer una cookie con el mensaje de Co por sesión expirada
     setcookie('error_message', 'Session expired, please try again.', time() + 30, '/');
     // Redirigir y cerrar sesión
     include_once '../Controller/Cerrar_sesion.php';
@@ -30,6 +30,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 }
 
 include_once "../Controller/validation_message.php";
+include '../Configuration/Connection.php';
 ?>
                          <?php
 // Array de mapeo de nombres 
@@ -55,6 +56,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="../View/Css/button-styles.css">
     <link rel="stylesheet" href="../View/Css/admin.css">
+
 <body>
     <script>
         // Funcion para mostrar advertencias 
@@ -211,7 +213,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <?php
                     // Obtener todos los datos en una sola consulta
                     try {
-                        include '../Configuration/Connection.php';
+                       
 
                         // Datos para el primer gráfico
                         $statusData = $pdo->query("SELECT user_status FROM vista_equipos_usuarios")->fetchAll(PDO::FETCH_ASSOC);
@@ -329,7 +331,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <h4>Name Field <span>*</span></h4>
                     <?php
                     try {
-                        include '../Configuration/Connection.php';
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
             FROM INFORMATION_SCHEMA.COLUMNS 
             WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -413,7 +414,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 <h4>Name Field <span>*</span></h4>
                 <?php
                 try {
-                    include '../Configuration/Connection.php';
                     $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
             FROM INFORMATION_SCHEMA.COLUMNS 
             WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -470,7 +470,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 <h4>Select Fields to Remove <span>*</span></h4>
                 <?php
                 try {
-                    include '../Configuration/Connection.php';
+                    
                     $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                                 FROM INFORMATION_SCHEMA.COLUMNS 
                                 WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -530,7 +530,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             <div class="row">
                 <?php
                 try {
-                    include '../Configuration/Connection.php';
                     $sql = "SELECT COLUMN_NAME 
                             FROM INFORMATION_SCHEMA.COLUMNS 
                             WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -601,7 +600,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <?php
             try {
-                include '../Configuration/Connection.php';
+                
                 $sql = "SELECT TABLE_NAME, COLUMN_NAME 
                     FROM INFORMATION_SCHEMA.COLUMNS 
                     WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')

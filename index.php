@@ -158,23 +158,23 @@ if (session_status() === PHP_SESSION_NONE) {
                                 <!-- Contenido colapsable con múltiples funciones -->
                                 <div class="collapse navbar-collapse" id="navbarCollapse">
                                     <div class="navbar-nav">
-                                          <!-- Reporte PDF que contiene la información de todos los activos registrados -->
+                                        <!-- Reporte PDF que contiene la información de todos los activos registrados -->
                                         <a id="generatePDF" class="nav-link me-2" data-url="./Model/GeneralReport.php" target="_blank" title="Generate General PDF">
                                             <i class="far fa-file-pdf" style="color:red;"></i> Generate General PDF
                                         </a>
-                                          <!-- Documento PDF con las actas de salida de la empresa de los empleados y activos -->
+                                        <!-- Documento PDF con las actas de salida de la empresa de los empleados y activos -->
                                         <a id="generateActaSalida" class="nav-link me-2" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">
                                             <i class="fas fa-file-export"></i> Generate Departure Certificate
                                         </a>
-                                          <!-- Documento PDF con las actas de ingreso de la empresa de los empleados y activos que se les entregan -->
+                                        <!-- Documento PDF con las actas de ingreso de la empresa de los empleados y activos que se les entregan -->
                                         <a id="generateActaEntrada" class="nav-link me-2" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">
                                             <i class="far fa-file-alt"></i> Generate Entry Certificate
                                         </a>
-                                          <!-- Formulario para cambiar de aquipo a un usuario  -->
+                                        <!-- Formulario para cambiar de aquipo a un usuario  -->
                                         <a href="./View/Int_entrada.php" class="nav-link me-2" title="Change Asset">
                                             <i class="bi bi-arrow-repeat me-1"></i> Change Asset
                                         </a>
-                                          <!-- Formulario para asignar una fecha de salida de un empleado y un activo-->
+                                        <!-- Formulario para asignar una fecha de salida de un empleado y un activo-->
                                         <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>
@@ -188,180 +188,180 @@ if (session_status() === PHP_SESSION_NONE) {
                                 </div>
                         </nav>
                         <!-- Formulario de Consulta -->
-                       <!-- Contenedor para las 3 categorías alineadas -->
-<div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
-    <div class="col-md-12">
-        <div class="row g-2">
-            <!-- Categoría 1: Información del Activo -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-secondary text-white" data-bs-toggle="collapse" href="#collapseAssetInfo" role="button" aria-expanded="false" aria-controls="collapseAssetInfo" style="cursor: pointer;">
-                        <i class="bi bi-laptop me-2"></i> Asset Information
-                        <i class="bi bi-chevron-down float-end"></i>
-                    </div>
-                    <div class="collapse" id="collapseAssetInfo">
-                        <div class="card-body">
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                                    <input type="text" name="search_assetname" placeholder="Asset Name"
-                                        class="form-control shadow-sm bg-light"
-                                        oninput="this.value = this.value.toUpperCase()" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
-                                    <input type="text" id="search_serial" name="search_serial"
-                                        placeholder="Serial Number" class="form-control shadow-sm bg-light"
-                                        autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-globe"></i></span>
-                                    <select id="search_purchase_country" name="search_purchase_country[]"
-                                        class="shadow-sm form-control bg-light">
-                                        <option value="0">Select a country</option>
-                                        <?php
-                                        // Reutilización de la conexión existente
-                                        try {
-                                            $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
-                                            $stmt->execute();
-                                            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                            if (empty($resultados)) {
-                                                echo '<option value=""> No results found </option>';
-                                            } else {
-                                                foreach ($resultados as $resultado) {
-                                                    echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
-                                                }
-                                            }
-                                        } catch (PDOException $e) {
-                                            echo '<option value="">Error loading options</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <!-- Contenedor para las 3 categorías alineadas -->
+                        <div id="Barra_Busqueda" class="d-flex row align-items-center justify-content-center">
+                            <div class="col-md-12">
+                                <div class="row g-2">
+                                    <!-- Categoría 1: Información del Activo -->
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-secondary text-white" data-bs-toggle="collapse" href="#collapseAssetInfo" role="button" aria-expanded="false" aria-controls="collapseAssetInfo" style="cursor: pointer;">
+                                                <i class="bi bi-laptop me-2"></i> Asset Information
+                                                <i class="bi bi-chevron-down float-end"></i>
+                                            </div>
+                                            <div class="collapse" id="collapseAssetInfo">
+                                                <div class="card-body">
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                                                            <input type="text" name="search_assetname" placeholder="Asset Name"
+                                                                class="form-control shadow-sm bg-light"
+                                                                oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+                                                            <input type="text" id="search_serial" name="search_serial"
+                                                                placeholder="Serial Number" class="form-control shadow-sm bg-light"
+                                                                autocomplete="off" oninput="this.value = this.value.toUpperCase()">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                                                            <select id="search_purchase_country" name="search_purchase_country[]"
+                                                                class="shadow-sm form-control bg-light">
+                                                                <option value="0">Select a country</option>
+                                                                <?php
+                                                                // Reutilización de la conexión existente
+                                                                try {
+                                                                    $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
+                                                                    $stmt->execute();
+                                                                    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                                    if (empty($resultados)) {
+                                                                        echo '<option value=""> No results found </option>';
+                                                                    } else {
+                                                                        foreach ($resultados as $resultado) {
+                                                                            echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
+                                                                        }
+                                                                    }
+                                                                } catch (PDOException $e) {
+                                                                    echo '<option value="">Error loading options</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-            <!-- Categoría 2: Información del Usuario -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white" data-bs-toggle="collapse" href="#collapseUserInfo" role="button" aria-expanded="false" aria-controls="collapseUserInfo" style="cursor: pointer;">
-                        <i class="bi bi-person me-2"></i> User Information
-                        <i class="bi bi-chevron-down float-end"></i>
-                    </div>
-                    <div class="collapse" id="collapseUserInfo">
-                        <div class="card-body">
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="far fa-id-card"></i></span>
-                                    <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
-                                        class="form-control shadow-sm bg-light" autocomplete="off" min="0">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
-                                    <input type="text" id="search_user" name="search_user" placeholder="Last User"
-                                        class="form-control shadow-sm bg-light" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
-                                    <input type="text" id="search_job_title" name="search_job_title" placeholder="Job Title"
-                                        class="form-control shadow-sm bg-light" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                    <select id="search_user_status" name="search_user_status[]"
-                                        class="shadow-sm form-control bg-light">
-                                        <option value="0">Select an option</option>
-                                        <?php
-                                        // Reutilización de la conexión existente
-                                        try {
-                                            $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
-                                            $stmt->execute();
-                                            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                            if (empty($resultados)) {
-                                                echo '<option value=""> No results found </option>';
-                                            } else {
-                                                foreach ($resultados as $resultado) {
-                                                    echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
-                                                }
-                                            }
-                                        } catch (PDOException $e) {
-                                            echo '<option value="">Error loading options</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <!-- Categoría 2: Información del Usuario -->
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-primary text-white" data-bs-toggle="collapse" href="#collapseUserInfo" role="button" aria-expanded="false" aria-controls="collapseUserInfo" style="cursor: pointer;">
+                                                <i class="bi bi-person me-2"></i> User Information
+                                                <i class="bi bi-chevron-down float-end"></i>
+                                            </div>
+                                            <div class="collapse" id="collapseUserInfo">
+                                                <div class="card-body">
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="far fa-id-card"></i></span>
+                                                            <input type="number" id="search_cedula" name="search_cedula" placeholder="ID"
+                                                                class="form-control shadow-sm bg-light" autocomplete="off" min="0">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                                                            <input type="text" id="search_user" name="search_user" placeholder="Last User"
+                                                                class="form-control shadow-sm bg-light" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                                                            <input type="text" id="search_job_title" name="search_job_title" placeholder="Job Title"
+                                                                class="form-control shadow-sm bg-light" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                                            <select id="search_user_status" name="search_user_status[]"
+                                                                class="shadow-sm form-control bg-light">
+                                                                <option value="0">Select an option</option>
+                                                                <?php
+                                                                // Reutilización de la conexión existente
+                                                                try {
+                                                                    $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
+                                                                    $stmt->execute();
+                                                                    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                                    if (empty($resultados)) {
+                                                                        echo '<option value=""> No results found </option>';
+                                                                    } else {
+                                                                        foreach ($resultados as $resultado) {
+                                                                            echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
+                                                                        }
+                                                                    }
+                                                                } catch (PDOException $e) {
+                                                                    echo '<option value="">Error loading options</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-            <!-- Categoría 3: Estado y Garantía -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-warning text-dark" data-bs-toggle="collapse" href="#collapseStatusWarranty" role="button" aria-expanded="false" aria-controls="collapseStatusWarranty" style="cursor: pointer;">
-                        <i class="bi bi-shield-check me-2"></i> Status & Warranty
-                        <i class="bi bi-chevron-down float-end"></i>
-                    </div>
-                    <div class="collapse" id="collapseStatusWarranty">
-                        <div class="card-body">
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-                                    <input type="text" name="search_status_change" placeholder="Status Change"
-                                        class="shadow-sm form-control bg-light">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                    <input type="text" id="sgarantia" name="search_fecha_inicio"
-                                        placeholder="Start date (MM/DD/YYYY)"
-                                        class="shadow-sm form-control bg-light"
-                                        pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
-                                        title="Please enter date in MM/DD/YYYY format">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-                                    <input type="text" id="garantia" name="search_fecha_fin"
-                                        placeholder="End Date (MM/DD/YYYY)"
-                                        class="shadow-sm form-control bg-light"
-                                        pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
-                                        title="Please enter date in MM/DD/YYYY format">
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-exclamation-triangle"></i></span>
-                                    <select name="search_expired" class="shadow-sm form-control bg-light">
-                                        <option value="">Select Expired Status</option>
-                                        <option value="1">Expired</option>
-                                        <option value="0">Not Expired</option>
-                                    </select>
+                                    <!-- Categoría 3: Estado y Garantía -->
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card shadow-sm">
+                                            <div class="card-header bg-warning text-dark" data-bs-toggle="collapse" href="#collapseStatusWarranty" role="button" aria-expanded="false" aria-controls="collapseStatusWarranty" style="cursor: pointer;">
+                                                <i class="bi bi-shield-check me-2"></i> Status & Warranty
+                                                <i class="bi bi-chevron-down float-end"></i>
+                                            </div>
+                                            <div class="collapse" id="collapseStatusWarranty">
+                                                <div class="card-body">
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                                                            <input type="text" name="search_status_change" placeholder="Status Change"
+                                                                class="shadow-sm form-control bg-light">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                                            <input type="text" id="sgarantia" name="search_fecha_inicio"
+                                                                placeholder="Start date (MM/DD/YYYY)"
+                                                                class="shadow-sm form-control bg-light"
+                                                                pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
+                                                                title="Please enter date in MM/DD/YYYY format">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                                                            <input type="text" id="garantia" name="search_fecha_fin"
+                                                                placeholder="End Date (MM/DD/YYYY)"
+                                                                class="shadow-sm form-control bg-light"
+                                                                pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}"
+                                                                title="Please enter date in MM/DD/YYYY format">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="bi bi-exclamation-triangle"></i></span>
+                                                            <select name="search_expired" class="shadow-sm form-control bg-light">
+                                                                <option value="">Select Expired Status</option>
+                                                                <option value="1">Expired</option>
+                                                                <option value="0">Not Expired</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
                         <!-- Modal para mostrar las alertas -->
                         <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
                             <?php
@@ -475,59 +475,92 @@ if (session_status() === PHP_SESSION_NONE) {
                             }
                         </script>
 
-<style>
-    /* Animación de infinito para la lupa */
-    @keyframes infinity {
-        0% { transform: translateX(0) rotate(0deg); }
-        25% { transform: translateX(3px) rotate(10deg); }
-        50% { transform: translateX(0) rotate(0deg); }
-        75% { transform: translateX(-3px) rotate(-10deg); }
-        100% { transform: translateX(0) rotate(0deg); }
-    }
-    
-    /* Animación de movimiento lateral para el borrador */
-    @keyframes shake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(3px); }
-        50% { transform: translateX(0); }
-        75% { transform: translateX(-3px); }
-        100% { transform: translateX(0); }
-    }
-    
-    /* Animación de giro para refresh */
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    /* Aplica las animaciones al hacer hover */
-    #search_btn:hover .bi-search {
-        animation: infinity 1.5s ease-in-out infinite;
-        display: inline-block;
-    }
-    
-    #reset_btn:hover .bi-eraser {
-        animation: shake 0.5s ease-in-out infinite;
-        display: inline-block;
-    }
-    
-    #refresh_btn:hover .bi-arrow-clockwise {
-        animation: spin 2s linear infinite;
-        display: inline-block;
-    }
-</style>
+                        <style>
+                            /* Animación de infinito para la lupa */
+                            @keyframes infinity {
+                                0% {
+                                    transform: translateX(0) rotate(0deg);
+                                }
 
-<div class="my-2 mb-2 d-flex justify-content-left">
-    <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
-        <i class="bi bi-search"></i> Search
-    </button>
-    <button type="reset" class="shadow btn btn-light border-danger me-1" id="reset_btn">Clear
-        <i class="bi bi-eraser"></i>
-    </button>
-    <button type="button" class="shadow btn btn-light border-primary" id="refresh_btn">
-        <i class="bi bi-arrow-clockwise"></i> Refresh
-    </button>
-</div>
+                                25% {
+                                    transform: translateX(3px) rotate(10deg);
+                                }
+
+                                50% {
+                                    transform: translateX(0) rotate(0deg);
+                                }
+
+                                75% {
+                                    transform: translateX(-3px) rotate(-10deg);
+                                }
+
+                                100% {
+                                    transform: translateX(0) rotate(0deg);
+                                }
+                            }
+
+                            /* Animación de movimiento lateral para el borrador */
+                            @keyframes shake {
+                                0% {
+                                    transform: translateX(0);
+                                }
+
+                                25% {
+                                    transform: translateX(3px);
+                                }
+
+                                50% {
+                                    transform: translateX(0);
+                                }
+
+                                75% {
+                                    transform: translateX(-3px);
+                                }
+
+                                100% {
+                                    transform: translateX(0);
+                                }
+                            }
+
+                            /* Animación de giro para refresh */
+                            @keyframes spin {
+                                0% {
+                                    transform: rotate(0deg);
+                                }
+
+                                100% {
+                                    transform: rotate(360deg);
+                                }
+                            }
+
+                            /* Aplica las animaciones al hacer hover */
+                            #search_btn:hover .bi-search {
+                                animation: infinity 1.5s ease-in-out infinite;
+                                display: inline-block;
+                            }
+
+                            #reset_btn:hover .bi-eraser {
+                                animation: shake 0.5s ease-in-out infinite;
+                                display: inline-block;
+                            }
+
+                            #refresh_btn:hover .bi-arrow-clockwise {
+                                animation: spin 2s linear infinite;
+                                display: inline-block;
+                            }
+                        </style>
+
+                        <div class="my-2 mb-2 d-flex justify-content-left">
+                            <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                            <button type="reset" class="shadow btn btn-light border-danger me-1" id="reset_btn">Clear
+                                <i class="bi bi-eraser"></i>
+                            </button>
+                            <button type="button" class="shadow btn btn-light border-primary" id="refresh_btn">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+                        </div>
 
 
                         <script>
@@ -684,6 +717,33 @@ if (session_status() === PHP_SESSION_NONE) {
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
                     <i class="fas fa-trash-alt"></i>
                     Delete All Logs</button>
+                <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
+                    <!-- Modal Admin -->
+                    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title" id="adminModalLabel">Admin Tools</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="dynamicForms">
+                                        <!-- Los formularios se cargarán aquí dinámicamente -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+                        <button class="shadow btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;" id="adminButton">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <script src="./View/Js/AdminModal.js"></script>
+                    </div>
+                <?php endif; ?>
+                <!-- Scripts para el modal de administración -->
+
                 <script>
                     document.getElementById('deleteAllButton').addEventListener('click', function() {
                         Swal.fire({
@@ -704,14 +764,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
             </div>
             <style>
-    .sync-icon {
-        transition: transform 0.3s ease;
-    }
-    
-    .btn:hover .sync-icon {
-        transform: rotate(30deg);
-    }
-</style>
+                .sync-icon {
+                    transition: transform 0.3s ease;
+                }
+
+                .btn:hover .sync-icon {
+                    transform: rotate(30deg);
+                }
+            </style>
             <table id="mainTable" class="shadow-lg table table-bordered table-striped fade-in">
                 <thead class="text-center">
                     <tr class="align-items-center text-center">
@@ -757,51 +817,57 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
                 <style>
                     /* Animación de giro para el icono */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+                    @keyframes spin {
+                        0% {
+                            transform: rotate(0deg);
+                        }
 
-/* Aplica la animación al icono cuando se hace hover en el botón */
-#procesarSeleccionados:hover .fa-cog {
-    animation: spin 2s linear infinite;
-    display: inline-block; /* Necesario para transformaciones */
-}
+                        100% {
+                            transform: rotate(360deg);
+                        }
+                    }
 
-/* Opcional: Animación cuando se hace clic (como en tu código JS) */
-.fa-cog.spin {
-    animation: spin 2s linear infinite;
-}
+                    /* Aplica la animación al icono cuando se hace hover en el botón */
+                    #procesarSeleccionados:hover .fa-cog {
+                        animation: spin 2s linear infinite;
+                        display: inline-block;
+                        /* Necesario para transformaciones */
+                    }
+
+                    /* Opcional: Animación cuando se hace clic (como en tu código JS) */
+                    .fa-cog.spin {
+                        animation: spin 2s linear infinite;
+                    }
                 </style>
                 <script src="./View/Js/Select_proccess.js"></script>
             </table>
             <br>
             <br>
-           <!-- Placeholder for Check Warranties button -->
-<div id="warranty-check-placeholder" class="container my-3 d-flex justify-content-center">
-    <!-- The button will be inserted here by JS -->
-</div>
+            <!-- Placeholder for Check Warranties button -->
+            <div id="warranty-check-placeholder" class="container my-3 d-flex justify-content-center">
+                <!-- The button will be inserted here by JS -->
+            </div>
 
-<!-- Admin Login Card -->
-<div class="container my-4">
-    <div class="card shadow-sm border-primary mx-auto" style="max-width: 400px;">
-        <div class="card-header bg-primary text-white">
-            <h5 class="card-title mb-0">
-                <i class="fas fa-user-shield me-2"></i>Administrator Access
-            </h5>
-        </div>
-        <div class="card-body text-center">
-            <p class="card-text">Press <kbd>Ctrl</kbd> + <kbd>Q</kbd> to login as</p>
-            <a href="#" id="showAdminModal" class="btn btn-outline-primary">
-                <i class="fas fa-lock me-2"></i>Manager
-            </a>
-        </div>
-        <div class="card-footer bg-light text-muted small">
-            <i class="bi bi-info-circle me-1"></i>Restricted access for authorized personnel only
-        </div>
-    </div>
-</div>
-                </label></center>
+            <!-- Admin Login Card -->
+            <div class="container my-4">
+                <div class="card shadow-sm border-primary mx-auto" style="max-width: 400px;">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-user-shield me-2"></i>Administrator Access
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <p class="card-text">Press <kbd>Ctrl</kbd> + <kbd>Q</kbd> to login as</p>
+                        <a href="#" id="showAdminModal" class="btn btn-outline-primary">
+                            <i class="fas fa-lock me-2"></i>Manager
+                        </a>
+                    </div>
+                    <div class="card-footer bg-light text-muted small">
+                        <i class="bi bi-info-circle me-1"></i>Restricted access for authorized personnel only
+                    </div>
+                </div>
+            </div>
+            </label></center>
             <br>
         </div>
     </div>
@@ -842,7 +908,6 @@ if (session_status() === PHP_SESSION_NONE) {
     <!-- jQuery ya está cargado en el head -->
     <script src="./Configuration/DataTables/datatables.min.js" defer></script>
     <script src="./Configuration/bootstrap/js/bootstrap.min.js" defer></script>
-    <script src="./View/Js/Change_query.js" defer></script>
     <script src="./Configuration/JQuery/sweetalert2@11.js" defer></script>
 
     <!-- Script para el modal de admin -->
@@ -878,37 +943,38 @@ if (session_status() === PHP_SESSION_NONE) {
             });
         });
     </script>
+    <script src="./Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Añade el JavaScript para manejar la animación de los iconos de flecha -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Añadir listener para cambiar el icono cuando se expande/colapsa
-    const collapsibles = document.querySelectorAll('[data-bs-toggle="collapse"]');
-    
-    collapsibles.forEach(function(collapsible) {
-        collapsible.addEventListener('click', function() {
-            const chevron = this.querySelector('.bi-chevron-down, .bi-chevron-up');
-            
-            if (chevron.classList.contains('bi-chevron-down')) {
-                chevron.classList.remove('bi-chevron-down');
-                chevron.classList.add('bi-chevron-up');
-            } else {
-                chevron.classList.remove('bi-chevron-up');
-                chevron.classList.add('bi-chevron-down');
-            }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Añadir listener para cambiar el icono cuando se expande/colapsa
+            const collapsibles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+
+            collapsibles.forEach(function(collapsible) {
+                collapsible.addEventListener('click', function() {
+                    const chevron = this.querySelector('.bi-chevron-down, .bi-chevron-up');
+
+                    if (chevron.classList.contains('bi-chevron-down')) {
+                        chevron.classList.remove('bi-chevron-down');
+                        chevron.classList.add('bi-chevron-up');
+                    } else {
+                        chevron.classList.remove('bi-chevron-up');
+                        chevron.classList.add('bi-chevron-down');
+                    }
+                });
+            });
+
+            // Añadir efectos de hover para los encabezados
+            document.querySelectorAll('.card-header').forEach(header => {
+                header.addEventListener('mouseenter', function() {
+                    this.style.opacity = '0.9';
+                });
+                header.addEventListener('mouseleave', function() {
+                    this.style.opacity = '1';
+                });
+            });
         });
-    });
-    
-    // Añadir efectos de hover para los encabezados
-    document.querySelectorAll('.card-header').forEach(header => {
-        header.addEventListener('mouseenter', function() {
-            this.style.opacity = '0.9';
-        });
-        header.addEventListener('mouseleave', function() {
-            this.style.opacity = '1';
-        });
-    });
-});
-</script>
+    </script>
 </body>
 <?php include './View/Fragments/footer.php'; ?>
 
