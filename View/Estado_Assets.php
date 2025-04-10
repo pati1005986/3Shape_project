@@ -62,7 +62,7 @@ try {
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
-    <title>Update Register</title>
+    <title>Asset Status and Observations</title>
 </head>
 
 <body>
@@ -122,7 +122,7 @@ try {
 
                 <!--Formulario de Actualizacion donde trae los datos del activo seleccionado-->
                 <form id="updateform" action="../Controller/procesar_datos.php" method="post">
-                <h2 id="totalC" class="text-center">Update Register</h2>
+                <h2 id="totalC" class="text-center">Asset Status and Observations</h2>
                 <br>
                 
                 <!-- Sección de información básica del usuario -->
