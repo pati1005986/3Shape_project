@@ -1,51 +1,11 @@
 {
-    "success": [
-        {
-            "message": "Field 'Jose' added successfully to table 'usuarios_equipos'.",
-            "timestamp": "2025-04-09 10:56:12"
-        },
-        {
-            "message": "Field 'Daniel' added successfully to table 'usuarios_equipos'.",
-            "timestamp": "2025-04-09 12:55:26"
-        },
-        {
-            "message": "Correctly updated data.",
-            "timestamp": "2025-04-10 08:32:54"
-        },
-        {
-            "message": "Estados de activos actualizados correctamente.",
-            "timestamp": "2025-04-10 08:33:02"
-        },
-        {
-            "message": "Fields added to the table successfully",
-            "timestamp": "2025-04-10 08:34:18"
-        }
-    ],
+    "success": [],
     "error": [
         {
             "message": "Incorrect Password.",
-            "timestamp": "2025-04-09 12:45:10"
-        },
-        {
-            "message": "Incorrect Password.",
-            "timestamp": "2025-04-09 12:45:20"
-        },
-        {
-            "message": "Session expired, please try again.",
-            "timestamp": "2025-04-09 11:55:56"
-        },
-        {
-            "message": "Field \"Carnet\" is already visible in the main table. Please remove it first if you want to add it again.",
-            "timestamp": "2025-04-10 08:36:23"
-        },
-        {
-            "message": "No fields selected for hiding",
-            "timestamp": "2025-04-10 08:37:06"
-        },
-        {
-            "message": "No fields selected for hiding",
-            "timestamp": "2025-04-10 08:37:10"
+            "timestamp": "2025-04-10 10:30:00"
         }
     ],
+    "error_message": [],
     "warnings": []
 }
