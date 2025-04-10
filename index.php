@@ -797,7 +797,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         ?>
                         <th title="Update" class="text-center"><i class="fas fa-sync-alt"></i></th>
                         <th title="Delete" class="text-center"><i class="fa fa-times"></i></th>
-                        <th title="Update" class="text-center"><i class="far fa-check-square"></i></th>
+                        <th title="Status And Observations" class="text-center"><i class="far fa-check-square"></i></th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
