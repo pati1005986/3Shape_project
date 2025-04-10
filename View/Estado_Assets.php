@@ -62,67 +62,18 @@ try {
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
-    <title>Update Register</title>
+    <title>Asset Status and Observations</title>
 </head>
 
 <body>
 <div class="container">
     <div class="row d-flex justify-content-center align-items-center vh-100">
         <div id="FORMupdateform" class="shadow-lg p-5 rounded bg-light">
-            <?php if ($is_admin): ?>
-                <!-- Panel de Administrador para Campos Dinámicos -->
-                <div class="admin-panel mb-4 p-3 border rounded bg-light">
-                    <h4 class="mb-3"><i class="fa-solid fa-cog"></i> Field Management</h4>
-                    <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
-                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                        <?php
-                        try {
-                            // Get columns from both tables
-                            $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
-                            
-                            $sql = "SELECT COLUMN_NAME, DATA_TYPE 
-                                   FROM INFORMATION_SCHEMA.COLUMNS 
-                                   WHERE TABLE_SCHEMA = 'garantias' 
-                                   AND TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                                   ORDER BY TABLE_NAME, COLUMN_NAME";
-                            
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute();
-                            $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            
-                            echo '<div class="col-md-12 mb-3">';
-                            echo '<label class="form-label">Available Fields</label>';
-                            echo '<div class="table-responsive">';
-                            echo '<table class="table table-sm table-bordered">';
-                            echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
-                            echo '<tbody>';
-                            
-                            foreach ($columns as $column) {
-                                if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
-                                    echo '<tr>';
-                                    echo '<td>' . htmlspecialchars($column['COLUMN_NAME']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
-                                    echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
-                                    echo '</tr>';
-                                }
-                            }
-                            
-                            echo '</tbody></table></div></div>';
-                            
-                        } catch (PDOException $e) {
-                            echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
-                        }
-                        ?>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Update Fields</button>
-                        </div>
-                    </form>
-                </div>
-                <?php endif; ?>
+          
 
                 <!--Formulario de Actualizacion donde trae los datos del activo seleccionado-->
-                <form id="updateform" action="../Controller/procesar_datos.php" method="post">
-                <h2 id="totalC" class="text-center">Update Register</h2>
+                <form id="updateform" action="../Controller/procesar_estados.php" method="post">
+                <h2 id="totalC" class="text-center">Asset Status and Observations</h2>
                 <br>
                 
                 <!-- Sección de información básica del usuario -->

@@ -7,29 +7,21 @@
         {
             "message": "Field 'Daniel' added successfully to table 'usuarios_equipos'.",
             "timestamp": "2025-04-09 12:55:26"
+        },
+        {
+            "message": "Correctly updated data.",
+            "timestamp": "2025-04-10 08:32:54"
+        },
+        {
+            "message": "Estados de activos actualizados correctamente.",
+            "timestamp": "2025-04-10 08:33:02"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-04-10 08:34:18"
         }
     ],
     "error": [
-        {
-            "message": "Error: All fields are required.",
-            "timestamp": "2025-04-09 10:48:44"
-        },
-        {
-            "message": "Error: All fields are required.",
-            "timestamp": "2025-04-09 10:49:01"
-        },
-        {
-            "message": "Error: All fields are required.",
-            "timestamp": "2025-04-09 10:55:39"
-        },
-        {
-            "message": "Error: All fields are required.",
-            "timestamp": "2025-04-09 11:25:40"
-        },
-        {
-            "message": "Error: All fields are required.",
-            "timestamp": "2025-04-09 11:44:06"
-        },
         {
             "message": "Incorrect Password.",
             "timestamp": "2025-04-09 12:45:10"
@@ -39,10 +31,21 @@
             "timestamp": "2025-04-09 12:45:20"
         },
         {
-            "message": "Incorrect Password.",
-            "timestamp": "2025-04-09 12:45:30"
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-04-09 11:55:56"
+        },
+        {
+            "message": "Field \"Carnet\" is already visible in the main table. Please remove it first if you want to add it again.",
+            "timestamp": "2025-04-10 08:36:23"
+        },
+        {
+            "message": "No fields selected for hiding",
+            "timestamp": "2025-04-10 08:37:06"
+        },
+        {
+            "message": "No fields selected for hiding",
+            "timestamp": "2025-04-10 08:37:10"
         }
     ],
-    "error_message": [],
     "warnings": []
 }
