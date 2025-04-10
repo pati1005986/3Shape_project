@@ -214,3 +214,146 @@ nav {
 .upload-button:hover {
     background: #a50d26;
 }
+
+/* Animaciones para el Modal Admin */
+
+/* Animación de entrada del modal con efecto de escala y opacidad */
+.modal.fade .modal-dialog {
+    transform: scale(0.8); /* Inicia con escala reducida */
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Estado final del modal cuando se muestra */
+.modal.show .modal-dialog {
+    transform: scale(1); /* Escala normal */
+    opacity: 1;
+}
+
+/* Fondo oscuro del modal con transición suave */
+.modal-backdrop.fade {
+    opacity: 0;
+    transition: opacity 0.15s linear;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5; /* Opacidad del fondo cuando el modal está visible */
+}
+
+/* Animación del contenido del modal */
+.modal-content {
+    animation: modalContentFadeIn 0.3s ease-out forwards;
+}
+
+/* Keyframes para la animación de entrada del contenido */
+@keyframes modalContentFadeIn {
+    from {
+        transform: translateY(-20px); /* Desplazamiento inicial hacia arriba */
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0); /* Posición final */
+        opacity: 1;
+    }
+}
+
+/* Animación secuencial de los elementos internos del modal */
+.modal.fade .modal-header,
+.modal.fade .modal-body,
+.modal.fade .modal-footer {
+    opacity: 0;
+    transform: translateY(10px); /* Ligero desplazamiento hacia abajo */
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+/* Estado final de los elementos internos */
+.modal.show .modal-header,
+.modal.show .modal-body,
+.modal.show .modal-footer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Retrasos escalonados para una animación secuencial */
+.modal.show .modal-header { transition-delay: 0.1s; } /* Primero el encabezado */
+.modal.show .modal-body { transition-delay: 0.2s; } /* Luego el cuerpo */
+.modal.show .modal-footer { transition-delay: 0.3s; } /* Finalmente el pie */
+
+/* Animaciones de los iconos de acción */
+
+/* Animación de infinito para la lupa: combina movimiento lateral y rotación */
+@keyframes infinity {
+    0% {
+        transform: translateX(0) rotate(0deg); /* Posición inicial */
+    }
+
+    25% {
+        transform: translateX(3px) rotate(10deg); /* Desplazamiento derecha con rotación */
+    }
+
+    50% {
+        transform: translateX(0) rotate(0deg); /* Regreso al centro */
+    }
+
+    75% {
+        transform: translateX(-3px) rotate(-10deg); /* Desplazamiento izquierda con rotación */
+    }
+
+    100% {
+        transform: translateX(0) rotate(0deg); /* Retorno a posición inicial */
+    }
+}
+
+/* Animación de movimiento lateral para el borrador: efecto de sacudida */
+@keyframes shake {
+    0% {
+        transform: translateX(0); /* Posición inicial */
+    }
+
+    25% {
+        transform: translateX(3px); /* Desplazamiento derecha */
+    }
+
+    50% {
+        transform: translateX(0); /* Regreso al centro */
+    }
+
+    75% {
+        transform: translateX(-3px); /* Desplazamiento izquierda */
+    }
+
+    100% {
+        transform: translateX(0); /* Retorno a posición inicial */
+    }
+}
+
+/* Animación de giro para refresh: rotación completa 360 grados */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg); /* Inicio de la rotación */
+    }
+
+    100% {
+        transform: rotate(360deg); /* Rotación completa */
+    }
+}
+
+/* Aplicación de animaciones en hover para los botones de acción */
+
+/* Botón de búsqueda: efecto infinito al pasar el mouse */
+#search_btn:hover .bi-search {
+    animation: infinity 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+/* Botón de reset: efecto de sacudida al pasar el mouse */
+#reset_btn:hover .bi-eraser {
+    animation: shake 0.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+/* Botón de refresh: efecto de giro al pasar el mouse */
+#refresh_btn:hover .bi-arrow-clockwise {
+    animation: spin 2s linear infinite;
+    display: inline-block;
+}

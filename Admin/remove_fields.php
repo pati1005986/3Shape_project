@@ -7,15 +7,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('CSRF token validation failed');
     }
 
-    $field = $_POST['removefields'];
+    $fields = $_POST['removefields'] ?? [];
 
-    if ($field && $field !== '0') {
+    if (!empty($fields)) {
         try {
-            // Validar el nombre de la columna
-            if (!preg_match('/^[a-zA-Z0-9_]+$/', $field)) {
-                $_SESSION['error'] = 'Invalid column name format';
-                header('Location: index_admin.php');
-                exit();
+            foreach ($fields as $field) {
+                // Validar el nombre de la columna
+                if (!preg_match('/^[a-zA-Z0-9_]+$/', $field)) {
+                    $_SESSION['error'] = 'Invalid column name format: ' . htmlspecialchars($field);
+                    header('Location: index_admin.php');
+                    exit();
+                }
             }
 
             // Guardar datos antes de eliminar la columna
@@ -56,20 +58,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Tablas donde se buscará y eliminará la columna
             $tables = ['equipos', 'usuarios_equipos'];
 
-            foreach ($tables as $table) {
-                // Verificar si la columna existe en la tabla
-                $sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = :table AND COLUMN_NAME = :field";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute(['table' => $table, 'field' => $field]);
-                $exists = $stmt->fetchColumn();
+            foreach ($fields as $field) {
+                foreach ($tables as $table) {
+                    // Verificar si la columna existe en la tabla
+                    $sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = :table AND COLUMN_NAME = :field";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute(['table' => $table, 'field' => $field]);
+                    $exists = $stmt->fetchColumn();
 
-                if ($exists) {
-                    // Guardar los datos antes de eliminar la columna
-                    backupColumnData($pdo, $table, $field);
+                    if ($exists) {
+                        // Guardar los datos antes de eliminar la columna
+                        backupColumnData($pdo, $table, $field);
 
-                    // Eliminar la columna
-                    $sql = "ALTER TABLE `$table` DROP COLUMN `$field`";
-                    $pdo->exec($sql);
+                        // Eliminar la columna
+                        $sql = "ALTER TABLE `$table` DROP COLUMN `$field`";
+                        $pdo->exec($sql);
+                    }
                 }
             }
 
