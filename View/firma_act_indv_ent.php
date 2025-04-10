@@ -18,21 +18,23 @@ if (!isset($_SESSION['asset_data'])) {
     <style>
         body {
             font-family: 'Roboto', Arial, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #f8f9fa;
             margin: 0;
-            padding: 0;
-            color: #333;
-            line-height: 1.6;
+            padding: 20px;
+            color: #2c3e50;
+            line-height: 1.8;
+            min-height: 100vh;
         }
 
         .signature-container {
-            max-width: 850px;
-            margin: 2rem auto;
-            padding: 35px;
+            max-width: 900px;
+            margin: 1rem auto;
+            padding: 40px;
             background: #fff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .signature-container:hover {
@@ -61,61 +63,68 @@ if (!isset($_SESSION['asset_data'])) {
         }
 
         .signature-section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
+            margin-bottom: 35px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .signature-section:hover {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-            border-color: #d0d0d0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-3px);
+            border-color: #3498db;
         }
 
         .signature-section h2 {
             margin-top: 0;
-            color: #3498db;
-            font-size: 1.4rem;
-            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
+            letter-spacing: -0.5px;
         }
 
         .signature-section h2:before {
             content: '✓';
-            margin-right: 10px;
-            background: #3498db;
+            margin-right: 12px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
         }
 
         .signature-pad-container {
             position: relative;
-            margin: 20px 0;
-            border-radius: 8px;
+            margin: 25px 0;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: #fff;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
         }
 
         canvas {
             display: block;
             width: 100%;
             height: 200px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: none;
+            border-radius: 10px;
             background-color: #fff;
-            transition: border 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: crosshair;
         }
 
         canvas:hover {
@@ -136,61 +145,65 @@ if (!isset($_SESSION['asset_data'])) {
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 12px 28px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
-            background-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
-            box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
         .btn-primary:hover {
-            background-color: #2980b9;
+            background: linear-gradient(135deg, #2980b9, #2472a4);
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(52, 152, 219, 0.25);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.35);
         }
 
         .btn-secondary {
-            background-color: #95a5a6;
+            background: #6c757d;
             color: white;
-            box-shadow: 0 4px 6px rgba(149, 165, 166, 0.2);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.2);
         }
 
         .btn-secondary:hover {
-            background-color: #7f8c8d;
+            background: #5a6268;
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(149, 165, 166, 0.25);
+            box-shadow: 0 8px 20px rgba(108, 117, 125, 0.25);
         }
 
         .btn-danger {
-            background-color: #e74c3c;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
-            box-shadow: 0 4px 6px rgba(231, 76, 60, 0.2);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
         }
 
         .btn-danger:hover {
-            background-color: #c0392b;
+            background: linear-gradient(135deg, #c0392b, #a93226);
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(231, 76, 60, 0.25);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
         }
 
         .signature-instructions {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            padding: 10px;
+            font-size: 0.95rem;
+            color: #6c757d;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
             background: rgba(52, 152, 219, 0.05);
-            border-left: 3px solid #3498db;
-            border-radius: 0 4px 4px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.6;
         }
 
         @media (max-width: 768px) {

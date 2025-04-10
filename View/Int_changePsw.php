@@ -54,56 +54,16 @@ $_SESSION['last_activity'] = time();
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/animate.min.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
-    <style>
-        body {
-            background-color: rgb(239, 232, 233);
-        }
-
-        .form-container {
-            margin-top: 50px;
-            padding: 30px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-        }
-        
-        /* Estilos para los contenedores de contraseña */
-        .password-container {
-            position: relative;
-        }
-        
-        .password-toggle {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #666;
-            z-index: 2;
-        }
-        
-        .password-toggle:hover {
-            color: #333;
-        }
-        
-        .form-control {
-            padding-right: 40px; /* Espacio para el botón de toggle */
-        }
-    </style>
+    <link rel="stylesheet" href="../View/Css/Form_changePSW.css">
 </head>
 
 <body>
-    <div class="row d-flex justify-content-center align-items-center">
+    <div class="container-fluid py-4">
         <div class="row">
-            <br>
-            <br>
-            <br>
             <div class="col-md-12">
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
-                    <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
+                        <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
                             <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -114,7 +74,7 @@ $_SESSION['last_activity'] = time();
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
-                                <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> Home</a>
+                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> Home</a>
                                 </li>
                                 <script src="../View/Js/confirm_home_redirect.js"></script>
 
@@ -134,17 +94,52 @@ $_SESSION['last_activity'] = time();
                     </div>
                 </nav>
             </div>
-            <div class="container">
+            <div class="container mt-4">
                 <div class="row justify-content-center">
-                    <div class="col-md-12">
+                    <div class="col-md-8 mx-auto">
                         <div id="FORMchange" class="form-container shadow">
                             <!-- Detalles de la pagina -->
-                            <div class="text-center mb-4">
-                                <h1 id="totalC">Settings</h1> <i class="fas fa-tools" style='font-size:48px;'></i>
+                            <div class="text-center mb-5">
+                                <h1 class="display-4 mb-3">Settings</h1>
+                                <i class="fas fa-tools text-primary" style='font-size:48px;'></i>
                             </div>
 
-                            <div class=" mb-4">
-                                <h2 id="totalC">Password Change</h2>
+                            <div class="mb-4">
+                                <h2 class="h3 text-secondary">Password Change</h2>
+                                <form action="../Controller/proccess_change_psw.php" method="POST" id="changePasswordForm"
+                                    onsubmit="return validateForm()">
+                                    <div class="form-group">
+                                        <label for="currentPassword">Current Password</label>
+                                        <div class="password-container">
+                                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                            <button type="button" class="password-toggle" onclick="togglePassword('currentPassword')">
+                                                <i class="fa-solid fa-eye" id="currentPassword-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="newPassword">New Password</label>
+                                        <div class="password-container">
+                                            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                            <button type="button" class="password-toggle" onclick="togglePassword('newPassword')">
+                                                <i class="fa-solid fa-eye" id="newPassword-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="confirmPassword">Confirm New Password</label>
+                                        <div class="password-container">
+                                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                                            <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                                <i class="fa-solid fa-eye" id="confirmPassword-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-secondary "><i class="fas fa-key"></i> Change Password</button>
+                                </form>
                             </div>
 
                             <?php
@@ -157,103 +152,6 @@ $_SESSION['last_activity'] = time();
                                 unset($_SESSION['success']);
                             }
                             ?>
-
-                            <!-- Formulario para cambiar la contraseña con botones para mostrar/ocultar -->
-                            <form action="../Controller/proccess_change_psw.php" method="POST" id="changePasswordForm"
-                                onsubmit="return validateForm()">
-                                <div class="form-group">
-                                    <label for="currentPassword">Current Password</label>
-                                    <div class="password-container">
-                                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
-                                        <button type="button" class="password-toggle" onclick="togglePassword('currentPassword')">
-                                            <i class="fa-solid fa-eye" id="currentPassword-eye"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="newPassword">New Password</label>
-                                    <div class="password-container">
-                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
-                                        <button type="button" class="password-toggle" onclick="togglePassword('newPassword')">
-                                            <i class="fa-solid fa-eye" id="newPassword-eye"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="confirmPassword">Confirm New Password</label>
-                                    <div class="password-container">
-                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
-                                            <i class="fa-solid fa-eye" id="confirmPassword-eye"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <br>
-                                <button type="submit" class="btn btn-secondary "><i class="fas fa-key"></i> Change Password</button>
-                            </form>
-                            <br>
-                            <br>
-                            <!-- Formulario para cambiar la dirección de red -->
-                            <h2 class="mb-4" id="totalC">Network Address Change</h2>
-                            <form action="../Controller/ChangeAddrNetwork.php" method="post" id="networkformconifg"
-                                onsubmit="return confirmNetworkChange()">
-                                <div class="form-group">
-                                    <label for="NetworkAddress">New Network Address: </label>
-                                    <input type="text" class="form-control" id="NetworkAddress" name="NetworkAddress" required
-                                        autocomplete="off" onfocus="showNetworkAddressInfo()">
-                                    <div id="networkAddressInfo" class="alert alert-warning mt-2" style="display: none;">
-                                        This function does not work at this moment
-                                        <br>
-                                    </div>
-                                    <script>
-                                        function showNetworkAddressInfo() {
-                                            document.getElementById('networkAddressInfo').style.display = 'block';
-                                        }
-                                    </script>
-                                </div>
-                                <br>
-                                <div class="my-2">
-                                    <button type="submit" class="btn btn-secondary" disabled>Change Network Address</button>
-                                    <a href="../Admin/index_admin.php" class="btn btn-danger me-2"><i class="fas fa-arrow-left"></i> Return to Admin Menu</a>
-
-
-                                    <script>
-                                        document.getElementById('NetworkAddress').addEventListener('input', function(e) {
-                                            const input = e.target;
-                                            const value = input.value;
-
-                                            // Remover caracteres no permitidos (solo permitir números, puntos y ":")
-                                            const sanitizedValue = value.replace(/[^0-9a-fA-F:.]/g, '');
-                                            input.value = sanitizedValue;
-
-                                            // Limitar la longitud máxima a 39 caracteres (longitud máxima de una dirección IPv6)
-                                            if (sanitizedValue.length > 39) {
-                                                input.value = sanitizedValue.slice(0, 39);
-                                            } else {
-                                                input.value = sanitizedValue;
-                                            }
-
-                                            // Validar la dirección de red
-                                            if (isValidNetworkAddress(sanitizedValue)) {
-                                                input.setCustomValidity('');
-                                            } else {
-                                                input.setCustomValidity('Invalid network address format.');
-                                            }
-                                        });
-
-                                        function isValidNetworkAddress(address) {
-                                            const ipv4Pattern =
-                                                /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-                                            const ipv6Pattern = /^([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:)$/;
-
-                                            return ipv4Pattern.test(address) || ipv6Pattern.test(address);
-                                        }
-                                    </script>
-
-                                </div>
-                            </form>
                         </div>
                         <!-- Modal para mostrar las alertas -->
                         <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
@@ -318,7 +216,7 @@ $_SESSION['last_activity'] = time();
                             function togglePassword(inputId) {
                                 const passwordInput = document.getElementById(inputId);
                                 const eyeIcon = document.getElementById(inputId + '-eye');
-                                
+
                                 if (passwordInput.type === 'password') {
                                     passwordInput.type = 'text';
                                     eyeIcon.classList.remove('fa-eye');
@@ -329,7 +227,7 @@ $_SESSION['last_activity'] = time();
                                     eyeIcon.classList.add('fa-eye');
                                 }
                             }
-                            
+
                             function validateForm() {
                                 var newPassword = document.getElementById("newPassword").value;
                                 var confirmPassword = document.getElementById("confirmPassword").value;
@@ -348,119 +246,125 @@ $_SESSION['last_activity'] = time();
                                 }
                                 return true;
                             }
-                            
+
                             function confirmNetworkChange() {
                                 return confirm("Are you sure you want to change the network address?");
                             }
-                            
+
                             function showModal() {
                                 new bootstrap.Modal(document.getElementById('notificationModal')).show();
                             }
                         </script>
                         <style>
-.Btn {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 45px;
-  height: 45px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition-duration: .3s;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-  background-color: rgb(255, 65, 65);
-}
+                            .Btn {
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-start;
+                                width: 45px;
+                                height: 45px;
+                                border: none;
+                                border-radius: 50%;
+                                cursor: pointer;
+                                position: relative;
+                                overflow: hidden;
+                                transition-duration: .3s;
+                                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+                                background-color: rgb(255, 65, 65);
+                            }
 
-/* plus sign */
-.sign {
-  width: 100%;
-  transition-duration: .3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+                            /* plus sign */
+                            .sign {
+                                width: 100%;
+                                transition-duration: .3s;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
 
-.sign svg {
-  width: 17px;
-}
+                            .sign svg {
+                                width: 17px;
+                            }
 
-.sign svg path {
-  fill: white;
-}
-/* text */
-.text {
-  position: absolute;
-  right: 0%;
-  width: 0%;
-  opacity: 0;
-  color: white;
-  font-size: 1.2em;
-  font-weight: 600;
-  transition-duration: .3s;
-}
-/* hover effect on button width */
-.Btn:hover {
-  width: 125px;
-  border-radius: 40px;
-  transition-duration: .3s;
-}
+                            .sign svg path {
+                                fill: white;
+                            }
 
-.Btn:hover .sign {
-  width: 30%;
-  transition-duration: .3s;
-  padding-left: 20px;
-}
-/* hover effect button's text */
-.Btn:hover .text {
-  opacity: 1;
-  width: 70%;
-  transition-duration: .3s;
-  padding-right: 10px;
-}
-/* button click effect*/
-.Btn:active {
-  transform: translate(2px ,2px);
-}
+                            /* text */
+                            .text {
+                                position: absolute;
+                                right: 0%;
+                                width: 0%;
+                                opacity: 0;
+                                color: white;
+                                font-size: 1.2em;
+                                font-weight: 600;
+                                transition-duration: .3s;
+                            }
+
+                            /* hover effect on button width */
+                            .Btn:hover {
+                                width: 125px;
+                                border-radius: 40px;
+                                transition-duration: .3s;
+                            }
+
+                            .Btn:hover .sign {
+                                width: 30%;
+                                transition-duration: .3s;
+                                padding-left: 20px;
+                            }
+
+                            /* hover effect button's text */
+                            .Btn:hover .text {
+                                opacity: 1;
+                                width: 70%;
+                                transition-duration: .3s;
+                                padding-right: 10px;
+                            }
+
+                            /* button click effect*/
+                            .Btn:active {
+                                transform: translate(2px, 2px);
+                            }
                         </style>
-   <div class="text-center mt-4 d-flex justify-content-center">
-    <button class="Btn" id="logoutBtn">
-        <div class="sign">
-            <svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg>
-        </div>
-        <div class="text">Logout</div>
-    </button>
-</div>
+                        <div class="text-center mt-4 d-flex justify-content-center">
+                            <button class="Btn mb-5" id="logoutBtn">
+                                <div class="sign">
+                                    <svg viewBox="0 0 512 512">
+                                        <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
+                                    </svg>
+                                </div>
+                                <div class="text">Logout</div>
+                            </button>
+                        </div>
 
-<script>
-    // SweetAlert2 para confirmar logout
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You are about to log out!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Log Out',
-            cancelButtonText: 'Cancel',
-            backdrop: `
+                        <script>
+                            // SweetAlert2 para confirmar logout
+                            document.getElementById('logoutBtn').addEventListener('click', function() {
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: "You are about to log out!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, Log Out',
+                                    cancelButtonText: 'Cancel',
+                                    backdrop: `
                 rgba(0,0,0,0.7)
                 url("../Configuration/images/nyan-cat.gif")
                 left top
                 no-repeat
             `
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Set cookie and redirect
-                document.cookie = "error_message=Successful logout; path=/; max-age=30";
-                window.location.href = "../Controller/Cerrar_sesion.php";
-            }
-        });
-    });
-</script>
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Set cookie and redirect
+                                        document.cookie = "error_message=Successful logout; path=/; max-age=30";
+                                        window.location.href = "../Controller/Cerrar_sesion.php";
+                                    }
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>

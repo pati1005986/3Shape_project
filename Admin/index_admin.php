@@ -213,8 +213,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <?php
                     // Obtener todos los datos en una sola consulta
                     try {
-
-
                         // Datos para el primer gráfico
                         $statusData = $pdo->query("SELECT user_status FROM vista_equipos_usuarios")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -390,7 +388,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             checkboxes.forEach(checkbox => {
                                 if (checkbox.checked) selectedCount++;
                             });
-                            
+
                             if (selectedCount === 0) {
                                 event.preventDefault();
                                 alert('Por favor, seleccione al menos un campo para eliminar.');
