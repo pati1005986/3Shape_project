@@ -25,8 +25,11 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/button-styles.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/animate.min.css">
+    <link rel="stylesheet" href="./View/Css/accordion.css">
     <!-- Carga diferida de scripts no críticos -->
     <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
+    <script src="./Configuration/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+    <script src="./View/Js/accordion.js" defer></script>
 </head>
 
 <body>
@@ -195,7 +198,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <!-- Categoría 1: Información del Activo -->
                                     <div class="col-md-4 mb-3">
                                         <div class="card shadow-sm">
-                                            <div class="card-header bg-secondary text-white" data-bs-toggle="collapse" href="#collapseAssetInfo" role="button" aria-expanded="false" aria-controls="collapseAssetInfo" style="cursor: pointer;">
+                                            <div class="card-header bg-secondary text-white" data-bs-toggle="collapse" href="#collapseAssetInfo" role="button" aria-expanded="false" aria-controls="collapseAssetInfo">
                                                 <i class="bi bi-laptop me-2"></i> Asset Information
                                                 <i class="bi bi-chevron-down float-end"></i>
                                             </div>
@@ -251,7 +254,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <!-- Categoría 2: Información del Usuario -->
                                     <div class="col-md-4 mb-3">
                                         <div class="card shadow-sm">
-                                            <div class="card-header bg-primary text-white" data-bs-toggle="collapse" href="#collapseUserInfo" role="button" aria-expanded="false" aria-controls="collapseUserInfo" style="cursor: pointer;">
+                                            <div class="card-header bg-primary text-white" data-bs-toggle="collapse" href="#collapseUserInfo" role="button" aria-expanded="false" aria-controls="collapseUserInfo">
                                                 <i class="bi bi-person me-2"></i> User Information
                                                 <i class="bi bi-chevron-down float-end"></i>
                                             </div>
@@ -312,7 +315,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <!-- Categoría 3: Estado y Garantía -->
                                     <div class="col-md-4 mb-3">
                                         <div class="card shadow-sm">
-                                            <div class="card-header bg-warning text-dark" data-bs-toggle="collapse" href="#collapseStatusWarranty" role="button" aria-expanded="false" aria-controls="collapseStatusWarranty" style="cursor: pointer;">
+                                            <div class="card-header bg-warning text-dark" data-bs-toggle="collapse" href="#collapseStatusWarranty" role="button" aria-expanded="false" aria-controls="collapseStatusWarranty">
                                                 <i class="bi bi-shield-check me-2"></i> Status & Warranty
                                                 <i class="bi bi-chevron-down float-end"></i>
                                             </div>
@@ -405,7 +408,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                 }
                             }
                             ?>
-
+                            <!--Modal de notificciones -->
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header bg-primary text-white">
@@ -474,81 +477,6 @@ if (session_status() === PHP_SESSION_NONE) {
                                 }
                             }
                         </script>
-
-                        <style>
-                            /* Animación de infinito para la lupa */
-                            @keyframes infinity {
-                                0% {
-                                    transform: translateX(0) rotate(0deg);
-                                }
-
-                                25% {
-                                    transform: translateX(3px) rotate(10deg);
-                                }
-
-                                50% {
-                                    transform: translateX(0) rotate(0deg);
-                                }
-
-                                75% {
-                                    transform: translateX(-3px) rotate(-10deg);
-                                }
-
-                                100% {
-                                    transform: translateX(0) rotate(0deg);
-                                }
-                            }
-
-                            /* Animación de movimiento lateral para el borrador */
-                            @keyframes shake {
-                                0% {
-                                    transform: translateX(0);
-                                }
-
-                                25% {
-                                    transform: translateX(3px);
-                                }
-
-                                50% {
-                                    transform: translateX(0);
-                                }
-
-                                75% {
-                                    transform: translateX(-3px);
-                                }
-
-                                100% {
-                                    transform: translateX(0);
-                                }
-                            }
-
-                            /* Animación de giro para refresh */
-                            @keyframes spin {
-                                0% {
-                                    transform: rotate(0deg);
-                                }
-
-                                100% {
-                                    transform: rotate(360deg);
-                                }
-                            }
-
-                            /* Aplica las animaciones al hacer hover */
-                            #search_btn:hover .bi-search {
-                                animation: infinity 1.5s ease-in-out infinite;
-                                display: inline-block;
-                            }
-
-                            #reset_btn:hover .bi-eraser {
-                                animation: shake 0.5s ease-in-out infinite;
-                                display: inline-block;
-                            }
-
-                            #refresh_btn:hover .bi-arrow-clockwise {
-                                animation: spin 2s linear infinite;
-                                display: inline-block;
-                            }
-                        </style>
 
                         <div class="my-2 mb-2 d-flex justify-content-left">
                             <button type="submit" class="shadow btn btn-light border-success me-1" id="search_btn">

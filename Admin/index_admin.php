@@ -32,7 +32,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 include_once "../Controller/validation_message.php";
 include '../Configuration/Connection.php';
 ?>
-                         <?php
+<?php
 // Array de mapeo de nombres 
 $fieldLabels = require '../View/Fragments/field_labels.php';
 ?>
@@ -203,7 +203,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             </center>
         </div>
         <div class="row my-5" style="display: flex; gap: 20px;">
-        <script src="../View/Js/diagram.js"> </script>
+            <script src="../View/Js/diagram.js"> </script>
             <div class="col-md-5 ms-2">
                 <div id="tool" style="display: none;"></div>
             </div>
@@ -213,7 +213,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <?php
                     // Obtener todos los datos en una sola consulta
                     try {
-                       
+
 
                         // Datos para el primer gráfico
                         $statusData = $pdo->query("SELECT user_status FROM vista_equipos_usuarios")->fetchAll(PDO::FETCH_ASSOC);
@@ -344,7 +344,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 echo '<div class="col-md-4 col-sm-6 mb-2">';
                                 echo '<label class="checkbox-btn">';
-                                echo '<input type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">';
+                                echo '<input type="checkbox" name="removefields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '">';
                                 echo '<span class="checkmark"></span>';
                                 echo '<label>' . htmlspecialchars($row["Field"]) . '</label>';
                                 echo '</label>';
@@ -385,19 +385,18 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     </script>
                     <script>
                         document.getElementById('RemoveForm').addEventListener('submit', function(event) {
-                            const select1 = document.getElementById('removefields');
-                            let errorMessage = "Please fix the following errors: \n";
-                            let hasError = false;
-                            if (select1.value === '0') {
-                                errorMessage += "- Select a Field.\n";
-                                hasError = true;
-                            }
-                            if (hasError) {
-                                event.preventDefault(); // Detener el envío del formulario si hay errores
-                                alert(errorMessage);
+                            const checkboxes = document.querySelectorAll('input[name="removefields[]"]');
+                            let selectedCount = 0;
+                            checkboxes.forEach(checkbox => {
+                                if (checkbox.checked) selectedCount++;
+                            });
+                            
+                            if (selectedCount === 0) {
+                                event.preventDefault();
+                                alert('Por favor, seleccione al menos un campo para eliminar.');
                             } else {
-                                if (!confirm('Are you sure you want to remove this data?')) {
-                                    event.preventDefault(); // Cancelar el envío si el usuario no confirma
+                                if (!confirm('¿Está seguro de que desea eliminar los campos seleccionados? Esta acción no se puede deshacer.')) {
+                                    event.preventDefault();
                                 }
                             }
                         });
@@ -470,7 +469,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 <h4>Select Fields to Remove <span>*</span></h4>
                 <?php
                 try {
-                    
+
                     $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                                 FROM INFORMATION_SCHEMA.COLUMNS 
                                 WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -600,7 +599,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <?php
             try {
-                
+
                 $sql = "SELECT TABLE_NAME, COLUMN_NAME 
                     FROM INFORMATION_SCHEMA.COLUMNS 
                     WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
@@ -681,7 +680,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
                             $fieldName = $column['COLUMN_NAME'];
                             $displayName = isset($fieldLabels[$fieldName]) ? $fieldLabels[$fieldName] : $fieldName;
-                            
+
                             echo '<tr>';
                             echo '<td>' . htmlspecialchars($displayName) . '</td>';
                             echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
