@@ -83,7 +83,7 @@ try {
                             <label for="nombre_usuario">User Name: </label>
                             <input class="form-control shadow-sm" type="text" id="nombre_usuario" name="nombre_usuario"
                                 value="<?php echo htmlspecialchars($asset_data['last_user']); ?>"
-                                autocomplete="off"><br>
+                                autocomplete="off" readonly><br>
                         </div>
                         <div class="form-group">
                             <label for="serial">Serial Number (Computer): </label>

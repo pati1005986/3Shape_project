@@ -181,6 +181,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>
+                                         <!--Botón de Campana para mostrar modal de notificaciones -->
                                         <li class="nav-item ms-auto " style="position: absolute; right: 0; top: 12;">
                                             <a type="button" class="btn btn-outline-warning" onclick="showModal()">
                                                 <i class="fa-solid fa-bell" style="color:black"></i>
