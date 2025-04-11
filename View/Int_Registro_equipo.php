@@ -5,9 +5,13 @@ include "../Configuration/Connection.php";
 
 // Verificar si el usuario es administrador
 $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
-?>
-<?php
 
+// Si estamos procesando el primer formulario, guardar datos en sesión
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['phase'] === '1') {
+    $_SESSION['phase1_data'] = $_POST;
+    header("Location: Estado_Assets_Register.php");
+    exit;
+}
 ?>
 
 
@@ -122,7 +126,8 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     </div>
                 <?php endif; ?>
                 <!--Formulario de registro de equipos con sus respectivas validaciones -->
-                <form id="registform" method="post" action="../Controller/RegisterAsset.php">
+                <form id="registform" method="post" action="">
+                    <input type="hidden" name="phase" value="1">
                     <h1 id="totalC" class="text-center mb-5 fw-bold">Register Asset </h1>
                     <br>
                     <br>
@@ -228,10 +233,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 <small id="serial-message" class="form-text"></small>
                                 <!--Script con la funcion de mostrar el resultado de la busqueda y validacion en este caso de el numero de serial y el nombre de el activo-->
                                 <script src="../View/Js/GetSerial.js"></script>
-
-                                </script>
                             </div>
-
                             <div class="form-group">
                                 <label for="compra">Purchase Country: </label>
                                 <?php
@@ -349,7 +351,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     });
                                 });
                             </script>
-
                             <div class="form-group">
                                 <label for="newl">New laptop?: </label>
                                 <input class="shadow-sm form-control" type="text" id="newl" name="newl"
@@ -466,7 +467,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
 
                             </div>
                         </div>
-
                         <!--Input relacionado algun nueva columna que se haya seleccionado-->
                         <?php if (isset($_SESSION['new_reg_fields'])): ?>
                             <?php foreach ($_SESSION['new_reg_fields'] as $field_name): ?>
@@ -540,14 +540,14 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 </div>
                             </div>
                             <div class="col-12 mt-4 d-flex justify-content-center gap-3">
-                                <button id="confirmAllButton" type="submit" class="btn btn-secondary">
-                                    <i class="fas fa-paper-plane me-2"></i>Send
-                                </button>
-                                <a href="../index.php" class="btn">
-                                    <i class="fas fa-arrow-left me-2"></i>Return
-                                </a>
-                            </div>
-                        </div>
+                        <button id="confirmAllButton" type="submit" class="btn btn-secondary">
+                            <i class="fas fa-paper-plane me-2"></i>Next: Asset Status
+                        </button>
+                        <a href="../index.php" class="btn">
+                            <i class="fas fa-arrow-left me-2"></i>Return
+                        </a>
+                    </div>
+                </form>
                         <!-- Script para la validacion de caracteres especiales exceptuando el "/" y "-" -->
                         <script>
                             // Función general para validar que no se ingresen caracteres especiales excepto "/" y "-"
@@ -624,11 +624,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             </div>
         </div>
     </div>
-
-
-    <script src="../Configuration/bootstrap/js/bootstrap.min.js">
-    </script>
-
+    <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
 </body>
-
 </html>

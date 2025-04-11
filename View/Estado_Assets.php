@@ -209,7 +209,6 @@ try {
                             <?php echo htmlspecialchars($asset_data['headset_status']); ?> (Current)
                         </option>
                     <?php endif; ?>
-                    <option value="No aplica" <?php echo empty($asset_data['HeadSet']) ? 'selected' : ''; ?>>N/A</option>
                 </select>
             </div>
         </div>
@@ -250,7 +249,6 @@ try {
                             <?php echo htmlspecialchars($asset_data['dongle_status']); ?> (Current)
                         </option>
                     <?php endif; ?>
-                    <option value="No aplica" <?php echo empty($asset_data['Dongle']) ? 'selected' : ''; ?>>N/A</option>
                 </select>
             </div>
         </div>
@@ -291,7 +289,6 @@ try {
                             <?php echo htmlspecialchars($asset_data['celular_status']); ?> (Current)
                         </option>
                     <?php endif; ?>
-                    <option value="No aplica" <?php echo empty($asset_data['Celular']) ? 'selected' : ''; ?>>N/A</option>
                 </select>
             </div>
         </div>

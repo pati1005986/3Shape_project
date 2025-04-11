@@ -16,7 +16,6 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +26,6 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <title>Update Register</title>
 </head>
-
 <body>
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center vh-100">
@@ -122,7 +120,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </form>
                     </div>
                 <?php endif; ?>
-
                 <!--Formulario de Actualizacion donde trae los datos del activo seleccionado-->
                 <form id="updateform" action="../Controller/procesar_datos.php" method="post">
                     <h2 id="totalC" class="text-center">Update Register</h2>
@@ -474,11 +471,8 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                         No</option>
                                     <option value="Si" <?php echo ($asset_data['LLave'] == 'Si') ? 'selected' : ''; ?>>
                                         Yes</option>
-
                                 </select>
                             </div>
-
-
                             <div class="form-group me-2">
                                 <label for="typeId">Type ID</label>
                                 <?php
@@ -492,7 +486,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
                         </div>
                         <div class="col-md-6">
                             <div class="form-group me-2">
@@ -547,7 +540,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                     </div>
                     <br>
-
                     <div class="col-md-6">
                         <button id="confirmAllButton" type="submit" class="btn btn-secondary my-2">Send</button>
                         <a href="../index.php" class="btn my-2">Return</a>
@@ -578,7 +570,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             }
                         });
                     }
-
                     function validarAlgunosCaracteresEspeciales(inputElement, mensajeElement) {
                         const regex = /^[a-zA-Z0-9\s\/\-Ññ]+$/;
 
@@ -605,7 +596,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             }
                         });
                     }
-
 
                     document.addEventListener('DOMContentLoaded', function() {
                         const fieldsToValidate = document.querySelectorAll('[data-validate="true"]');
@@ -672,10 +662,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 </script>
             </div>
         </div>
-
     </div>
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
 </body>
-
-
 </html>
