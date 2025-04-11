@@ -48,10 +48,10 @@ if ($resultados) {
         // Botones con valor ya escapado
         $rowHtml[] = "<td><a href='./Model/act_registro.php?assetname=$assetname' class='btn btn-secondary btn-sm'>" .
         "<i class='fas fa-sync-alt sync-icon'></i></a></td>" .
-        "<td><a href='javascript:void(0);' class='btn btn-danger btn-sm delete-item' " .
-        "data-assetname='$assetname'><i class='fa fa-times'></i></a></td>".
         "<td><a href='./Model/act_registro_status.php?assetname=$assetname' class='btn btn-secondary btn-sm'>" .
         "<i class='far fa-check-square'></i></a></td>" .
+         "<td><a href='javascript:void(0);' class='btn btn-danger btn-sm delete-item' " .
+        "data-assetname='$assetname'><i class='fa fa-times'></i></a></td>".
         "</tr>";
 
         // Optimización 4: Unir partes de la fila
