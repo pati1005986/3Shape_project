@@ -1,7 +1,7 @@
 :root {
     --bg-light: #f5f5f5;
     --bg-dark: #1a1a1a;
-    --text-light: #333;
+    --text-light: #ffffff;
     --text-dark: #e0e0e0;
     --form-bg-light: #fff;
     --form-bg-dark: #2d2d2d;
@@ -25,7 +25,6 @@ html, body {
     padding: 0;
     box-sizing: border-box;
     background-color: var(--bg-light);
-    color: var(--text-light);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -40,7 +39,6 @@ h1, h2, h3, h4 {
     margin: 15px 0 4px;
     font-weight: 500;
     animation: fadeIn 1s ease;
-    color: var(--text-light);
 }
 
 @keyframes fadeIn {
@@ -82,7 +80,6 @@ label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: var(--text-light);
     transition: color 0.3s ease;
 }
 
@@ -92,7 +89,6 @@ input, select, textarea {
     border: 2px solid var(--input-border-light);
     border-radius: 8px;
     background-color: var(--input-bg-light);
-    color: var(--text-light);
     box-sizing: border-box;
     transition: all 0.3s ease;
 }
@@ -113,7 +109,6 @@ input:focus, select:focus, textarea:focus {
 
 .btn-secondary {
     background-color: var(--btn-primary-bg);
-    color: white;
     border: none;
 }
 
@@ -125,7 +120,6 @@ input:focus, select:focus, textarea:focus {
 
 .btn-danger {
     background-color: var(--btn-danger-bg);
-    color: white;
     border: none;
 }
 

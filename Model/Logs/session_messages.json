@@ -1,11 +1,21 @@
 {
-    "success": [],
+    "success": [
+        {
+            "message": "Fields added to both forms and table successfully",
+            "timestamp": "2025-04-11 15:55:29"
+        }
+    ],
     "error": [
         {
             "message": "Incorrect Password.",
             "timestamp": "2025-04-10 10:30:00"
         }
     ],
-    "error_message": [],
+    "error_message": [
+        {
+            "message": "Successful logout",
+            "timestamp": "2025-04-11 15:56:01"
+        }
+    ],
     "warnings": []
 }

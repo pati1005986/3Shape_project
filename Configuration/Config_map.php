@@ -29,7 +29,8 @@ $fieldMap = [
         'Asset_ID',
         'Asset_Identifier',
         'AssetName',
-        'Activos'
+        'Activos',
+        'assetname'
     ],
     SERIAL_NUMBER => [
         'serialnumber',
@@ -49,7 +50,8 @@ $fieldMap = [
         'Country_of_Origin',
         'Origin_Country',
         'Purchase Country',
-        'PurchaseCountry'
+        'PurchaseCountry',
+        'purchase_contry'
     ],
     WARRANTY_ENDDATE => [
         WARRANTY_ENDDATE,
@@ -58,7 +60,8 @@ $fieldMap = [
         'enddate',
         'Warranty_Expiry',
         'Warranty_End',
-        'WarrantyEndDate'
+        'WarrantyEndDate',
+        'warranty_enddate'
     ],
     EXPIRED => [
         EXPIRED,
@@ -67,7 +70,8 @@ $fieldMap = [
         'Is_Expired',
         'Expiration_Status',
         'Expired',
-        'Expired_statusa'
+        'Expired_statusa',
+        'expired'
     ],
     NEW_LAPTOP => [
         NEW_LAPTOP,
@@ -76,7 +80,8 @@ $fieldMap = [
         'newlaptop',
         'Newlaptop',
         'Is_New_Laptop',
-        'New laptop'
+        'New laptop',
+        'new_laptop'
     ],
     HEADSET => [
         HEADSET,

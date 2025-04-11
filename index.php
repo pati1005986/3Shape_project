@@ -181,9 +181,9 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>
-                                         <!--Botón de Campana para mostrar modal de notificaciones -->
-                                        <li class="nav-item ms-auto " style="position: absolute; right: 0; top: 12;">
-                                            <a type="button" class="btn btn-outline-warning" onclick="showModal()">
+                                        <!--Botón de Campana para mostrar modal de notificaciones -->
+                                        <li class="nav-item d-flex me-5"></li>
+                                            <a type="button" class="btn btn-outline-primary" onclick="showModal()">
                                                 <i class="fa-solid fa-bell" style="color:black"></i>
                                             </a>
                                             <script src="./View/Js/ModalReport.js"></script>
@@ -491,7 +491,6 @@ if (session_status() === PHP_SESSION_NONE) {
                             </button>
                         </div>
 
-
                         <script>
                             // Botón de Clear
                             document.getElementById('reset_btn').addEventListener('click', function() {
@@ -566,9 +565,9 @@ if (session_status() === PHP_SESSION_NONE) {
                         });
                     </script>
             </div>
-            <div id="resultados3" class="text-center my-2"></div>
-            <div id="resultados2" class="text-center my-2"></div>
-            <div id="resultados" class="text-center my-2"></div>
+            <div id="resultados3" class="text-center"></div>
+            <div id="resultados2" class="text-center"></div>
+            <div id="resultados" class="text-center"></div>
             <script>
                 //Script automatico para la busqueda del ultimo usuario
                 document.getElementById('search_user').addEventListener('input', function() {

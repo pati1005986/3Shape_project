@@ -548,7 +548,7 @@ label {
                         </tbody>
                     </table>
                     <br>
-                    <center><a href="../Admin/index_admin.php" class="btn btn-secondary">Back to Menu</a></center>
+                    <center><a href="../Admin/index_admin.php" class="btn btn-secondary mb-5">Back to Menu</a></center>
                     <?php
                     // Handle file viewing // Manejo de vista del arhivo
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['view'])) {

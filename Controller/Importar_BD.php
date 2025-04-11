@@ -166,7 +166,7 @@ function processCSV($pdo, $filePath)
     $requiredFields = ['serial_number'];
     foreach ($requiredFields as $field) {
         if (!isset($columnMapping[$field])) {
-            throw new Exception("Missing required column: " . $fieldMap[$field][0]);
+            throw new Exception("Missing required column: " . $fieldMap[$field][0] . " in the CSV file.");
         }
     }
 
@@ -190,7 +190,7 @@ function processCSV($pdo, $filePath)
         // Validar campos obligatorios
         foreach ($requiredFields as $field) {
             if (empty($rowData[$field])) {
-                $warnings[] = "Missing required field '{$field}' in row" . (ftell($file) + 1);
+                $warnings[] = "Missing required field '{$field}' in row " . (ftell($file) + 1);
                 continue 2;
             }
         }
@@ -211,7 +211,7 @@ function processCSV($pdo, $filePath)
             if ($e->errorInfo[1] == 1062) { // Código de error para duplicados
                 $warnings[] = "Duplicate Log: " . $rowData['assetname'];
             } else {
-                $warnings[] = "Error in rowfile " . (ftell($file) + 1) . ": " . $e->getMessage();
+                $warnings[] = "Error in row file " . (ftell($file) + 1) . ": " . $e->getMessage();
             }
         }
     }
@@ -293,7 +293,7 @@ if (isset($_FILES['Proyeccion_garan']) && $_FILES['Proyeccion_garan']['error'] =
         if (!validateFile($_FILES['Proyeccion_garan'])) {
             throw new Exception("Invalid file format");
         }
-        
+
         $filePath = $_FILES['Proyeccion_garan']['tmp_name'];
         $fileExtension = pathinfo($_FILES['Proyeccion_garan']['name'], PATHINFO_EXTENSION);
 
@@ -306,7 +306,7 @@ if (isset($_FILES['Proyeccion_garan']) && $_FILES['Proyeccion_garan']['error'] =
         }
 
         $_SESSION['warnings'] = array_slice($warnings, 0, 10); // Mostrar máximo 10 advertencias
-        $_SESSION['success'] = "File processed successfully";
+        $_SESSION['success'] = "File '" . htmlspecialchars($_FILES['Proyeccion_garan']['name']) . "' processed successfully";
     } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
     }
@@ -315,4 +315,4 @@ if (isset($_FILES['Proyeccion_garan']) && $_FILES['Proyeccion_garan']['error'] =
 }
 ob_end_clean(); // Limpiar buffer de salida
 header("Location: ../index.php");
-exit();
+exit;

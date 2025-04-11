@@ -6,25 +6,25 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Configuración de colores modernos y armónicos
+    // Configuración de colores modernos y armónicos con gradientes
     const colors = {
         status: [
-            'rgba(9, 87, 205, 0.75)',    // Azul principal
-            'rgba(41, 121, 255, 0.75)',   // Azul secundario
-            'rgba(83, 148, 250, 0.75)',   // Azul claro 
-            'rgba(13, 110, 253, 0.75)',   // Azul acento
-            'rgba(10, 88, 202, 0.75)'     // Azul oscuro
+            'rgba(25, 118, 210, 0.85)',   // Azul corporativo
+            'rgba(56, 142, 60, 0.85)',    // Verde éxito
+            'rgba(245, 124, 0, 0.85)',    // Naranja alerta
+            'rgba(211, 47, 47, 0.85)',    // Rojo error
+            'rgba(123, 31, 162, 0.85)'    // Púrpura especial
         ],
         country: [
-            'rgba(9, 87, 205, 0.75)',    // Azul principal
-            'rgba(0, 150, 136, 0.75)',    // Verde azulado
-            'rgba(13, 110, 253, 0.75)',   // Azul acento
-            'rgba(138, 72, 188, 0.75)',   // Púrpura
-            'rgba(83, 148, 250, 0.75)'    // Azul claro
+            'rgba(25, 118, 210, 0.85)',   // Azul corporativo
+            'rgba(0, 172, 193, 0.85)',    // Cyan moderno
+            'rgba(67, 160, 71, 0.85)',    // Verde fresco
+            'rgba(156, 39, 176, 0.85)',   // Púrpura elegante
+            'rgba(255, 152, 0, 0.85)'     // Naranja vibrante
         ],
         expired: [
-            'rgba(13, 110, 253, 0.75)',   // Azul acento
-            'rgba(220, 53, 69, 0.75)'     // Rojo
+            'rgba(76, 175, 80, 0.85)',    // Verde activo
+            'rgba(244, 67, 54, 0.85)'     // Rojo expirado
         ]
     };
 
