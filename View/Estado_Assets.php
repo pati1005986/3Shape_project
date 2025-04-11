@@ -428,10 +428,7 @@ try {
                 </script>
             </div>
         </div>
-
     </div>
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
 </body>
-
-
 </html>

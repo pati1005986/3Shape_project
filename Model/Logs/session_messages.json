@@ -2,29 +2,13 @@
     "success": [
         {
             "message": "Correctly updated data.",
-            "timestamp": "2025-04-10 13:54:39"
-        },
-        {
-            "message": "Correctly updated data.",
-            "timestamp": "2025-04-10 13:55:40"
-        },
-        {
-            "message": "Estados de activos actualizados correctamente.",
-            "timestamp": "2025-04-10 14:07:47"
-        },
-        {
-            "message": "Estados de activos actualizados correctamente.",
-            "timestamp": "2025-04-10 14:08:22"
-        },
-        {
-            "message": "Estados de activos actualizados correctamente.",
-            "timestamp": "2025-04-11 07:22:00"
+            "timestamp": "2025-04-11 09:48:11"
         }
     ],
     "error": [
         {
             "message": "Incorrect Password.",
-            "timestamp": "2025-04-10 10:30:00"
+            "timestamp": "2025-04-11 09:48:53"
         }
     ],
     "error_message": [],

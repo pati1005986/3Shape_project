@@ -16,6 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
     <!-- Consolidación de CSS -->
     <link href="./Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./Configuration/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./Configuration/bootstrap/bootstrap-icons/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
@@ -26,6 +27,65 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <!-- Carga diferida de scripts no críticos -->
     <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
+    <style>
+  /* Bell container styles */
+.bell-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.bell-button {
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bell-button:hover {
+  transform: scale(1.1);
+  background-color: #ffc107;
+}
+
+.bell-button .fa-bell {
+  transition: all 0.3s ease;
+}
+
+.bell-button:hover .fa-bell {
+  color: #fff !important;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none; /* Hidden by default */
+}
+
+.bell-hover {
+  animation: ring 0.5s ease-in-out;
+}
+
+@keyframes ring {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+    </style>
 </head>
 
 <body>
@@ -177,13 +237,17 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <a href="./View/Int_salida.php" class="nav-link me-2" title="Output Asset">
                                             <i class="bi bi-box-arrow-up me-1"></i> Output Asset
                                         </a>
-                                         <!--Botón de Campana para mostrar modal de notificaciones -->
-                                        <li class="nav-item ms-auto " style="position: absolute; right: 0; top: 12;">
-                                            <a type="button" class="btn btn-outline-warning" onclick="showModal()">
-                                                <i class="fa-solid fa-bell" style="color:black"></i>
-                                            </a>
-                                            <script src="./View/Js/ModalReport.js"></script>
-                                        </li>
+                                        <div class="notification">
+<!--Botón de Campana para mostrar modal de notificaciones -->
+<li class="nav-item ms-auto bell-container" style="position: absolute; right: 0; top: 12;">
+    <div class="bell-wrapper">
+        <a type="button" class="btn btn-outline-warning bell-button">
+            <i class="fa-solid fa-bell" style="color:black"></i>
+            <span class="notification-badge">0</span>
+        </a>
+    </div>
+    <script src="./View/Js/ModalReport.js"></script>
+</li>
                                     </div>
                                 </div>
                         </nav>
