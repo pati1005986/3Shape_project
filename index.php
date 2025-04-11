@@ -24,12 +24,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/Datatable.css">
     <link rel="stylesheet" href="./View/Css/button-styles.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
-    <link rel="stylesheet" href="./Configuration/JQuery/animate.min.css">
-    <link rel="stylesheet" href="./View/Css/accordion.css">
     <!-- Carga diferida de scripts no críticos -->
     <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
-    <script src="./Configuration/bootstrap/js/bootstrap.bundle.min.js" defer></script>
-    <script src="./View/Js/accordion.js" defer></script>
 </head>
 
 <body>
@@ -872,7 +868,6 @@ if (session_status() === PHP_SESSION_NONE) {
             });
         });
     </script>
-    <script src="./Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Añade el JavaScript para manejar la animación de los iconos de flecha -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
