@@ -1,0 +1,103 @@
+:root {
+    --footer-bg: var(--form-bg-light);
+    --footer-border: #e0e0e0;
+    --footer-link: #4a90e2;
+    --footer-link-hover: #357abd;
+    --footer-icon-color: #666;
+    --footer-text: var(--text-light);
+}
+
+footer {
+    background-color: var(--footer-bg);
+    transition: all 0.3s ease;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.footer-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.footer-section:nth-child(2) { animation-delay: 0.2s; }
+.footer-section:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer-title {
+    color: var(--footer-text);
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--footer-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.footer-icon {
+    color: var(--footer-icon-color);
+    transition: color 0.3s ease;
+    font-size: 1rem;
+}
+
+.footer-link {
+    color: var(--footer-link);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--footer-link-hover);
+    transition: width 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--footer-link-hover);
+    text-decoration: none;
+}
+
+.footer-link:hover::after {
+    width: 100%;
+}
+
+.footer-link:hover .footer-icon {
+    color: var(--footer-link-hover);
+    transform: translateX(3px);
+}
+
+/* Dark mode support */
+[data-theme='dark'] footer {
+    background-color: var(--form-bg-dark);
+    border-color: var(--input-border-dark);
+}
+
+[data-theme='dark'] .footer-title {
+    color: var(--text-dark);
+    border-color: var(--input-border-dark);
+}
+
+[data-theme='dark'] .footer-icon {
+    color: var(--text-dark);
+}
+
+[data-theme='dark'] .footer-link {
+    color: var(--input-focus-dark);
+}
+
+[data-theme='dark'] .footer-link:hover {
+    color: var(--btn-primary-hover);
+}

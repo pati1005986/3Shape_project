@@ -35,7 +35,7 @@ $(document).ready(function () {
     columnDefs: [
       {
         orderable: false, // Deshabilita el ordenamiento
-        targets: [0, -1, -2], // Primera columna (0) y las dos últimas (-1, -2)
+        targets: [0, -1, -2, -3], // Primera columna (0) y las tres últimas (-1, -2, -3)
       },
     ],
     keys: {
