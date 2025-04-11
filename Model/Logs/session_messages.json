@@ -2,15 +2,28 @@
     "success": [
         {
             "message": "Correctly updated data.",
-            "timestamp": "2025-04-11 09:48:11"
+            "timestamp": "2025-04-11 11:27:47"
+        },
+        {
+            "message": "Fields added to the table successfully",
+            "timestamp": "2025-04-11 11:30:43"
         }
     ],
     "error": [
         {
             "message": "Incorrect Password.",
-            "timestamp": "2025-04-11 09:48:53"
+            "timestamp": "2025-04-11 11:17:13"
+        },
+        {
+            "message": "Incorrect Password.",
+            "timestamp": "2025-04-11 11:21:38"
         }
     ],
-    "error_message": [],
+    "error_message": [
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-04-11 11:29:51"
+        }
+    ],
     "warnings": []
 }
