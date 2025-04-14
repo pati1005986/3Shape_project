@@ -9,24 +9,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configuración de colores modernos y armónicos con gradientes
     const colors = {
         status: [
-            'rgba(25, 118, 210, 0.85)',   // Azul corporativo
-            'rgba(56, 142, 60, 0.85)',    // Verde éxito
-            'rgba(245, 124, 0, 0.85)',    // Naranja alerta
-            'rgba(211, 47, 47, 0.85)',    // Rojo error
-            'rgba(123, 31, 162, 0.85)'    // Púrpura especial
+            'rgba(13, 110, 253, 0.8)',  // Primary blue from manual.css
+            'rgba(19, 132, 150, 0.8)',   // Info color variant
+            'rgba(44, 62, 80, 0.8)',     // Header color from manual.css
+            'rgba(73, 80, 87, 0.8)'      // Text color from manual.css
         ],
         country: [
-            'rgba(25, 118, 210, 0.85)',   // Azul corporativo
-            'rgba(0, 172, 193, 0.85)',    // Cyan moderno
-            'rgba(67, 160, 71, 0.85)',    // Verde fresco
-            'rgba(156, 39, 176, 0.85)',   // Púrpura elegante
-            'rgba(255, 152, 0, 0.85)'     // Naranja vibrante
+            'rgba(13, 110, 253, 0.8)',
+            'rgba(10, 88, 202, 0.8)',
+            'rgba(8, 66, 152, 0.8)',
+            'rgba(6, 44, 101, 0.8)',
+            'rgba(4, 22, 51, 0.8)'
         ],
         expired: [
-            'rgba(76, 175, 80, 0.85)',    // Verde activo
-            'rgba(244, 67, 54, 0.85)'     // Rojo expirado
+            'rgba(13, 110, 253, 0.8)',   // Active/Valid
+            'rgba(73, 80, 87, 0.8)'       // Expired
         ]
     };
+
 
     // Procesar datos de equipos
     function processStatusData(data) {

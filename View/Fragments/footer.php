@@ -1,6 +1,6 @@
 
 <link rel="stylesheet" href="/3Shape_project/View/Css/footer.css">
-<footer class="container py-5 border-top">
+<footer class="container py-5 border-top bg-light">
     <div class="row justify-content-center">
         <div class="col-md-4 mb-4 footer-section">
             <h6 class="text-uppercase fw-bold mb-3 d-flex align-items-center footer-title">
