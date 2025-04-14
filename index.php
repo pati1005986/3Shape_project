@@ -895,7 +895,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
                             <div class="invalid-feedback">Please enter a valid password.</div>
                         </div>
-                        <button type="submit" class="btn btn-secondary w-100 border border-secondary">Send<i class="fas fa-paper-plane"></i></button>
+                        <button type="submit" class="btn btn-secondary w-100 border border-secondary">Login <i class="fas fa-key"></i></button>
                         <div class="text-center mt-2">
                             <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
                         </div>

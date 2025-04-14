@@ -59,6 +59,8 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+     <!--Font Awesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
@@ -102,8 +104,8 @@ try {
                     <h4 class="mb-3">Asset Information</h4>
                     
                   <!-- Computador -->
-<div class="col-md-12 mb-4 border-bottom pb-3">
-    <h5>Computer</h5>
+                  <div class="col-md-12 mb-4 border-bottom pb-3">
+                  <h5><i class="fas fa-laptop me-2"></i>Computer</h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -143,7 +145,7 @@ try {
 
 <!-- Monitor -->
 <div class="col-md-12 mb-4 border-bottom pb-3">
-    <h5>Monitor</h5>
+    <h5><i class="fas fa-desktop me-2"></i>Monitor</h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -184,7 +186,7 @@ try {
 
 <!-- HeadSet -->
 <div class="col-md-12 mb-4 border-bottom pb-3">
-    <h5>HeadSet</h5>
+    <h5><i class="fas fa-headset me-2"></i>HeadSet</h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -224,7 +226,7 @@ try {
 
 <!-- Dongle -->
 <div class="col-md-12 mb-4 border-bottom pb-3">
-    <h5>Dongle</h5>
+    <h5><i class="fab fa-usb me-2"></i>Dongle</h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -264,7 +266,7 @@ try {
 
 <!-- Celular -->
 <div class="col-md-12 mb-4">
-    <h5>Cell Phone</h5>
+    <h5><i class="fas fa-mobile-alt me-2"></i>Cell Phone</h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -305,9 +307,13 @@ try {
                     <br>
 
                     <div class="col-md-6">
-                        <button id="confirmAllButton" type="submit" class="btn btn-secondary my-2">Send</button>
-                        <a href="../index.php" class="btn my-2">Return</a>
-                    </div>
+    <button id="confirmAllButton" type="submit" class="btn btn-secondary my-2">
+        <i class="fas fa-paper-plane me-2"></i>Send
+    </button>
+    <a href="../index.php" class="btn my-2">
+        <i class="fas fa-arrow-left me-2"></i>Return
+    </a>
+</div>
                 </form>
                 <script>
                     // Función general para validar que no se ingresen caracteres especiales
