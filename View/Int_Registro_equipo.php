@@ -24,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
     <title>Register Asset</title>
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+     <!--Font Awesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
@@ -128,19 +130,21 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 <!--Formulario de registro de equipos con sus respectivas validaciones -->
                 <form id="registform" method="post" action="">
                     <input type="hidden" name="phase" value="1">
-                    <h1 id="totalC" class="text-center mb-5 fw-bold">Register Asset </h1>
+                    <h1 id="totalC" class="text-center mb-5 fw-bold">
+    <i class="fas fa-laptop-medical me-2"></i>Register Asset
+</h1>
                     <br>
                     <br>
                     <div class="row">
                         <div class="col-md-6 bg-light">
                             <div class="form-group">
-                                <label for="nombre_usuario">User name: </label>
+                            <label for="nombre_usuario"><i class="fas fa-user me-2"></i>User name:</label>
                                 <input class="shadow-sm form-control" type="text" id="nombre_usuario"
                                     name="nombre_usuario" autocomplete="off" required data-validate="true"
                                     value="<?php echo rand(10000, 99999); ?>">
                             </div>
                             <div class="form-group">
-                                <label for="assetname">Asset name: </label>
+                            <label for="assetname"><i class="fas fa-tag me-2"></i>Asset name:</label>
                                 <input class="shadow-sm form-control" type="text" id="assetname" name="assetname"
                                     autocomplete="off" required data-validate="true" value="CO-LPT"
                                     oninput="this.value = this.value.toUpperCase()">
@@ -226,7 +230,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="seriallabel">Serial number: </label>
+                            <label for="serial"><i class="fas fa-barcode me-2"></i>Serial number:</label>
                                 <input class="shadow-sm form-control" type="text" id="serial" name="serial"
                                     autocomplete="off" required data-validate="true"
                                     oninput="this.value = this.value.toUpperCase()" />
@@ -235,7 +239,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 <script src="../View/Js/GetSerial.js"></script>
                             </div>
                             <div class="form-group">
-                                <label for="compra">Purchase Country: </label>
+                            <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
                                 <?php
                                 try {
                                     $sql = "SELECT DISTINCT purchase_country 
@@ -265,7 +269,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="garantia">Warranty end date: </label>
+                            <label for="garantia"><i class="fas fa-calendar-check me-2"></i>Warranty end date:</label>
                                 <input class="shaodw-sm form-control" type="text" id="garantia" name="garantia"
                                     autocomplete="off" required data-validate="true" placeholder="mm/dd/yyyy" required>
                             </div>
@@ -352,14 +356,14 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 });
                             </script>
                             <div class="form-group">
-                                <label for="newl">New laptop?: </label>
+                            <label for="newl"><i class="fas fa-box-open me-2"></i>New laptop?:</label>
                                 <input class="shadow-sm form-control" type="text" id="newl" name="newl"
                                     autocomplete="off" data-validate="true">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group my-2">
-                                <label for="usrStts">User Status: </label>
+                            <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
                                 <?php
                                 try {
                                     $sql = "SELECT DISTINCT user_status 
@@ -388,7 +392,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 ?>
                             </div>
                             <div class="form-group my-2">
-                                <label for="status_change">Status change: </label>
+                            <label for="status_change"><i class="fas fa-exchange-alt me-2"></i>Status change:</label>
                                 <?php
                                 include "../Configuration/Connection.php";
                                 try {
@@ -419,7 +423,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group position-relative">
-                                <label for="job_title">Job title:</label>
+                            <label for="job_title"><i class="fas fa-briefcase me-2"></i>Job title:</label>
                                 <input class="form-control" type="text" id="job_title" name="job_title"
                                     list="job_titles" data-validate="true" autocomplete="off" value="Unknown">
                                 <datalist id="job_titles">
@@ -433,7 +437,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     ?>
                                 </datalist>
                                 <br>
-                                <label for="id">Id: </label>
+                                <label for="id"><i class="fas fa-id-card me-2"></i>Id:</label>
                                 <input class="shadow-sm form-control" type="number" id="id" name="id" autocomplete="off"
                                     required value="0">
                                 <p id="mensaje" class="text-danger"></p>
@@ -513,7 +517,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             <label>Additional Information:</label>
                             <div class="field-group-sm">
                                 <div class="form-group">
-                                    <label for="selectCard">Card:</label>
+                                    <label for="selectCard"><i class="fas fa-id-card-alt"></i>Card:</label>
                                     <select class="form-select form-select-sm" name="selectCard" id="selectCard">
                                         <option value="No">No</option>
                                         <option value="Si">Yes</option>
@@ -521,7 +525,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectKEY">Key:</label>
+                                    <label for="selectKEY"><i class="fas fa-key"></i> Key</label>
                                     <select class="form-select form-select-sm" name="selectKEY" id="selectKEY">
                                         <option value="No">No</option>
                                         <option value="Si">Yes</option>
@@ -529,7 +533,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="typeId">Type ID:</label>
+                                    <label for="typeId"><i class="fa fa-id-badge"></i> Type ID:</label>
                                     <select class="form-select form-select-sm" name="type_id" id="type_id">
                                         <option value="CC" selected>CC</option>
                                         <option value="CE">CE</option>

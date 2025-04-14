@@ -255,7 +255,7 @@ try {
 
                 <!-- Sección de HeadSet -->
                 <div class="asset-section">
-                    <h5><i class="fas fa-desktop"></i> HeadSet</h5>
+                    <h5><i class="fas fa-headset"></i> HeadSet</h5>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

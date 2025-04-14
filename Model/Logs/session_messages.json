@@ -1,21 +1,15 @@
 {
     "success": [
         {
-            "message": "Fields added to both forms and table successfully",
-            "timestamp": "2025-04-11 15:55:29"
-        }
-    ],
-    "error": [
+            "message": "Estados de activos actualizados correctamente.",
+            "timestamp": "2025-04-14 10:57:51"
+        },
         {
-            "message": "Incorrect Password.",
-            "timestamp": "2025-04-10 10:30:00"
+            "message": "Estados de activos actualizados correctamente.",
+            "timestamp": "2025-04-14 11:16:48"
         }
     ],
-    "error_message": [
-        {
-            "message": "Successful logout",
-            "timestamp": "2025-04-11 15:56:01"
-        }
-    ],
+    "error": [],
+    "error_message": [],
     "warnings": []
 }

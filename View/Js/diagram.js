@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     title: {
                         display: true,
-                        text: 'Estado de Activos',
+                        text: 'Status of Asset Warranties',
                         font: {
                             size: 20,
                             weight: 'bold',

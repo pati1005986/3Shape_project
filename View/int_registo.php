@@ -21,6 +21,8 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+     <!-- Añade Font Awesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
@@ -128,13 +130,13 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nombre_usuario">User Name: </label>
+                            <label for="nombre_usuario"><i class="fas fa-user me-2"></i>User name:</label>
                                 <input class="form-control shadow-sm" type="text" id="nombre_usuario" name="nombre_usuario"
                                     value="<?php echo htmlspecialchars($asset_data['last_user']); ?>"
                                     autocomplete="off"><br>
                             </div>
                             <div class="form-group">
-                                <label for="serial">Serial Number: </label>
+                            <label for="serial"><i class="fas fa-barcode me-2"></i>Serial number:</label>
                                 <input class="form-control shadow-sm" type="text" id="serial" name="serial"
                                     value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required
                                     autocomplete="off" readonly><br>
@@ -143,7 +145,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="compra">Purchase Country: </label>
+                            <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
                                 <!--Consulta de los Paises de compra, Estado del usuario, Estado de cambio en base  a los que estan registrados-->
                                 <?php
                                 try {
@@ -173,7 +175,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 <br>
                             </div>
                             <div class="form-group">
-                                <label for="garantia">Warranty end date: </label>
+                            <label for="garantia"><i class="fas fa-calendar-check me-2"></i>Warranty end date:</label>
                                 <input class="form-control shadow-sm" type="text" id="garantia" name="garantia"
                                     value="<?php echo htmlspecialchars($asset_data['warranty_enddate']); ?>"
                                     autocomplete="off" data-validate="true" placeholder="mm/dd/yyyy" required><br>
@@ -270,7 +272,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     readonly><br>
                             </div>
                             <div class="form-group">
-                                <label for="newl">New laptop?: </label>
+                            <label for="newl"><i class="fas fa-box-open me-2"></i>New laptop?:</label>
                                 <input class="form-control shadow-sm" type="text" id="newl" name="newl"
                                     value="<?php echo htmlspecialchars($asset_data['new_laptop']); ?>"
                                     autocomplete="off"><br>
@@ -279,7 +281,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         <div class="col-md-6">
                             <div class="form-group">
 
-                                <label for="usrStts">User Status: </label>
+                            <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
                                 <?php
                                 try {
                                     $sql = "SELECT DISTINCT user_status 
@@ -309,7 +311,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 <br>
                             </div>
                             <div class="form-group">
-                                <label for="status_change">Status Change</label>
+                            <label for="status_change"><i class="fas fa-exchange-alt me-2"></i>Status change:</label>
 
                                 <?php
                                 include "../Configuration/Connection.php";
@@ -342,7 +344,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="job_title">Job title: </label>
+                            <label for="job_title"><i class="fas fa-briefcase me-2"></i>Job title:</label>
                                 <input class="form-control shadow-sm" type="text" id="job_title" name="job_title"
                                     value="<?php echo htmlspecialchars($asset_data['job_title']); ?>" autocomplete="off"
                                     list="job_titles">
@@ -358,7 +360,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="id">Id: </label>
+                            <label for="id"><i class="fas fa-id-card me-2"></i>Id:</label>
                                 <!-- Primero el input y el mensaje -->
                                 <div class="form-group">
                                     <input class="form-control shadow-sm" type="text" id="id" name="id"
@@ -452,7 +454,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
 
                         <div class="col-md-6 d-flex justify-content-right">
                             <div class="form-group me-2">
-                                <label for="selectCard">Card</label>
+                            <label for="selectCard"><i class="fas fa-id-card-alt"></i>Card:</label>
                                 <select class="shadow-sm form-select form-select-sm" name="selectCard" id="selectCard">
                                     <option value="Pendiente" <?php echo ($asset_data['Carnet'] == 'Pendiente') ? 'selected' : ''; ?>>
                                         Pending</option>
@@ -463,7 +465,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 </select>
                             </div>
                             <div class="form-group me-2">
-                                <label for="selectKEY">Key</label>
+                            <label for="selectKEY"><i class="fas fa-key"></i> Key</label>
                                 <select class="shadow-sm form-select form-select-sm" name="selectKEY" id="selectKEY">
                                     <option value="Pendiente" <?php echo ($asset_data['LLave'] == 'Pendiente') ? 'Selected' : ''; ?>>
                                         Pending</option>
@@ -474,7 +476,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 </select>
                             </div>
                             <div class="form-group me-2">
-                                <label for="typeId">Type ID</label>
+                            <label for="typeId"><i class="fa fa-id-badge"></i> Type ID:</label>
                                 <?php
                                 $typeIds = ['CC', 'CE', 'PP', 'TI', 'RC'];
                                 ?>
@@ -489,7 +491,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group me-2">
-                                <label for="assetname">Asset name</label>
+                            <label for="assetname"><i class="fas fa-tag me-2"></i>Asset name:</label>
                                 <input class="form-control shadow-sm" type="text" id="assetname" name="assetname"
                                     value="<?php echo htmlspecialchars($asset_data['assetname']); ?>" required
                                     oninput="this.value = this.value.toUpperCase()">
