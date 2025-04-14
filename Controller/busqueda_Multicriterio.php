@@ -128,7 +128,7 @@ if (!empty($_GET['search_user_status'])) {
     if (!empty($filtered_statuses)) {
         $user_status_conditions = [];
         foreach ($filtered_statuses as $index => $status) {
-            $param_name = ":status_$index";
+            $param_name = ":user_status_$index";
             $user_status_conditions[] = "user_status = $param_name";
             $params[$param_name] = $status;
         }
@@ -143,13 +143,13 @@ if (!empty($_GET['search_purchase_country'])) {
     });
     //Condicion en caso de que el pais de compra no este vacio
     if (!empty($filtered_statuses)) {
-        $user_status_conditions = [];
+        $country_conditions = [];
         foreach ($filtered_statuses as $index => $status) {
-            $param_name = ":status_$index";
-            $user_status_conditions[] = "purchase_country = $param_name";
+            $param_name = ":purchase_country_$index";
+            $country_conditions[] = "purchase_country = $param_name";
             $params[$param_name] = $status;
         }
-        $where[] = '(' . implode(' OR ', $user_status_conditions) . ')';
+        $where[] = '(' . implode(' OR ', $country_conditions) . ')';
     }
 }
 
@@ -215,16 +215,9 @@ if (!empty($_GET['search_job_title'])) {
 if (!empty($_GET['search_status_change'])) {
     $stmt->bindValue(':status_change', '%' . $_GET['search_status_change'] . '%');
 }
-if (!empty($_GET['search_user_status'])) {
-    foreach ($params as $param_name => $value) {
-        $stmt->bindValue($param_name, $value);
-    }
-}
-
-if (!empty($_GET['search_purchase_country'])) {
-    foreach ($params as $param_name => $value) {
-        $stmt->bindValue($param_name, $value);
-    }
+// Vincular todos los parámetros de una sola vez
+foreach ($params as $param_name => $value) {
+    $stmt->bindValue($param_name, $value);
 }
 
 // Ejecutar y obtener resultados

@@ -53,10 +53,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $headers = array_keys($data[0]);
 
         if ($format === 'txt') {
-            foreach ($data as $row){
-                $outputData =  json_encode($row, JSON_PRETTY_PRINT);
-                fwrite($output, $outputData . "\n\n");
+            // Escribir el inicio del array JSON
+            fwrite($output, "[");
+            
+            $totalRows = count($data);
+            foreach ($data as $index => $row) {
+                // Agregar sangría y formato JSON pretty print
+                fwrite($output, ($index === 0 ? "\n" : "") . "    " . json_encode($row, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+                
+                // Agregar coma y nueva línea si no es el último elemento
+                if ($index < $totalRows - 1) {
+                    fwrite($output, ",\n");
+                }
             }
+            
+            // Cerrar el array JSON
+            fwrite($output, "\n]");
         } else {
             // For CSV format (default)
             fputcsv($output, $headers);
