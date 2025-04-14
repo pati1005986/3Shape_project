@@ -24,7 +24,6 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/Datatable.css">
     <link rel="stylesheet" href="./View/Css/button-styles.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
-    <link rel="stylesheet" href="./View/Css/accordion.css">
     <!-- Carga diferida de scripts no críticos -->
     <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
     <style>
@@ -852,7 +851,6 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <!-- Admin Login Card -->
-             <script src="./View/Js/accordion.js"></script>
             <div class="container my-4">
                 <div class="card shadow-sm border-primary mx-auto" style="max-width: 400px;">
                     <div class="card-header bg-primary text-white">
