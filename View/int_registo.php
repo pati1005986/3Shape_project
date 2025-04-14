@@ -22,7 +22,7 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
      <!-- Añade Font Awesome -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->

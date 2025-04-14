@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
     <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
      <!--Font Awesome -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
