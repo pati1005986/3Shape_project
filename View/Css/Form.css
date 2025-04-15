@@ -15,8 +15,10 @@
     --btn-primary-hover: #357abd;
     --btn-danger-bg: #dc3545;
     --btn-danger-hover: #c82333;
-    --shadow-light: rgba(0, 0, 0, 0.1);
-    --shadow-dark: rgba(0, 0, 0, 0.3);
+    --shadow-light: rgba(74, 144, 226, 0.1);
+    --shadow-dark: rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
 }
 
 html, body {
@@ -62,8 +64,9 @@ form {
     max-width: 600px;
     padding: 30px;
     background: var(--form-bg-light);
-    box-shadow: 0 8px 24px var(--shadow-light);
-    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     animation: slideIn 0.4s cubic-bezier(0.2, 0, 0.2, 1);
     will-change: transform;
     transform: translateZ(0);
@@ -95,7 +98,8 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
     border-color: var(--input-focus-light);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    box-shadow: 0 0 0 3px var(--shadow-light);
+    transform: translateY(-1px);
 }
 
 .btn {

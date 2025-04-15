@@ -1,6 +1,9 @@
 :root {
-    --secondary-color: rgba(9, 87, 205, 0.75);
-    --secondary-hover: rgba(10, 87, 202, 0.65);
+    --secondary-color: #4a90e2;
+    --secondary-hover: #357abd;
+    --shadow-color: rgba(74, 144, 226, 0.2);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
 }
 
 .active-form {
@@ -15,12 +18,18 @@
 
 .btn-secondary {
     background: var(--secondary-color) !important;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    transition: var(--transition) !important;
     font-weight: 500 !important;
+    border-radius: var(--border-radius) !important;
+    border: none !important;
+    color: white !important;
+    padding: 12px 24px !important;
 }
 
 .btn-secondary:hover {
     transform: translateY(-2px) !important;
+    background: var(--secondary-hover) !important;
+    box-shadow: 0 4px 12px var(--shadow-color) !important;
 }
 
 .btn-secondary:focus {

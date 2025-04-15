@@ -38,7 +38,6 @@ function insertData($pdo, $data)
         'serial_number' => 0,
         'Carnet' => 'Pendiente',
         'LLave' => 'Pendiente',
-        'HeadSet' => 0,
         'job_title' => 'unknown',
         'last_user' => 'No user',
     ];
@@ -85,8 +84,6 @@ function insertData($pdo, $data)
     $data['job_title'] = (string)$data['job_title'];
     $data['last_user'] = $data['last_user'] ?? 'No user'; // Si es null, usa 'No user'
     $data['last_user'] = (string)$data['last_user'];
-    $data['HeadSet'] = $data['HeadSet'] ?? 'unknown'; // Si
-    $data['HeadSet'] = (int)$data['HeadSet'];
 
     try {
         $pdo->beginTransaction();
@@ -147,7 +144,12 @@ function processCSV($pdo, $filePath)
         return strtolower(preg_replace('/[^a-z0-9]/', '', $header));
     }, $headers);
     // Mapeo de campos
-    include_once '../Configuration/Config_map.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/3Shape_project/Configuration/Config_map.php';
+
+// Validar que el array de mapeo existe
+if (!isset($fieldMap) || empty($fieldMap)) {
+    throw new Exception("Error: El array $fieldMap no está definido en Config_map.php");
+}
 
     // Crear mapeo de columnas
     $columnMapping = [];
@@ -230,7 +232,12 @@ function processTXT($pdo, $filePath)
     }
 
     // Mismo mapeo de campos que en processCSV
-    include_once '../Configuration/Config_map.php';
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/3Shape_project/Configuration/Config_map.php';
+
+// Validar que el array de mapeo existe
+if (!isset($fieldMap) || empty($fieldMap)) {
+    throw new Exception("Error: El array $fieldMap no está definido en Config_map.php");
+}
 
     foreach ($data as $record) {
         $rowData = [];

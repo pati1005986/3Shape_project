@@ -1,25 +1,32 @@
 <?php
-// Mapeo de campos de la base de datos, columans de las base de datos
+// Constantes para campos de información de activos
 const ASSETNAME = 'assetname';
 const SERIAL_NUMBER = 'serial_number';
 const PURCHASE_COUNTRY = 'purchase_country';
 const WARRANTY_ENDDATE = 'warranty_enddate';
 const EXPIRED = 'expired';
 const NEW_LAPTOP = 'new_laptop';
+
+// Constantes para equipos adicionales
 const HEADSET = 'HeadSet';
+const DONGLE = 'Dongle';
+const CARNET = 'Carnet';
+const LLAVE = 'LLave';
+
+// Constantes para información de usuario
 const USER_STATUS = 'user_status';
 const LAST_USER = 'last_user';
 const JOB_TITLE = 'job_title';
 const STATUS_CHANGE = 'status_change';
+
+// Constantes para identificación
 const CEDULA = 'cedula';
-const DONGLE = 'Dongle';
-const CARNET = 'Carnet';
-const LLAVE = 'LLave';
 const TIPO_ID = 'Tipo_ID';
 const FECHA_SALIDA = 'fecha_salida';
 
-// Array del mapeo de campos
+// Mapeo de campos por categorías
 $fieldMap = [
+    // Información básica del activo
     ASSETNAME => [
         ASSETNAME,
         'asset',
@@ -29,8 +36,7 @@ $fieldMap = [
         'Asset_ID',
         'Asset_Identifier',
         'AssetName',
-        'Activos',
-        'assetname'
+        'Activos'
     ],
     SERIAL_NUMBER => [
         'serialnumber',
@@ -41,7 +47,8 @@ $fieldMap = [
         'SerialKey',
         'Serial',
         'SerialNumber',
-        'Serial Number'
+        'Serial Number',
+        'SERIAL PC'
     ],
     PURCHASE_COUNTRY => [
         PURCHASE_COUNTRY,
@@ -50,8 +57,7 @@ $fieldMap = [
         'Country_of_Origin',
         'Origin_Country',
         'Purchase Country',
-        'PurchaseCountry',
-        'purchase_contry'
+        'PurchaseCountry'
     ],
     WARRANTY_ENDDATE => [
         WARRANTY_ENDDATE,
@@ -60,8 +66,7 @@ $fieldMap = [
         'enddate',
         'Warranty_Expiry',
         'Warranty_End',
-        'WarrantyEndDate',
-        'warranty_enddate'
+        'WarrantyEndDate'
     ],
     EXPIRED => [
         EXPIRED,
@@ -69,9 +74,7 @@ $fieldMap = [
         'Expired',
         'Is_Expired',
         'Expiration_Status',
-        'Expired',
-        'Expired_statusa',
-        'expired'
+        'Expired_statusa'
     ],
     NEW_LAPTOP => [
         NEW_LAPTOP,
@@ -80,9 +83,10 @@ $fieldMap = [
         'newlaptop',
         'Newlaptop',
         'Is_New_Laptop',
-        'New laptop',
-        'new_laptop'
+        'New laptop'
     ],
+
+    // Equipos adicionales
     HEADSET => [
         HEADSET,
         'headset',
@@ -90,9 +94,30 @@ $fieldMap = [
         'head_set',
         'Headphone',
         'Audio_Device',
-        'HeadSet',
-        'Head Set'
+        'Head Set',
+        'SERIAL HEADSET'
     ],
+    DONGLE => [
+        DONGLE,
+        'dongle',
+        'Dongle_ID'
+    ],
+    CARNET => [
+        CARNET,
+        'carnet',
+        'Carnet_ID',
+        'Carnet_Number'
+    ],
+    LLAVE => [
+        LLAVE,
+        'llave',
+        'key',
+        'Key',
+        'Locker_Key',
+        'Access_Key'
+    ],
+
+    // Información de usuario
     USER_STATUS => [
         USER_STATUS,
         'userstatus',
@@ -109,9 +134,7 @@ $fieldMap = [
         'Last_user',
         'Previous_User',
         'Last_Updated_By',
-        'jobtitle',
-        'Last User',
-        'last user'
+        'Last User'
     ],
     JOB_TITLE => [
         JOB_TITLE,
@@ -130,6 +153,8 @@ $fieldMap = [
         'Change_Status',
         'Update_Status'
     ],
+
+    // Información de identificación
     CEDULA => [
         CEDULA,
         'id',
@@ -137,30 +162,7 @@ $fieldMap = [
         'ID',
         'Identification_Number',
         'ID_Number',
-        'Identificacion',
-        'Cedula'
-    ],
-    DONGLE => [
-        DONGLE,
-        'dongle',
-        'Dongle_ID',
-        'Dongle'
-    ],
-    CARNET => [
-        CARNET,
-        'carnet',
-        'Carnet_ID',
-        'Carnet_Number',
-        'Carnet'
-    ],
-    LLAVE => [
-        LLAVE,
-        'llave',
-        'key',
-        'Key',
-        'Locker_Key',
-        'Access_Key',
-        'LLave'
+        'Identificacion'
     ],
     TIPO_ID => [
         TIPO_ID,

@@ -26,80 +26,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <!-- Carga diferida de scripts no críticos -->
     <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
-    <style>
-        /* Bell container styles */
-        .bell-container {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .bell-button {
-            position: relative;
-            transition: all 0.3s ease;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .bell-button:hover {
-            transform: scale(1.1);
-            background-color: #ffc107;
-        }
-
-        .bell-button .fa-bell {
-            transition: all 0.3s ease;
-        }
-
-        .bell-button:hover .fa-bell {
-            color: #fff !important;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            display: none;
-            /* Hidden by default */
-        }
-
-        .bell-hover {
-            animation: ring 0.5s ease-in-out;
-        }
-
-        @keyframes ring {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            25% {
-                transform: rotate(15deg);
-            }
-
-            50% {
-                transform: rotate(-15deg);
-            }
-
-            75% {
-                transform: rotate(15deg);
-            }
-
-            100% {
-                transform: rotate(0deg);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./View/Css/navbar.css">
+    <link rel="stylesheet" href="./View/Css/search-form.css">
 </head>
 
 <body>
@@ -112,36 +40,15 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php
             include_once "./Controller/validation_message.php";
             ?>
-            <script>
-                //Funcion para mostar advertencias 
-                function showWarnings() {
-                    const hiddenWarnings = document.getElementById('hidden-warnings');
-                    hiddenWarnings.classList.add('show'); // Muestra las advertencias ocultas
-                    event.target.classList.add('hide'); // Oculta el botón
-                }
-            </script>
+            <script src="./View/Js/qrcode.js"></script>
+            <script src="./View/Js/animations.js"></script>
             <br>
             <form action="./Controller/Importar_BD.php" method="POST" enctype="multipart/form-data" class="form bg-light">
-                <span class="form-title">Upload your file<style>
-                        #div1 {
-                            font-size: 48px;
-                        }
-                    </style>
+                <span class="form-title">Upload your file
                     <link rel="stylesheet" href="./Configuration/JQuery/fontawesome.min.css">
                     <div id="div1" class="fa"></div>
 
-                    <script>
-                        function openfolder() {
-                            var a;
-                            a = document.getElementById("div1");
-                            a.innerHTML = "&#xf114;";
-                            setTimeout(function() {
-                                a.innerHTML = "&#xf115;";
-                            }, 1000);
-                        }
-                        openfolder();
-                        setInterval(openfolder, 2000);
-                    </script>
+
                 </span>
                 <p class="form-paragraph"> File should be CSV or TXT</p>
                 <label for="file-input" class="drop-container">
@@ -177,39 +84,11 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <?php echo number_format($Totalclient, 0, ',', '.'); ?>
                                 </strong>
                             </h1>
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const counterElement = document.getElementById('total-client');
-                                    const targetCount = parseInt(counterElement.textContent.replace(/\./g, ''));
-                                    const duration = 1000; // Animation duration in ms
-                                    const steps = 50; // Number of steps
-                                    const increment = targetCount / steps;
-                                    let currentCount = 0;
 
-                                    // Función para formatear números con separadores de miles
-                                    function formatNumber(num) {
-                                        return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                                    }
-
-                                    // Use requestAnimationFrame for smoother animation
-                                    const animate = () => {
-                                        currentCount += increment;
-
-                                        if (currentCount <= targetCount) {
-                                            counterElement.textContent = formatNumber(currentCount);
-                                            requestAnimationFrame(animate);
-                                        } else {
-                                            counterElement.textContent = formatNumber(targetCount);
-                                        }
-                                    };
-
-                                    requestAnimationFrame(animate);
-                                });
-                            </script>
                         </div>
-                        <div class="col-md-12 text-center mb-4">
-                            <h3><i class="bi bi-filter"></i> Filter Assets by Specific Criteria</h3>
-                            <p class="text-muted">Refine your search by selecting one or multiple criteria and quickly find asset information.</p>
+                        <div class="col-md-12 text-center mb-4 search-container">
+                            <h3 class="search-title"><i class="bi bi-filter"></i> Filter Assets by Specific Criteria</h3>
+                            <p class="search-description">Refine your search by selecting one or multiple criteria and quickly find asset information.</p>
                         </div>
                         <!-- Barra Busqueda -->
                         <nav id="Navitem"
@@ -253,7 +132,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                         </a>
                                         <div class="notification">
                                             <!--Botón de Campana para mostrar modal de notificaciones -->
-                                            <li class="nav-item ms-auto bell-container" style="position: absolute; right: 0; top: 12;">
+                                            <li class="nav-item ms-auto bell-container">
                                                 <div class="bell-wrapper">
                                                     <a type="button" class="btn btn-outline-warning bell-button">
                                                         <i class="fa-solid fa-bell" style="color:black"></i>
@@ -815,6 +694,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <button id="btnAceptar" class="btn btn-secondary"> Option 1: Generate Departure </button>
                         <button id="btnCancelar" class="btn btn-secondary my-2"> Option 2: Create Entry </button>
                         <button id="btnOpcion3" class="btn btn-secondary my-2"> Option 3: Asset Information </button>
+                        <button id="btnQR" class="btn btn-secondary my-2"> Option 4: Generate QR </button>
                     </div>
                 </div>
                 <style>

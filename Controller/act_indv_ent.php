@@ -22,14 +22,14 @@ if (isset($_POST['signature']) && isset($_POST['vobo_signature'])) {
     // Generar nombres únicos para los archivos
     $signatureFilename = 'firma_' . uniqid() . '.png';
     $voboSignatureFilename = 'vobo_' . uniqid() . '.png';
-    
+
     $signaturePath = $signatureDir . $signatureFilename;
     $voboSignaturePath = $signatureDir . $voboSignatureFilename;
 
     // Decodificar y guardar las imágenes
     $signatureData = base64_decode(preg_replace('#^data:image/png;base64,#i', '', $_POST['signature']));
     file_put_contents($signaturePath, $signatureData);
-    
+
     $voboSignatureData = base64_decode(preg_replace('#^data:image/png;base64,#i', '', $_POST['vobo_signature']));
     file_put_contents($voboSignaturePath, $voboSignatureData);
 
@@ -39,12 +39,15 @@ if (isset($_POST['signature']) && isset($_POST['vobo_signature'])) {
 }
 
 // Función para convertir texto a ISO-8859-1
-function convertirTexto($texto) {
+function convertirTexto($texto)
+{
     return mb_convert_encoding($texto, 'ISO-8859-1', 'UTF-8');
 }
 
-class PDF extends FPDF {
-    function Header() {
+class PDF extends FPDF
+{
+    function Header()
+    {
         $this->Image('../Model/logo.png', 155, 5, 45);
         $this->Ln(10);
         $fecha_actual = date('d/m/Y');
@@ -56,7 +59,8 @@ class PDF extends FPDF {
         $this->Ln(20);
     }
 
-    function addCertificadoTexto($last_user, $cedula, $cargo, $tipo_id) {
+    function addCertificadoTexto($last_user, $cedula, $cargo, $tipo_id)
+    {
         $this->SetFont('Arial', '', 12);
         $texto = "Por medio de la presente se certifica que el/la señor(a); ";
         $this->Write(8, convertirTexto($texto));
@@ -74,7 +78,7 @@ class PDF extends FPDF {
                 break;
             case 'RC':
                 $tipo_text = " identificado(a) con Cédula de Residencia No. $cedula,y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
-                break;  
+                break;
             case 'CC':
                 $tipo_text = " identificado(a) con Cédula de Ciudadanía No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
                 break;
@@ -97,7 +101,8 @@ class PDF extends FPDF {
         $this->Cell(38, 10, convertirTexto('Observaciones'), 1, 1, 'C');
     }
 
-    function Footer() {
+    function Footer()
+    {
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
         $this->Cell(0, 10, convertirTexto('Página ') . $this->PageNo(), 0, 0, 'C');
@@ -113,14 +118,14 @@ if (isset($_SESSION['signature_data']) && isset($_SESSION['vobo_signature_data']
 
     $signatureFilename = 'firma_' . uniqid() . '.png';
     $voboSignatureFilename = 'vobo_' . uniqid() . '.png';
-    
+
     $signaturePath = $signatureDir . $signatureFilename;
     $voboSignaturePath = $signatureDir . $voboSignatureFilename;
 
     // Decodificar y guardar las imágenes
     $signatureData = base64_decode(preg_replace('#^data:image/png;base64,#i', '', $_SESSION['signature_data']));
     file_put_contents($signaturePath, $signatureData);
-    
+
     $voboSignatureData = base64_decode(preg_replace('#^data:image/png;base64,#i', '', $_SESSION['vobo_signature_data']));
     file_put_contents($voboSignaturePath, $voboSignatureData);
 
@@ -148,47 +153,47 @@ $totalRegistros = count($resultados);
 $last_user = '';
 
 foreach ($resultados as $index => $row) {
-    if (!isset($row['cedula']) || $row['cedula'] == 0 || !isset($row['user_status']) || $row['user_status'] == 'Stock') {
+    if (!isset($row['cedula']) || $row['cedula'] == 0) {
         continue;
     }
-    
+
     if ($count >= 15) break;
-    
+
     $count++;
-// Obtenemos todos los nuevos campos
-$tipo_id = $row['Tipo_ID'];
-$last_user = $row['last_user'];
-$cedula = $row['cedula'];
-$serial = $row['serial_number'];
-$cargo = $row['job_title'];
-$asset_status = $row['asset_status'] ?? '';
-$asset_observations = $row['asset_observations'] ?? '';
-$monitor = $row['Monitor'] ?? '';
-$monitor_status = $row['monitor_status'] ?? '';
-$monitor_observations = $row['monitor_observations'] ?? '';
-$headSet = $row['HeadSet'] ?? '';
-$headSet_status = $row['headset_status'] ?? '';
-$headSet_observations = $row['headset_observations'] ?? '';
-$dongle = $row['Dongle'] ?? '';
-$dongle_status = $row['dongle_status'] ?? '';
-$dongle_observations = $row['dongle_observations'] ?? '';
-$celular = $row['Celular'] ?? '';
-$celular_status = $row['celular_status'] ?? '';
-$celular_observations = $row['celular_observations'] ?? '';
-$carnet = !empty($row['Carnet']) ? $row['Carnet'] : 'Pendiente';
-$llave = !empty($row['LLave']) ? $row['LLave'] : 'Pendiente';
+    // Obtenemos todos los nuevos campos
+    $tipo_id = $row['Tipo_ID'];
+    $last_user = $row['last_user'];
+    $cedula = $row['cedula'];
+    $serial = $row['serial_number'];
+    $cargo = $row['job_title'];
+    $asset_status = $row['asset_status'] ?? '';
+    $asset_observations = $row['asset_observations'] ?? '';
+    $monitor = $row['Monitor'] ?? '';
+    $monitor_status = $row['monitor_status'] ?? '';
+    $monitor_observations = $row['monitor_observations'] ?? '';
+    $headSet = $row['HeadSet'] ?? '';
+    $headSet_status = $row['headset_status'] ?? '';
+    $headSet_observations = $row['headset_observations'] ?? '';
+    $dongle = $row['Dongle'] ?? '';
+    $dongle_status = $row['dongle_status'] ?? '';
+    $dongle_observations = $row['dongle_observations'] ?? '';
+    $celular = $row['Celular'] ?? '';
+    $celular_status = $row['celular_status'] ?? '';
+    $celular_observations = $row['celular_observations'] ?? '';
+    $carnet = !empty($row['Carnet']) ? $row['Carnet'] : 'Pendiente';
+    $llave = !empty($row['LLave']) ? $row['LLave'] : 'Pendiente';
 
     // Añadir texto de certificado
     $pdf->addCertificadoTexto(
         convertirTexto($last_user),
-        convertirTexto($cedula), 
+        convertirTexto($cedula),
         convertirTexto($cargo),
         convertirTexto($tipo_id)
     );
 
     $itemCounter = 1;
 
-   
+
     // Computador
     $pdf->Cell(22, 10, convertirTexto($itemCounter++), 1, 0, 'C');
     $pdf->Cell(40, 10, convertirTexto('Computador Personal'), 1, 0, 'C');
@@ -231,20 +236,20 @@ $llave = !empty($row['LLave']) ? $row['LLave'] : 'Pendiente';
         $pdf->Cell(29, 10, convertirTexto($celular_status), 1, 0, 'C');
         $pdf->Cell(38, 10, convertirTexto($celular_observations), 1, 1, 'C');
     }
-    
+
     $pdf->Ln(10);
-    
-    $pdf->SetFont('Arial','B',12);
-    $pdf->MultiCell(0,10, convertirTexto('Datos exclusivos Administrativos:'));
+
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->MultiCell(0, 10, convertirTexto('Datos exclusivos Administrativos:'));
     $pdf->Ln(7);
 
-    $pdf->SetFont('Arial','B',10);
-    $pdf->Cell(40, 7, convertirTexto('Carne: '), 1,0,'L');
-    $pdf->Cell(30, 7, convertirTexto($carnet), 1,1,'C');
-    $pdf->Cell(40, 7, convertirTexto('Llave locker: '), 1,0,'L');
-    $pdf->Cell(30, 7, convertirTexto($llave), 1,1,'C');
-    $pdf->Cell(40, 7, convertirTexto('SIM card: '), 1,0,'L');
-    $pdf->Cell(30, 7, convertirTexto(''), 1,1,'C');
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(40, 7, convertirTexto('Carne: '), 1, 0, 'L');
+    $pdf->Cell(30, 7, convertirTexto($carnet), 1, 1, 'C');
+    $pdf->Cell(40, 7, convertirTexto('Llave locker: '), 1, 0, 'L');
+    $pdf->Cell(30, 7, convertirTexto($llave), 1, 1, 'C');
+    $pdf->Cell(40, 7, convertirTexto('SIM card: '), 1, 0, 'L');
+    $pdf->Cell(30, 7, convertirTexto(''), 1, 1, 'C');
     $pdf->Ln(8);
 
     $pdf->SetFont('Arial', '', 12);
@@ -253,14 +258,14 @@ $llave = !empty($row['LLave']) ? $row['LLave'] : 'Pendiente';
     // Sección de firmas
     $pdf->Ln(8);
     $pdf->SetFont('Arial', 'B', 10);
-    
+
     // Firma del colaborador
     $pdf->Cell(44, 15, convertirTexto('Firma del Colaborador'), 1, 0, 'C');
     if (isset($_SESSION['signature'][$count - 1]) && file_exists($_SESSION['signature'][$count - 1])) {
         $pdf->Image($_SESSION['signature'][$count - 1], $pdf->GetX(), $pdf->GetY(), 44, 15);
     }
     $pdf->Cell(44, 15, '', 1, 0, 'C');
-    
+
     // Firma Vo.Bo.
     $pdf->Cell(47, 15, convertirTexto('Vo.Bo. Departamento de IT'), 1, 0, 'C');
     if (isset($_SESSION['vobo_signature']) && file_exists($_SESSION['vobo_signature'])) {
@@ -298,4 +303,3 @@ if (!empty($_SESSION['vobo_signature'])) {
 
 
 ob_end_flush();
-?>

@@ -45,7 +45,8 @@ window.onload = function() {
         'Do you want to process:<br>' +
         'Option 1 - Generate an output record.<br>' +
         'Option 2 - Create an input record.<br>' +
-        'Option 3 - New option.';
+        'Option 3 - Asset Information.<br>' +
+        'Option 4 - Generate QR Codes.';
         modal.style.display = 'block';
 
         // Depuración en consola
@@ -96,6 +97,62 @@ document.getElementById('btnCancelar').onclick = function(event) {
     };
 
     // Manejador del botón de cerrar modal
+    // Manejador para generar códigos QR
+    document.getElementById('btnQR').onclick = function(event) {
+        event.preventDefault();
+        if (!parametros) {
+            console.error("Error: Parameters not defined.");
+            return;
+        }
+
+        // Crear modal para QR
+        const qrModal = document.createElement('div');
+        qrModal.id = 'qrModal';
+        qrModal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000;';
+
+        const qrContainer = document.createElement('div');
+        qrContainer.style.cssText = 'background: white; padding: 20px; border-radius: 8px; max-width: 80%; max-height: 80%; overflow-y: auto;';
+
+        // Obtener los checkboxes seleccionados y generar QR para cada uno
+        const checkboxes = document.querySelectorAll('input[name="selected_assets[]"]:checked');
+        checkboxes.forEach((checkbox, index) => {
+            const itemContainer = document.createElement('div');
+            itemContainer.style.marginBottom = '20px';
+            itemContainer.style.textAlign = 'center';
+
+            const canvas = document.createElement('canvas');
+            canvas.id = `qr-${index}`;
+            const qr = new QRCode(canvas, {
+                size: 200,
+                padding: 10
+            });
+            qr.generate(checkbox.value);
+
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = 'Download QR';
+            downloadBtn.className = 'btn btn-primary mt-2';
+            downloadBtn.onclick = () => {
+                const link = document.createElement('a');
+                link.download = `qr-code-${checkbox.value}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            };
+
+            itemContainer.appendChild(canvas);
+            itemContainer.appendChild(downloadBtn);
+            qrContainer.appendChild(itemContainer);
+        });
+
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = 'Close';
+        closeBtn.className = 'btn btn-secondary mt-3';
+        closeBtn.onclick = () => qrModal.remove();
+        qrContainer.appendChild(closeBtn);
+
+        qrModal.appendChild(qrContainer);
+        document.body.appendChild(qrModal);
+    };
+
     document.getElementById('btnCerrarModal').onclick = function() {
         const modal = document.getElementById('modalConfirmacion');
         modal.style.display = 'none';
