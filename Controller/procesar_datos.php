@@ -82,15 +82,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'var_name' => 'fk_assetname',
             'label' => 'foreign key asset name',
             'max_length' => 100
+        ],
+        // Campos adicionales para los PDFs
+        [
+            'post_key' => 'asset_status',
+            'var_name' => 'asset_status'
+        ],
+        [
+            'post_key' => 'asset_observations',
+            'var_name' => 'asset_observations'
+        ],
+        [
+            'post_key' => 'monitor_status',
+            'var_name' => 'monitor_status'
+        ],
+        [
+            'post_key' => 'monitor_observations',
+            'var_name' => 'monitor_observations'
+        ],
+        [
+            'post_key' => 'headset_status',
+            'var_name' => 'headset_status'
+        ],
+        [
+            'post_key' => 'headset_observations',
+            'var_name' => 'headset_observations'
+        ],
+        [
+            'post_key' => 'dongle_status',
+            'var_name' => 'dongle_status'
+        ],
+        [
+            'post_key' => 'dongle_observations',
+            'var_name' => 'dongle_observations'
+        ],
+        [
+            'post_key' => 'celular_status',
+            'var_name' => 'celular_status'
+        ],
+        [
+            'post_key' => 'celular_observations',
+            'var_name' => 'celular_observations'
+        ],
+        [
+            'post_key' => 'SIMcard',
+            'var_name' => 'SIMcard'
         ]
     ];
     
+    // Procesar campos del formulario
     foreach ($fields as $field) {
-        // Sanitizar input con null coalescing
-        ${$field['var_name']} = sanitize_input($_POST[$field['post_key']] ?? null);
+        ${$field['var_name']} = isset($_POST[$field['post_key']]) 
+            ? sanitize_input($_POST[$field['post_key']]) 
+            : null;
         
-        // Validar longitud si está definido
-        if (isset($field['max_length'])) {
+        if (isset($field['max_length']) && ${$field['var_name']} !== null) {
             validate_input_length(
                 ${$field['var_name']},
                 $field['label'],
@@ -99,51 +145,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Check if assetname and fk_assetname are already set
-    if ($assetname !== null) {
-        // Do not update assetname if it already exists
-        unset($_POST['assetname']);
-    }
-    if ($fk_assetname !== null) {
-        // Do not update fk_assetname if it already exists
-        unset($_POST['fk_assetname']);
+    // Verificar campos requeridos
+    if (empty($nombre_usuario))     {
+        $_SESSION["error"] = "El nombre de usuario es requerido";
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit();
     }
 
+    // Calcular fecha de expiración
     $fecha_actual = date('Y-m-d');
     $expira = (strtotime($garantia) < strtotime($fecha_actual)) ? 'yes' : 'no';
 
-    // Mejorada la gestión de campos dinámicos
-    $equipos_fields = [];
-    $usuarios_equipos_fields = [];
-    $bind_params = [];
-
-    // Obtener la estructura de las tablas
+    // Obtener estructura de las tablas
     $tables_structure = [
         'equipos' => [],
         'usuarios_equipos' => []
     ];
 
-    // Obtener columnas de la tabla equipos
-    $stmt = $pdo->query("SHOW COLUMNS FROM equipos");
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $tables_structure['equipos'][] = $row['Field'];
-    }
+    try {
+        // Obtener columnas de la tabla equipos
+        $stmt = $pdo->query("SHOW COLUMNS FROM equipos");
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $tables_structure['equipos'][] = $row['Field'];
+        }
 
-    // Obtener columnas de la tabla usuarios_equipos
-    $stmt = $pdo->query("SHOW COLUMNS FROM usuarios_equipos");
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $tables_structure['usuarios_equipos'][] = $row['Field'];
+        // Obtener columnas de la tabla usuarios_equipos
+        $stmt = $pdo->query("SHOW COLUMNS FROM usuarios_equipos");
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $tables_structure['usuarios_equipos'][] = $row['Field'];
+        }
+    } catch (PDOException $e) {
+        $_SESSION["error"] = "Error al obtener estructura de tablas: " . $e->getMessage();
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit();
     }
 
     // Procesar campos dinámicos
     $new_fields = $_SESSION['new_upd_fields'] ?? [];
-    $new_field_types = $_SESSION['new_fieldU_types'] ?? [];
+    $equipos_fields = [];
+    $usuarios_equipos_fields = [];
+    $bind_params = [];
 
     foreach ($new_fields as $field_name) {
-        $field_value = sanitize_input($_POST[$field_name]) ?? null;
+        $field_value = isset($_POST[$field_name]) ? sanitize_input($_POST[$field_name]) : null;
         
         if ($field_value !== null) {
-            // Determinar a qué tabla pertenece el campo
             if (in_array($field_name, $tables_structure['equipos'])) {
                 $equipos_fields[] = "$field_name = :$field_name";
                 $bind_params[$field_name] = $field_value;
@@ -154,18 +200,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
- if ($nombre_usuario) {
     try {
-        // Iniciar una transacción
+        // Iniciar transacción
         $pdo->beginTransaction();
-
-        // Desactivar la verificación de claves foráneas
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
 
-        // Obtener el valor actual de `assetname` desde la sesión
-        $old_assetname = $_SESSION['asset_data']['assetname'];
+        // Obtener assetname actual desde la sesión
+        $old_assetname = $_SESSION['asset_data']['assetname'] ?? $assetname;
 
-        // Construir la consulta SQL para actualizar `equipos`
+        // Actualizar tabla equipos
         $sql_update_equipos = "UPDATE equipos SET
                               assetname = :new_assetname,
                               serial_number = :serial_number,
@@ -174,14 +217,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                               expired = :expired,
                               new_laptop = :new_laptop";
 
-        // Añadir campos dinámicos para la tabla `equipos`
         if (!empty($equipos_fields)) {
             $sql_update_equipos .= ", " . implode(", ", $equipos_fields);
         }
 
         $sql_update_equipos .= " WHERE assetname = :old_assetname";
 
-        // Preparar y ejecutar la consulta para `equipos`
         $stmt_update_equipos = $pdo->prepare($sql_update_equipos);
         $stmt_update_equipos->bindValue(':new_assetname', $assetname, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':old_assetname', $old_assetname, PDO::PARAM_STR);
@@ -191,91 +232,158 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_update_equipos->bindValue(':expired', $expira, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':new_laptop', $newl, PDO::PARAM_STR);
 
-        // Vincular parámetros dinámicos para `equipos`
         foreach ($bind_params as $param => $value) {
             if (in_array($param, $tables_structure['equipos'])) {
                 $stmt_update_equipos->bindValue(":$param", $value, PDO::PARAM_STR);
             }
         }
 
-        // Ejecutar la consulta para `equipos`
-        if ($stmt_update_equipos->execute()) {
-            // Construir la consulta SQL para actualizar `usuarios_equipos`
-            $sql_update_usuarios_equipos = "UPDATE usuarios_equipos SET
-                                           fk_assetname = :new_assetname,
-                                           user_status = :user_status,
-                                           last_user = :last_user,
-                                           job_title = :job_title,
-                                           status_change = :status_change,
-                                           cedula = :cedula,
-                                           Carnet = :carnet,
-                                           LLave = :llave,
-                                           Tipo_ID = :tipoID";
-
-            // Añadir campos dinámicos para la tabla `usuarios_equipos`
-            if (!empty($usuarios_equipos_fields)) {
-                $sql_update_usuarios_equipos .= ", " . implode(", ", $usuarios_equipos_fields);
-            }
-
-            $sql_update_usuarios_equipos .= " WHERE fk_assetname = :old_assetname";
-
-            // Preparar y ejecutar la consulta para `usuarios_equipos`
-            $stmt_update_usuarios_equipos = $pdo->prepare($sql_update_usuarios_equipos);
-            $stmt_update_usuarios_equipos->bindValue(':new_assetname', $assetname, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':old_assetname', $old_assetname, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':user_status', $usrStts, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':last_user', $nombre_usuario, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':job_title', $job_title, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':status_change', $stats_change, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':cedula', $cedula, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':carnet', $carnet, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':llave', $llave, PDO::PARAM_STR);
-            $stmt_update_usuarios_equipos->bindValue(':tipoID', $tipoID, PDO::PARAM_STR);
-
-            // Vincular parámetros dinámicos para `usuarios_equipos`
-            foreach ($bind_params as $param => $value) {
-                if (in_array($param, $tables_structure['usuarios_equipos'])) {
-                    $stmt_update_usuarios_equipos->bindValue(":$param", $value, PDO::PARAM_STR);
-                }
-            }
-
-            // Ejecutar la consulta para `usuarios_equipos`
-            if ($stmt_update_usuarios_equipos->execute()) {
-                // Confirmar la transacción
-                $pdo->commit();
-                $_SESSION["success"] = "Correctly updated data.";
-            } else {
-                // Revertir la transacción en caso de error
-                $pdo->rollBack();
-                $errorInfo = $stmt_update_usuarios_equipos->errorInfo();
-                $_SESSION["error"] = "Error updating usuarios_equipos: " . $errorInfo[2];
-            }
-        } else {
-            // Revertir la transacción en caso de error
-            $pdo->rollBack();
-            $errorInfo = $stmt_update_equipos->errorInfo();
-            $_SESSION["error"] = "Error updating equipos: " . $errorInfo[2];
+        if (!$stmt_update_equipos->execute()) {
+            throw new PDOException("Error al actualizar equipos");
         }
 
-        // Reactivar la verificación de claves foráneas
+        // Actualizar tabla usuarios_equipos
+        $sql_update_usuarios_equipos = "UPDATE usuarios_equipos SET
+                                      fk_assetname = :new_assetname,
+                                      user_status = :user_status,
+                                      last_user = :last_user,
+                                      job_title = :job_title,
+                                      status_change = :status_change,
+                                      cedula = :cedula,
+                                      Carnet = :carnet,
+                                      LLave = :llave,
+                                      Tipo_ID = :tipoID,
+                                      asset_status = :asset_status,
+                                      asset_observations = :asset_observations,
+                                      monitor_status = :monitor_status,
+                                      monitor_observations = :monitor_observations,
+                                      headset_status = :headset_status,
+                                      headset_observations = :headset_observations,
+                                      dongle_status = :dongle_status,
+                                      dongle_observations = :dongle_observations,
+                                      celular_status = :celular_status,
+                                      celular_observations = :celular_observations,
+                                      SIMcard = :SIMcard";
+
+        if (!empty($usuarios_equipos_fields)) {
+            $sql_update_usuarios_equipos .= ", " . implode(", ", $usuarios_equipos_fields);
+        }
+
+        $sql_update_usuarios_equipos .= " WHERE fk_assetname = :old_assetname";
+
+        $stmt_update_usuarios_equipos = $pdo->prepare($sql_update_usuarios_equipos);
+        $stmt_update_usuarios_equipos->bindValue(':new_assetname', $assetname, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':old_assetname', $old_assetname, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':user_status', $usrStts, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':last_user', $nombre_usuario, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':job_title', $job_title, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':status_change', $stats_change, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':cedula', $cedula, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':carnet', $carnet, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':llave', $llave, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':tipoID', $tipoID, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':asset_status', $asset_status, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':asset_observations', $asset_observations, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':monitor_status', $monitor_status, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':monitor_observations', $monitor_observations, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':headset_status', $headset_status, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':headset_observations', $headset_observations, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':dongle_status', $dongle_status, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':dongle_observations', $dongle_observations, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':celular_status', $celular_status, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':celular_observations', $celular_observations, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':SIMcard', $SIMcard, PDO::PARAM_STR);
+
+        foreach ($bind_params as $param => $value) {
+            if (in_array($param, $tables_structure['usuarios_equipos'])) {
+                $stmt_update_usuarios_equipos->bindValue(":$param", $value, PDO::PARAM_STR);
+            }
+        }
+
+        if (!$stmt_update_usuarios_equipos->execute()) {
+            throw new PDOException("Error al actualizar usuarios_equipos");
+        }
+
+        // Confirmar transacción
+        $pdo->commit();
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
 
-        // Redirigir al usuario
-        header("Location: ../index.php");
+        // Actualizar datos en sesión para PDFs
+        $_SESSION['asset_data'] = [
+            'assetname' => $assetname,
+            'serial_number' => $serial,
+            'purchase_country' => $compra,
+            'warranty_enddate' => $garantia,
+            'expired' => $expira,
+            'new_laptop' => $newl,
+            'user_status' => $usrStts,
+            'last_user' => $nombre_usuario,
+            'job_title' => $job_title,
+            'status_change' => $stats_change,
+            'cedula' => $cedula,
+            'Carnet' => $carnet,
+            'LLave' => $llave,
+            'Tipo_ID' => $tipoID,
+            'asset_status' => $asset_status,
+            'asset_observations' => $asset_observations,
+            'Monitor' => $_POST['Monitor'] ?? null,
+            'monitor_status' => $monitor_status,
+            'monitor_observations' => $monitor_observations,
+            'HeadSet' => $_POST['HeadSet'] ?? null,
+            'headset_status' => $headset_status,
+            'headset_observations' => $headset_observations,
+            'Dongle' => $_POST['Dongle'] ?? null,
+            'dongle_status' => $dongle_status,
+            'dongle_observations' => $dongle_observations,
+            'Celular' => $_POST['Celular'] ?? null,
+            'celular_status' => $celular_status,
+            'celular_observations' => $celular_observations,
+            'SIMcard' => $SIMcard
+        ];
+
+        $_SESSION["success"] = "Datos actualizados correctamente";
+
+        // Manejar generación de PDF si fue solicitado
+        if (isset($_POST['generate_pdf'])) {
+            $response = array();
+            try {
+                // Guardar firmas en sesión
+                if (isset($_POST['signature'])) {
+                    $_SESSION['signature_data'] = $_POST['signature'];
+                }
+                if (isset($_POST['vobo_signature'])) {
+                    $_SESSION['vobo_signature_data'] = $_POST['vobo_signature'];
+                }
+                
+                // Determinar qué PDF generar
+                $redirect = strpos($_SERVER['HTTP_REFERER'], 'salida') !== false 
+                    ? '../Model/act_indv_sal.php' 
+                    : '../Model/act_indv_ent.php';
+                header("Location: $redirect");
+
+                $response['success'] = true;
+                $response['message'] = 'Datos guardados correctamente';
+            } catch (Exception $e) {
+                $response['success'] = false;
+                $response['message'] = $e->getMessage();
+            }
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
+        } else {
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+        }
         exit();
+
     } catch (PDOException $e) {
-        // Revertir la transacción en caso de error
         $pdo->rollBack();
-        $_SESSION["error"] = "Database error: " . $e->getMessage();
-        header("Location: ../index.php");
+        $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
+        $_SESSION["error"] = "Error en la base de datos: " . $e->getMessage();
+        header("Location: " . $_SERVER['HTTP_REFERER']);
         exit();
     }
 } else {
-    $_SESSION["error"] = "Missing required data.";
+    $_SESSION["error"] = "Acceso no válido";
     header("Location: ../index.php");
     exit();
-}
-} else {
-    $_SESSION["error"] = "Access not valid";
-    header("Location: ../index.php");
 }
