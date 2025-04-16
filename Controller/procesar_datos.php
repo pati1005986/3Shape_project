@@ -345,19 +345,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Manejar generación de PDF si fue solicitado
         if (isset($_POST['generate_pdf'])) {
-            // Guardar firmas en sesión
-            if (isset($_POST['signature'])) {
-                $_SESSION['signature_data'] = $_POST['signature'];
+            $response = array();
+            try {
+                // Guardar firmas en sesión
+                if (isset($_POST['signature'])) {
+                    $_SESSION['signature_data'] = $_POST['signature'];
+                }
+                if (isset($_POST['vobo_signature'])) {
+                    $_SESSION['vobo_signature_data'] = $_POST['vobo_signature'];
+                }
+                
+                // Determinar qué PDF generar
+                $redirect = strpos($_SERVER['HTTP_REFERER'], 'salida') !== false 
+                    ? '../Model/act_indv_sal.php' 
+                    : '../Model/act_indv_ent.php';
+                header("Location: $redirect");
+
+                $response['success'] = true;
+                $response['message'] = 'Datos guardados correctamente';
+            } catch (Exception $e) {
+                $response['success'] = false;
+                $response['message'] = $e->getMessage();
             }
-            if (isset($_POST['vobo_signature'])) {
-                $_SESSION['vobo_signature_data'] = $_POST['vobo_signature'];
-            }
-            
-            // Determinar qué PDF generar
-            $redirect = strpos($_SERVER['HTTP_REFERER'], 'salida') !== false 
-                ? '../Model/act_indv_sal.php' 
-                : '../Model/act_indv_ent.php';
-            header("Location: $redirect");
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
         } else {
             header("Location: " . $_SERVER['HTTP_REFERER']);
         }

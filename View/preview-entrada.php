@@ -160,10 +160,13 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
             background-color: #f5f5f5;
         }
         /* Controles de edición */
-        .editable {
+        .readonly-field {
             background-color: #f8f9fa;
             border: 1px solid #ced4da;
             border-radius: 4px;
+            padding: 0.375rem 0.75rem;
+            display: inline-block;
+            min-width: 150px;
         }
         .signature-canvas {
             border: 1px solid #ced4da;
@@ -181,7 +184,6 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                 <h2 class="text-center mb-4">Vista Previa - Acta de Entrega</h2>
                 
                 <div class="pdf-preview">
-                <form id="acta-form" action="../Controller/procesar_datos.php" method="post">
                         <!-- Encabezado del PDF -->
                         <div class="header-logo">
                             <img src="../Model/logo.png" alt="Logo" height="60">
@@ -194,7 +196,7 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                         <!-- Texto del certificado -->
                         <div class="certificate-text">
                             Por medio de la presente se certifica que el/la señor(a); 
-                            <input type="text" class="editable" name="last_user" value="<?php echo htmlspecialchars($asset_data['last_user']); ?>" required>
+                            <span class="readonly-field"><?php echo htmlspecialchars($asset_data['last_user']); ?></span>
                             
                             <?php 
                             $tipo_id = isset($asset_data['Tipo_ID']) ? $asset_data['Tipo_ID'] : 'CC';
@@ -220,19 +222,12 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                                     $tipo_text = "identificado(a) con ID:";
                                     break;
                             }
+                            echo $tipo_text;
                             ?>
                             
-                            <select name="Tipo_ID" class="editable">
-                                <option value="CC" <?php echo ($tipo_id == 'CC') ? 'selected' : ''; ?>>Cédula de Ciudadanía</option>
-                                <option value="CE" <?php echo ($tipo_id == 'CE') ? 'selected' : ''; ?>>Cédula de Extranjería</option>
-                                <option value="PP" <?php echo ($tipo_id == 'PP') ? 'selected' : ''; ?>>Pasaporte</option>
-                                <option value="RC" <?php echo ($tipo_id == 'RC') ? 'selected' : ''; ?>>Cédula de Residencia</option>
-                                <option value="TI" <?php echo ($tipo_id == 'TI') ? 'selected' : ''; ?>>Tarjeta de Identidad</option>
-                            </select>
-                            
-                            <input type="text" class="editable" name="cedula" value="<?php echo htmlspecialchars($asset_data['cedula'] ?? ''); ?>" required>, 
+                            <span class="readonly-field"><?php echo htmlspecialchars($asset_data['cedula'] ?? ''); ?></span>, 
                             y quien ocupa el cargo de 
-                            <input type="text" class="editable" name="job_title" value="<?php echo htmlspecialchars($asset_data['job_title'] ?? ''); ?>" required>
+                            <span class="readonly-field"><?php echo htmlspecialchars($asset_data['job_title'] ?? ''); ?></span>
                             se le hace entrega de los siguientes activos que manejará en 3Shape.
                         </div>
                         
@@ -252,24 +247,9 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                                 <tr>
                                     <td>1</td>
                                     <td>Computador Personal</td>
-                                    <td>
-                                        <input type="text" class="editable" name="serial_number" 
-                                            value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required>
-                                    </td>
-                                    <td>
-                                        <select class="editable" name="asset_status">
-                                            <?php foreach ($asset_status_options as $option): ?>
-                                                <option value="<?php echo htmlspecialchars($option); ?>"
-                                                    <?php echo ($asset_data['asset_status'] == $option) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($option); ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="editable" name="asset_observations" 
-                                            value="<?php echo htmlspecialchars($asset_data['asset_observations'] ?? ''); ?>">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['serial_number']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['asset_status']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['asset_observations'] ?? ''); ?></td>
                                 </tr>
                                 
                                 <!-- Monitor (si existe) -->
@@ -277,24 +257,9 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                                 <tr>
                                     <td>2</td>
                                     <td>Monitor</td>
-                                    <td>
-                                        <input type="text" class="editable" name="Monitor" 
-                                            value="<?php echo htmlspecialchars($asset_data['Monitor']); ?>">
-                                    </td>
-                                    <td>
-                                        <select class="editable" name="monitor_status">
-                                            <?php foreach ($monitor_status_options as $option): ?>
-                                                <option value="<?php echo htmlspecialchars($option); ?>"
-                                                    <?php echo ($asset_data['monitor_status'] == $option) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($option); ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="editable" name="monitor_observations" 
-                                            value="<?php echo htmlspecialchars($asset_data['monitor_observations'] ?? ''); ?>">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['Monitor']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['monitor_status']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['monitor_observations'] ?? ''); ?></td>
                                 </tr>
                                 <?php endif; ?>
                                 
@@ -303,24 +268,9 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                                 <tr>
                                     <td><?php echo (!empty($asset_data['Monitor'])) ? '3' : '2'; ?></td>
                                     <td>Head Set</td>
-                                    <td>
-                                        <input type="text" class="editable" name="HeadSet" 
-                                            value="<?php echo htmlspecialchars($asset_data['HeadSet']); ?>">
-                                    </td>
-                                    <td>
-                                        <select class="editable" name="headset_status">
-                                            <?php foreach ($headset_status_options as $option): ?>
-                                                <option value="<?php echo htmlspecialchars($option); ?>"
-                                                    <?php echo ($asset_data['headset_status'] == $option) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($option); ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="editable" name="headset_observations" 
-                                            value="<?php echo htmlspecialchars($asset_data['headset_observations'] ?? ''); ?>">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['HeadSet']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['headset_status']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['headset_observations'] ?? ''); ?></td>
                                 </tr>
                                 <?php endif; ?>
                                 
@@ -334,24 +284,9 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                                 <tr>
                                     <td><?php echo $row_num; ?></td>
                                     <td>Dongle</td>
-                                    <td>
-                                        <input type="text" class="editable" name="Dongle" 
-                                            value="<?php echo htmlspecialchars($asset_data['Dongle']); ?>">
-                                    </td>
-                                    <td>
-                                        <select class="editable" name="dongle_status">
-                                            <?php foreach ($dongle_status_options as $option): ?>
-                                                <option value="<?php echo htmlspecialchars($option); ?>"
-                                                    <?php echo ($asset_data['dongle_status'] == $option) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($option); ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="editable" name="dongle_observations" 
-                                            value="<?php echo htmlspecialchars($asset_data['dongle_observations'] ?? ''); ?>">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['Dongle']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['dongle_status']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['dongle_observations'] ?? ''); ?></td>
                                 </tr>
                                 <?php endif; ?>
                                 
@@ -363,24 +298,9 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                                 <tr>
                                     <td><?php echo $row_num; ?></td>
                                     <td>Celular</td>
-                                    <td>
-                                        <input type="text" class="editable" name="Celular" 
-                                            value="<?php echo htmlspecialchars($asset_data['Celular']); ?>">
-                                    </td>
-                                    <td>
-                                        <select class="editable" name="celular_status">
-                                            <?php foreach ($celular_status_options as $option): ?>
-                                                <option value="<?php echo htmlspecialchars($option); ?>"
-                                                    <?php echo ($asset_data['celular_status'] == $option) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($option); ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="editable" name="celular_observations" 
-                                            value="<?php echo htmlspecialchars($asset_data['celular_observations'] ?? ''); ?>">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['Celular']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['celular_status']); ?></td>
+                                    <td><?php echo htmlspecialchars($asset_data['celular_observations'] ?? ''); ?></td>
                                 </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -392,24 +312,15 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                             <table class="admin-table">
                                 <tr>
                                     <td style="width: 40%;">Carne:</td>
-                                    <td>
-                                        <input type="text" class="editable" name="Carnet" 
-                                            value="<?php echo htmlspecialchars($asset_data['Carnet'] ?? 'Pendiente'); ?>" style="width: 100%;">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['Carnet'] ?? 'Pendiente'); ?></td>
                                 </tr>
                                 <tr>
                                     <td>Llave locker:</td>
-                                    <td>
-                                        <input type="text" class="editable" name="LLave" 
-                                            value="<?php echo htmlspecialchars($asset_data['LLave'] ?? 'Pendiente'); ?>" style="width: 100%;">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['LLave'] ?? 'Pendiente'); ?></td>
                                 </tr>
                                 <tr>
                                     <td>SIM card:</td>
-                                    <td>
-                                        <input type="text" class="editable" name="SIMcard" 
-                                            value="<?php echo htmlspecialchars($asset_data['SIMcard'] ?? ''); ?>" style="width: 100%;">
-                                    </td>
+                                    <td><?php echo htmlspecialchars($asset_data['SIMcard'] ?? ''); ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -419,114 +330,18 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                             El abajo firmante declara haber recibido con satisfacción los elementos antes mencionados con la condición de que cuidará de ellos.
                         </div>
                         
-                        <!-- Sección de firmas -->
-                        <div class="row mt-4">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="signature-pad">Firma del Colaborador:</label>
-                                    <canvas id="signature-pad" class="signature-canvas"></canvas>
-                                    <input type="hidden" name="signature" id="signature-data">
-                                    <div class="mt-2">
-                                        <button type="button" class="btn btn-sm btn-secondary" id="clear-signature">Limpiar firma</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="vobo-signature-pad">Vo.Bo. Departamento de IT:</label>
-                                    <canvas id="vobo-signature-pad" class="signature-canvas"></canvas>
-                                    <input type="hidden" name="vobo_signature" id="vobo-signature-data">
-                                    <div class="mt-2">
-                                        <button type="button" class="btn btn-sm btn-secondary" id="clear-vobo-signature">Limpiar firma</button>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Botón de volver -->
+                        <div class="text-center mt-4">
+                            <a href="../index.php" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Volver al Inicio
+                            </a>
                         </div>
-                        
-                        <!-- Añadir campo oculto con assetname -->
-    <input type="hidden" name="assetname" value="<?php echo htmlspecialchars($asset_data['assetname'] ?? ''); ?>">
-    
-    <!-- Botones de acción -->
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <button type="submit" name="generate_pdf" value="1" class="btn btn-primary">
-                <i class="fas fa-file-pdf me-2"></i>Generar PDF
-            </button>
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-save me-2"></i>Guardar Cambios
-            </button>
-            <a href="../index.php" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-2"></i>Regresar
-            </a>
-        </div>
-    </div>
-</form>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- Scripts necesarios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configuración de SignaturePad para firma del colaborador
-            const canvas = document.getElementById('signature-pad');
-            const signaturePad = new SignaturePad(canvas, {
-                backgroundColor: 'rgb(255, 255, 255)',
-                penColor: 'rgb(0, 0, 0)'
-            });
-            
-            document.getElementById('clear-signature').addEventListener('click', function() {
-                signaturePad.clear();
-            });
-
-            // Configuración de SignaturePad para firma de Vo.Bo.
-            const voboCanvas = document.getElementById('vobo-signature-pad');
-            const voboSignaturePad = new SignaturePad(voboCanvas, {
-                backgroundColor: 'rgb(255, 255, 255)',
-                penColor: 'rgb(0, 0, 0)'
-            });
-            
-            document.getElementById('clear-vobo-signature').addEventListener('click', function() {
-                voboSignaturePad.clear();
-            });
-
-            // Capturar las firmas al enviar el formulario
-            document.getElementById('acta-form').addEventListener('submit', function(e) {
-                if (!signaturePad.isEmpty()) {
-                    document.getElementById('signature-data').value = signaturePad.toDataURL();
-                }
-                
-                if (!voboSignaturePad.isEmpty()) {
-                    document.getElementById('vobo-signature-data').value = voboSignaturePad.toDataURL();
-                }
-                
-                // Modificar la acción del formulario para generar el PDF
-                this.action = '../Controller/generar-acta-pdf.php';
-            });
-            
-            // Ajustar tamaño de los canvas al cargar y al redimensionar
-            function resizeCanvas() {
-                const ratio = Math.max(window.devicePixelRatio || 1, 1);
-                
-                // Para firma del colaborador
-                canvas.width = canvas.offsetWidth * ratio;
-                canvas.height = canvas.offsetHeight * ratio;
-                canvas.getContext("2d").scale(ratio, ratio);
-                signaturePad.clear(); // Limpiar al redimensionar
-                
-                // Para firma de Vo.Bo.
-                voboCanvas.width = voboCanvas.offsetWidth * ratio;
-                voboCanvas.height = voboCanvas.offsetHeight * ratio;
-                voboCanvas.getContext("2d").scale(ratio, ratio);
-                voboSignaturePad.clear(); // Limpiar al redimensionar
-            }
-            
-            window.onresize = resizeCanvas;
-            resizeCanvas();
-        });
-    </script>
 </body>
 </html>
