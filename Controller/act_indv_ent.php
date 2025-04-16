@@ -299,7 +299,4 @@ if (!empty($_SESSION['vobo_signature'])) {
     unset($_SESSION['vobo_signature']);
 }
 
-
-
-
 ob_end_flush();

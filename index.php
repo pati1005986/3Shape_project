@@ -40,6 +40,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <?php
             include_once "./Controller/validation_message.php";
             ?>
+            <script src="../Configuration/JQuery/qrcode.min.js"></script>
             <script src="./View/Js/qrcode.js"></script>
             <script src="./View/Js/animations.js"></script>
             <br>
@@ -721,6 +722,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         animation: spin 2s linear infinite;
                     }
                 </style>
+                <script src="./Configuration/JQuery/qrcode.min.js"></script>
                 <script src="./View/Js/Select_proccess.js"></script>
             </table>
             <br>
