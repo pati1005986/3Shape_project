@@ -677,6 +677,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         echo $headers;
                         ?>
                         <th title="Update" class="text-center"><i class="fas fa-sync-alt"></i></th>
+                        <th title="Preview PDF" class="text-center"><i class="fas fa-eye"></i></th>
                         <th title="Status And Observations" class="text-center"><i class="far fa-check-square"></i></th>
                         <th title="Delete" class="text-center"><i class="fa fa-times"></i></th>
                     </tr>

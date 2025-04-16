@@ -55,3 +55,60 @@
       opacity: 1;
   }
 }
+
+/* Dropdown hover styles */
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-menu {
+  min-width: 12rem;
+  padding: 0;
+  border: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #0d6efd;
+}
+
+/* Eye button styles */
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle {
+  border: none;
+  background: transparent;
+  color: #6c757d;
+  padding: 0.25rem 0.5rem;
+  transition: all 0.3s;
+}
+
+.dropdown-toggle:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Sync icon animation */
+.sync-icon {
+  transition: transform 0.3s ease;
+}
+
+.btn:hover .sync-icon {
+  transform: rotate(30deg);
+}

@@ -47,7 +47,18 @@ if ($resultados) {
 
         // Botones con valor ya escapado
         $rowHtml[] = "<td><a href='./Model/act_registro.php?assetname=$assetname' class='btn btn-secondary btn-sm'>" .
-        "<i class='fas fa-sync-alt sync-icon'></i></a></td>" .
+         "<i class='fas fa-sync-alt sync-icon'></i></a></td>" .
+        "<td>
+            <div class='dropdown'>
+                <button class='btn btn-secondary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton_$assetname' data-bs-toggle='dropdown' aria-expanded='false'>
+                    <i class='fas fa-eye'></i>
+                </button>
+                <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton_$assetname'>
+                    <li><a class='dropdown-item' href='./View/preview-salida.php?assetname=$assetname'>Departure Preview</a></li>
+<li><a class='dropdown-item' href='./View/preview-entrada.php?assetname=$assetname'>Entry Preview</a></li>
+                </ul>
+            </div>
+        </td>" .
         "<td><a href='./Model/act_registro_status.php?assetname=$assetname' class='btn btn-secondary btn-sm'>" .
         "<i class='far fa-check-square'></i></a></td>" .
          "<td><a href='javascript:void(0);' class='btn btn-danger btn-sm delete-item' " .
