@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/animate.min.css">
     <link rel="stylesheet" href="../View/Css/manual.css">
+    <link rel="stylesheet" href="../View/Css/manual-modern.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <script src="../View/Js/video-loader.js"></script>
     <style>
         /* Estilos adicionales para los videos */
         .btn-video {
@@ -41,42 +43,38 @@
     </style>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg fixed-top bg-light shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="../Configuration/3shape-logo.png" alt="Logo" width="150" height="31">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#inicio">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#gestion-activos">Asset Management</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#registro-equipos">Equipment Registration</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#notificaciones">Notifications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#admin-features">Administrative Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.php">Back</a>
-                    </li>
-                </ul>
+<body class="bg-light">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-light shadow-sm p-3" style="width: 280px; height: 100vh; position: fixed; overflow-y: auto;">
+            <div class="sidebar-header mb-4">
+                <img src="../Configuration/3shape-logo.png" alt="Logo" width="150" height="31" class="d-block mx-auto">
             </div>
-        </div>
-    </nav>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#inicio">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#gestion-activos">Asset Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#registro-equipos">Equipment Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#notificaciones">Notifications</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#admin-features">Administrative Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.php">Back</a>
+                </li>
+            </ul>
+        </nav>
 
-    <div class="container" style="margin-top: 80px;">
+    <!-- Main content -->
+<div class="main-content" style="margin-left: 280px; padding: 20px;">
+<div class="container">
         <section id="inicio">
             <h1 class="text-center mb-4">User Manual - 3Shape System</h1>
             <div class="card">
@@ -623,44 +621,3 @@
 </html>
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
-
-/* Estilos mejorados para los modales */
-.video-modal .modal-dialog {
-  border-radius: 1rem;
-  overflow: hidden;
-  transition: transform 0.3s ease-out;
-}
-
-.video-modal .modal-content {
-  border: none;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  background: #1a1a1a;
-}
-
-/* Contenedor responsivo para videos */
-.video-container {
-  position: relative;
-  padding-top: 56.25%; /* Relación 16:9 */
-  background: #000;
-  border-radius: 0.5rem;
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-/* Mejoras en el botón de cerrar */
-.btn-close {
-  filter: invert(1);
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
-}
-
-.btn-close:hover {
-  opacity: 1;
-}

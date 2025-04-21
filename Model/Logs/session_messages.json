@@ -1,14 +1,5 @@
 {
-    "success": [
-        {
-            "message": "Estados de activos actualizados correctamente.",
-            "timestamp": "2025-04-14 10:57:51"
-        },
-        {
-            "message": "Estados de activos actualizados correctamente.",
-            "timestamp": "2025-04-14 11:16:48"
-        }
-    ],
+    "success": [],
     "error": [],
     "error_message": [],
     "warnings": []
