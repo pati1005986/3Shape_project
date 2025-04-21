@@ -14,6 +14,27 @@
     <link rel="stylesheet" href="../Configuration/JQuery/animate.min.css">
     <link rel="stylesheet" href="../View/Css/manual.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <style>
+        /* Estilos adicionales para los videos */
+        .btn-video {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+        }
+        .btn-video:hover {
+            background-color: #cc0000;
+            color: white;
+        }
+        .btn-group-absolute {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0.5rem;
+        }
+        .video-modal .modal-dialog {
+            max-width: 800px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg fixed-top bg-light shadow-sm">
@@ -75,6 +96,9 @@
                     <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#inventoryModal">
                         <i class="fas fa-info-circle"></i>
                     </button>
+                    <button type="button" class="btn btn-video" data-bs-toggle="modal" data-bs-target="#inventoryVideoModal">
+                        <i class="fas fa-play"></i> Video
+                    </button>
                     <div class="feature-icon"><i class="fas fa-laptop"></i></div>
                     <h4>Inventory Control</h4>
                     <p>The system allows complete inventory management:</p>
@@ -98,6 +122,9 @@
                     <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#movementModal">
                         <i class="fas fa-info-circle"></i>
                     </button>
+                    <button type="button" class="btn btn-video" data-bs-toggle="modal" data-bs-target="#movementVideoModal">
+                        <i class="fas fa-play"></i> Video
+                    </button>
                     <div class="feature-icon"><i class="fas fa-exchange-alt"></i></div>
                     <h4>Movement Control</h4>
                     <p>Main features of movement control:</p>
@@ -118,9 +145,12 @@
                     <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#alertsModal">
                         <i class="fas fa-info-circle"></i>
                     </button>
+                    <button type="button" class="btn btn-video" data-bs-toggle="modal" data-bs-target="#alertsVideoModal">
+                        <i class="fas fa-play"></i> Video
+                    </button>
                     <div class="feature-icon"><i class="fas fa-bell"></i></div>
                     <h4>Alerts and Monitoring</h4>
-                    <p>Características del sistema de notificaciones:</p>
+                    <p>Features of the notification system:</p>
                     <ul>
                         <li>Scheduled maintenance alerts</li>
                         <li>Equipment movement notifications</li>
@@ -137,6 +167,9 @@
                 <div class="card-body">
                     <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#fieldsModal">
                         <i class="fas fa-info-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-video" data-bs-toggle="modal" data-bs-target="#fieldsVideoModal">
+                        <i class="fas fa-play"></i> Video
                     </button>
                     <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
                     <h4>Dynamic Fields Management</h4>
@@ -157,6 +190,9 @@
                     <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#dbAdminModal">
                         <i class="fas fa-info-circle"></i>
                     </button>
+                    <button type="button" class="btn btn-video" data-bs-toggle="modal" data-bs-target="#dbAdminVideoModal">
+                        <i class="fas fa-play"></i> Video
+                    </button>
                     <div class="feature-icon"><i class="fas fa-database"></i></div>
                     <h4>Database Administration</h4>
                     <p>Comprehensive database tools:</p>
@@ -175,6 +211,9 @@
                     <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#dashboardModal">
                         <i class="fas fa-info-circle"></i>
                     </button>
+                    <button type="button" class="btn btn-video" data-bs-toggle="modal" data-bs-target="#dashboardVideoModal">
+                        <i class="fas fa-play"></i> Video
+                    </button>
                     <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
                     <h4>Dashboard and Analytics</h4>
                     <p>Statistical monitoring features:</p>
@@ -191,6 +230,9 @@
                 <div class="card-body">
                     <button type="button" class="btn btn-info position-absolute top-0 end-0 m-2" data-bs-toggle="modal" data-bs-target="#maintenanceModal">
                         <i class="fas fa-info-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-video" data-bs-toggle="modal" data-bs-target="#maintenanceVideoModal">
+                        <i class="fas fa-play"></i> Video
                     </button>
                     <div class="feature-icon"><i class="fas fa-tools"></i></div>
                     <h4>System Maintenance</h4>
@@ -228,6 +270,24 @@
         </div>
     </div>
 
+    <!-- Video Modal for Inventory Control -->
+<div class="modal fade" id="inventoryVideoModal" tabindex="-1" aria-labelledby="inventoryVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inventoryVideoModalLabel">Inventory Control Tutorial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe src="https://www.youtube.com/embed/8WMY_fBMrzw" title="Inventory Control Tutorial" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="modal fade" id="movementModal" tabindex="-1" aria-labelledby="movementModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -247,6 +307,24 @@
         </div>
     </div>
 
+    <!-- Video Modal for Movement Control -->
+<div class="modal fade" id="movementVideoModal" tabindex="-1" aria-labelledby="movementVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="movementVideoModalLabel">Movement Control Tutorial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe src="https://www.youtube.com/embed/AgKNO952K2A" title="Movement Control Tutorial" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="modal fade" id="alertsModal" tabindex="-1" aria-labelledby="alertsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -264,6 +342,24 @@
             </div>
         </div>
     </div>
+
+<!-- Video Modal for Notifications -->
+<div class="modal fade" id="alertsVideoModal" tabindex="-1" aria-labelledby="alertsVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertsVideoModalLabel">Alerts and Notifications Tutorial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe src="https://www.youtube.com/embed/xf2yawsomBE" title="Alerts and Notifications Tutorial" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="modal fade" id="fieldsModal" tabindex="-1" aria-labelledby="fieldsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -288,6 +384,24 @@
         </div>
     </div>
 
+    <!-- Video Modal for Dynamic Fields -->
+<div class="modal fade" id="fieldsVideoModal" tabindex="-1" aria-labelledby="fieldsVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fieldsVideoModalLabel">Dynamic Fields Management Tutorial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Dynamic Fields Management Tutorial" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="modal fade" id="dbAdminModal" tabindex="-1" aria-labelledby="dbAdminModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -307,6 +421,24 @@
             </div>
         </div>
     </div>
+
+<!-- Video Modal for Database Administration -->
+<div class="modal fade" id="dbAdminVideoModal" tabindex="-1" aria-labelledby="dbAdminVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dbAdminVideoModalLabel">Database Administration Tutorial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Database Administration Tutorial" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="modal fade" id="dashboardModal" tabindex="-1" aria-labelledby="dashboardModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -331,6 +463,25 @@
         </div>
     </div>
 
+    <!-- Video Modal for Dashboard and Analytics -->
+<div class="modal fade" id="dashboardVideoModal" tabindex="-1" aria-labelledby="dashboardVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dashboardVideoModalLabel">Dashboard and Analytics Tutorial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Dashboard and Analytics Tutorial" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <div class="modal fade" id="maintenanceModal" tabindex="-1" aria-labelledby="maintenanceModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -350,6 +501,25 @@
             </div>
         </div>
     </div>
+
+<!-- Video Modal for System Maintenance -->
+<div class="modal fade" id="maintenanceVideoModal" tabindex="-1" aria-labelledby="maintenanceVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="maintenanceVideoModalLabel">System Maintenance Tutorial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="System Maintenance Tutorial" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script src="../Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
         // Función para manejar la expansión/colapso de las descripciones

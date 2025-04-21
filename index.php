@@ -241,7 +241,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                                             <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
                                                             <select id="search_user_status" name="search_user_status[]"
                                                                 class="shadow-sm form-control bg-light">
-                                                                <option value="0">Select an option</option>
+                                                                <option value="0">User Status</option>
                                                                 <?php
                                                                 // Reutilización de la conexión existente
                                                                 try {

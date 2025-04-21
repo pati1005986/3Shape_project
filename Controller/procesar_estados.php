@@ -132,12 +132,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->commit();
         
         // Mensaje de éxito
-        $_SESSION["success"] = "Estados de activos actualizados correctamente.";
+        $_SESSION["success"] = " Asset statuses updated successfully.";
         
     } catch (Exception $e) {
         // Revertir la transacción en caso de error
         $pdo->rollBack();
-        $_SESSION["error"] = "Error al actualizar los estados: " . $e->getMessage();
+        $_SESSION["error"] = "Error updating statuses: " . $e->getMessage();
     }
     
     // Redirigir al usuario

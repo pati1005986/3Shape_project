@@ -16,35 +16,38 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
 <?php
 // Consultar los estados únicos de cada tipo de activo desde la base de datos
 try {
+    // Estados predefinidos
+    $estados_predefinidos = ["", "Bueno", "Regular", "Dañado", "Malo", "Perdido", "No aplica"];
+    
     // Estados de computador
     $sql_asset_status = "SELECT DISTINCT asset_status FROM equipos WHERE asset_status IS NOT NULL AND asset_status != ''";
     $stmt_asset = $pdo->prepare($sql_asset_status);
     $stmt_asset->execute();
-    $asset_status_options = $stmt_asset->fetchAll(PDO::FETCH_COLUMN);
+    $asset_status_options = array_unique(array_merge($estados_predefinidos, $stmt_asset->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de monitor
     $sql_monitor_status = "SELECT DISTINCT monitor_status FROM equipos WHERE monitor_status IS NOT NULL AND monitor_status != ''";
     $stmt_monitor = $pdo->prepare($sql_monitor_status);
     $stmt_monitor->execute();
-    $monitor_status_options = $stmt_monitor->fetchAll(PDO::FETCH_COLUMN);
+    $monitor_status_options = array_unique(array_merge($estados_predefinidos, $stmt_monitor->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de headset
     $sql_headset_status = "SELECT DISTINCT headset_status FROM equipos WHERE headset_status IS NOT NULL AND headset_status != ''";
     $stmt_headset = $pdo->prepare($sql_headset_status);
     $stmt_headset->execute();
-    $headset_status_options = $stmt_headset->fetchAll(PDO::FETCH_COLUMN);
+    $headset_status_options = array_unique(array_merge($estados_predefinidos, $stmt_headset->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de dongle
     $sql_dongle_status = "SELECT DISTINCT dongle_status FROM usuarios_equipos WHERE dongle_status IS NOT NULL AND dongle_status != ''";
     $stmt_dongle = $pdo->prepare($sql_dongle_status);
     $stmt_dongle->execute();
-    $dongle_status_options = $stmt_dongle->fetchAll(PDO::FETCH_COLUMN);
+    $dongle_status_options = array_unique(array_merge($estados_predefinidos, $stmt_dongle->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de celular
     $sql_celular_status = "SELECT DISTINCT celular_status FROM usuarios_equipos WHERE celular_status IS NOT NULL AND celular_status != ''";
     $stmt_celular = $pdo->prepare($sql_celular_status);
     $stmt_celular->execute();
-    $celular_status_options = $stmt_celular->fetchAll(PDO::FETCH_COLUMN);
+    $celular_status_options = array_unique(array_merge($estados_predefinidos, $stmt_celular->fetchAll(PDO::FETCH_COLUMN)));
 
 } catch (PDOException $e) {
     echo '<div class="alert alert-danger">Error loading status options: ' . htmlspecialchars($e->getMessage()) . '</div>';
@@ -105,7 +108,7 @@ try {
                     
                   <!-- Computador -->
                   <div class="col-md-12 mb-4 border-bottom pb-3">
-                  <h5><i class="fas fa-laptop me-2"></i>Computer</h5>
+                  <h5><i class="fas fa-laptop me-2"></i>Laptop</h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -117,19 +120,14 @@ try {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="asset_status">Status</label>
-                <select class="form-control" id="asset_status" name="asset_status">
+                <select class="form-control" id="asset_status" name="asset_status" required>
                     <option value="">Select status</option>
-                    <?php foreach ($asset_status_options as $option): ?>
-                        <option value="<?php echo htmlspecialchars($option); ?>"
-                            <?php echo ($asset_data['asset_status'] == $option) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($option); ?>
-                        </option>
-                    <?php endforeach; ?>
-                    <?php if (!in_array($asset_data['asset_status'], $asset_status_options) && !empty($asset_data['asset_status'])): ?>
-                        <option value="<?php echo htmlspecialchars($asset_data['asset_status']); ?>" selected>
-                            <?php echo htmlspecialchars($asset_data['asset_status']); ?> (Current)
-                        </option>
-                    <?php endif; ?>
+                    <option value="Bueno" <?php echo ($asset_data['asset_status'] == 'Bueno') ? 'selected' : ''; ?>>Bueno</option>
+                    <option value="Regular" <?php echo ($asset_data['asset_status'] == 'Regular') ? 'selected' : ''; ?>>Regular</option>
+                    <option value="Dañado" <?php echo ($asset_data['asset_status'] == 'Dañado') ? 'selected' : ''; ?>>Dañado</option>
+                    <option value="Malo" <?php echo ($asset_data['asset_status'] == 'Malo') ? 'selected' : ''; ?>>Malo</option>
+                    <option value="Perdido" <?php echo ($asset_data['asset_status'] == 'Perdido') ? 'selected' : ''; ?>>Perdido</option>
+                    <option value="No aplica" <?php echo ($asset_data['asset_status'] == 'No aplica') ? 'selected' : ''; ?>>No aplica</option>
                 </select>
             </div>
         </div>

@@ -175,7 +175,7 @@ $fecha_salida = isset($asset_data['fecha_salida']) ? $asset_data['fecha_salida']
     <div class="container mt-4 mb-5">
         <div class="row">
             <div class="col-12">
-                <h2 class="text-center mb-4">Vista Previa - Acta de Salida</h2>
+                <h2 class="text-center mb-4">Preview - Output Record</h2>
                 
                 <div class="pdf-preview">
                         <!-- Encabezado del PDF -->
@@ -327,7 +327,7 @@ $fecha_salida = isset($asset_data['fecha_salida']) ? $asset_data['fecha_salida']
                         <!-- Botón de volver -->
                         <div class="text-center mt-4">
                             <a href="../index.php" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Volver al Inicio
+                                <i class="fas fa-arrow-left"></i> Back to Menu
                             </a>
                         </div>
                 </div>

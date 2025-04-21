@@ -181,7 +181,7 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
     <div class="container mt-4 mb-5">
         <div class="row">
             <div class="col-12">
-                <h2 class="text-center mb-4">Vista Previa - Acta de Entrega</h2>
+                <h2 class="text-center mb-4">Preview -Input Record</h2>
                 
                 <div class="pdf-preview">
                         <!-- Encabezado del PDF -->
@@ -333,7 +333,7 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                         <!-- Botón de volver -->
                         <div class="text-center mt-4">
                             <a href="../index.php" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Volver al Inicio
+                                <i class="fas fa-arrow-left"></i> Back to Menu
                             </a>
                         </div>
                 </div>
