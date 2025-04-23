@@ -11,14 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
         status: [
             'rgba(13, 110, 253, 0.8)',  // Primary blue from manual.css
             'rgba(19, 132, 150, 0.8)',   // Info color variant
-            'rgba(44, 62, 80, 0.8)',     // Header color from manual.css
+            'rgba(220, 223, 55, 0.8)',     // Header color from manual.css
             'rgba(73, 80, 87, 0.8)'      // Text color from manual.css
         ],
         country: [
             'rgba(13, 110, 253, 0.8)',
-            'rgba(10, 88, 202, 0.8)',
-            'rgba(8, 66, 152, 0.8)',
-            'rgba(6, 44, 101, 0.8)',
+            'rgba(237, 253, 13, 0.8)',
+            'rgba(230, 17, 17, 0.8)',
+            'rgba(33, 61, 94, 0.8)',
             'rgba(4, 22, 51, 0.8)'
         ],
         expired: [

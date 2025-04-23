@@ -8,85 +8,119 @@ include '../Configuration/Connection.php';
 function convertirTexto($texto) {
     return mb_convert_encoding($texto, 'ISO-8859-1', 'UTF-8');
 }
+
 //Crear Clase en base a la Api de FPDF
 class PDF extends FPDF
 {
-    
-   // Cabecera de página
-   function Header()
-   {
-    // Configuración inicial
-    $this->SetMargins(10, 10, 10);
-    
-    // Fondo del encabezado
-    $this->SetFillColor(245, 245, 245);
-    $this->Rect(0, 0, $this->GetPageWidth(), 50, 'F');
-    
-    // Logo
-    $this->Image('logo.png', 15, 10, 35);
-    
-    // Línea decorativa
-    $this->SetDrawColor(164, 0, 125);
-    $this->SetLineWidth(0.5);
-    $this->Line(55, 15, $this->GetPageWidth() - 15, 15);
-    
-    // Título principal
-    $this->SetFont('Arial', 'B', 24);
-    $this->SetTextColor(50, 50, 50);
-    $this->SetXY(55, 20);
-    $this->Cell(0, 10, convertirTexto("General Report"), 0, 1, 'L');
-    
-    // Fecha de generación
-    $this->SetFont('Arial', '', 11);
-    $this->SetTextColor(100, 100, 100);
-    $this->SetXY(55, 32);
-    $this->Cell(0, 10, convertirTexto("Generated on: " . date('d/m/Y')), 0, 1, 'L');
-    
-    // Espacio antes de la tabla
-    $this->Ln(20);
-    
-    // Estilo de la tabla
-    $this->SetFillColor(164, 0, 125);
-    $this->SetTextColor(255, 255, 255);
-    $this->SetDrawColor(190, 190, 190);
-    $this->SetLineWidth(0.2);
-    $this->SetFont('Arial', 'B', 8); // Aumentado ligeramente el tamaño para mejor legibilidad
+    // Cabecera de página
+    function Header()
+    {
+        // Configuración inicial
+        $this->SetMargins(10, 10, 10);
+        
+        // Fondo del encabezado
+        $this->SetFillColor(245, 245, 245);
+        $this->Rect(0, 0, $this->GetPageWidth(), 50, 'F');
+        
+        // Logo
+        $this->Image('logo.png', 15, 10, 35);
+        
+        // Línea decorativa
+        $this->SetDrawColor(164, 0, 125);
+        $this->SetLineWidth(0.5);
+        $this->Line(55, 15, $this->GetPageWidth() - 15, 15);
+        
+        // Título principal
+        $this->SetFont('Arial', 'B', 24);
+        $this->SetTextColor(50, 50, 50);
+        $this->SetXY(55, 20);
+        $this->Cell(0, 10, convertirTexto("General Report"), 0, 1, 'L');
+        
+        // Fecha de generación
+        $this->SetFont('Arial', '', 11);
+        $this->SetTextColor(100, 100, 100);
+        $this->SetXY(55, 32);
+        $this->Cell(0, 10, convertirTexto("Generated on: " . date('d/m/Y')), 0, 1, 'L');
+        
+        // Espacio antes de la tabla
+        $this->Ln(20);
+        
+        // Estilo de la tabla
+        $this->SetFillColor(164, 0, 125);
+        $this->SetTextColor(255, 255, 255);
+        $this->SetDrawColor(190, 190, 190);
+        $this->SetLineWidth(0.2);
+        $this->SetFont('Arial', 'B', 8);
 
-      // Encabezados de tabla con mejor espaciado y diseño
-      $cellHeight = 12;
-      $this->Cell(22, $cellHeight, convertirTexto('Asset Name'), 1, 0, 'C', 1);
-      $this->Cell(18, $cellHeight, convertirTexto('Serial'), 1, 0, 'C', 1);
-      $this->Cell(19, $cellHeight, convertirTexto('User Status'), 1, 0, 'C', 1);
-      $this->Cell(30, $cellHeight, convertirTexto('Last User'), 1, 0, 'C', 1);
-      $this->Cell(23, $cellHeight, convertirTexto('Status Change'), 1, 0, 'C', 1);
-      $this->Cell(20, $cellHeight, convertirTexto('Purchase'), 1, 0, 'C', 1);
-      $this->Cell(25, $cellHeight, convertirTexto('Warranty End'), 1, 0, 'C', 1);
-      $this->Cell(15, $cellHeight, convertirTexto('Expired'), 1, 0, 'C', 1);
-      $this->Cell(20, $cellHeight, convertirTexto('ID'), 1, 1, 'C', 1);
-   }
+        // Encabezados de tabla con mejor distribución
+        $this->SetX(5); // Ajuste de posición inicial
+        $cellHeight = 12;
+        $this->Cell(25, $cellHeight, convertirTexto('Asset Name'), 1, 0, 'C', 1);
+        $this->Cell(20, $cellHeight, convertirTexto('Serial'), 1, 0, 'C', 1);
+        $this->Cell(18, $cellHeight, convertirTexto('User Status'), 1, 0, 'C', 1);
+        $this->Cell(35, $cellHeight, convertirTexto('Last User'), 1, 0, 'C', 1);
+        $this->Cell(25, $cellHeight, convertirTexto('Status Change'), 1, 0, 'C', 1);
+        $this->Cell(20, $cellHeight, convertirTexto('Purchase'), 1, 0, 'C', 1);
+        $this->Cell(20, $cellHeight, convertirTexto('Warranty End'), 1, 0, 'C', 1);
+        $this->Cell(15, $cellHeight, convertirTexto('Expired'), 1, 0, 'C', 1);
+        $this->Cell(17, $cellHeight, convertirTexto('ID'), 1, 1, 'C', 1);
+    }
 
-   // Pie de página
-   function Footer()
-   {
-      // Línea separadora
-      $this->SetY(-20);
-      $this->SetDrawColor(164, 0, 125);
-      $this->SetLineWidth(0.5);
-      $this->Line(15, $this->GetY(), $this->GetPageWidth() - 15, $this->GetY());
-      
-      // Información del pie de página
-      $this->SetY(-15);
-      $this->SetFont('Arial', '', 8);
-      $this->SetTextColor(100, 100, 100);
-      $this->Cell(0, 10, convertirTexto('Página ' . $this->PageNo() . '/{nb}'), 0, 0, 'C');
-   }
+    // Pie de página
+    function Footer()
+    {
+        // Línea separadora
+        $this->SetY(-20);
+        $this->SetDrawColor(164, 0, 125);
+        $this->SetLineWidth(0.5);
+        $this->Line(15, $this->GetY(), $this->GetPageWidth() - 15, $this->GetY());
+        
+        // Información del pie de página
+        $this->SetY(-15);
+        $this->SetFont('Arial', '', 8);
+        $this->SetTextColor(100, 100, 100);
+        $this->Cell(0, 10, convertirTexto('Página ' . $this->PageNo() . '/{nb}'), 0, 0, 'C');
+    }
+    
+    // Función para celdas con texto multilínea
+    function MultiCellTable($w, $h, $txt, $border=1, $align='L', $fill=false)
+    {
+        // Guardar posición actual
+        $x = $this->GetX();
+        $y = $this->GetY();
+        
+        // Calcular altura necesaria para el texto
+        $this->MultiCell($w, 5, $txt, 0, $align, false);
+        $height = $this->GetY() - $y;
+        
+        // Asegurar altura mínima
+        $height = max($height, $h);
+        
+        // Volver a la posición original
+        $this->SetXY($x, $y);
+        
+        // Dibujar celda con la altura calculada
+        $this->Cell($w, $height, '', $border, 0, $align, $fill);
+        
+        // Reposicionar para escribir texto
+        $this->SetXY($x, $y);
+        
+        // Escribir el texto
+        $this->MultiCell($w, 5, $txt, 0, $align, $fill);
+        
+        // Mover a la siguiente posición
+        $this->SetXY($x + $w, $y + $height);
+        
+        return $height;
+    }
 }
 
 $pdf = new PDF();//CREAR PDF
-$pdf->SetLeftMargin(0); // Ajusta este valor si necesitas un pequeño margen
+$pdf->SetLeftMargin(5); // Ajuste para dar más espacio horizontal
+$pdf->SetAutoPageBreak(true, 20); // Asegurar saltos de página automáticos
 $pdf->AddPage();
 $pdf->AliasNbPages();
-$pdf->SetFont('Arial', '', 5);
+$pdf->SetFont('Arial', '', 7); // Tamaño de fuente ligeramente reducido para contenido
 $pdf->SetDrawColor(163, 163, 163);
 
 // Construir la consulta usando los filtros de búsqueda
@@ -203,25 +237,63 @@ try {
 
     if ($resultados) {
         $fillColor = false; // Inicializar la variable antes del bucle
+        
         foreach ($resultados as $row) {
             if ($row['cedula'] == 0 || $row['user_status'] == 'Stock') {
                 continue; // Saltar registros según los criterios
             }
+            
+            // Comprobar si hay espacio suficiente en la página para la fila
+            if ($pdf->GetY() > 250) {
+                $pdf->AddPage();
+            }
+            
             // Generar contenido del PDF con filas alternadas
             $fillColor = !$fillColor;
             $pdf->SetFillColor($fillColor ? 245 : 255, $fillColor ? 245 : 255, $fillColor ? 245 : 255);
             $pdf->SetTextColor(50, 50, 50);
-            $pdf->SetFont('Arial', '', 8);
             
-            $pdf->Cell(22, 10, convertirTexto($row["assetname"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(18, 10, convertirTexto($row["serial_number"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(19, 10, convertirTexto($row["user_status"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(30, 10, convertirTexto($row["last_user"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(23, 10, convertirTexto($row["status_change"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(20, 10, convertirTexto($row["purchase_country"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(25, 10, convertirTexto($row["warranty_enddate"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(15, 10, convertirTexto($row["expired"]), 1, 0, 'C', $fillColor);
-            $pdf->Cell(20, 10, convertirTexto($row["cedula"]), 1, 1, 'C', $fillColor);
+            // Guardar posición inicial Y
+            $initialY = $pdf->GetY();
+            $maxRowHeight = 8; // Altura mínima de fila
+            
+            // Celdas con posible contenido multilínea
+            $pdf->SetX(5);
+            
+            // Celda con texto multilínea para assetname
+            $heightAsset = $pdf->MultiCellTable(25, $maxRowHeight, convertirTexto($row["assetname"]), 1, 'C', $fillColor);
+            
+            // Volver a la posición para la siguiente celda
+            $pdf->SetXY(30, $initialY);
+            $heightSerial = $pdf->MultiCellTable(20, $maxRowHeight, convertirTexto($row["serial_number"]), 1, 'C', $fillColor);
+            
+            $pdf->SetXY(50, $initialY);
+            $heightStatus = $pdf->MultiCellTable(18, $maxRowHeight, convertirTexto($row["user_status"]), 1, 'C', $fillColor);
+            
+            $pdf->SetXY(68, $initialY);
+            $heightUser = $pdf->MultiCellTable(35, $maxRowHeight, convertirTexto($row["last_user"]), 1, 'C', $fillColor);
+            
+            $pdf->SetXY(103, $initialY);
+            $heightChange = $pdf->MultiCellTable(25, $maxRowHeight, convertirTexto($row["status_change"]), 1, 'C', $fillColor);
+            
+            $pdf->SetXY(128, $initialY);
+            $heightPurchase = $pdf->MultiCellTable(20, $maxRowHeight, convertirTexto($row["purchase_country"]), 1, 'C', $fillColor);
+            
+            $pdf->SetXY(148, $initialY);
+            $heightWarranty = $pdf->MultiCellTable(20, $maxRowHeight, convertirTexto($row["warranty_enddate"]), 1, 'C', $fillColor);
+            
+            $pdf->SetXY(168, $initialY);
+            $heightExpired = $pdf->MultiCellTable(15, $maxRowHeight, convertirTexto($row["expired"]), 1, 'C', $fillColor);
+            
+            $pdf->SetXY(183, $initialY);
+            $heightCedula = $pdf->MultiCellTable(17, $maxRowHeight, convertirTexto($row["cedula"]), 1, 'C', $fillColor);
+            
+            // Encontrar la altura máxima de todas las celdas
+            $rowHeight = max($heightAsset, $heightSerial, $heightStatus, $heightUser, $heightChange, 
+                             $heightPurchase, $heightWarranty, $heightExpired, $heightCedula);
+            
+            // Mover al inicio de la próxima fila
+            $pdf->SetY($initialY + $rowHeight);
         }
     } else {
         $pdf->Cell(0, 10, 'No data found', 1, 1, 'C', 0);
