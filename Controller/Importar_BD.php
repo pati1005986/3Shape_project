@@ -40,6 +40,20 @@ function insertData($pdo, $data)
         'LLave' => 'Pendiente',
         'job_title' => 'unknown',
         'last_user' => 'No user',
+        'asset_status' => 'Bueno',
+        'asset_observations' => '',
+        'monitor_status' => 'Bueno',
+        'monitor_observations' => '',
+        'headset_status' => 'Bueno',
+        'headset_observations' => '',
+        'dongle_status' => 'Bueno',
+        'dongle_observations' => '',
+        'celular_status' => 'Bueno',
+        'celular_observations' => '',
+        'SIMcard' => '',
+        'Monitor' => '',
+        'HeadSet' => '',
+        'Celular' => ''
     ];
 
     // Combinar solo si el valor en $data está vacío o no existe
@@ -87,13 +101,19 @@ function insertData($pdo, $data)
 
     try {
         $pdo->beginTransaction();
-        // Insertar en equipos
+        // Insertar en equipos - Actualizado con todos los campos correctos
         $stmtEquipos = $pdo->prepare("
         INSERT INTO equipos 
-        (assetname, serial_number, purchase_country, warranty_enddate, expired, new_laptop, HeadSet)
+        (assetname, serial_number, purchase_country, warranty_enddate, expired, new_laptop, 
+        asset_status, asset_observations, Monitor, monitor_status, monitor_observations, 
+        HeadSet, headset_status, headset_observations, Dongle, dongle_status, dongle_observations, 
+        Celular, celular_status, celular_observations, SIMcard)
         VALUES 
-        (:assetname, :serial_number, :purchase_country, :warranty_enddate, :expired, :new_laptop, :HeadSet)
-         ");
+        (:assetname, :serial_number, :purchase_country, :warranty_enddate, :expired, :new_laptop,
+        :asset_status, :asset_observations, :Monitor, :monitor_status, :monitor_observations,
+        :HeadSet, :headset_status, :headset_observations, :Dongle, :dongle_status, :dongle_observations,
+        :Celular, :celular_status, :celular_observations, :SIMcard)
+        ");
 
         $stmtEquipos->execute([
             ':assetname' => $data['assetname'],
@@ -102,15 +122,31 @@ function insertData($pdo, $data)
             ':warranty_enddate' => $data['warranty_enddate'],
             ':expired' => $data['expired'],
             ':new_laptop' => $data['new_laptop'],
-            ':HeadSet' => $data['HeadSet']
+            ':asset_status' => $data['asset_status'],
+            ':asset_observations' => $data['asset_observations'],
+            ':Monitor' => $data['Monitor'],
+            ':monitor_status' => $data['monitor_status'],
+            ':monitor_observations' => $data['monitor_observations'],
+            ':HeadSet' => $data['HeadSet'],
+            ':headset_status' => $data['headset_status'],
+            ':headset_observations' => $data['headset_observations'],
+            ':Dongle' => $data['Dongle'],
+            ':dongle_status' => $data['dongle_status'],
+            ':dongle_observations' => $data['dongle_observations'],
+            ':Celular' => $data['Celular'],
+            ':celular_status' => $data['celular_status'],
+            ':celular_observations' => $data['celular_observations'],
+            ':SIMcard' => $data['SIMcard']
         ]);
 
-        // Insertar en usuarios_equipos
+        // Insertar en usuarios_equipos - Actualizado con los campos correctos
         $stmtUsuarios = $pdo->prepare(
             "INSERT INTO usuarios_equipos 
-        (fk_assetname, user_status, last_user, job_title, status_change, cedula, Dongle, Carnet, LLave, Tipo_ID, fecha_salida)
-        VALUES 
-        (:fk_assetname, :user_status, :last_user, :job_title, :status_change, :cedula, :Dongle, :Carnet, :LLave, :Tipo_ID, :fecha_salida)"
+            (fk_assetname, user_status, last_user, job_title, status_change, cedula, 
+            Carnet, LLave, Tipo_ID, fecha_salida)
+            VALUES 
+            (:fk_assetname, :user_status, :last_user, :job_title, :status_change, :cedula, 
+            :Carnet, :LLave, :Tipo_ID, :fecha_salida)"
         );
 
         $stmtUsuarios->execute([
@@ -120,7 +156,6 @@ function insertData($pdo, $data)
             ':job_title' => $data['job_title'],
             ':status_change' => $data['status_change'],
             ':cedula' => $data['cedula'],
-            ':Dongle' => $data['Dongle'],
             ':Carnet' => $data['Carnet'] ?? 'Pendiente',
             ':LLave' => $data['LLave'] ?? 'Pendiente',
             ':Tipo_ID' => $data['Tipo_ID'],

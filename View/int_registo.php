@@ -26,6 +26,7 @@ $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <title>Update Register</title>
 </head>
 <body>
@@ -666,5 +667,100 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
         </div>
     </div>
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        //Alerta SweetAlert
+        // Load SweetAlert2 script
+document.addEventListener('DOMContentLoaded', function() {
+    // Add SweetAlert2 JS if not already included
+    if (typeof Swal === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+        document.body.appendChild(script);
+    }
+    
+    // Replace the current form submit handler with SweetAlert confirmation
+    document.getElementById('updateform').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        const select1 = document.getElementById('compra');
+        const select2 = document.getElementById('usrStts');
+        const select3 = document.getElementById('status_change');
+
+        const requiredSelects = [select1, select2, select3];
+        const errorMessages = [];
+
+        requiredSelects.forEach((select, index) => {
+            if (select.value === '0') {
+                let message;
+                switch (index) {
+                    case 0:
+                        message = "- Select a Purchase Country.";
+                        break;
+                    case 1:
+                        message = "- Select a User Status.";
+                        break;
+                    case 2:
+                        message = "- Select a Status Change.";
+                        break;
+                }
+                errorMessages.push(message);
+            }
+        });
+
+        if (errorMessages.length > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                html: "Please fix the following errors: <br>" + errorMessages.join("<br>"),
+                confirmButtonColor: '#3085d6'
+            });
+        } else {
+            // Show confirmation dialog
+            Swal.fire({
+                title: 'Confirm Update',
+                text: "Are you sure you want to update this data?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, update it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, submit the form
+                    const form = document.getElementById('updateform');
+                    
+                    // Use fetch API to submit the form
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form)
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        // Show success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Updated!',
+                            text: 'The register has been updated successfully.',
+                            confirmButtonColor: '#3085d6'
+                        }).then(() => {
+                            // Redirect to index page after success
+                            window.location.href = '../index.php';
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'There was an error updating the data.',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    });
+                }
+            });
+        }
+    });
+});
+    </script>
 </body>
 </html>

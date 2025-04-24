@@ -38,13 +38,13 @@ try {
     $headset_status_options = array_unique(array_merge($estados_predefinidos, $stmt_headset->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de dongle
-    $sql_dongle_status = "SELECT DISTINCT dongle_status FROM usuarios_equipos WHERE dongle_status IS NOT NULL AND dongle_status != ''";
+    $sql_dongle_status = "SELECT DISTINCT dongle_status FROM equipos WHERE dongle_status IS NOT NULL AND dongle_status != ''";
     $stmt_dongle = $pdo->prepare($sql_dongle_status);
     $stmt_dongle->execute();
     $dongle_status_options = array_unique(array_merge($estados_predefinidos, $stmt_dongle->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de celular
-    $sql_celular_status = "SELECT DISTINCT celular_status FROM usuarios_equipos WHERE celular_status IS NOT NULL AND celular_status != ''";
+    $sql_celular_status = "SELECT DISTINCT celular_status FROM equipos WHERE celular_status IS NOT NULL AND celular_status != ''";
     $stmt_celular = $pdo->prepare($sql_celular_status);
     $stmt_celular->execute();
     $celular_status_options = array_unique(array_merge($estados_predefinidos, $stmt_celular->fetchAll(PDO::FETCH_COLUMN)));

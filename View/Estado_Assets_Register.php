@@ -29,17 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
         // 3. Preparar datos combinados
         $complete_data = array_merge($_SESSION['phase1_data'], $_POST);
         
-        // 4. Insertar en tabla equipos
+        // 4. Insertar en tabla equipos - Solo campos relacionados con equipos
         $sql_equipos = "INSERT INTO equipos (
             assetname, serial_number, purchase_country, warranty_enddate, 
             expired, new_laptop, asset_status, asset_observations,
-            monitor_status, monitor_observations, headset_status, 
-            headset_observations, Monitor, HeadSet
+            Monitor, monitor_status, monitor_observations, 
+            HeadSet, headset_status, headset_observations,
+            Dongle, dongle_status, dongle_observations,
+            Celular, celular_status, celular_observations,
+            SIMcard
         ) VALUES (
             :assetname, :serial, :compra, :garantia,
             :expired, :newl, :asset_status, :asset_observations,
-            :monitor_status, :monitor_observations, :headset_status,
-            :headset_observations, :Monitor, :HeadSet
+            :Monitor, :monitor_status, :monitor_observations,
+            :HeadSet, :headset_status, :headset_observations,
+            :Dongle, :dongle_status, :dongle_observations,
+            :Celular, :celular_status, :celular_observations,
+            :SIMcard
         )";
         
         $stmt_equipos = $pdo->prepare($sql_equipos);
@@ -52,47 +58,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
             ':newl' => $complete_data['newl'] ?? 0,
             ':asset_status' => $complete_data['asset_status'] ?? 'Nuevo',
             ':asset_observations' => $complete_data['asset_observations'] ?? '',
+            ':Monitor' => $complete_data['Monitor'] ?? '',
             ':monitor_status' => $complete_data['monitor_status'] ?? 'N/A',
             ':monitor_observations' => $complete_data['monitor_observations'] ?? '',
+            ':HeadSet' => $complete_data['HeadSet'] ?? '',
             ':headset_status' => $complete_data['headset_status'] ?? 'N/A',
             ':headset_observations' => $complete_data['headset_observations'] ?? '',
-            ':Monitor' => $complete_data['Monitor'] ?? '',
-            ':HeadSet' => $complete_data['HeadSet'] ?? ''
+            ':Dongle' => $complete_data['Dongle'] ?? '',
+            ':dongle_status' => $complete_data['dongle_status'] ?? 'N/A',
+            ':dongle_observations' => $complete_data['dongle_observations'] ?? '',
+            ':Celular' => $complete_data['Celular'] ?? '',
+            ':celular_status' => $complete_data['celular_status'] ?? 'N/A',
+            ':celular_observations' => $complete_data['celular_observations'] ?? '',
+            ':SIMcard' => $complete_data['SIMcard'] ?? ''
         ]);
-        
-        $equipo_id = $pdo->lastInsertId();
 
-        // 5. Insertar en tabla usuarios_equipos
+        // 5. Insertar en tabla usuarios_equipos - Solo campos relacionados con usuarios
         $sql_usuarios = "INSERT INTO usuarios_equipos (
-            id, fk_assetname, last_user, job_title, user_status, 
+            fk_assetname, user_status, last_user, job_title, 
             status_change, cedula, Carnet, LLave, Tipo_ID,
-            dongle_status, dongle_observations, celular_status,
-            celular_observations, Dongle, Celular
+            fecha_salida
         ) VALUES (
-            :id, :fk_assetname, :nombre_usuario, :job_title, :usrStts,
-            :status_change, :id, :selectCard, :selectKEY, :type_id,
-            :dongle_status, :dongle_observations, :celular_status,
-            :celular_observations, :Dongle, :Celular
+            :fk_assetname, :usrStts, :nombre_usuario, :job_title,
+            :status_change, :cedula, :selectCard, :selectKEY, :type_id,
+            :fecha_salida
         )";
         
         $stmt_usuarios = $pdo->prepare($sql_usuarios);
         $stmt_usuarios->execute([
-            ':id' => $equipo_id,
             ':fk_assetname' => $complete_data['assetname'],
+            ':usrStts' => $complete_data['usrStts'] ?? 'Active User',
             ':nombre_usuario' => $complete_data['nombre_usuario'],
             ':job_title' => $complete_data['job_title'] ?? 'Unknown',
-            ':usrStts' => $complete_data['usrStts'] ?? 'Active User',
             ':status_change' => $complete_data['status_change'] ?? 'Active Warranty',
-            ':id' => $complete_data['id'] ?? 0,
+            ':cedula' => $complete_data['cedula'] ?? '',
             ':selectCard' => $complete_data['selectCard'] ?? 'Pendiente',
             ':selectKEY' => $complete_data['selectKEY'] ?? 'Pendiente',
             ':type_id' => $complete_data['type_id'] ?? 'CC',
-            ':dongle_status' => $complete_data['dongle_status'] ?? 'N/A',
-            ':dongle_observations' => $complete_data['dongle_observations'] ?? '',
-            ':celular_status' => $complete_data['celular_status'] ?? 'N/A',
-            ':celular_observations' => $complete_data['celular_observations'] ?? '',
-            ':Dongle' => $complete_data['Dongle'] ?? '',
-            ':Celular' => $complete_data['Celular'] ?? ''
+            ':fecha_salida' => $complete_data['fecha_salida'] ?? NULL
         ]);
 
         // 6. Confirmar transacción
@@ -135,13 +138,13 @@ try {
     $headset_status_options = array_unique(array_merge($estados_predefinidos, $stmt_headset->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de dongle
-    $sql_dongle_status = "SELECT DISTINCT dongle_status FROM usuarios_equipos WHERE dongle_status IS NOT NULL AND dongle_status != ''";
+    $sql_dongle_status = "SELECT DISTINCT dongle_status FROM equipos WHERE dongle_status IS NOT NULL AND dongle_status != ''";
     $stmt_dongle = $pdo->prepare($sql_dongle_status);
     $stmt_dongle->execute();
     $dongle_status_options = array_unique(array_merge($estados_predefinidos, $stmt_dongle->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de celular
-    $sql_celular_status = "SELECT DISTINCT celular_status FROM usuarios_equipos WHERE celular_status IS NOT NULL AND celular_status != ''";
+    $sql_celular_status = "SELECT DISTINCT celular_status FROM equipos WHERE celular_status IS NOT NULL AND celular_status != ''";
     $stmt_celular = $pdo->prepare($sql_celular_status);
     $stmt_celular->execute();
     $celular_status_options = array_unique(array_merge($estados_predefinidos, $stmt_celular->fetchAll(PDO::FETCH_COLUMN)));
@@ -220,22 +223,60 @@ try {
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                            <label for="asset_status">Status</label>
-                <select class="form-control" id="asset_status" name="asset_status" required>
-                    <option value="">Select status</option>
-                    <option value="Bueno">Bueno</option>
-                    <option value="Regular">Regular</option>
-                    <option value="Dañado">Dañado</option>
-                    <option value="Malo">Malo</option>
-                    <option value="Perdido">Perdido</option>
-                    <option value="No aplica">No aplica</option>
-                </select>
+                                <label for="asset_status">Status</label>
+                                <select class="form-control" id="asset_status" name="asset_status" required>
+                                    <option value="">Select status</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Dañado">Dañado</option>
+                                    <option value="Malo">Malo</option>
+                                    <option value="Perdido">Perdido</option>
+                                    <option value="No aplica">No aplica</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label for="asset_observations">Observations</label>
                                 <textarea class="form-control" id="asset_observations" name="asset_observations" rows="2" maxlength="255"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Monitor -->
+                <div class="asset-section">
+                    <h5><i class="fas fa-desktop"></i> Monitor</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Monitor">Serial</label>
+                                <input class="form-control" type="text" id="Monitor" name="Monitor">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="monitor_status">Status</label>
+                                <select class="form-control" id="monitor_status" name="monitor_status">
+                                    <option value="">Select status</option>
+                                    <?php foreach ($monitor_status_options as $option): ?>
+                                        <option value="<?php echo htmlspecialchars($option); ?>"
+                                            <?php echo ($asset_data['monitor_status'] == $option) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($option); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                    <?php if (!in_array($asset_data['monitor_status'], $monitor_status_options) && !empty($asset_data['monitor_status'])): ?>
+                                        <option value="<?php echo htmlspecialchars($asset_data['monitor_status']); ?>" selected>
+                                            <?php echo htmlspecialchars($asset_data['monitor_status']); ?> (Current)
+                                        </option>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="monitor_observations">Observations</label>
+                                <textarea class="form-control" id="monitor_observations" name="monitor_observations" rows="2" maxlength="255"></textarea>
                             </div>
                         </div>
                     </div>
@@ -253,33 +294,121 @@ try {
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                            <label for="headset_status">Status</label>
-                <select class="form-control" id="headset_status" name="headset_status">
-                    <option value="">Select status</option>
-                    <?php foreach ($headset_status_options as $option): ?>
-                        <option value="<?php echo htmlspecialchars($option); ?>"
-                            <?php echo ($asset_data['headset_status'] == $option) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($option); ?>
-                        </option>
-                    <?php endforeach; ?>
-                    <?php if (!in_array($asset_data['headset_status'], $headset_status_options) && !empty($asset_data['headset_status'])): ?>
-                        <option value="<?php echo htmlspecialchars($asset_data['headset_status']); ?>" selected>
-                            <?php echo htmlspecialchars($asset_data['headset_status']); ?> (Current)
-                        </option>
-                    <?php endif; ?>
-                </select>
+                                <label for="headset_status">Status</label>
+                                <select class="form-control" id="headset_status" name="headset_status">
+                                    <option value="">Select status</option>
+                                    <?php foreach ($headset_status_options as $option): ?>
+                                        <option value="<?php echo htmlspecialchars($option); ?>"
+                                            <?php echo ($asset_data['headset_status'] == $option) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($option); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                    <?php if (!in_array($asset_data['headset_status'], $headset_status_options) && !empty($asset_data['headset_status'])): ?>
+                                        <option value="<?php echo htmlspecialchars($asset_data['headset_status']); ?>" selected>
+                                            <?php echo htmlspecialchars($asset_data['headset_status']); ?> (Current)
+                                        </option>
+                                    <?php endif; ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="monitor_observations">Observations</label>
-                                <textarea class="form-control" id="monitor_observations" name="monitor_observations" rows="2" maxlength="255"></textarea>
+                                <label for="headset_observations">Observations</label>
+                                <textarea class="form-control" id="headset_observations" name="headset_observations" rows="2" maxlength="255"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- [Resto de secciones (Headset, Dongle, Celular) con estructura similar] -->
+                <!-- Sección de Dongle -->
+                <div class="asset-section">
+                    <h5><i class="fas fa-usb"></i> Dongle</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Dongle">Serial</label>
+                                <input class="form-control" type="text" id="Dongle" name="Dongle">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="dongle_status">Status</label>
+                                <select class="form-control" id="dongle_status" name="dongle_status">
+                                    <option value="">Select status</option>
+                                    <?php foreach ($dongle_status_options as $option): ?>
+                                        <option value="<?php echo htmlspecialchars($option); ?>"
+                                            <?php echo ($asset_data['dongle_status'] == $option) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($option); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                    <?php if (!in_array($asset_data['dongle_status'], $dongle_status_options) && !empty($asset_data['dongle_status'])): ?>
+                                        <option value="<?php echo htmlspecialchars($asset_data['dongle_status']); ?>" selected>
+                                            <?php echo htmlspecialchars($asset_data['dongle_status']); ?> (Current)
+                                        </option>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="dongle_observations">Observations</label>
+                                <textarea class="form-control" id="dongle_observations" name="dongle_observations" rows="2" maxlength="255"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Celular -->
+                <div class="asset-section">
+                    <h5><i class="fas fa-mobile-alt"></i> Celular</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Celular">Serial</label>
+                                <input class="form-control" type="text" id="Celular" name="Celular">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="celular_status">Status</label>
+                                <select class="form-control" id="celular_status" name="celular_status">
+                                    <option value="">Select status</option>
+                                    <?php foreach ($celular_status_options as $option): ?>
+                                        <option value="<?php echo htmlspecialchars($option); ?>"
+                                            <?php echo ($asset_data['celular_status'] == $option) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($option); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                    <?php if (!in_array($asset_data['celular_status'], $celular_status_options) && !empty($asset_data['celular_status'])): ?>
+                                        <option value="<?php echo htmlspecialchars($asset_data['celular_status']); ?>" selected>
+                                            <?php echo htmlspecialchars($asset_data['celular_status']); ?> (Current)
+                                        </option>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="celular_observations">Observations</label>
+                                <textarea class="form-control" id="celular_observations" name="celular_observations" rows="2" maxlength="255"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de SIM Card -->
+                <div class="asset-section">
+                    <h5><i class="fas fa-sim-card"></i> SIM Card</h5>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="SIMcard">Número SIM Card</label>
+                                <input class="form-control" type="text" id="SIMcard" name="SIMcard">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <!-- Botones de acción -->
                 <div class="row mt-4">
@@ -318,11 +447,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Validar seriales (si se ingresan)
-        const serialInputs = document.querySelectorAll('input[type="text"][name*="Serial"]');
+        const serialInputs = document.querySelectorAll('input[type="text"][name*="Serial"], input[type="text"][id="Monitor"], input[type="text"][id="HeadSet"], input[type="text"][id="Dongle"], input[type="text"][id="Celular"], input[type="text"][id="SIMcard"]');
         serialInputs.forEach(input => {
             if (input.value.trim() !== '' && !/^[a-zA-Z0-9\-]+$/.test(input.value)) {
                 isValid = false;
-                errorMessage += `- El serial ${input.name} contiene caracteres inválidos.\n`;
+                errorMessage += `- El serial ${input.name || input.id} contiene caracteres inválidos.\n`;
                 input.classList.add('is-invalid');
             } else {
                 input.classList.remove('is-invalid');
