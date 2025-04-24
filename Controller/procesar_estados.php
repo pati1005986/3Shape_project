@@ -35,7 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'monitor_observations' => ['monitor_observations', false],
             'HeadSet' => ['HeadSet', false],
             'headset_status' => ['headset_status', false],
-            'headset_observations' => ['headset_observations', false]
+            'headset_observations' => ['headset_observations', false],
+            'Dongle' => ['Dongle',false],
+            'dongle_status' => ['dongle_status',false],
+            'dongle_observations' => ['dongle_observations',false],
+            'Celular' => ['Celular', false],
+            'celular_status' => ['celular_status', false],
+            'celular_observations' => ['celular_observations', false]
         ];
         
         foreach ($equipos_fields as $db_field => $config) {
@@ -60,12 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Procesar campos de la tabla usuarios_equipos
         $usuarios_equipos_fields = [
             // Campo => [nombre_post, validación_requerida]
-            'Dongle' => ['Dongle', false],
-            'dongle_status' => ['dongle_status', false],
-            'dongle_observations' => ['dongle_observations', false],
-            'Celular' => ['Celular', false],
-            'celular_status' => ['celular_status', false],
-            'celular_observations' => ['celular_observations', false],
             'last_user' => ['nombre_usuario', false]
         ];
         
