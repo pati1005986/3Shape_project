@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
-    <!--Arhivo con la funcion de ser la Interfaz de el proceso de Registro de activos-->
+    <!--Archivo con la funcion de ser la Interfaz de el proceso de Registro de activos-->
 </head>
 
 <body>

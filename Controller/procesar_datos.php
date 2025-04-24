@@ -460,11 +460,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: ../index.php");
     exit();
 }
-
-// Después de procesar la actualización exitosamente
-echo json_encode(['success' => true, 'message' => 'Data updated successfully']);
-exit;
-
-// O en caso de error
-echo json_encode(['success' => false, 'message' => 'Error message here']);
-exit;
