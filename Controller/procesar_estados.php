@@ -36,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'HeadSet' => ['HeadSet', false],
             'headset_status' => ['headset_status', false],
             'headset_observations' => ['headset_observations', false],
-            'Dongle' => ['Dongle',false],
-            'dongle_status' => ['dongle_status',false],
-            'dongle_observations' => ['dongle_observations',false],
+            'Dongle' => ['Dongle', false],
+            'dongle_status' => ['dongle_status', false],
+            'dongle_observations' => ['dongle_observations', false],
             'Celular' => ['Celular', false],
             'celular_status' => ['celular_status', false],
             'celular_observations' => ['celular_observations', false]
@@ -88,6 +88,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         
+        // Manejar eliminación de foto si fue solicitada
+        if (isset($_POST['delete_photo']) && $_POST['delete_photo'] == '1') {
+            // Primero obtener el nombre del archivo actual para eliminarlo del servidor
+            $stmt_get_photo = $pdo->prepare("SELECT asset_photo FROM equipos WHERE serial_number = :serial_number");
+            $stmt_get_photo->bindValue(":serial_number", $serial_number);
+            $stmt_get_photo->execute();
+            $current_photo = $stmt_get_photo->fetchColumn();
+            
+            if ($current_photo) {
+                $file_path = '../uploads/' . $current_photo;
+                if (file_exists($file_path)) {
+                    unlink($file_path); // Eliminar el archivo físico
+                }
+            }
+            
+            // Agregar actualización para eliminar la referencia en la base de datos
+            $equipos_updates[] = "asset_photo = NULL";
+        }
+        
+        // Subir nueva foto si fue enviada
+        $asset_photo = null;
+        if (isset($_FILES['asset_photo']) && $_FILES['asset_photo']['error'] === UPLOAD_ERR_OK) {
+            // Primero eliminar la foto anterior si existe
+            $stmt_get_photo = $pdo->prepare("SELECT asset_photo FROM equipos WHERE serial_number = :serial_number");
+            $stmt_get_photo->bindValue(":serial_number", $serial_number);
+            $stmt_get_photo->execute();
+            $current_photo = $stmt_get_photo->fetchColumn();
+            
+            if ($current_photo) {
+                $file_path = '../uploads/' . $current_photo;
+                if (file_exists($file_path)) {
+                    unlink($file_path); // Eliminar el archivo físico
+                }
+            }
+            
+            $targetDir = '../uploads/';
+            $asset_photo = basename($_FILES['asset_photo']['name']);
+            // Generar un nombre único para evitar colisiones
+            $fileExtension = pathinfo($asset_photo, PATHINFO_EXTENSION);
+            $asset_photo = 'asset_' . $serial_number . '_' . time() . '.' . $fileExtension;
+            $targetFilePath = $targetDir . $asset_photo;
+            $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+
+            // Comprobaciones necesarias (tipo de archivo, tamaño, etc.)
+            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+            if (in_array($fileType, $allowedTypes)) {
+                if (move_uploaded_file($_FILES['asset_photo']['tmp_name'], $targetFilePath)) {
+                    // Foto subida exitosamente
+                    $equipos_updates[] = "asset_photo = :asset_photo";
+                    $equipos_params['asset_photo'] = $asset_photo;
+                } else {
+                    throw new Exception('Error moving the uploaded file. Please check the upload directory permissions.');
+                }
+            } else {
+                throw new Exception('Invalid file type. Only JPG, PNG, and GIF files are allowed.');
+            }
+        }
+
         // Actualizar la tabla equipos si hay cambios
         if (!empty($equipos_updates)) {
             $sql_update_equipos = "UPDATE equipos SET " . implode(", ", $equipos_updates) . " WHERE serial_number = :serial_number";
@@ -132,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->commit();
         
         // Mensaje de éxito
-        $_SESSION["success"] = " Asset statuses updated successfully.";
+        $_SESSION["success"] = "Asset statuses updated successfully.";
         
     } catch (Exception $e) {
         // Revertir la transacción en caso de error

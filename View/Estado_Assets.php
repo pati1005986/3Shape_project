@@ -66,6 +66,7 @@ try {
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <title>Asset Status and Observations</title>
 </head>
@@ -77,7 +78,7 @@ try {
           
 
                 <!--Formulario de Actualizacion donde trae los datos del activo seleccionado-->
-                <form id="updateform" action="../Controller/procesar_estados.php" method="post">
+                <form id="updateform" action="../Controller/procesar_estados.php" method="post" enctype="multipart/form-data">
                 <h2 id="totalC" class="text-center">Asset Status and Observations</h2>
                 <br>
                 
@@ -106,9 +107,9 @@ try {
                 <div class="row mt-4">
                     <h4 class="mb-3">Asset Information</h4>
                     
-                  <!-- Computador -->
-                  <div class="col-md-12 mb-4 border-bottom pb-3">
-                  <h5><i class="fas fa-laptop me-2"></i>Laptop</h5>
+                <!-- Computador -->
+<div class="col-md-12 mb-4 border-bottom pb-3">
+    <h5><i class="fas fa-laptop me-2"></i>Laptop</h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -138,6 +139,32 @@ try {
                     rows="2"><?php echo htmlspecialchars($asset_data['asset_observations'] ?? ''); ?></textarea>
             </div>
         </div>
+    </div>
+    <!-- Sección de subir foto -->
+    <div class="row mt-3">
+    <h5><i class="fas fa-image"></i>Upload Asset Photo</h5>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="asset_photo">Photo (Optional)</label>
+            <input class="form-control" type="file" id="asset_photo" name="asset_photo" accept="image/*">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <?php if (!empty($asset_data['asset_photo'])): ?>
+            <div class="d-flex align-items-center">
+                <!-- Imagen como botón para abrir modal -->
+                <button type="button" class="btn p-0 border-0 bg-transparent" id="viewPhotoBtn">
+                    <img src="../uploads/<?php echo htmlspecialchars($asset_data['asset_photo']); ?>" 
+                         alt="Asset Photo" 
+                         class="img-thumbnail me-2" 
+                         width="150"
+                         style="cursor: pointer;">
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" id="deletePhotoBtn">
+                    <i class="fas fa-trash"></i> Delete Photo
+                </button>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -313,6 +340,25 @@ try {
     </a>
 </div>
                 </form>
+
+<!-- Modal para visualizar la imagen -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Asset Photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="Asset Photo" class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <script>
                     // Función general para validar que no se ingresen caracteres especiales
                     function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
@@ -433,6 +479,104 @@ try {
             </div>
         </div>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deletePhotoBtn = document.getElementById('deletePhotoBtn');
+    
+    if (deletePhotoBtn) {
+        deletePhotoBtn.addEventListener('click', function() {
+            Swal.fire({
+                title: 'Delete photo?',
+                text: "Are you sure you want to delete the asset photo?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear un campo oculto en el formulario para indicar que se debe eliminar la foto
+                    const deletePhotoInput = document.createElement('input');
+                    deletePhotoInput.type = 'hidden';
+                    deletePhotoInput.name = 'delete_photo';
+                    deletePhotoInput.value = '1';
+                    document.getElementById('updateform').appendChild(deletePhotoInput);
+                    
+                    // Ocultar la imagen y el botón inmediatamente para mejor experiencia de usuario
+                    const photoContainer = deletePhotoBtn.closest('.d-flex');
+                    if (photoContainer) {
+                        photoContainer.style.display = 'none';
+                    }
+                    
+                    Swal.fire(
+                        'Deleted!',
+                        'The photo will be removed when you submit the form.',
+                        'success'
+                    );
+                }
+            });
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Configurar el modal para ver la imagen
+    const viewPhotoBtn = document.getElementById('viewPhotoBtn');
+    if (viewPhotoBtn) {
+        viewPhotoBtn.addEventListener('click', function() {
+            const imgSrc = this.querySelector('img').src;
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imgSrc;
+            
+            // Mostrar el modal
+            const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            imageModal.show();
+        });
+    }
+
+    // Configurar el botón de eliminar foto (versión mejorada)
+    const deletePhotoBtn = document.getElementById('deletePhotoBtn');
+    if (deletePhotoBtn) {
+        deletePhotoBtn.addEventListener('click', function() {
+            Swal.fire({
+                title: 'Delete photo?',
+                text: "Are you sure you want to delete the asset photo?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear un campo oculto en el formulario
+                    const deletePhotoInput = document.createElement('input');
+                    deletePhotoInput.type = 'hidden';
+                    deletePhotoInput.name = 'delete_photo';
+                    deletePhotoInput.value = '1';
+                    document.getElementById('updateform').appendChild(deletePhotoInput);
+                    
+                    // Ocultar el contenedor de la foto
+                    const photoContainer = deletePhotoBtn.closest('.d-flex');
+                    if (photoContainer) {
+                        photoContainer.style.display = 'none';
+                    }
+                    
+                    Swal.fire(
+                        'Deleted!',
+                        'The photo will be removed when you submit the form.',
+                        'success'
+                    );
+                }
+            });
+        });
+    }
+});
+</script>
+
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
