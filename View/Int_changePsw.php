@@ -10,19 +10,18 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
-    // Si la sesión ha expirado
     setcookie('error_message', 'Sesión expirada. Vuelve a iniciar sesión.', time() + 30, '/');
     header("Location: ../index.php");
     include_once '../Controller/Cerrar_sesion.php';
     exit();
 }
 
-// Verificar si el usuario es admin
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header("Location: ../index.php");
     include_once '../Controller/Cerrar_sesion.php';
     exit("Acceso denegado.");
 }
+
 // Mensajes de Usuario
 if (isset($_SESSION['error'])) {
     echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error']) . '</div>';
@@ -45,16 +44,14 @@ $_SESSION['last_activity'] = time();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Change</title>
     <link rel="stylesheet" href="../View/Css/button-styles.css">
-    <link rel="shortcut icon" href="../Configuracion/logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../View/Css/Form_changePSW.css">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
-    <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/animate.min.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="../View/Css/Form_changePSW.css">
 </head>
 
 <body>
@@ -69,6 +66,7 @@ $_SESSION['last_activity'] = time();
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                             aria-label="Toggle navigation">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
@@ -376,3 +374,5 @@ $_SESSION['last_activity'] = time();
 <?php include './Fragments/footer.php'; ?>
 
 </html>
+                                echo '<div
+                                echo '<div

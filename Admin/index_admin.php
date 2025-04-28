@@ -176,9 +176,16 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 </li>
                                 <li class="nav-item ms-auto">
                                     <div class="btn-group">
-                                        <a title="Notifications" type="button" class="btn btn-primary" onclick="showModal()">
-                                            <i class="fa-solid fa-bell"></i>
-                                        </a>
+                                    <div class="notification">
+    <li class="nav-item ms-auto bell-container">
+        <div class="bell-wrapper">
+            <a type="button" class="btn btn-outline-warning bell-button" onclick="showModal()">
+                <i class="fa-solid fa-bell" style="color:black"></i>
+                <span class="notification-badge">0</span>
+            </a>
+        </div>
+    </li>
+</div>
                                         <a title="Log Files" type="button" class="btn btn-info" href="../View/Int_LogsDelete.php">
                                             <i class="fa-solid fa-info-circle"></i>
                                         </a>
@@ -249,9 +256,9 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         <h4 class="form-label">Data Type <span class="text-danger">*</span></h4>
                         <select name="data_type" class="form-select form-select-lg mb-3" required>
                             <option value="">Select Data Type</option>
-                            <option value="Date">Date</option>
-                            <option value="INTEGER">Integer</option>
-                            <option value="VARCHAR(255)">Varchar</option>
+                            <option value="Date">Date (MM/DD/AAAA)</option>
+                            <option value="INTEGER">Integer (whole numbers)</option>
+                            <option value="VARCHAR(255)">Varchar (letters, numbers and symbols)</option>
                             <option value="BOOLEAN">Boolean</option>
                             <option value="BIGINT">BigInteger</option>
                         </select>

@@ -6,12 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+
     // Configuración de colores modernos y armónicos con gradientes
     const colors = {
         status: [
             'rgba(13, 110, 253, 0.8)',  // Primary blue from manual.css
-            'rgba(19, 132, 150, 0.8)',   // Info color variant
-            'rgba(245, 241, 32, 0.8)',     // Header color from manual.css
+            'rgba(19, 150, 19, 0.8)',   // Info color variant
+            'rgba(19, 132, 150, 0.8)',     // Header color from manual.css
             'rgba(73, 80, 87, 0.8)'      // Text color from manual.css
         ],
         country: [
@@ -22,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'rgba(132, 29, 228, 0.8)'
         ],
         expired: [
-            'rgba(13, 110, 253, 0.8)',   // Active/Valid
-            'rgba(73, 80, 87, 0.8)'       // Expired
+            'rgba(231, 68, 28, 0.8)',  // Color rojo para expirados  // Expired
+            'rgba(13, 110, 253, 0.8)',   // Color azul para válidos  // Active/Valid
         ]
     };
 

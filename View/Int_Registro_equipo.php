@@ -557,30 +557,29 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             // Función general para validar que no se ingresen caracteres especiales excepto "/" y "-"
                             function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
                                 // Ajustar la expresión regular para incluir "/" y "-" y Ñ
-                                const regex = /^[a-zA-Z0-9\s\/\-Ññ\?/]+$/; // Permite letras, números, espacios, "/" y "-"
+                           // Permitir letras, números, espacios, "/", "-", y "@"
+    const regex = /^[a-zA-Z0-9\s\/\-\@Ññ]+$/;
+    inputElement.addEventListener('input', function() {
+        const inputValue = this.value;
 
-                                inputElement.addEventListener('input', function() {
-                                    const inputValue = this.value;
+        if (!regex.test(inputValue)) {
+            mensajeElement.textContent = 'Characters are not allowed except "/", "-", and "@".';
+            // Remover caracteres no válidos
+            this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-@Ññ]/g, '');
+        } else {
+            mensajeElement.textContent = '';
+        }
 
-                                    if (!regex.test(inputValue)) {
-                                        mensajeElement.textContent =
-                                            'Characters are not allowed except "/" and "-" and Ñ.';
-                                        // Remover caracteres no válidos excepto "/" y "-" y Ñ
-                                        this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-Ññ]/g, '');
-                                    } else {
-                                        mensajeElement.textContent = '';
-                                    }
+        // Validar longitud máxima
+        const maxLength = inputElement.dataset.maxLength ? parseInt(inputElement.dataset.maxLength) : 100;
+        const currentValue = this.value;
 
-                                    // Validar longitud máxima (usar data-max-length o 50 por defecto)
-                                    const maxLength = inputElement.dataset.maxLength ? parseInt(inputElement.dataset.maxLength) : 100;
-                                    const currentValue = this.value;
-
-                                    if (currentValue.length > maxLength) {
-                                        mensajeElement.textContent = `Maximum ${maxLength} characters allowed.`;
-                                        this.value = currentValue.slice(0, maxLength);
-                                    }
-                                });
-                            }
+        if (currentValue.length > maxLength) {
+            mensajeElement.textContent = `Maximum ${maxLength} characters allowed.`;
+            this.value = currentValue.slice(0, maxLength);
+        }
+    });
+}
                             document.addEventListener('DOMContentLoaded', function() {
                                 const fieldsToValidate = document.querySelectorAll('[data-validate="true"]');
                                 fieldsToValidate.forEach(inputElement => {

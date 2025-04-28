@@ -23,7 +23,7 @@ try {
         // Validar campos vacíos
         if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
             $_SESSION['error'] = "All fields are required.";
-            header("Location: ../Vista/Int_changePsw.php");
+            header("Location: ../View/Int_changePsw.php");
             exit;
         }
 
@@ -35,7 +35,7 @@ try {
         if (!$row || !isset($row['clave_admin'])) {
             debugLog("No se encontró la contraseña en la BD");
             $_SESSION['error'] = "Error retrieving current password.";
-            header("Location: ../Vista/Int_changePsw.php");
+            header("Location: ../View/Int_changePsw.php");
             exit;
         }
 
@@ -65,14 +65,14 @@ try {
         if (!$passwordIsValid) {
             debugLog("invalid password");
             $_SESSION['error'] = "The current password is incorrect.";
-            header("Location: ../Vista/Int_changePsw.php");
+            header("Location: ../View/Int_changePsw.php");
             exit;
         }
 
         // Verificar coincidencia entre la nueva contraseña y su confirmación
         if ($newPassword !== $confirmPassword) {
             $_SESSION['error'] = "New passwords do not match.";
-            header("Location: ../Vista/Int_changePsw.php");
+            header("Location: ../View/Int_changePsw.php");
             exit;
         }
         // Generar hash de la nueva contraseña
@@ -90,13 +90,13 @@ try {
             debugLog("No se actualizó la contraseña");
             $_SESSION['error'] = "No changes were made to the password.";
         }
-        header("Location: ../Vista/Int_changePsw.php");
+        header("Location: ../View/Int_changePsw.php");
         exit;
     }
 } catch (PDOException $e) {
     debugLog("Error de PDO", $e->getMessage());
     $_SESSION['error'] = "An internal error occurred. Please try again later.";
-    header("Location: ../Vista/Int_changePsw.php");
+    header("Location: ../View/Int_changePsw.php");
     exit;
 }
 ?>
