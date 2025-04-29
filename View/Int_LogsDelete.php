@@ -522,7 +522,7 @@ label {
                                         echo '<td>' . round(filesize($filePath) / 1024, 2) . ' KB' . '</td>';
                                         echo '<td>' . date("F d Y H:i:s.", filemtime($filePath)) . '</td>';
                                         // Funcion para descargar archivos
-                                        echo '<td title="Download"><a href="../Model/Logs/' . htmlspecialchars($file) . '" download class="btn btn-secondary btn-sm"><i class="fas fa-download"></i></a></td>';
+                                        echo '<td title="Download"><a href="../Model/Logs/' . htmlspecialchars($file) . '" download class="btn btn-success btn-sm"><i class="fas fa-download"></i></a></td>';
                                         // Funcion para visualizar archivos
                                         echo '<td title="View"><a href="Int_LogsDelete.php?view=' . urlencode($file) . '" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a></td>';
                                         // Funcion para eliminar archivos

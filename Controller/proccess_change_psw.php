@@ -2,101 +2,85 @@
 session_start();
 include '../Configuration/Connection.php';
 
-
-// Función helper para debugging
-function debugLog($message, $data = null)
-{
-    $_SESSION['debug_messages'][] = [
-        'message' => $message,
-        'data' => $data !== null ? print_r($data, true) : null
-    ];
-}
-
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Validar token CSRF
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            throw new Exception("Token de seguridad inválido.");
+        }
+
+        // Validaciones básicas
         $currentPassword = trim($_POST['currentPassword'] ?? '');
         $newPassword = trim($_POST['newPassword'] ?? '');
         $confirmPassword = trim($_POST['confirmPassword'] ?? '');
 
-        debugLog("Contraseña actual recibida", $currentPassword);
-
-        // Validar campos vacíos
+        // Validar campos obligatorios
         if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-            $_SESSION['error'] = "All fields are required.";
-            header("Location: ../View/Int_changePsw.php");
-            exit;
+            throw new Exception("Todos los campos son obligatorios.");
         }
 
-        // Obtener la contraseña almacenada
+        // Verificar coincidencia de nueva contraseña
+        if ($newPassword !== $confirmPassword) {
+            throw new Exception("Las nuevas contraseñas no coinciden.");
+        }
+
+        // Validar complejidad de contraseña
+        if (strlen($newPassword) < 8 || 
+            !preg_match('/[A-Z]/', $newPassword) || 
+            !preg_match('/[0-9]/', $newPassword) || 
+            !preg_match('/[!@#$%^&*(),.?":{}|<>]/', $newPassword)) {
+            throw new Exception("La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, números y caracteres especiales.");
+        }
+
+        // Obtener la contraseña actual
         $stmt = $pdo->prepare("SELECT clave_admin FROM configuracion_sistema WHERE id = 1");
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$row || !isset($row['clave_admin'])) {
-            debugLog("No se encontró la contraseña en la BD");
-            $_SESSION['error'] = "Error retrieving current password.";
-            header("Location: ../View/Int_changePsw.php");
-            exit;
+        if (!$row) {
+            throw new Exception("No se encontró la configuración del sistema.");
         }
 
-        $storedPassword = $row['clave_admin'];
-        debugLog("Contraseña almacenada en BD", $storedPassword);
+        if ($currentPassword !== $row['clave_admin']) {
+            // Esto no debería ocurrir nunca ya que el campo es readonly
+            throw new Exception("Error en la verificación de contraseña. Por favor recarga la página.");
+        }
 
-        // Mejor método para detectar si es un hash
-        $isHashed = (
-            strlen($storedPassword) == 60 && // Longitud típica de un hash bcrypt
-            preg_match('/^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9\.\/]{53}$/', $storedPassword) // Formato bcrypt
+        // Preparar actualización de contraseña
+        $updateStmt = $pdo->prepare("UPDATE configuracion_sistema SET clave_admin = :newPassword WHERE id = 1");
+        $updateResult = $updateStmt->execute(['newPassword' => $newPassword]);
+
+        if (!$updateResult) {
+            throw new Exception("No se pudo actualizar la contraseña.");
+        }
+
+        // Registrar cambio de contraseña
+        $logEntry = [
+            'timestamp' => date('Y-m-d H:i:s'),
+            'action' => 'Password Changed',
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => $_SESSION['username'] ?? 'unknown'
+        ];
+        
+        file_put_contents('../Model/Logs/password_changes.log', 
+            json_encode($logEntry) . PHP_EOL, 
+            FILE_APPEND
         );
 
-        debugLog("¿Es hash?", $isHashed ? "Sí" : "No");
-
-        // Verificar la contraseña
-        $passwordIsValid = false;
-        if ($isHashed) {
-            debugLog("Verificando como hash");
-            $passwordIsValid = password_verify($currentPassword, $storedPassword);
-        } else {
-            debugLog("Verificando como texto plano");
-            $passwordIsValid = ($currentPassword === $storedPassword);
-        }
-
-        debugLog("¿Contraseña válida?", $passwordIsValid ? "Sí" : "No");
-
-        if (!$passwordIsValid) {
-            debugLog("invalid password");
-            $_SESSION['error'] = "The current password is incorrect.";
-            header("Location: ../View/Int_changePsw.php");
-            exit;
-        }
-
-        // Verificar coincidencia entre la nueva contraseña y su confirmación
-        if ($newPassword !== $confirmPassword) {
-            $_SESSION['error'] = "New passwords do not match.";
-            header("Location: ../View/Int_changePsw.php");
-            exit;
-        }
-        // Generar hash de la nueva contraseña
-        $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
-        debugLog("Nuevo hash generado", $newPasswordHash);
-
-        // Actualizar la contraseña en la base de datos
-        $updateStmt = $pdo->prepare("UPDATE configuracion_sistema SET clave_admin = :newPassword WHERE id = 1");
-        $updateStmt->execute(['newPassword' => $newPasswordHash]);
-
-        if ($updateStmt->rowCount() > 0) {
-            debugLog("Contraseña actualizada exitosamente");
-            $_SESSION['success'] = "Password changed successfully.";
-        } else {
-            debugLog("No se actualizó la contraseña");
-            $_SESSION['error'] = "No changes were made to the password.";
-        }
+        // Mensaje de éxito
+        $_SESSION['success'] = "Contraseña actualizada exitosamente.";
+        
+        // Regenerar token CSRF
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        
+        // Redirección
         header("Location: ../View/Int_changePsw.php");
-        exit;
+        exit();
     }
-} catch (PDOException $e) {
-    debugLog("Error de PDO", $e->getMessage());
-    $_SESSION['error'] = "An internal error occurred. Please try again later.";
+} catch (Exception $e) {
+    // Manejo de errores
+    $_SESSION['error'] = $e->getMessage();
     header("Location: ../View/Int_changePsw.php");
-    exit;
+    exit();
 }
 ?>

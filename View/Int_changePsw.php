@@ -1,6 +1,19 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start(); // Iniciar sesión
+    session_start();
+}
+
+include_once '../Configuration/Connection.php';
+
+// Obtener la contraseña actual
+try {
+    $stmt = $pdo->prepare("SELECT clave_admin FROM configuracion_sistema WHERE id = 1");
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $currentPassword = $row ? $row['clave_admin'] : '';
+} catch (PDOException $e) {
+    $currentPassword = '';
+    $_SESSION['error'] = "Error al recuperar la contraseña actual.";
 }
 
 $tiempo_inactivo = 4600;
@@ -25,15 +38,14 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 // Mensajes de Usuario
 if (isset($_SESSION['error'])) {
     echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error']) . '</div>';
-    unset($_SESSION['error']); // Limpia el mensaje después de mostrarlo
+    unset($_SESSION['error']);
 }
 if (isset($_SESSION['success'])) {
     echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
-    unset($_SESSION['success']); // Limpia el mensaje después de mostrarlo
+    unset($_SESSION['success']);
 }
 
 $_SESSION['last_activity'] = time();
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -106,10 +118,12 @@ $_SESSION['last_activity'] = time();
                                 <h2 class="h3 text-secondary">Password Change</h2>
                                 <form action="../Controller/proccess_change_psw.php" method="POST" id="changePasswordForm"
                                     onsubmit="return validateForm()">
+                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                     <div class="form-group">
                                         <label for="currentPassword">Current Password</label>
                                         <div class="password-container">
-                                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" 
+                                                   value="<?php echo htmlspecialchars($currentPassword); ?>" required readonly>
                                             <button type="button" class="password-toggle" onclick="togglePassword('currentPassword')">
                                                 <i class="fa-solid fa-eye" id="currentPassword-eye"></i>
                                             </button>
@@ -374,5 +388,3 @@ $_SESSION['last_activity'] = time();
 <?php include './Fragments/footer.php'; ?>
 
 </html>
-                                echo '<div
-                                echo '<div
