@@ -92,8 +92,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
+    </div>  
+    
     <script src="../Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
         function togglePassword(inputId) {
