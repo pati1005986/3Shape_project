@@ -49,13 +49,13 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
     <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/fontawesome.min.css">
+    <link rel="stylesheet" href="../View/Css/admin.css">
     <link rel="stylesheet" href="../View/Css/dark-mode.css">
     <link rel="stylesheet" href="../View/Css/Form.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
     <script src="../Configuration/JQuery/sweetalert2@11.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="../View/Css/button-styles.css">
-    <link rel="stylesheet" href="../View/Css/admin.css">
     <link rel="stylesheet" href="../View/Css/checkbox-styles.css">
 
 <body>
