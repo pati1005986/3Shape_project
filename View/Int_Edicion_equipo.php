@@ -559,7 +559,7 @@ function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
         if (!regex.test(inputValue)) {
             mensajeElement.textContent = 'Characters are not allowed except "/", "-", and "@".';
             // Remover caracteres no válidos, incluyendo "@"
-            this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-@Ññ]/g, '');
+            this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-_.@Ññ]/g, '');
         } else {
             mensajeElement.textContent = '';
         }

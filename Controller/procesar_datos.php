@@ -22,11 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'max_length' => 100
         ],
         [
-            'post_key' => 'id',
-            'var_name' => 'cedula',
-            'label' => 'ID',
-            'max_length' => 100
-        ],
+        'post_key' => 'id',
+        'var_name' => 'cedula',
+        'label' => 'ID',
+        'max_length' => 10,  // Reducir longitud máxima
+        'validation' => [
+            'type' => 'numeric',
+            'min_length' => 8,
+            'max_length' => 10
+        ]
+    ],
         [
             'post_key' => 'selectCard',
             'var_name' => 'carnet',

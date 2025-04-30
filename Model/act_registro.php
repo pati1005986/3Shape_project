@@ -26,7 +26,7 @@ if (isset($_GET['assetname'])) {
         $_SESSION['asset_data'] = $asset_data;
 
         // Redirigir al formulario
-        header("Location: ../View/int_registo.php");
+        header("Location: ../View/Int_Edicion_equipo.php");
         exit;
     } else {
         //Validacion de errores

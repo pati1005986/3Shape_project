@@ -557,15 +557,15 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             // Función general para validar que no se ingresen caracteres especiales excepto "/" y "-"
                             function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
                                 // Ajustar la expresión regular para incluir "/" y "-" y Ñ
-                           // Permitir letras, números, espacios, "/", "-", y "@"
+                           // Permitir letras, números, espacios, "/", "-","_","." y "@"
     const regex = /^[a-zA-Z0-9\s\/\-\@Ññ]+$/;
     inputElement.addEventListener('input', function() {
         const inputValue = this.value;
 
         if (!regex.test(inputValue)) {
-            mensajeElement.textContent = 'Characters are not allowed except "/", "-", and "@".';
+            mensajeElement.textContent = 'Characters are not allowed except  "/", "-","_","." y "@".';
             // Remover caracteres no válidos
-            this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-@Ññ]/g, '');
+            this.value = this.value.replace(/[^a-zA-Z0-9\s\/\-_.@Ññ]/g, '');
         } else {
             mensajeElement.textContent = '';
         }
