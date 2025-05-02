@@ -162,6 +162,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                         <li><a class="dropdown-item" id="showFormLink5" href="#"><i class="fa-solid fa-file-export"></i> Export Data Base</a></li>
                                         <li><a class="dropdown-item" id="showFormLink6" href="#"><i class="fa-solid fa-list"></i> Adding fields to all Forms</a></li>
                                         <li><a class="dropdown-item" id="showFormLink7" href="#"><i class="fa-solid fa-history"></i> Adding Logs in columns</a></li>
+                                        <li><a class="dropdown-item" href="add_user.php"><i class="fa-solid fa-user-plus"></i> Manage Users</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">

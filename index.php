@@ -1,4 +1,5 @@
 <?php
+include_once 'auth_check.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Iniciar sesión
 }
@@ -22,6 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./Configuration/DataTables/datatables.min.css">
     <link rel="stylesheet" href="./View/Css/index.css">
     <link rel="stylesheet" href="./View/Css/dark-mode.css">
+    <link rel="stylesheet" href="./View/Css/dropdown-fix.css">
     <link rel="stylesheet" href="./View/Css/Datatable.css">
     <link rel="stylesheet" href="./View/Css/button-styles.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
@@ -30,6 +32,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="./View/Css/navbar.css">
     <link rel="stylesheet" href="./View/Css/search-form.css">
 </head>
+
 
 <body>
       <!-- Barra Busqueda -->
@@ -68,6 +71,25 @@ if (session_status() === PHP_SESSION_NONE) {
                     <a href="./View/Int_salida.php" class="nav-link" title="Output Asset">
                         <i class="bi bi-box-arrow-up"></i> Output Asset
                     </a>
+                      <!-- Cuenta del usuario y LogOut-->
+                    <li class="nav-item ms-auto">
+                        <div class="btn-group">
+                            <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']): ?>
+                                <a class="nav-link" href="#" title="User Profile">
+                                    <i class="fas fa-user-circle me-1"></i>
+                                    <?php echo htmlspecialchars($_SESSION['user_full_name'] ?? $_SESSION['username']); ?>
+                                </a>
+                                <a href="logout.php" class="nav-link" title="Logout">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            <?php else: ?>
+                                <a href="login.php" class="nav-link" title="Login">
+                                    <i class="bi bi-box-arrow-in-right"></i> Login
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    </li>
+
                     <!-- Botón de Campana para mostrar modal de notificaciones -->
                     <li class="nav-item bell-container">
                         <div class="bell-wrapper">
@@ -907,11 +929,16 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     <?php endif; ?>
 
-    <!-- Scripts -->
+     <!-- Load Bootstrap JS before other scripts -->
+    <script src="./Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+     <!-- Scripts -->
+    <script src="./View/Js/warranty-check.js" defer></script>
+     <script src="./View/Js/dropdown-fix.js"></script>
     <script src="./View/Js/DatatableIndex.js" defer></script>
     <script src="./Configuration/DataTables/datatables.min.js" defer></script>
-    <script src="./Configuration/bootstrap/js/bootstrap.min.js" defer></script>
     <script src="./Configuration/JQuery/sweetalert2@11.js" defer></script>
+    <script src="./Configuration/JQuery/qrcode.min.js" defer></script>
     <script src="./View/Js/ModalReport.js"></script>
     <script src="./View/Js/AdminModal.js"></script>
     <script src="./View/Js/Select_proccess.js"></script>
