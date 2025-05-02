@@ -217,25 +217,17 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-globe"></i></span>
                                             <select id="search_purchase_country" name="search_purchase_country[]" class="form-select">
-                                                <option value="0">Select a country</option>
-                                                <?php
-                                                // Reutilización de la conexión existente
-                                                try {
-                                                    $stmt = $pdo->prepare("SELECT DISTINCT purchase_country FROM vista_equipos_usuarios");
-                                                    $stmt->execute();
-                                                    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                    if (empty($resultados)) {
-                                                        echo '<option value=""> No results found </option>';
-                                                    } else {
-                                                        foreach ($resultados as $resultado) {
-                                                            echo '<option value="' . $resultado['purchase_country'] . '">' . $resultado['purchase_country'] . '</option>';
-                                                        }
-                                                    }
-                                                } catch (PDOException $e) {
-                                                    echo '<option value="">Error loading options</option>';
-                                                }
-                                                ?>
-                                            </select>
+    <option value="0">Select a country</option>
+    <option value="Colombia">Colombia</option>
+    <option value="Poland">Poland</option>
+    <option value="Denmark">Denmark</option>
+    <option value="Australia">Australia</option>
+    <option value="United States">United States</option>
+    <option value="Korea">Korea</option>
+    <option value="México">México</option>
+    <option value="Brazil">Brazil</option>
+    <option value="Canada">Canada</option>
+</select>
                                         </div>
                                     </div>
                                 </div>
@@ -280,25 +272,11 @@ if (session_status() === PHP_SESSION_NONE) {
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
                                             <select id="search_user_status" name="search_user_status[]" class="form-select">
-                                                <option value="0">Select user status</option>
-                                                <?php
-                                                // Reutilización de la conexión existente
-                                                try {
-                                                    $stmt = $pdo->prepare("SELECT DISTINCT user_status FROM vista_equipos_usuarios");
-                                                    $stmt->execute();
-                                                    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                                    if (empty($resultados)) {
-                                                        echo '<option value=""> No results found </option>';
-                                                    } else {
-                                                        foreach ($resultados as $resultado) {
-                                                            echo '<option value="' . $resultado['user_status'] . '">' . $resultado['user_status'] . '</option>';
-                                                        }
-                                                    }
-                                                } catch (PDOException $e) {
-                                                    echo '<option value="">Error loading options</option>';
-                                                }
-                                                ?>
-                                            </select>
+    <option value="0">Select user status</option>
+    <option value="Stock">Stock</option>
+    <option value="Active User">Active User</option>
+    <option value="Old User">Old User</option>
+</select>
                                         </div>
                                     </div>
                                 </div>
