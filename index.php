@@ -12,7 +12,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asset Management System</title>
-    <link rel="shortcut icon" href="./Configuration/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./Configuration/3shape-intraoral-logo.png" type="image/x-icon">
     <!-- Carga de jQuery primero para evitar errores de dependencia -->
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
     <!-- Consolidación de CSS -->

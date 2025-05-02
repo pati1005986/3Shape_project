@@ -8,11 +8,10 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../Configuration/3shape-intraoral-logo.png" type="image/x-icon">
     <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="../Configuration/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
-    <link rel="shortcut icon" href="../Controller/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="../Configuration/JQuery/select2.min.css">
     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>

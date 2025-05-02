@@ -159,7 +159,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asset Status - Step 2 of 2</title>
-    <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../Configuration/3shape-intraoral-logo.png" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Asset</title>
-    <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../Configuration/3shape-intraoral-logo.png" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
      <!--Font Awesome -->
      <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">

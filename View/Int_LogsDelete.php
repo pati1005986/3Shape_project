@@ -52,7 +52,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backups</title>
-    <link rel="shortcut icon" href="../Configuration/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../Configuration/3shape-intraoral-logo.png" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../Configuration/DataTables/datatables.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
