@@ -4,6 +4,30 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Iniciar sesión
 }
 
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = './lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('./lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +35,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management System</title>
+    <title><?php echo __('page_title', $lang); ?></title> <!-- Asset Management System -->
     <link rel="shortcut icon" href="./Configuration/3shape-intraoral-logo.png" type="image/x-icon">
     <!-- Carga de jQuery primero para evitar errores de dependencia -->
     <script src="./Configuration/JQuery/jquery-3.7.1.js"></script>
@@ -53,23 +77,23 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="navbar-nav ms-auto">
                     <!-- Reporte PDF que contiene la información de todos los activos registrados -->
                     <a id="generatePDF" class="nav-link" data-url="./Model/GeneralReport.php" target="_blank" title="Generate General PDF">
-                        <i class="far fa-file-pdf" style="color:#dc3545;"></i> General Report
+                        <i class="far fa-file-pdf" style="color:#dc3545;"></i> <?php echo __('general_report', $lang); ?> <!-- General Report -->
                     </a>
                     <!-- Documento PDF con las actas de salida de la empresa de los empleados y activos -->
                     <a id="generateActaSalida" class="nav-link" data-url="./Model/Acta_salida.php" title="Generate Departure Certificate">
-                        <i class="fas fa-file-export"></i> Departure Certificate
+                        <i class="fas fa-file-export"></i> <?php echo __('departure_certificate', $lang); ?> <!-- Departure Certificate -->
                     </a>
                     <!-- Documento PDF con las actas de ingreso de la empresa de los empleados y activos que se les entregan -->
                     <a id="generateActaEntrada" class="nav-link" data-url="./Model/Acta_entrada.php" title="Generate Entry Certificate">
-                        <i class="far fa-file-alt"></i> Entry Certificate
+                        <i class="far fa-file-alt"></i> <?php echo __('entry_certificate', $lang); ?> <!-- Entry Certificate -->
                     </a>
                     <!-- Formulario para cambiar de aquipo a un usuario  -->
                     <a href="./View/Int_entrada.php" class="nav-link" title="Change Asset">
-                        <i class="bi bi-arrow-repeat"></i> Change Asset
+                        <i class="bi bi-arrow-repeat"></i> <?php echo __('change_asset', $lang); ?> <!-- Change Asset -->
                     </a>
                     <!-- Formulario para asignar una fecha de salida de un empleado y un activo-->
                     <a href="./View/Int_salida.php" class="nav-link" title="Output Asset">
-                        <i class="bi bi-box-arrow-up"></i> Output Asset
+                        <i class="bi bi-box-arrow-up"></i> <?php echo __('output_asset', $lang); ?> <!-- Output Asset -->
                     </a>
                       <!-- Cuenta del usuario y LogOut-->
                     <li class="nav-item ms-auto">
@@ -80,7 +104,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <?php echo htmlspecialchars($_SESSION['user_full_name'] ?? $_SESSION['username']); ?>
                                 </a>
                                 <a href="logout.php" class="nav-link" title="Logout">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                    <i class="bi bi-box-arrow-right"></i> <?php echo __('logout', $lang); ?> <!-- Logout -->
                                 </a>
                             <?php else: ?>
                                 <a href="login.php" class="nav-link" title="Login">
@@ -89,6 +113,17 @@ if (session_status() === PHP_SESSION_NONE) {
                             <?php endif; ?>
                         </div>
                     </li>
+<!-- Botón de cambiar idioma -->
+                    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-language"></i> <?php echo __('language', $lang); ?> <!-- Language -->
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+        <li><a class="dropdown-item language-selector" href="#" data-lang="en">English</a></li>
+        <li><a class="dropdown-item language-selector" href="#" data-lang="es">Español</a></li>
+        <li><a class="dropdown-item language-selector" href="#" data-lang="pl">Polski</a></li>
+    </ul>
+</li>
 
                     <!-- Botón de Campana para mostrar modal de notificaciones -->
                     <li class="nav-item bell-container">
@@ -107,8 +142,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="page-container">
         <!-- Header Section -->
         <header class="app-header">
-            <h1 class="app-title animate__animated animate__fadeInDown">Asset Management System</h1>
-            <p class="app-subtitle animate__animated animate__fadeInUp">Track, manage, and optimize your company assets efficiently</p>
+            <h1 class="app-title animate__animated animate__fadeInDown"><?php echo __('main_title', $lang); ?></h1> <!-- Asset Management System -->
+            <p class="app-subtitle animate__animated animate__fadeInUp"><?php echo __('welcome_message', $lang); ?></p> <!--Track, manage, and optimize your company assets efficiently-->
         </header>
 
      <!-- script para la validacion de estado de garantia -->
@@ -146,17 +181,17 @@ if (session_status() === PHP_SESSION_NONE) {
                 }
                 ?>
                 <div class="stats-card animate__animated animate__fadeInLeft">
-                    <div class="stats-title">Total Assets</div>
+                <div class="stats-title"><?php echo __('total_assets', $lang); ?></div> <!-- Total Assets -->
                     <div class="stats-value"><?php echo number_format($Totalclient, 0, ',', '.'); ?></div>
-                    <div class="stats-description">Registered in the system</div>
+                    <div class="stats-description"><?php echo __('registered_in_system', $lang); ?></div> <!-- Registered in the system -->
                 </div>
             </div>
 
               <!-- Upload Card -->
               <div class="col-lg-8 col-md-6">
                 <div class="upload-card animate__animated animate__fadeInRight">
-                    <h2 class="upload-title">Import Asset Data</h2>
-                    <p class="upload-description">Upload your CSV or TXT file to import asset information into the system.</p>
+                    <h2 class="upload-title"><?php echo __('import_asset_data', $lang); ?></h2><!-- Import Asset Data -->
+                    <p class="upload-description"><?php echo __('upload_description', $lang); ?></p><!-- Upload your CSV or TXT file to import asset information into the system. -->
                     
                     <form action="./Controller/Importar_BD.php" method="POST" enctype="multipart/form-data">
                         <?php include_once "./Controller/validation_message.php"; ?>
@@ -181,8 +216,8 @@ if (session_status() === PHP_SESSION_NONE) {
                      <!-- Search Section -->
         <section class="dashboard-section mt-4 animate__animated animate__fadeIn">
             <div class="section-header text-center">
-                <h2 class="section-title"><i class="bi bi-filter me-2"></i>Filter Assets</h2>
-                <p class="section-description">Refine your search by selecting one or multiple criteria to quickly find asset information.</p>
+                <h2 class="section-title"><i class="bi bi-filter me-2"></i><?php echo __('filter_assets', $lang); ?></h2> <!-- Filter Assets -->
+                <p class="section-description"><?php echo __('filter_description', $lang); ?></p> <!-- Refine your search by selection one or multiple criteria to quickly find and asset information -->
             </div>
 
             <form method="GET" action="">
@@ -192,32 +227,32 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="card h-100">
                             <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseAssetInfo" role="button" aria-expanded="false" aria-controls="collapseAssetInfo">
                                 <div>
-                                    <i class="bi bi-laptop me-2"></i> Asset Information
+                                    <i class="bi bi-laptop me-2"></i> <?php echo __('asset_information', $lang); ?> <!-- Asset Information -->
                                 </div>
                                 <i class="bi bi-chevron-down"></i>
                             </div>
                             <div class="collapse" id="collapseAssetInfo">
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label class="form-label">Asset Name</label>
+                                        <label class="form-label"><?php echo __('asset_name', $lang); ?></label> <!-- Asset Name -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-tag"></i></span>
                                             <input type="text" name="search_assetname" placeholder="Enter asset name" class="form-control" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Serial Number</label>
+                                        <label class="form-label"><?php echo __('serial_number', $lang); ?></label> <!-- Serial Number -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
                                             <input type="text" id="search_serial" name="search_serial" placeholder="Enter serial number" class="form-control" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Purchase Country</label>
+                                        <label class="form-label"><?php echo __('purchase_country', $lang); ?></label> <!-- Purchase Country -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-globe"></i></span>
                                             <select id="search_purchase_country" name="search_purchase_country[]" class="form-select">
-    <option value="0">Select a country</option>
+    <option value="0"><?php echo __('select_country', $lang); ?></option> <!-- Select a country -->
     <option value="Colombia">Colombia</option>
     <option value="Poland">Poland</option>
     <option value="Denmark">Denmark</option>
@@ -240,42 +275,42 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="card h-100">
                             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseUserInfo" role="button" aria-expanded="false" aria-controls="collapseUserInfo">
                                 <div>
-                                    <i class="bi bi-person me-2"></i> User Information
+                                    <i class="bi bi-person me-2"></i> <?php echo __('user_information', $lang); ?>  <!-- User Information -->
                                 </div>
                                 <i class="bi bi-chevron-down"></i>
                             </div>
                             <div class="collapse" id="collapseUserInfo">
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label class="form-label">User ID</label>
+                                        <label class="form-label"> <?php echo __('user_id', $lang); ?></label> <!-- User ID -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="far fa-id-card"></i></span>
                                             <input type="number" id="search_cedula" name="search_cedula" placeholder="Enter user ID" class="form-control" autocomplete="off" min="0">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Last User</label>
+                                        <label class="form-label"><?php echo __('last_user', $lang); ?></label><!-- Last User -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
                                             <input type="text" id="search_user" name="search_user" placeholder="Enter last user" class="form-control" autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Job Title</label>
+                                        <label class="form-label"><?php echo __('job_title', $lang); ?></label> <!-- Job Title -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
                                             <input type="text" id="search_job_title" name="search_job_title" placeholder="Enter job title" class="form-control" autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">User Status</label>
+                                        <label class="form-label"><?php echo __('user_status', $lang); ?></label> <!-- User Status -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
                                             <select id="search_user_status" name="search_user_status[]" class="form-select">
-    <option value="0">Select user status</option>
-    <option value="Stock">Stock</option>
-    <option value="Active User">Active User</option>
-    <option value="Old User">Old User</option>
+    <option value="0"><?php echo __('select_user_status', $lang); ?></option> <!-- Select User Status -->
+    <option value="Stock"><?php echo __('stock', $lang); ?></option> <!-- Stock -->
+    <option value="Active User"><?php echo __('active_user', $lang); ?></option> <!-- Active User -->
+    <option value="Old User"><?php echo __('old_user', $lang); ?></option> <!-- Old User -->
 </select>
                                         </div>
                                     </div>
@@ -289,41 +324,41 @@ if (session_status() === PHP_SESSION_NONE) {
                         <div class="card h-100">
                             <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseStatusWarranty" role="button" aria-expanded="false" aria-controls="collapseStatusWarranty">
                                 <div>
-                                    <i class="bi bi-shield-check me-2"></i> Status & Warranty
+                                    <i class="bi bi-shield-check me-2"></i> <?php echo __('status_warranty', $lang); ?> <!-- Status & Warranty -->
                                 </div>
                                 <i class="bi bi-chevron-down"></i>
                             </div>
                             <div class="collapse" id="collapseStatusWarranty">
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label class="form-label">Status Change</label>
+                                        <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
                                             <input type="text" name="search_status_change" placeholder="Enter status change" class="form-control">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Start Date</label>
+                                        <label class="form-label"><?php echo __('start_date', $lang); ?></label><!-- Start Date -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                                             <input type="text" id="sgarantia" name="search_fecha_inicio" placeholder="MM/DD/YYYY" class="form-control" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}" title="Please enter date in MM/DD/YYYY format">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">End Date</label>
+                                        <label class="form-label"><?php echo __('end_date', $lang); ?></label> <!-- End Date -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
                                             <input type="text" id="garantia" name="search_fecha_fin" placeholder="MM/DD/YYYY" class="form-control" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}" title="Please enter date in MM/DD/YYYY format">
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Expired Status</label>
+                                        <label class="form-label"><?php echo __('expired_status', $lang); ?></label> <!-- Expired Status -->
                                         <div class="input-group">
                                             <span class="input-group-text"><i class="bi bi-exclamation-triangle"></i></span>
                                             <select name="search_expired" class="form-select">
-                                                <option value="">Select expired status</option>
-                                                <option value="1">Expired</option>
-                                                <option value="0">Not Expired</option>
+                                                <option value=""><?php echo __('select_expired_status', $lang); ?></option> <!-- Select Expired Status -->
+                                                <option value="1"><?php echo __('expired', $lang); ?></option> <!-- Expired -->
+                                                <option value="0"><?php echo __('not_expired', $lang); ?></option><!-- Not Expired --> 
                                             </select>
                                         </div>
                                     </div>
@@ -335,27 +370,27 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <div class="action-buttons mt-4">
                     <button type="submit" class="btn btn-success action-button" id="search_btn">
-                        <i class="bi bi-search"></i> Search
+                        <i class="bi bi-search"></i> <?php echo __('search', $lang); ?> <!-- Search -->
                     </button>
                     <button type="reset" class="btn btn-danger action-button" id="reset_btn">
-                        <i class="bi bi-eraser"></i> Clear
+                        <i class="bi bi-eraser"></i> <?php echo __('clear', $lang); ?><!-- Clear -->
                     </button>
                     <button type="button" class="btn btn-primary action-button" id="refresh_btn">
-                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                        <i class="bi bi-arrow-clockwise"></i> <?php echo __('refresh', $lang); ?><!-- Refresh -->
                     </button>
                 </div>
 
 <!-- Debug Tools -->
 <div class="text-center mt-3">
     <a href="diagnostic.php" target="_blank" class="btn btn-outline-secondary">
-        <i class="bi bi-tools me-2"></i>Ejecutar Diagnóstico
+        <i class="bi bi-tools me-2"></i><?php echo __('run_diagnostic', $lang); ?><!-- Run Diagnostic -->
     </a>
     <?php
     $current_url = $_SERVER['REQUEST_URI'];
     $debug_param = (strpos($current_url, '?') !== false) ? '&debug=1' : '?debug=1';
     $debug_url = $current_url . $debug_param;
     echo '<a href="' . htmlspecialchars($debug_url) . '" class="btn btn-outline-secondary ms-2">
-            <i class="bi bi-bug me-2"></i>Modo Debug
+            <i class="bi bi-bug me-2"></i>Debug Mode
           </a>';
     ?>
 </div>
@@ -415,7 +450,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <div class="modal-header bg-primary text-white">
                                         <h2 class="modal-title fs-4">
                                             <i class="bi bi-bell-fill me-2"></i>
-                                            Notification History
+                                            <?php echo __('notification_history', $lang); ?><!-- Notification History -->
                                         </h2>
                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
@@ -435,7 +470,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                             <?php else: ?>
                                                 <div class="text-center p-4">
                                                     <i class="bi bi-inbox-fill fs-1 text-muted"></i>
-                                                    <p class="mt-3 text-muted">No notifications recorded.</p>
+                                                    <p class="mt-3 text-muted"><?php echo __('no_notifications', $lang); ?></p> <!-- No notifications recorded -->
                                                 </div>
                                             <?php endif; ?>
                                         </div>
@@ -443,11 +478,11 @@ if (session_status() === PHP_SESSION_NONE) {
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" onclick="clearLogs()">
                                             <i class="bi bi-trash-fill me-1"></i>
-                                            Clean History
+                                            <?php echo __('clean_history', $lang); ?><!-- Clean History -->
                                         </button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                             <i class="bi bi-x-lg me-1"></i>
-                                            Close
+                                            <?php echo __('close', $lang); ?><!-- Close -->
                                         </button>
                                     </div>
                                 </div>
@@ -701,10 +736,10 @@ if (session_status() === PHP_SESSION_NONE) {
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
                         <button id="btnCerrarModal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
                         <p id="modalMensaje" style="color: black;"></p>
-                        <button id="btnAceptar" class="btn btn-secondary"> Option 1: Generate Departure </button>
-                        <button id="btnCancelar" class="btn btn-secondary my-2"> Option 2: Create Entry </button>
-                        <button id="btnOpcion3" class="btn btn-secondary my-2"> Option 3: Asset Information </button>
-                        <button id="btnQR" class="btn btn-secondary my-2"> Option 4: Generate QR </button>
+                        <button id="btnAceptar" class="btn btn-secondary"> <?php echo __('option_generate_departure', $lang); ?> </button><!-- Option 1:Generate Departure -->
+                        <button id="btnCancelar" class="btn btn-secondary my-2"> <?php echo __('option_create_entry', $lang); ?> </button><!-- Option 2:Create Entry -->
+                        <button id="btnOpcion3" class="btn btn-secondary my-2"> <?php echo __('option_asset_information', $lang); ?> </button><!-- Option 3:Asset Information -->
+                        <button id="btnQR" class="btn btn-secondary my-2"> <?php echo __('option_generate_qr', $lang); ?> </button><!-- Option 4: Generate QR -->
                     </div>
                 </div>
                 <style>
@@ -747,17 +782,17 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="card shadow-sm border-primary mx-auto" style="max-width: 500px;">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-user-shield me-2"></i>Administrator Access
+                            <i class="fas fa-user-shield me-2"></i><?php echo __('administrator_access', $lang); ?><!-- Administrator Access -->
                         </h5>
                     </div>
                     <div class="card-body text-center">
                         <p class="card-text mb-4">Press <kbd>Ctrl</kbd> + <kbd>Q</kbd> to login as administrator</p>
                         <a href="#" id="showAdminModal" class="btn btn-outline-primary">
-                            <i class="fas fa-lock me-2"></i>Manager Login
+                            <i class="fas fa-lock me-2"></i><?php echo __('manager_login', $lang); ?><!-- Manager Login -->
                         </a>
                     </div>
                     <div class="card-footer bg-light text-muted small">
-                        <i class="bi bi-info-circle me-1"></i>Restricted access for authorized personnel only
+                        <i class="bi bi-info-circle me-1"></i><?php echo __('restricted_access', $lang); ?><!-- Restricted access for authorized personnel only -->
                     </div>
                 </div>
             </div>
@@ -840,11 +875,11 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" onclick="clearLogs()">
                         <i class="bi bi-trash-fill me-1"></i>
-                        Clean History
+                        <?php echo __('clean_history', $lang); ?> <!-- Clean History -->
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="bi bi-x-lg me-1"></i>
-                        Close
+                        <?php echo __('close', $lang); ?> <!-- Close -->
                     </button>
                 </div>
             </div>
@@ -874,7 +909,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         </div>
                         <button type="submit" class="btn btn-secondary w-100 border border-secondary">Login <i class="fas fa-key"></i></button>
                         <div class="text-center mt-2">
-                            <a href="./View/Int_forgot_pasword.php" class="text-decoration-none">Forgot Password?</a>
+                            <a href="./View/Int_forgot_pasword.php" class="text-decoration-none"><?php echo __('forgot_password', $lang); ?></a> <!-- Forgot Password? -->
                         </div>
                     </form>
                 </div>
@@ -888,7 +923,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="adminModalLabel">Admin Tools</h5>
+                        <h5 class="modal-title" id="adminModalLabel"><?php echo __('admin_tools', $lang); ?></h5> <!-- Admin Tools -->
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -1095,6 +1130,28 @@ if (session_status() === PHP_SESSION_NONE) {
                 });
             };
         });
+    </script>
+    <script>
+        // Manejar cambio de idioma
+document.querySelectorAll('.language-selector').forEach(item => {
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const lang = this.getAttribute('data-lang');
+        
+        // Actualizar URL con parámetro de idioma
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+    });
+});
+
+// Guardar preferencia de idioma
+if (navigator.cookieEnabled) {
+    const langParam = new URLSearchParams(window.location.search).get('lang');
+    if (langParam) {
+        document.cookie = `lang=${langParam}; path=/; max-age=31536000`; // 1 año
+    }
+}
     </script>
 </body>
 <?php include './View/Fragments/footer.php'; ?>

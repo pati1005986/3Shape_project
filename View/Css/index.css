@@ -305,3 +305,42 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #a1a1a1;
 }
+
+/* Selector de idioma */
+#languageDropdown {
+    cursor: pointer;
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+}
+
+.language-selector:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+    margin-right: 8px;
+    background-size: cover;
+    background-position: center;
+}
+
+.language-selector[data-lang="en"]:before {
+    background-image: url('../img/flags/us.png');
+}
+
+.language-selector[data-lang="es"]:before {
+    background-image: url('../img/flags/es.png');
+}
+
+.language-selector[data-lang="pl"]:before {
+    background-image: url('../img/flags/pl.png');
+}
+
+/* Asegurar que los menús desplegables no se corten */
+.dropdown-menu {
+    max-height: 70vh;
+    overflow-y: auto;
+}
