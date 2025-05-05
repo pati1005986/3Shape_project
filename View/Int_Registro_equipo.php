@@ -438,8 +438,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 </datalist>
                                 <br>
                                 <label for="id"><i class="fas fa-id-card me-2"></i>Id:</label>
-                                <input class="shadow-sm form-control" type="number" id="id" name="id" autocomplete="off"
-                                    required value="0">
+                                <input class="shadow-sm form-control" type="number" id="id" name="cedula" autocomplete="off" required value="0">
                                 <p id="mensaje" class="text-danger"></p>
                                 <!--Script para la validacion de caracteres especiales-->
                                 <script>

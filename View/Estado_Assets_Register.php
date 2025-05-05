@@ -2,13 +2,13 @@
 session_start();
 include "../Configuration/Connection.php";
 
-if (!isset($_SESSION['asset_data'])) {
+if (!isset($_SESSION['phase1_data'])) {
     echo "No se han encontrado datos para mostrar.";
     exit;
 }
 
 // Obtener los datos desde la sesión
-$asset_data = $_SESSION['asset_data'];
+$asset_data = $_SESSION['phase1_data'] ?? [];
 
 $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
 
