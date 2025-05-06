@@ -7,6 +7,7 @@
     "upload_description": "Sube tu archivo CSV o TXT para importar información de activos al sistema.",
     "login": "Iniciar Sesión",
     "logout": "Salir",
+    "dark_mode": "Modo Oscuro",
     "main_title": "Sistema de Gestión de Activos",
     
     "general_report": "Informe General",

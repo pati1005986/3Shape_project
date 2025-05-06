@@ -7,6 +7,7 @@
     "upload_description": "Prześlij plik CSV lub TXT, aby zaimportować informacje o aktywach do systemu.",
     "login": "Zaloguj się",
     "logout": "Wyloguj się",
+    "dark_mode": "Tryb Ciemny",
     "main_title": "System Zarządzania Aktywami",
     
     "general_report": "Raport Ogólny",

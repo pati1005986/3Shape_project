@@ -7,6 +7,7 @@
     "upload_description": "Upload your CSV or TXT file to import asset information into the system.",
     "login": "Login",
     "logout": "Logout",
+    "dark_mode": "Dark Mode",
     "main_title": "Asset Management System",
     
     "general_report": "General Report",

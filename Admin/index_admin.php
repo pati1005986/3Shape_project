@@ -804,49 +804,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 </div>
             </div>
             <script>
-                // Función para alternar el modo oscuro
-                document.getElementById('darkModeToggle').addEventListener('click', function() {
-                    document.body.classList.toggle('dark-mode');
-
-                    // Guardar preferencia en localStorage
-                    if (document.body.classList.contains('dark-mode')) {
-                        localStorage.setItem('darkMode', 'enabled');
-                        this.innerHTML = '<i class="fa-solid fa-sun"></i>';
-                    } else {
-                        localStorage.setItem('darkMode', 'disabled');
-                        this.innerHTML = '<i class="fa-solid fa-moon"></i>';
-                    }
-                });
-
-                // Cargar preferencia al iniciar
-                if (localStorage.getItem('darkMode') === 'enabled') {
-                    document.body.classList.add('dark-mode');
-                    document.getElementById('darkModeToggle').innerHTML = '<i class="fa-solid fa-sun"></i>';
-                }
-
-                // Función para los botones de gráficos
-                document.querySelectorAll('.chart-switch').forEach(button => {
-                    button.addEventListener('click', function() {
-                        // Remover clase active de todos los botones
-                        document.querySelectorAll('.chart-switch').forEach(btn => {
-                            btn.classList.remove('active');
-                        });
-
-                        // Añadir clase active al botón clickeado
-                        this.classList.add('active');
-
-                        // Ocultar todos los gráficos
-                        document.querySelectorAll('.chart-canvas').forEach(chart => {
-                            chart.classList.add('d-none');
-                        });
-
-                        // Mostrar el gráfico seleccionado
-                        const chartId = this.getAttribute('data-chart');
-                        document.getElementById(chartId).classList.remove('d-none');
-                    });
-                });
-            </script>
-            <script>
                 // Filter notifications
                 $('#notificationFilter').on('keyup', function() {
                     const filterValue = $(this).val().toLowerCase();
@@ -1029,6 +986,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
     <script src="../Configuration/JQuery/Chart.js"></script>
     <!-- Remove the duplicate jQuery loading at the bottom -->
     <script src="../View/Js/confirm_home_redirect.js"></script>
+    <script src="../View/Js/dark-mode-toggle.js"></script>
 </body>
 <?php include '../View/Fragments/footer.php'; ?>
 

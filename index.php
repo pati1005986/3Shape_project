@@ -95,36 +95,7 @@ function __($key, $lang) {
                     <a href="./View/Int_salida.php" class="nav-link" title="Output Asset">
                         <i class="bi bi-box-arrow-up"></i> <?php echo __('output_asset', $lang); ?> <!-- Output Asset -->
                     </a>
-                      <!-- Cuenta del usuario y LogOut-->
-                    <li class="nav-item ms-auto">
-                        <div class="btn-group">
-                            <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']): ?>
-                                <a class="nav-link" href="#" title="User Profile">
-                                    <i class="fas fa-user-circle me-1"></i>
-                                    <?php echo htmlspecialchars($_SESSION['user_full_name'] ?? $_SESSION['username']); ?>
-                                </a>
-                                <a href="logout.php" class="nav-link" title="Logout">
-                                    <i class="bi bi-box-arrow-right"></i> <?php echo __('logout', $lang); ?> <!-- Logout -->
-                                </a>
-                            <?php else: ?>
-                                <a href="login.php" class="nav-link" title="Login">
-                                    <i class="bi bi-box-arrow-in-right"></i> Login
-                                </a>
-                            <?php endif; ?>
-                        </div>
-                    </li>
-<!-- Botón de cambiar idioma -->
-                    <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-language"></i> <?php echo __('language', $lang); ?> <!-- Language -->
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-        <li><a class="dropdown-item language-selector" href="#" data-lang="en">English</a></li>
-        <li><a class="dropdown-item language-selector" href="#" data-lang="es">Español</a></li>
-        <li><a class="dropdown-item language-selector" href="#" data-lang="pl">Polski</a></li>
-    </ul>
-</li>
-
+                     
                     <!-- Botón de Campana para mostrar modal de notificaciones -->
                     <li class="nav-item bell-container">
                         <div class="bell-wrapper">
@@ -133,6 +104,45 @@ function __($key, $lang) {
                                 <span class="notification-badge">0</span>
                             </a>
                         </div>
+                    </li>
+                      <!-- Cuenta del usuario con dropdown -->
+                      <li class="nav-item dropdown ms-auto">
+                        <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']): ?>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i>
+                                <?php echo htmlspecialchars($_SESSION['user_full_name'] ?? $_SESSION['username']); ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <!-- Language options -->
+                                <li><h6 class="dropdown-header"><?php echo __('language', $lang); ?></h6></li>
+                                <li><a class="dropdown-item language-selector" href="#" data-lang="en">English</a></li>
+                                <li><a class="dropdown-item language-selector" href="#" data-lang="es">Español</a></li>
+                                <li><a class="dropdown-item language-selector" href="#" data-lang="pl">Polski</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                
+                                <!-- Dark mode toggle -->
+                                <li>
+                                    <div class="dropdown-item">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                                            <label class="form-check-label" for="darkModeToggle"><?php echo __('dark_mode', $lang); ?></label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                
+                                <!-- Logout option -->
+                                <li>
+                                    <a class="dropdown-item" href="logout.php">
+                                        <i class="bi bi-box-arrow-right me-2"></i><?php echo __('logout', $lang); ?>
+                                    </a>
+                                </li>
+                            </ul>
+                        <?php else: ?>
+                            <a href="login.php" class="nav-link" title="Login">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </a>
+                        <?php endif; ?>
                     </li>
                 </div>
             </div>
@@ -197,15 +207,15 @@ function __($key, $lang) {
                         <?php include_once "./Controller/validation_message.php"; ?>
                         
                         <div class="drop-zone" id="dropZone">
-                            <div class="drop-zone-title">Drop your file here</div>
-                            <div class="drop-zone-description">or click to browse</div>
+                            <div class="drop-zone-title"><?php echo __('drop_file', $lang); ?></div> <!-- Drop your file here -->
+                            <div class="drop-zone-description"><?php echo __('or_browse', $lang); ?></div><!-- or click to browse -->
                             <input type="file" name="Proyeccion_garan" class="form-control d-none" accept=".csv, .txt" required id="file-input">
                         </div>
                         
                         <div class="d-flex justify-content-between align-items-center">
-                            <div id="file-name" class="text-muted">No file selected</div>
+                            <div id="file-name" class="text-muted"><?php echo __('no_file_selected', $lang); ?></div><!-- No file selected -->
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-upload me-2"></i> Upload File
+                                <i class="fas fa-upload me-2"></i><?php echo __('upload_file', $lang); ?><!-- Upload File -->
                             </button>
                         </div>
                     </form>
@@ -702,15 +712,15 @@ function __($key, $lang) {
                     <tr class="align-items-center text-center">
                         <!--Columnas de la tabla-->
                         <th>@</th>
-                        <th>Asset Name</th>
-                        <th>Serial Number</th>
-                        <th>User Status</th>
-                        <th>Last User</th>
-                        <th>Job Title</th>
-                        <th>Status Change</th>
-                        <th>Purchase Country</th>
-                        <th>Warranty End Date</th>
-                        <th>Expired</th>
+                        <th><?php echo __('asset_name', $lang); ?></th> <!-- Asset Name -->
+                        <th><?php echo __('serial_number', $lang); ?></th><!-- Serial Number -->
+                        <th><?php echo __('user_status', $lang); ?></th><!-- User Status -->
+                        <th><?php echo __('last_user', $lang); ?></th><!-- Last User -->
+                        <th><?php echo __('job_title', $lang); ?></th><!-- Job Title -->
+                        <th><?php echo __('status_change', $lang); ?></th><!-- Status Change -->
+                        <th><?php echo __('purchase_country', $lang); ?></th><!-- Purchase Country -->
+                        <th><?php echo __('end_date', $lang); ?></th><!-- Warranty End Date -->
+                        <th><?php echo __('expired', $lang); ?></th><!-- Expired -->
                         <th>ID</th>
                         <?php
                         $selectedColumns = $_SESSION['selected_fields'] ?? [];
@@ -1058,14 +1068,14 @@ function __($key, $lang) {
             // Delete all confirmation
             document.getElementById('deleteAllButton').addEventListener('click', function() {
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "This action will delete all logs permanently!",
+                    title: '<?php echo __('are_you_sure', $lang); ?>',
+                    text: "<?php echo __('delete_all_confirm', $lang); ?>",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: '<i class="fas fa-trash-alt me-2"></i>Yes, delete all!',
-                    cancelButtonText: '<i class="fas fa-times me-2"></i>Cancel',
+                    confirmButtonText: '<i class="fas fa-trash-alt me-2"></i><?php echo __('yes_delete_all', $lang); ?>',
+                    cancelButtonText: '<i class="fas fa-times me-2"></i><?php echo __('cancel', $lang); ?>',
                     customClass: {
                         confirmButton: 'btn btn-danger',
                         cancelButton: 'btn btn-secondary'
@@ -1093,14 +1103,14 @@ function __($key, $lang) {
             // Clear logs function
             window.clearLogs = function() {
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "This will delete all notification logs. This action cannot be undone.",
+                    title: '<?php echo __('are_you_sure', $lang); ?>',
+                    text: "<?php echo __('delete_all_confirm', $lang); ?>",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Yes, delete all!',
-                    cancelButtonText: 'Cancel'
+                    confirmButtonText: '<?php echo __('yes_delete_all', $lang); ?>',
+                    cancelButtonText: '<?php echo __('cancel', $lang); ?>'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetch('./Model/clear_logs.php', {
@@ -1153,6 +1163,35 @@ if (navigator.cookieEnabled) {
     }
 }
     </script>
+
+<script>
+    // Dark mode toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        // Check for saved dark mode preference or respect OS preference
+        if (localStorage.getItem('darkMode') === 'enabled' || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches && 
+             localStorage.getItem('darkMode') !== 'disabled')) {
+            document.body.classList.add('dark-mode');
+            if (darkModeToggle) darkModeToggle.checked = true;
+        }
+        
+        // Toggle dark mode when switch is clicked
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        }
+    });
+</script>
+<script src="./View/Js/dark-mode-toggle.js"></script>
 </body>
 <?php include './View/Fragments/footer.php'; ?>
 </html>
