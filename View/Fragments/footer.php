@@ -6,11 +6,11 @@
             <div class="col-lg-4 col-md-6 mb-5">
                 <div class="footer-section h-100 p-4 bg-white rounded shadow-sm">
                     <h6 class="text-uppercase fw-bold mb-4 d-flex align-items-center footer-title">
-                        <i class="fas fa-balance-scale me-3 fs-5"></i>Legal Information
+                        <i class="fas fa-balance-scale me-3 fs-5"></i><?php echo __('legal_information', $lang); ?>
                     </h6>
                     <div class="ps-4 ms-2">
-                        <p class="mb-3"><i class="far fa-copyright me-2"></i><?= date("Y"); ?> - All rights reserved.</p>
-                        <p class="text-muted small mb-0"><i class="fas fa-info-circle me-2"></i>Notice: This website is for informational purposes only.</p>
+                        <p class="mb-3"><i class="far fa-copyright me-2"></i><?= date("Y"); ?> - <?php echo __('all_rights_reserved', $lang); ?>.</p>
+                        <p class="text-muted small mb-0"><i class="fas fa-info-circle me-2"></i><?php echo __('notice', $lang); ?>: <?php echo __('notice_info', $lang); ?>.</p>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="col-lg-4 col-md-6 mb-5">
                 <div class="footer-section h-100 p-4 bg-white rounded shadow-sm">
                     <h6 class="text-uppercase fw-bold mb-4 d-flex align-items-center footer-title">
-                        <i class="fas fa-address-card me-3 fs-5"></i>Development Team
+                        <i class="fas fa-address-card me-3 fs-5"></i><?php echo __('development_team', $lang); ?>
                     </h6>
                     <div class="row g-4">
                         <!-- Daniel Patiño -->
@@ -60,7 +60,7 @@
                     </div>
                     <div class="mt-4 pt-2 border-top">
                         <a href="/3Shape_project/View/Int_manual.html" class="text-decoration-none d-flex align-items-center ps-3">
-                            <i class="fas fa-book me-2"></i>User Manual
+                            <i class="fas fa-book me-2"></i><?php echo __('user_manual', $lang); ?>
                         </a>
                     </div>
                 </div>
@@ -70,12 +70,12 @@
             <div class="col-lg-4 col-md-12 mb-5">
                 <div class="footer-section h-100 p-4 bg-white rounded shadow-sm">
                     <h6 class="text-uppercase fw-bold mb-4 d-flex align-items-center footer-title">
-                        <i class="fas fa-cogs me-3 fs-5"></i>Technical Details
+                        <i class="fas fa-cogs me-3 fs-5"></i><?php echo __('technical_details', $lang); ?>
                     </h6>
                     <div class="ps-4 ms-2">
-                        <p class="text-muted mb-3"><i class="fas fa-code-branch me-2"></i>Version: 4.0.0</p>
-                        <p class="text-muted mb-3"><i class="fas fa-calendar-plus me-2"></i>Created: <?= date("F j, Y", filectime($_SERVER['SCRIPT_FILENAME'])); ?></p>
-                        <p class="text-muted mb-0"><i class="fas fa-calendar-check me-2"></i>Last Updated: <?= date("F j, Y", filemtime($_SERVER['SCRIPT_FILENAME'])); ?></p>
+                        <p class="text-muted mb-3"><i class="fas fa-code-branch me-2"></i><?php echo __('version', $lang); ?>: 4.0.0</p>
+                        <p class="text-muted mb-3"><i class="fas fa-calendar-plus me-2"></i><?php echo __('created', $lang); ?>: <?= date("F j, Y", filectime($_SERVER['SCRIPT_FILENAME'])); ?></p>
+                        <p class="text-muted mb-0"><i class="fas fa-calendar-check me-2"></i><?php echo __('last_updated', $lang); ?>: <?= date("F j, Y", filemtime($_SERVER['SCRIPT_FILENAME'])); ?></p>
                     </div>
                 </div>
             </div>

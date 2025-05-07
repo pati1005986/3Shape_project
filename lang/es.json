@@ -64,6 +64,7 @@
   
     "administrator_access": "Acceso de Administrador",
     "manager_login": "Inicio de Sesión del Gerente",
+    "admin_login": " Inicio de Sesión del Administrador",
     "restricted_access": "Acceso restringido solo para personal autorizado",
     "enter_password": "Introduce tu contraseña",
     "forgot_password": "¿Olvidaste tu Contraseña?",
@@ -156,6 +157,17 @@
     "confirm_delete_repeated_serials": "¿Está seguro de que desea eliminar los números de serie repetidos?",
     "serials_deleted_successfully": "Números de serie eliminados con éxito.",
     "failed_to_delete_serials": "Error al eliminar números de serie",
-    "select_fields_to_remove": "Seleccionar Campos para Eliminar"
+    "select_fields_to_remove": "Seleccionar Campos para Eliminar",
+
+    "development_team": "Equipo de Desarrollo",
+    "legal_information": "Información Legal",
+    "technical_details": "Detalles Técnicos",
+    "version": "Versión",
+    "notice": "Aviso",
+    "all_rights_reserved": "Todos los derechos reservados",
+    "notice_info": "Este sitio web es solo para fines informativos",
+    "user_manual": "Manual de Usuario",
+    "created": "Creado",
+    "last_updated": "Última Actualización"
   }
   

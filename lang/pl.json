@@ -64,6 +64,7 @@
   
     "administrator_access": "Dostęp Administratora",
     "manager_login": "Logowanie Managera",
+    "admin_login":"Logowanie Administratora",
     "restricted_access": "Dostęp ograniczony tylko dla upoważnionego personelu",
     "enter_password": "Wprowadź hasło",
     "forgot_password": "Zapomniałeś Hasła?",
@@ -156,6 +157,17 @@
     "confirm_delete_repeated_serials": "Czy na pewno chcesz usunąć powtarzające się numery seryjne?",
     "serials_deleted_successfully": "Numery seryjne zostały pomyślnie usunięte.",
     "failed_to_delete_serials": "Nie udało się usunąć numerów seryjnych",
-    "select_fields_to_remove": "Wybierz Pola do Usunięcia"
+    "select_fields_to_remove": "Wybierz Pola do Usunięcia",
+
+    "development_team": "Zespół Programistów",
+  "legal_information": "Informacje Prawne",
+  "technical_details": "Szczegóły Techniczne",
+  "version": "Wersja",
+  "notice": "Uwaga",
+  "all_rights_reserved": "Wszelkie prawa zastrzeżone",
+  "notice_info": "Ta strona internetowa służy wyłącznie do celów informacyjnych",
+  "user_manual": "Instrukcja Obsługi",
+  "created": "Utworzono",
+  "last_updated": "Ostatnia Aktualizacja"
   }
   

@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const bellContainer = document.querySelector('.bell-container');
   
   // Asegurarnos de cargar el archivo de sonido anticipadamente
-  const notificationSound = new Audio('../View/assets/notification-sound.mp3');
+  const notificationSound = new Audio('../View/assets/audio/notification-sound.mp3');
   
   if (bellButton) {
     bellButton.addEventListener('click', function(e) {
@@ -125,7 +125,7 @@ function fetchNotificationCount(isInitialFetch) {
         
         // Play sound for new notifications (but not on initial page load)
         if (!isInitialFetch && data.count > notificationCount) {
-          const notificationSound = new Audio('../View/assets/notification-sound.mp3');
+          const notificationSound = new Audio('../View/assets/audio/notification-sound.mp3');
           notificationSound.volume = 0.5; // 50% del volumen
           notificationSound.play().catch(e => {
             console.log("Error playing sound. User interaction may be needed first:", e);

@@ -64,6 +64,7 @@
 
   "administrator_access": "Administrator Access",
   "manager_login": "Manager Login",
+  "admin_login" : "Admin Login",
   "restricted_access": "Restricted access for authorized personnel only",
   "enter_password": "Enter your password",
   "forgot_password": "Forgot Password?",
@@ -156,5 +157,17 @@
   "confirm_delete_repeated_serials": "Are you sure you want to delete the repeated serials?",
   "serials_deleted_successfully": "Serials deleted successfully.",
   "failed_to_delete_serials": "Failed to delete serials",
-  "select_fields_to_remove": "Select Fields to Remove"
+  "select_fields_to_remove": "Select Fields to Remove",
+
+
+  "development_team": "Development Team",
+  "legal_information": "Legal Information",
+  "technical_details": "Technical Details",
+  "version": "Version",
+  "notice": "Notice",
+  "all_rights_reserved": "All rights reserved",
+  "notice_info": "This website is for informational purposes only",
+  "user_manual": "User Manual",
+  "created": "Created",
+  "last_updated": "Last Updated"
 }

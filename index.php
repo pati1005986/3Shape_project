@@ -901,7 +901,7 @@ function __($key, $lang) {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="adminLoginModalLabel">Admin Login <i class="fas fa-user-alt"></i></h5>
+                    <h5 class="modal-title" id="adminLoginModalLabel"><?php echo __('admin_login', $lang); ?> <i class="fas fa-user-alt"></i></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -917,7 +917,7 @@ function __($key, $lang) {
                             <input type="password" id="passwordadmin" name="passwordadmin" placeholder="Enter your password" class="form-control shadow-lg border border-secondary" required autocomplete="off">
                             <div class="invalid-feedback">Please enter a valid password.</div>
                         </div>
-                        <button type="submit" class="btn btn-secondary w-100 border border-secondary">Login <i class="fas fa-key"></i></button>
+                        <button type="submit" class="btn btn-secondary w-100 border border-secondary"><?php echo __('login', $lang); ?> <i class="fas fa-key"></i></button>
                         <div class="text-center mt-2">
                             <a href="./View/Int_forgot_pasword.php" class="text-decoration-none"><?php echo __('forgot_password', $lang); ?></a> <!-- Forgot Password? -->
                         </div>
