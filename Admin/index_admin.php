@@ -3,6 +3,30 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Iniciar sesión
 }
 
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
+
 $tiempo_inactivo = 5000; // Tiempo de expiración de la sesión (en segundos)
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
     // Establecer una cookie con el mensaje de Co por sesión expirada
@@ -134,12 +158,12 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             <br>
             <br>
             <br>
-            <!--Navbar-->
-            <div class="col-md-12">
+           <!--Navbar-->
+           <div class="col-md-12">
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow sticky-top">
                     <div class="container-fluid">
                         <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
-                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
+                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31" id="navbarLogo">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -149,31 +173,41 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> Home</a>
+                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> <?php echo __('home', $lang); ?></a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="fieldsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-database"></i> Admin's Operations
+                                        <i class="fa-solid fa-database"></i> <?php echo __('admin_operations', $lang); ?>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="fieldsDropdown">
-                                        <li><a class="dropdown-item" id="showFormLink" href="#"><i class="fa-solid fa-plus"></i> Add fields</a></li>
-                                        <li><a class="dropdown-item" id="showFormLink1" href="#"><i class="fa-solid fa-trash"></i> Remove fields</a></li>
-                                        <li><a class="dropdown-item" id="showFormLink2" href="#"><i class="fa-solid fa-table"></i> Add columns to table</a></li>
-                                        <li><a class="dropdown-item" id="showFormLink3" href="#"><i class="fa-solid fa-minus"></i> Remove columns from table</a></li>
-                                        <li><a class="dropdown-item" id="showFormLink5" href="#"><i class="fa-solid fa-file-export"></i> Export Data Base</a></li>
-                                        <li><a class="dropdown-item" id="showFormLink6" href="#"><i class="fa-solid fa-list"></i> Adding fields to all Forms</a></li>
-                                        <li><a class="dropdown-item" id="showFormLink7" href="#"><i class="fa-solid fa-history"></i> Adding Logs in columns</a></li>
-                                        <li><a class="dropdown-item" href="add_user.php"><i class="fa-solid fa-user-plus"></i> Manage Users</a></li>
+                                        <li><a class="dropdown-item" id="showFormLink" href="#"><i class="fa-solid fa-plus"></i> <?php echo __('add_fields', $lang); ?></a></li>
+                                        <li><a class="dropdown-item" id="showFormLink1" href="#"><i class="fa-solid fa-trash"></i> <?php echo __('remove_fields', $lang); ?></a></li>
+                                        <li><a class="dropdown-item" id="showFormLink2" href="#"><i class="fa-solid fa-table"></i> <?php echo __('add_columns_to_table', $lang); ?></a></li>
+                                        <li><a class="dropdown-item" id="showFormLink3" href="#"><i class="fa-solid fa-minus"></i> <?php echo __('remove_columns_from_table', $lang); ?></a></li>
+                                        <li><a class="dropdown-item" id="showFormLink5" href="#"><i class="fa-solid fa-file-export"></i> <?php echo __('export_database', $lang); ?></a></li>
+                                        <li><a class="dropdown-item" id="showFormLink6" href="#"><i class="fa-solid fa-list"></i> <?php echo __('adding_fields_to_all_forms', $lang); ?></a></li>
+                                        <li><a class="dropdown-item" id="showFormLink7" href="#"><i class="fa-solid fa-history"></i> <?php echo __('adding_logs_in_columns', $lang); ?></a></li>
+                                        <li><a class="dropdown-item" href="add_user.php"><i class="fa-solid fa-user-plus"></i> <?php echo __('manage_users', $lang); ?></a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="chartsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-chart-line"></i> Charts
+                                        <i class="fa-solid fa-chart-line"></i> <?php echo __('charts', $lang); ?>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="chartsDropdown">
-                                        <li><button class="dropdown-item chart-switch" data-chart="statusChart"><i class="fa-solid fa-laptop"></i> Equipment Status</button></li>
-                                        <li><button class="dropdown-item chart-switch" data-chart="countryChart"><i class="fa-solid fa-globe"></i> Top Countries</button></li>
-                                        <li><button class="dropdown-item chart-switch" data-chart="expiredChart"><i class="fa-solid fa-calendar-times"></i> Expired Assets</button></li>
+                                        <li><button class="dropdown-item chart-switch" data-chart="statusChart"><i class="fa-solid fa-laptop"></i> <?php echo __('equipment_status', $lang); ?></button></li>
+                                        <li><button class="dropdown-item chart-switch" data-chart="countryChart"><i class="fa-solid fa-globe"></i> <?php echo __('top_countries', $lang); ?></button></li>
+                                        <li><button class="dropdown-item chart-switch" data-chart="expiredChart"><i class="fa-solid fa-calendar-times"></i> <?php echo __('expired_assets', $lang); ?></button></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown ms-auto">
+                                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-language"></i> <?php echo __('language', $lang); ?>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="en">English</a></li>
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="es">Español</a></li>
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="pl">Polski</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item ms-auto">
@@ -188,13 +222,13 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
         </div>
     </li>
 </div>
-                                        <a title="Log Files" type="button" class="btn btn-info" href="../View/Int_LogsDelete.php">
+                                        <a title="<?php echo __('admin_tools', $lang); ?>" type="button" class="btn btn-info" href="../View/Int_LogsDelete.php">
                                             <i class="fa-solid fa-info-circle"></i>
                                         </a>
-                                        <a title="Settings" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
+                                        <a title="<?php echo __('user_profile', $lang); ?>" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
                                             <i class="fa-solid fa-gear"></i>
                                         </a>
-                                        <button id="darkModeToggle" class="btn btn-dark" title="Toggle Dark Mode">
+                                        <button id="darkModeToggle" class="btn btn-dark" title="<?php echo __('dark_mode', $lang); ?>">
                                             <i class="fa-solid fa-moon"></i>
                                         </button>
                                     </div>
@@ -209,7 +243,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
         </div>
         <div>
             <center>
-                <h1 id="totalC" class="text-center my-5" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Admin Dashboard <i class="fas fa-chart-bar"></i></h1>
+                <h1 id="totalC" class="text-center my-5" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><?php echo __('admin_dashboard', $lang); ?> <i class="fas fa-chart-bar"></i></h1>
             </center>
         </div>
         <div class="row my-5" style="display: flex; gap: 20px;">
@@ -253,20 +287,20 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             <!--Formulario para agregar columnas en la base de datos-->
             <div class="col-md-6">
                 <form action="add_fields.php" id="FormAddForm" style="display: block;" method="POST" class="shadow border border-secondary rounded p-4 bg-white">
-                    <h1 class="text-center mb-4 fw-bold">Adding fields to the database</h1>
+                    <h1 class="text-center mb-4 fw-bold"><?php echo __('add_fields', $lang); ?></h1>
                     <div class="mb-3">
-                        <h4 class="form-label">Data Type <span class="text-danger">*</span></h4>
+                        <h4 class="form-label"><?php echo __('data_type', $lang); ?> <span class="text-danger">*</span></h4>
                         <select name="data_type" class="form-select form-select-lg mb-3" required>
-                            <option value="">Select Data Type</option>
-                            <option value="Date">Date (MM/DD/AAAA)</option>
-                            <option value="INTEGER">Integer (whole numbers)</option>
-                            <option value="VARCHAR(255)">Varchar (letters, numbers and symbols)</option>
-                            <option value="BOOLEAN">Boolean</option>
-                            <option value="BIGINT">BigInteger</option>
+                            <option value=""><?php echo __('select_data_type', $lang); ?></option>
+                            <option value="Date"><?php echo __('date_type', $lang); ?></option>
+                            <option value="INTEGER"><?php echo __('integer_type', $lang); ?></option>
+                            <option value="VARCHAR(255)"><?php echo __('varchar_type', $lang); ?></option>
+                            <option value="BOOLEAN"><?php echo __('boolean_type', $lang); ?></option>
+                            <option value="BIGINT"><?php echo __('bigint_type', $lang); ?></option>
                         </select>
                     </div>
                     <div id="boolean" class="alert alert-warning mt-2" style="display: none;">
-                        Warning: BOOLEAN data type selected. this function may not work correctly
+                        <?php echo __('boolean_warning', $lang); ?>
                     </div>
                     <script>
                         document.querySelector('select[name="data_type"]').addEventListener('change', function() {
@@ -278,16 +312,15 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         });
                     </script>
                     <div class="mb-3">
-                        <h4 class="form-label">Name of Data <span class="text-danger">*</span></h4>
+                        <h4 class="form-label"><?php echo __('field_name', $lang); ?> <span class="text-danger">*</span></h4>
                         <input type="text" id="field_name" name="field_name" class="form-control form-control-lg" required
-                            onfocus="showNetworkAddressInfo()" oninput="validateInput()" placeholder="Enter field name" />
+                            onfocus="showNetworkAddressInfo()" oninput="validateInput()" placeholder="<?php echo __('enter_field_name', $lang); ?>" />
                     </div>
                     <div id="networkAddressInfo" class="alert alert-info mt-2" style="display: none;">
-                        The field name should start with a letter and can contain letters, numbers, and underscores. No
-                        spaces or special characters allowed.
+                        <?php echo __('field_name_info', $lang); ?>
                     </div>
                     <div id="errorMessage" class="alert alert-danger mt-2" style="display: none;">
-                        The field cannot contain only numbers.
+                        <?php echo __('field_number_error', $lang); ?>
                     </div>
                     <script>
                         function showNetworkAddressInfo() {
@@ -307,32 +340,32 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         function validateForm() {
                             const field = document.getElementById("field_name").value;
                             if (/^\d+$/.test(field)) {
-                                alert("The field cannot contain only numbers.");
+                                alert("<?php echo __('field_number_error', $lang); ?>");
                                 return false; // Evita el envío del formulario
                             }
                             return true; // Permite el envío si la validación es correcta
                         }
                     </script>
                     <div class="mb-4">
-                        <h4 class="form-label">Select Table <span class="text-danger">*</span></h4>
+                        <h4 class="form-label"><?php echo __('select_table', $lang); ?> <span class="text-danger">*</span></h4>
                         <select name="table_name" class="form-select form-select-lg" required>
-                            <option value="">Select Table</option>
-                            <option value="usuarios_equipos">Users</option>
-                            <option value="equipos">Assets</option>
+                            <option value=""><?php echo __('select_table', $lang); ?></option>
+                            <option value="usuarios_equipos"><?php echo __('users', $lang); ?></option>
+                            <option value="equipos"><?php echo __('assets', $lang); ?></option>
                         </select>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-4">
                         <button type="button" class="btn btn-outline-primary nav-arrow btn-lg" onclick="navigateTo('prev')">
-                            <i class="fas fa-arrow-left"></i> Previous
+                            <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
                         </button>
 
                         <div class="btn-block">
                             <button id="Addfield" type="submit" onclick="return validateForm()"
-                                class="btn btn-primary btn-lg px-4">Add Field</button>
+                                class="btn btn-primary btn-lg px-4"><?php echo __('add_field', $lang); ?></button>
                         </div>
 
                         <button type="button" class="btn btn-outline-primary nav-arrow btn-lg" onclick="navigateTo('next')">
-                            Next <i class="fas fa-arrow-right"></i>
+                            <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </form>
@@ -341,9 +374,9 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             <!--Formulario pra eliminar columans de la base de datos-->
             <div class="col-md-6">
                 <form action="remove_fields.php" id="RemoveForm" style="display: none;" method="post" class="shadow border border-secondary rounded p-4 bg-white">
-                    <h1 class="text-center mb-4 fw-bold">Remove Fields</h1>
+                    <h1 class="text-center mb-4 fw-bold"><?php echo __('remove_fields', $lang); ?></h1>
                     <div class="mb-3">
-                        <h4 class="form-label">Name Field <span class="text-danger">*</span></h4>
+                        <h4 class="form-label"><?php echo __('field_name', $lang); ?> <span class="text-danger">*</span></h4>
                         <?php
                         try {
                             $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
@@ -366,10 +399,10 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 }
                                 echo '</div>';
                             } else {
-                                echo '<p>No data found.</p>';
+                                echo '<p>' . __('no_data_found', $lang) . '</p>';
                             }
                         } catch (PDOException $e) {
-                            echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                            echo '<p>' . __('error', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</p>';
                         }
                         ?>
                         <br>
@@ -377,20 +410,20 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
-                                <i class="fas fa-arrow-left"></i> Previous
+                                <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
                             </button>
 
                             <div class="btn-block">
-                                <button id="Removefield" type="submit" class="btn btn-danger btn-lg px-4">Remove Field</button>
+                                <button id="Removefield" type="submit" class="btn btn-danger btn-lg px-4"><?php echo __('remove_field', $lang); ?></button>
                             </div>
 
                             <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
-                                Next <i class="fas fa-arrow-right"></i>
+                                <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
 
                         <div id="networkInfo" class="alert alert-warning mt-4" style="display: none;">
-                            <strong>Warning:</strong> This action cannot be undone. Please be sure before removing the field.
+                            <strong><?php echo __('warning', $lang); ?>:</strong> <?php echo __('remove_field_warning', $lang); ?>
                         </div>
                         <script>
                             function showNetworkInfo() {
@@ -407,9 +440,9 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
 
                                 if (selectedCount === 0) {
                                     event.preventDefault();
-                                    alert('Por favor, seleccione al menos un campo para eliminar.');
+                                    alert('<?php echo __('select_at_least_one_field', $lang); ?>');
                                 } else {
-                                    if (!confirm('¿Está seguro de que desea eliminar los campos seleccionados? Esta acción no se puede deshacer.')) {
+                                    if (!confirm('<?php echo __('confirm_remove_fields', $lang); ?>')) {
                                         event.preventDefault();
                                     }
                                 }
@@ -422,9 +455,9 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             <!--Formulario para agregar campos dinamicos en la tabla principal de index-->
             <div class="col-md-6">
                 <form action="add_fieldsTable.php" method="post" id="FormAddTable" style="display: none;"
-                    class="shadow border border-secondary">
-                    <h1 class="text-center">Add Fields to the Main Table</h1>
-                    <h4>Name Field <span>*</span></h4>
+                    class="shadow border border-secondary p-4 rounded bg-white">
+                    <h1 class="text-center mb-4 fw-bold"><?php echo __('add_columns_to_table', $lang); ?></h1>
+                    <h4><?php echo __('field_name', $lang); ?> <span class="text-danger">*</span></h4>
                     <?php
                     try {
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
@@ -451,10 +484,10 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             }
                             echo '</div>';
                         } else {
-                            echo '<p>No data found.</p>';
+                            echo '<p>' . __('no_data_found', $lang) . '</p>';
                         }
                     } catch (PDOException $e) {
-                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                        echo '<p>' . __('error', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</p>';
                     }
                     ?>
                     <br>
@@ -463,16 +496,16 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
-                            <i class="fas fa-arrow-left"></i> Previous
+                            <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
                         </button>
 
                         <div class="btn-block">
-                            <button id="AddfieldTable" type="submit" class="btn btn-secondary">Add Field</button>
+                            <button id="AddfieldTable" type="submit" class="btn btn-secondary"><?php echo __('add_field', $lang); ?></button>
                             <br>
                         </div>
 
                         <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
-                            Next <i class="fas fa-arrow-right"></i>
+                            <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
 
@@ -481,9 +514,9 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             <!-- Add this within the existing column in index_admin.php, similar to the "Add Fields to the Main Table" form -->
             <div class="col-md-6">
                 <form action="remove-fields-table-script.php" method="post" id="RemoveFieldsTable" style="display: none;"
-                    class="shadow border border-secondary">
-                    <h1 class="text-center">Remove Fields from the Main Table</h1>
-                    <h4>Select Fields to Remove <span>*</span></h4>
+                    class="shadow border border-secondary p-4 rounded bg-white">
+                    <h1 class="text-center mb-4 fw-bold"><?php echo __('remove_columns_from_table', $lang); ?></h1>
+                    <h4><?php echo __('select_fields_to_remove', $lang); ?> <span class="text-danger">*</span></h4>
                     <?php
                     try {
 
@@ -509,44 +542,44 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             }
                             echo '</div>';
                         } else {
-                            echo '<p>No removable fields found.</p>';
+                            echo '<p>' . __('no_removable_fields_found', $lang) . '</p>';
                         }
                     } catch (PDOException $e) {
-                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                        echo '<p>' . __('error', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</p>';
                     }
                     ?>
                     <br>
                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
-                            <i class="fas fa-arrow-left"></i> Previous
+                            <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
                         </button>
 
                         <div class="btn-block">
-                            <button id="RemoveFieldTable" type="submit" class="btn btn-danger">Remove Field</button>
+                            <button id="RemoveFieldTable" type="submit" class="btn btn-danger"><?php echo __('remove_field', $lang); ?></button>
                         </div>
 
                         <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
-                            Next <i class="fas fa-arrow-right"></i>
+                            <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                     <div class="alert alert-warning mt-2">
-                        <strong>Warning:</strong> If you want to reinsert a field that was deleted, use the "Add Fields to the Main Table" function. Proceed with caution.
+                        <strong><?php echo __('warning', $lang); ?>:</strong> <?php echo __('remove_field_table_warning', $lang); ?>
                     </div>
+                </form>
             </div>
-            </form>
-        </div>
+        
         <!--Exportar datos de ,a base de datos a formato CSV y TXT-->
         <div class="col-md-6 my-2">
             <form action="../Controller/Exportar_BD.php" style="display: none;" method="post" id="addBDCSV"
-                class="shadow border border-secondary p-3">
-                <h1 class="text-center">Export Data to CSV</h1>
-                <h4>Select Columns <span>*</span></h4>
+                class="shadow border border-secondary p-4 rounded bg-white">
+                <h1 class="text-center mb-4 fw-bold"><?php echo __('export_database', $lang); ?></h1>
+                <h4><?php echo __('select_columns', $lang); ?> <span class="text-danger">*</span></h4>
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="selectAll">
-                    <label class="form-check-label" for="selectAll">Select All</label>
+                    <label class="form-check-label" for="selectAll"><?php echo __('select_all', $lang); ?></label>
                 </div>
 
                 <div class="row">
@@ -572,16 +605,16 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 echo '</div>';
                             }
                         } else {
-                            echo '<p>No data found.</p>';
+                            echo '<p>' . __('no_data_found', $lang) . '</p>';
                         }
                     } catch (PDOException $e) {
-                        echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                        echo '<p>' . __('error', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</p>';
                     }
                     ?>
                 </div>
 
                 <br>
-                <h4>Format <span>*</span></h4>
+                <h4><?php echo __('format', $lang); ?> <span class="text-danger">*</span></h4>
                 <div class="form-check mb-2">
                     <input class="form-check-input" type="radio" name="format" value="csv" id="format_csv" checked>
                     <label class="form-check-label" for="format_csv">CSV</label>
@@ -593,22 +626,22 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
 
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
-                        <i class="fas fa-arrow-left"></i> Previous
+                        <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
                     </button>
 
                     <div class="btn-block text-center">
-                        <button type="submit" class="btn btn-secondary">Export</button>
+                        <button type="submit" class="btn btn-secondary"><?php echo __('export', $lang); ?></button>
                     </div>
 
 
                     <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
-                        Next <i class="fas fa-arrow-right"></i>
+                        <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
 
                 <script>
                     document.getElementById('addBDCSV').addEventListener('submit', function(event) {
-                        if (!confirm('Are you sure you want to export the data in this format?')) {
+                        if (!confirm('<?php echo __('confirm_export_data', $lang); ?>')) {
                             event.preventDefault(); // Cancelar el envío si el usuario no confirma
                         }
                     });
@@ -634,9 +667,9 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
         </div>
         <!--Formulario para agregar registros en la base de datos en los campos de seleccion-->
         <div class="col-md-6 my-2">
-            <form action="add_Logs.php" style="display: none" method="POST" id="addLgColumn" class="shadow border border-secondary">
-                <h1 class="text-center">Add Logs in the Column</h1>
-                <h4>Select Columns <span>*</span></h4>
+            <form action="add_Logs.php" style="display: none" method="POST" id="addLgColumn" class="shadow border border-secondary p-4 rounded bg-white">
+                <h1 class="text-center mb-4 fw-bold"><?php echo __('adding_logs_in_columns', $lang); ?></h1>
+                <h4><?php echo __('select_columns', $lang); ?> <span class="text-danger">*</span></h4>
                 <input type="hidden" name="csrf_token"
                     value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                 <?php
@@ -665,36 +698,36 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         }
                         echo '</div>';
                     } else {
-                        echo '<p>No data found.</p>';
+                        echo '<p>' . __('no_data_found', $lang) . '</p>';
                     }
                 } catch (PDOException $e) {
-                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                    echo '<p>' . __('error', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</p>';
                 }
                 ?>
                 <br>
-                <h4>Name Log <span>*</span></h4>
-                <input class="input-group mb-3" type="text" id="Log_name" name="Log_name" required
-                    pattern="[a-zA-Z0-9_ ]+" title="Only letters, numbers, underscores and spaces allowed" />
+                <h4><?php echo __('log_name', $lang); ?> <span class="text-danger">*</span></h4>
+                <input class="form-control mb-3" type="text" id="Log_name" name="Log_name" required
+                    pattern="[a-zA-Z0-9_ ]+" title="<?php echo __('log_name_pattern', $lang); ?>" />
                 <br>
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
-                        <i class="fas fa-arrow-left"></i> Previous
+                        <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
                     </button>
 
                     <button id="AddLogfield" type="submit" class="btn btn-secondary mb-3"
-                        onclick="return confirm('Are you sure you want to add this log?')">Add Log</button>
+                        onclick="return confirm('<?php echo __('confirm_add_log', $lang); ?>')"><?php echo __('add_log', $lang); ?></button>
 
                     <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
-                        Next <i class="fas fa-arrow-right"></i>
+                        <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </form>
         </div>
         <!--Formulario para agregar campos dinamicos en todos los formularios-->
         <div class="col-md-6">
-            <form action="add_fieldTDO.php" method="post" style="display: none;" id="addFormTodo" class="shadow border border-secondary p-3">
-                <h1 class="text-center">Add Fields to All Forms</h1>
-                <h4>Select Columns <span>*</span></h4>
+            <form action="add_fieldTDO.php" method="post" style="display: none;" id="addFormTodo" class="shadow border border-secondary p-4 rounded bg-white">
+                <h1 class="text-center mb-4 fw-bold"><?php echo __('adding_fields_to_all_forms', $lang); ?></h1>
+                <h4><?php echo __('select_columns', $lang); ?> <span class="text-danger">*</span></h4>
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
                 <div class="row">
@@ -714,10 +747,10 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         echo '<div class="col-md-12 mb-3">';
-                        echo '<label class="form-label">Available Fields</label>';
+                        echo '<label class="form-label">' . __('available_fields', $lang) . '</label>';
                         echo '<div class="table-responsive">';
                         echo '<table class="table table-sm table-bordered">';
-                        echo '<thead><tr><th>Field</th><th>Data Type</th><th><input type="checkbox" id="selectAll" class="form-check-input"> Select All</th></tr></thead>';
+                        echo '<thead><tr><th>' . __('field', $lang) . '</th><th>' . __('data_type', $lang) . '</th><th><input type="checkbox" id="selectAll" class="form-check-input"> ' . __('select_all', $lang) . '</th></tr></thead>';
                         echo '<tbody>';
 
                         foreach ($columns as $column) {
@@ -735,7 +768,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
 
                         echo '</tbody></table></div></div>';
                     } catch (PDOException $e) {
-                        echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
+                        echo '<div class="alert alert-danger">' . __('error_loading_fields', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</div>';
                     }
                     ?>
                 </div>
@@ -743,15 +776,15 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 <br>
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
-                        <i class="fas fa-arrow-left"></i> Previous
+                        <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
                     </button>
 
                     <div class="btn-block text-center">
-                        <button type="submit" class="btn btn-secondary">Add Field</button>
+                        <button type="submit" class="btn btn-secondary"><?php echo __('add_field', $lang); ?></button>
                     </div>
 
                     <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
-                        Next <i class="fas fa-arrow-right"></i>
+                        <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </form>
@@ -766,12 +799,12 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <div class="modal-header bg-primary text-white">
                         <h2 class="modal-title fs-4">
                             <i class="bi bi-bell-fill me-2"></i>
-                            Notification History
+                            <?php echo __('notification_history', $lang); ?>
                         </h2>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="notificationFilter" class="form-control mb-3" placeholder="Filter notifications...">
+                        <input type="text" id="notificationFilter" class="form-control mb-3" placeholder="<?php echo __('filter_notifications', $lang); ?>">
                         <div class="notification-container">
                             <?php if (!empty($alerts)): ?>
                                 <div class="notification-list">
@@ -786,7 +819,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             <?php else: ?>
                                 <div class="text-center p-4">
                                     <i class="bi bi-inbox-fill fs-1 text-muted"></i>
-                                    <p class="mt-3 text-muted">No notifications recorded.</p>
+                                    <p class="mt-3 text-muted"><?php echo __('no_notifications', $lang); ?></p>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -794,11 +827,11 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" onclick="clearLogs()">
                             <i class="bi bi-trash-fill me-1"></i>
-                            Clean History
+                            <?php echo __('clean_history', $lang); ?>
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg me-1"></i>
-                            Close
+                            <?php echo __('close', $lang); ?>
                         </button>
                     </div>
                 </div>
@@ -822,25 +855,25 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <div class="modal-header bg-secondary text-white">
                         <h2 class="modal-title" id="repeatedSerialsModalLabel"><i
                                 class="fas fa-exclamation-triangle"></i>
-                            Repeated Serials Found</h2>
+                            <?php echo __('repeated_serials_found', $lang); ?></h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-info" role="alert">
-                            <h4><strong>Warning!</strong> The following serials are repeated:</h4>
+                            <h4><strong><?php echo __('warning', $lang); ?>!</strong> <?php echo __('following_serials_repeated', $lang); ?>:</h4>
                             <br>
                             <ul id="repeatedSerialsList"></ul>
                         </div>
                         <div class="alert alert-danger " role="alert">
-                            <strong>Action Required:</strong> Do you want to delete them?
+                            <strong><?php echo __('action_required', $lang); ?>:</strong> <?php echo __('want_to_delete_them', $lang); ?>?
                         </div>
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
                                 class="fas fa-times"></i>
-                            No</button>
+                            <?php echo __('no', $lang); ?></button>
                         <button type="button" class="btn btn-danger" id="deleteSerialsButton"><i
-                                class="fas fa-trash-alt"></i> Yes, Delete</button>
+                                class="fas fa-trash-alt"></i> <?php echo __('yes_delete', $lang); ?></button>
                     </div>
                 </div>
             </div>
@@ -865,7 +898,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     .catch(error => console.error('Error fetching repeated serials:', error));
 
                 document.getElementById('deleteSerialsButton').addEventListener('click', function() {
-                    if (confirm('Are you sure you want to delete the repeated serials?')) {
+                    if (confirm('<?php echo __('confirm_delete_repeated_serials', $lang); ?>')) {
                         fetch('../Controller/delete_serial.php', {
                                 method: 'POST',
                                 headers: {
@@ -878,10 +911,10 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             .then(response => response.json())
                             .then(data => {
                                 if (data.success) {
-                                    alert('Serials deleted successfully.');
+                                    alert('<?php echo __('serials_deleted_successfully', $lang); ?>');
                                     location.reload(); // Reload the page to refresh the data
                                 } else {
-                                    alert('Failed to delete serials: ' + data.error);
+                                    alert('<?php echo __('failed_to_delete_serials', $lang); ?>: ' + data.error);
                                 }
                             })
                             .catch(error => console.error('Error deleting serials:', error));
@@ -975,6 +1008,29 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 }
             }
         </script>
+
+<script>
+        // Manejar cambio de idioma
+document.querySelectorAll('.language-selector').forEach(item => {
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const lang = this.getAttribute('data-lang');
+        
+        // Actualizar URL con parámetro de idioma
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+    });
+});
+
+// Guardar preferencia de idioma
+if (navigator.cookieEnabled) {
+    const langParam = new URLSearchParams(window.location.search).get('lang');
+    if (langParam) {
+        document.cookie = `lang=${langParam}; path=/; max-age=31536000`; // 1 año
+    }
+}
+    </script>
 
     </div>
     </div>
