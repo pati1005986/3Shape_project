@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdf->AddPage();
     
     // Agregar logo
-    $pdf->Image('logo.png', 10, 10, 30);
+    $pdf->Image('3shape-logo.png', 10, 10, 30);
     
     // Título
     $pdf->SetFont('Arial', 'B', 16);

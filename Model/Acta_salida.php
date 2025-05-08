@@ -14,11 +14,13 @@ class PDF extends FPDF
     // Cabecera personalizada para el Acta de Salida
     function Header()
     {
-        $this->Image('logo.png', 155, 5, 45);
+        $this->Image('3shape-logo.png', 155, 5, 45);
 
         $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 10, 'Fecha: ' . $this->fecha, 0, 1, 'L');
         $this->Ln(15);
+        $lugar_entrega = "Bogotá D.C.";
+        $this->Cell(0, 10, 'Lugar de Entrega: ' . convertirTexto($lugar_entrega), 0, 1, 'L');
         $this->SetFont('Arial', 'B', 20);
         $this->Cell(0, 10, convertirTexto('Acta de Salida'), 0, 1, 'C');
         $this->Ln(18);

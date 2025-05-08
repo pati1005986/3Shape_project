@@ -11,11 +11,13 @@ class PDF extends FPDF
 {
     function Header()
     {
-        $this->Image('logo.png', 155, 5, 45);
+        $this->Image('3shape-logo.png', 155, 5, 45);
         $this->Ln(10);
         $fecha_actual = date('d/m/Y');
         $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 10, 'Fecha: ' . $fecha_actual, 0, 1, 'L');
+        $lugar_entrega = "Bogotá D.C.";
+        $this->Cell(0, 10, 'Lugar de Entrega: ' . convertirTexto($lugar_entrega), 0, 1, 'L');
         $this->Ln(5);
         $this->SetFont('Arial', 'B', 20);
         $this->Ln(10);

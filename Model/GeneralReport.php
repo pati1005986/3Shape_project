@@ -23,7 +23,7 @@ class PDF extends FPDF
         $this->Rect(0, 0, $this->GetPageWidth(), 50, 'F');
         
         // Logo
-        $this->Image('logo.png', 15, 10, 35);
+        $this->Image('3shape-logo.png', 15, 10, 35);
         
         // Línea decorativa
         $this->SetDrawColor(164, 0, 125);
