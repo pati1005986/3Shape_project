@@ -3,6 +3,30 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
+
 include_once '../Configuration/Connection.php';
 
 // Obtener la contraseña actual
@@ -64,16 +88,17 @@ $_SESSION['last_activity'] = time();
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
     <link rel="stylesheet" href="../Configuration/JQuery/animate.min.css">
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="../View/Css/dark-mode.css">
 </head>
 
-<body>
+<body id="bodyChangePassword">
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
-                        <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
-                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
+                    <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
+                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31" id="navbarLogo">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -84,9 +109,20 @@ $_SESSION['last_activity'] = time();
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> Home</a>
+                                    <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> <?php echo __('home', $lang); ?></a>
                                 </li>
                                 <script src="../View/Js/confirm_home_redirect.js"></script>
+
+                                <li class="nav-item dropdown ms-auto">
+                                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-language"></i> <?php echo __('language', $lang); ?>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="en">English</a></li>
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="es">Español</a></li>
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="pl">Polski</a></li>
+                                    </ul>
+                                </li>
 
                                 <li class="nav-item ms-auto">
                                     <a title="Notifications" type="button" class="btn btn-secondary" onclick="showModal()">
@@ -98,6 +134,9 @@ $_SESSION['last_activity'] = time();
                                     <a title="Settings" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
                                         <i class="fa-solid fa-gear"></i>
                                     </a>
+                                    <button id="darkModeToggle" class="btn btn-dark" title="<?php echo __('dark_mode', $lang); ?>">
+                                        <i class="fa-solid fa-moon"></i>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -110,17 +149,17 @@ $_SESSION['last_activity'] = time();
                         <div id="FORMchange" class="form-container shadow">
                             <!-- Detalles de la pagina -->
                             <div class="text-center mb-5">
-                                <h1 class="display-4 mb-3">Settings</h1>
+                                <h1 id="SettingsH1" class="display-4 mb-3"><?php echo __('settings', $lang); ?></h1>
                                 <i class="fas fa-tools text-primary" style='font-size:48px;'></i>
                             </div>
 
                             <div class="mb-4">
-                                <h2 class="h3 text-secondary">Password Change</h2>
+                                <h2 class="h3 text-secondary"><?php echo __('password_change', $lang); ?></h2>
                                 <form action="../Controller/proccess_change_psw.php" method="POST" id="changePasswordForm"
                                     onsubmit="return validateForm()">
                                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                     <div class="form-group">
-                                        <label for="currentPassword">Current Password</label>
+                                    <label for="currentPassword" class="label-text"><?php echo __('current_password', $lang); ?></label>
                                         <div class="password-container">
                                             <input type="password" class="form-control" id="currentPassword" name="currentPassword" 
                                                    value="<?php echo htmlspecialchars($currentPassword); ?>" required readonly>
@@ -131,7 +170,7 @@ $_SESSION['last_activity'] = time();
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="newPassword">New Password</label>
+                                        <label for="newPassword" class="label-text"><?php echo __('new_password', $lang); ?></label>
                                         <div class="password-container">
                                             <input type="password" class="form-control" id="newPassword" name="newPassword" required>
                                             <button type="button" class="password-toggle" onclick="togglePassword('newPassword')">
@@ -141,7 +180,7 @@ $_SESSION['last_activity'] = time();
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="confirmPassword">Confirm New Password</label>
+                                        <label for="confirmPassword" class="label-text"><?php echo __('confirm_new_password', $lang); ?></label>
                                         <div class="password-container">
                                             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                                             <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
@@ -150,7 +189,7 @@ $_SESSION['last_activity'] = time();
                                         </div>
                                     </div>
                                     <br>
-                                    <button type="submit" class="btn btn-secondary "><i class="fas fa-key"></i> Change Password</button>
+                                    <button type="submit" class="btn btn-secondary"><i class="fas fa-key"></i> <?php echo __('change_password', $lang); ?></button>
                                 </form>
                             </div>
 
@@ -377,13 +416,40 @@ $_SESSION['last_activity'] = time();
                                 });
                             });
                         </script>
+                        
                     </div>
                 </div>
             </div>
             <br>
             <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
-            <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
-</body>
+            <script src="../Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="../View/Js/dark-mode-toggle.js"></script>
+            <script>
+// Manejar cambio de idioma
+document.querySelectorAll('.language-selector').forEach(item => {
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const lang = this.getAttribute('data-lang');
+        
+        // Actualizar URL con parámetro de idioma
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+    });
+});
+
+// Guardar preferencia de idioma
+if (navigator.cookieEnabled) {
+    const langParam = new URLSearchParams(window.location.search).get('lang');
+    if (langParam) {
+        document.cookie = `lang=${langParam}; path=/; max-age=31536000`; // 1 año
+    }
+}
+
+function showModal() {
+    new bootstrap.Modal(document.getElementById('notificationModal')).show();
+}
+</script>
 <br>
 <?php include './Fragments/footer.php'; ?>
 

@@ -86,6 +86,13 @@
   
     "previous": "Anterior",
     "next": "Siguiente",
+
+    "settings": "Configuración",
+  "password_change" : "Cambio de Contraseña",
+  "current_password": "Contraseña Actual",
+  "new_password": "Nueva Contraseña",
+  "confirm_new_password":"Confirmar Nueva Contraseña",
+  "change_password": "Cambiar Contraseña",
   
     "notification_history": "Historial de Notificaciones",
     "filter_notifications": "Filtrar notificaciones...",

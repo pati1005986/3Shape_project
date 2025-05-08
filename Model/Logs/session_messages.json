@@ -23,9 +23,38 @@
         {
             "message": "User DiegoVesga logged in successfully via email",
             "timestamp": "2025-05-05 22:34:03"
+        },
+        {
+            "message": "User DiegoVesga logged out",
+            "timestamp": "2025-05-08 15:58:59"
+        },
+        {
+            "message": "User Killiam logged in successfully via email",
+            "timestamp": "2025-05-08 16:02:40"
+        },
+        {
+            "message": "User Killiam logged out",
+            "timestamp": "2025-05-08 16:07:18"
+        },
+        {
+            "message": "User Killiam logged in successfully via email",
+            "timestamp": "2025-05-08 16:07:47"
+        },
+        {
+            "message": "User Killiam logged in successfully via email",
+            "timestamp": "2025-05-08 20:03:51"
         }
     ],
     "error": [],
-    "error_message": [],
+    "error_message": [
+        {
+            "message": "Sesi\u00f3n expirada. Vuelve a iniciar sesi\u00f3n.",
+            "timestamp": "2025-05-08 13:03:51"
+        },
+        {
+            "message": "Sesi\u00f3n expirada. Vuelve a iniciar sesi\u00f3n.",
+            "timestamp": "2025-05-08 13:03:56"
+        }
+    ],
     "warnings": []
 }

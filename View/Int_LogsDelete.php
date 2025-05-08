@@ -24,6 +24,30 @@
 ob_start();
 session_start(); // Iniciar sesión
 
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
+
 // Tiempo de expiración de la sesión (en segundos)
 $tiempo_inactivo = 4600;
 
@@ -53,6 +77,8 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backups</title>
     <link rel="shortcut icon" href="../Configuration/3shape-intraoral-logo.png" type="image/x-icon">
+    <!-- Carga de jQuery primero para evitar errores de dependencia -->
+    <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../Configuration/DataTables/datatables.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
@@ -62,367 +88,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
     <script src="../Configuration/JQuery/sweetalert2@11.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
-    <style>
-        /* Variables globales */
-:root {
-  --primary: #0078d7;
-  --primary-light: #2b88d8;
-  --primary-dark: #00639c;
-  --secondary: #6c757d;
-  --secondary-light: #868e96;
-  --accent: #00d4ff;
-  --success: #28a745;
-  --info: #17a2b8;
-  --warning: #ffc107;
-  --danger: #dc3545;
-  --light: #f8f9fa;
-  --dark: #343a40;
-  --white: #ffffff;
-  --light-gray: #e9ecef;
-  --gray: #ced4da;
-  
-  --border-radius: 10px;
-  --border-radius-sm: 6px;
-  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  --box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  
-  --transition: all 0.3s ease;
-  --transition-slow: all 0.5s ease;
-  
-  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-sm: 0.875rem;
-}
-
-/* Estilos generales */
-body {
-  font-family: var(--font-family);
-  background-color: #f5f5f7;
-  line-height: 1.6;
-  color: var(--dark);
-}
-
-/* Navegación */
-.navbar {
-  background-color: var(--white);
-  box-shadow: var(--box-shadow-sm);
-  padding: 1rem;
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
-}
-
-.navbar-brand img {
-  transition: var(--transition);
-}
-
-.navbar-brand:hover img {
-  transform: scale(1.05);
-}
-
-.nav-link {
-  position: relative;
-  padding: 0.5rem 1rem;
-  transition: var(--transition);
-  border-radius: var(--border-radius-sm);
-}
-
-.nav-link:hover {
-  background-color: var(--light-gray);
-}
-
-.nav-link.active {
-  color: var(--primary);
-  font-weight: 500;
-}
-
-.nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 1rem;
-  right: 1rem;
-  height: 2px;
-  background-color: var(--primary);
-}
-
-/* Botones */
-.btn {
-  padding: 0.5rem 1.5rem;
-  border-radius: var(--border-radius-sm);
-  transition: var(--transition);
-  border: none;
-  font-weight: 500;
-}
-
-.btn:focus {
-  box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5);
-}
-
-.btn:active {
-  transform: translateY(1px);
-}
-
-.btn-secondary {
-  background-color: var(--secondary);
-  color: var(--white);
-}
-
-.btn-secondary:hover {
-  background-color: var(--secondary-light);
-  transform: translateY(-2px);
-}
-
-.btn-danger {
-  background-color: var(--danger);
-  color: var(--white);
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-  transform: translateY(-2px);
-}
-
-.btn-icon {
-  margin-right: 0.5rem;
-}
-
-/* Formularios */
-.form-container {
-  background-color: var(--white);
-  border-radius: var(--border-radius);
-  padding: 2rem;
-  margin-top: 2rem;
-  box-shadow: var(--box-shadow);
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-control {
-  border-radius: var(--border-radius-sm);
-  padding: 0.75rem;
-  border: 1px solid var(--gray);
-  transition: var(--transition);
-}
-
-.form-control:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-label {
-  margin-bottom: 0.5rem;
-  color: var(--secondary-dark);
-  font-weight: 500;
-}
-
-/* Tablas */
-.table {
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: var(--box-shadow-sm);
-}
-
-.table thead th {
-  background-color: var(--light);
-  border-bottom: 2px solid var(--primary);
-  color: var(--dark);
-  padding: 1rem;
-  font-weight: 600;
-}
-
-.table tbody tr:nth-child(even) {
-  background-color: rgba(0, 120, 215, 0.05);
-}
-
-.table td {
-  padding: 0.75rem 1rem;
-  vertical-align: middle;
-}
-
-/* Elementos decorativos */
-.section-title {
-  position: relative;
-  margin-bottom: 2rem;
-  color: var(--dark);
-  font-weight: 600;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background-color: var(--primary);
-}
-
-.text-center .section-title::after {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Cards y contenedores */
-.card {
-  border: none;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow-sm);
-  transition: var(--transition);
-}
-
-.card:hover {
-  box-shadow: var(--box-shadow);
-}
-
-.card-header {
-  background-color: var(--light);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  padding: 1rem 1.5rem;
-}
-
-.card-header h5 {
-  margin: 0;
-  color: var(--dark);
-  font-weight: 600;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-/* Alertas */
-.alert {
-  border: none;
-  border-radius: var(--border-radius-sm);
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: var(--box-shadow-sm);
-}
-
-.alert-danger {
-  background-color: rgba(220, 53, 69, 0.1);
-  color: var(--danger);
-  border-left: 4px solid var(--danger);
-}
-
-.alert-success {
-  background-color: rgba(40, 167, 69, 0.1);
-  color: var(--success);
-  border-left: 4px solid var(--success);
-}
-
-.alert-info {
-  background-color: rgba(23, 162, 184, 0.1);
-  color: var(--info);
-  border-left: 4px solid var(--info);
-}
-
-/* Modales */
-.modal-content {
-  border: none;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-}
-
-.modal-header {
-  border-bottom: none;
-  padding: 1.5rem;
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.modal-footer {
-  border-top: none;
-  padding: 1.5rem;
-}
-
-/* Animaciones y transiciones */
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* DataTables personalizadas */
-.dataTables_wrapper .dataTables_filter input {
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--gray);
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
-}
-
-.dataTables_wrapper .dataTables_length select {
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--gray);
-  padding: 0.5rem;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  border-radius: var(--border-radius-sm);
-  padding: 0.5rem 1rem;
-  margin: 0 0.2rem;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-  background: var(--primary);
-  color: white !important;
-  border: none;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  background: var(--primary-light);
-  color: white !important;
-  border: none;
-}
-
-/* Notificaciones */
-.notification-item {
-  transition: var(--transition);
-  border-radius: var(--border-radius-sm);
-}
-
-.notification-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--box-shadow-sm);
-}
-
-/* Personalizaciones de iconos */
-.icon-highlight {
-  color: var(--accent);
-}
-
-/* Modo oscuro (complemento para dark-mode.css) */
-.dark-mode .form-container,
-.dark-mode .card,
-.dark-mode .table {
-  background-color: #2d2d30;
-  color: #e0e0e0;
-}
-
-.dark-mode .card-header,
-.dark-mode .table thead th {
-  background-color: #252529;
-}
-
-.dark-mode .form-control {
-  background-color: #3e3e42;
-  border-color: #555;
-  color: #e0e0e0;
-}
-
-.dark-mode .table tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-    </style>
 </head>
-
 <body>
 
     <div class="row d-flex justify-content-center align-items-center">
@@ -433,8 +99,8 @@ label {
             <div class="col-md-12">
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
-                    <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
-                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31">
+                    <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
+                            <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31" id="navbarLogo">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -444,9 +110,21 @@ label {
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav d-flex w-100">
                                 <li class="nav-item">
-                                <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> Home</a>
+                                <a class="nav-link active" id="homeindex" href="#" onclick="confirmHomeRedirect(); return false;"><i class="fa-solid fa-home"></i> <?php echo __('home', $lang); ?></a>
                                 </li>
                                 <script src="../View/Js/confirm_home_redirect.js"></script>
+
+                                <li class="nav-item dropdown ms-auto">
+                                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-language"></i> <?php echo __('language', $lang); ?>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="en">English</a></li>
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="es">Español</a></li>
+                                        <li><a class="dropdown-item language-selector" href="#" data-lang="pl">Polski</a></li>
+                                    </ul>
+                                </li>
+
                                 <li class="nav-item ms-auto">
                                     <a title="Notifications" type="button" class="btn btn-secondary" onclick="showModal()">
                                         <i class="fa-solid fa-bell" style='color:aqua'></i>
@@ -457,6 +135,9 @@ label {
                                     <a title="Settings" type="button" class="btn btn-secondary" href="../View/Int_changePsw.php">
                                         <i class="fa-solid fa-gear"></i>
                                     </a>
+                                    <button id="darkModeToggle" class="btn btn-dark" title="<?php echo __('dark_mode', $lang); ?>">
+                                        <i class="fa-solid fa-moon"></i>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -640,16 +321,19 @@ label {
                     </div>
                 </div>
 
-                <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
-                <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
+                <!-- Carga de scripts en el orden correcto -->
+                <script src="../Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
                 <script src="../Configuration/DataTables/datatables.min.js"></script>
+                <script src="../View/Js/dark-mode-toggle.js"></script>
                 <script>
+                    // Inicializar DataTables y configurar eventos
                     $(document).ready(function() {
+                        // Inicializar DataTables
                         $('#mainTable').DataTable({
                             paging: true,
                             ordering: true,
                             scrollX: true,
-                            scrollY: '60vh', // Aumentado para mejor visualización
+                            scrollY: '60vh',
                             scrollCollapse: true,
                             stateSave: true,
                             fixedHeader: {
@@ -682,7 +366,8 @@ label {
                                 // Añadir clase al search principal
                                 $('.dataTables_filter input').addClass('form-control form-control-sm');
                             }
-                        })
+                        });
+                        
                         // Mejorar estilo del length menu
                         $('.dataTables_length select').addClass('form-control form-control-sm');
 
@@ -694,8 +379,53 @@ label {
                             });
                         });
                     });
+                    
+                    // Función para mostrar el modal de notificaciones
+                    function showModal() {
+                        new bootstrap.Modal(document.getElementById('notificationModal')).show();
+                    }
+
+                    // Manejar cambio de idioma
+                    document.querySelectorAll('.language-selector').forEach(item => {
+                        item.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const lang = this.getAttribute('data-lang');
+                            
+                            // Actualizar URL con parámetro de idioma
+                            const url = new URL(window.location.href);
+                            url.searchParams.set('lang', lang);
+                            window.location.href = url.toString();
+                        });
+                    });
+
+                    // Guardar preferencia de idioma
+                    if (navigator.cookieEnabled) {
+                        const langParam = new URLSearchParams(window.location.search).get('lang');
+                        if (langParam) {
+                            document.cookie = `lang=${langParam}; path=/; max-age=31536000`; // 1 año
+                        }
+                    }
+
+                    // Inicializar los dropdowns de Bootstrap
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Inicializar todos los dropdowns
+                        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+                        dropdownElementList.forEach(function(dropdownToggleEl) {
+                            new bootstrap.Dropdown(dropdownToggleEl);
+                        });
+                        
+                        // Asegurarse de que el dropdown de idioma funcione
+                        var languageDropdown = document.getElementById('languageDropdown');
+                        if (languageDropdown) {
+                            languageDropdown.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                            });
+                        }
+                    });
                 </script>
+            </div>
+        </div>
+    </div>
 </body>
 <?php include './Fragments/footer.php'; ?>
-
 </html>

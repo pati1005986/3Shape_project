@@ -87,6 +87,13 @@
   "previous": "Previous",
   "next": "Next",
 
+  "settings": "Settings",
+  "password_change" : "Password Change",
+  "current_password": "Current Password",
+  "new_password": "New Password",
+  "confirm_new_password":"Confirm New Password",
+  "change_password": "Change Password",
+
   "notification_history": "Notification History",
   "filter_notifications": "Filter notifications...",
   "no_notifications": "No notifications recorded.",
