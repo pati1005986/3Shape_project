@@ -56,11 +56,13 @@ function __($key, $lang) {
     <link rel="stylesheet" href="./View/Css/navbar.css">
     <link rel="stylesheet" href="./View/Css/search-form.css">
 </head>
+\end{code}
 <body>
       
 <!-- Header Section -->
 <?php include './View/Fragments/header.php'; ?>
 
+    
     <div class="row align-items-center justify-content-center mb-3">
 
         <div class="col-md-3 mb-2 my-5">
@@ -240,6 +242,13 @@ function __($key, $lang) {
                             </div>
                             <div class="collapse" id="collapseStatusWarranty">
                                 <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                                            <input type="text" name="search_status_change" placeholder="Enter status change" class="form-control">
+                                        </div>
+                                    </div>
                                     <div class="mb-3">
                                         <label class="form-label"><?php echo __('start_date', $lang); ?></label><!-- Start Date -->
                                         <div class="input-group">
@@ -670,7 +679,8 @@ function __($key, $lang) {
             </table>
             <br>
             <br>
-        <!-- Admin Access Section -->
+
+           <!-- Admin Access Section -->
         <section class="dashboard-section mt-4 animate__animated animate__fadeIn">
             <div class="container">
                 <div class="card shadow-sm border-primary mx-auto" style="max-width: 500px;">
