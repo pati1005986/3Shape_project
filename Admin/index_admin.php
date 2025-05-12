@@ -196,8 +196,8 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="chartsDropdown">
                                         <li><button class="dropdown-item chart-switch" data-chart="statusChart"><i class="fa-solid fa-laptop"></i> <?php echo __('equipment_status', $lang); ?></button></li>
-                                        <li><button class="dropdown-item chart-switch" data-chart="countryChart"><i class="fa-solid fa-globe"></i> <?php echo __('top_countries', $lang); ?></button></li>
-                                        <li><button class="dropdown-item chart-switch" data-chart="expiredChart"><i class="fa-solid fa-calendar-times"></i> <?php echo __('expired_assets', $lang); ?></button></li>
+                                        <li><button class="dropdown-item chart-switch" data-chart="jobTitleChart"><i class="fa-solid fa-briefcase"></i> <?php echo __('job_titles', $lang); ?></button></li>
+                                        <li><button class="dropdown-item chart-switch" data-chart="userRolesChart"><i class="fa-solid fa-users"></i> <?php echo __('registered_users', $lang); ?></button></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown ms-auto">
@@ -252,38 +252,49 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 <div id="tool" style="display: none;"></div>
             </div>
 
-            <div class="col-md-6" id="first_container">
-                <div id="chartContainer" style="position: relative; min-height: 380px; display: flex;">
-                    <?php
-                    // Obtener todos los datos en una sola consulta
-                    try {
-                        // Datos para el primer gráfico
-                        $statusData = $pdo->query("SELECT user_status FROM vista_equipos_usuarios")->fetchAll(PDO::FETCH_ASSOC);
+            <!-- Modificar solo la sección de gráficos en index_admin.php -->
 
-                        // Datos para el segundo gráfico
-                        $countryData = $pdo->query("SELECT purchase_country, COUNT(*) AS total_ventas FROM equipos GROUP BY purchase_country ORDER BY total_ventas DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+<div class="col-md-6" id="first_container">
+    <div id="chartContainer" class="chart-container" style="position: relative; min-height: 380px; display: flex;">
+        <?php
+        // Obtener todos los datos en una sola consulta
+        try {
+            // Datos para el primer gráfico
+            $statusData = $pdo->query("SELECT user_status FROM vista_equipos_usuarios")->fetchAll(PDO::FETCH_ASSOC);
 
-                        // Datos para el tercer gráfico
-                        $expiredData = $pdo->query("SELECT expired, COUNT(*) AS total FROM equipos GROUP BY expired ORDER BY total DESC")->fetchAll(PDO::FETCH_ASSOC);
+            // Datos para el segundo gráfico
+            $jobTitleData = $pdo->query("SELECT job_title, COUNT(*) AS total_employees FROM usuarios_equipos WHERE job_title IS NOT NULL AND job_title != '' GROUP BY job_title ORDER BY total_employees DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
 
-                        echo "<script>
-                    var chartData = {
-                        status: " . json_encode($statusData) . ",
-                        country: " . json_encode($countryData) . ",
-                        expired: " . json_encode($expiredData) . "
-                    };
-                </script>";
-                    } catch (PDOException $e) {
-                        echo '<p class="text-danger">Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                    }
-                    ?>
+            // Datos para el tercer gráfico - Usuarios por rol
+            $userRolesData = $pdo->query("SELECT role, COUNT(*) AS total FROM users GROUP BY role ORDER BY FIELD(role, 'admin', 'manager', 'user')")->fetchAll(PDO::FETCH_ASSOC);
 
-                    <!-- Los gráficos se crearán dinámicamente aquí -->
-                    <canvas id="statusChart" class="chart-canvas"></canvas>
-                    <canvas id="countryChart" class="chart-canvas d-none"></canvas>
-                    <canvas id="expiredChart" class="chart-canvas d-none"></canvas>
-                </div>
-            </div>
+            // Imprimir los datos para depuración
+            echo "<!-- Datos de gráficos: ";
+            echo "Status: " . json_encode($statusData) . ", ";
+            echo "JobTitle: " . json_encode($jobTitleData) . ", ";
+            echo "UserRoles: " . json_encode($userRolesData);
+            echo " -->";
+
+            echo "<script>
+            var chartData = {
+                status: " . json_encode($statusData) . ",
+                jobTitle: " . json_encode($jobTitleData) . ",
+                userRoles: " . json_encode($userRolesData) . "
+            };
+            console.log('Datos de gráficos cargados:', chartData);
+            </script>";
+        } catch (PDOException $e) {
+            echo '<p class="text-danger">Error al cargar datos para gráficos: ' . htmlspecialchars($e->getMessage()) . '</p>';
+            echo "<script>console.error('Error al cargar datos para gráficos:', '" . htmlspecialchars($e->getMessage()) . "');</script>";
+        }
+        ?>
+
+        <!-- Los gráficos se crearán dinámicamente aquí -->
+        <canvas id="statusChart" class="chart-canvas" width="400" height="300"></canvas>
+        <canvas id="jobTitleChart" class="chart-canvas d-none" width="400" height="300"></canvas>
+        <canvas id="userRolesChart" class="chart-canvas d-none" width="400" height="300"></canvas>
+    </div>
+</div>
             <!--Formulario para agregar columnas en la base de datos-->
             <div class="col-md-6">
                 <form action="add_fields.php" id="FormAddForm" style="display: block;" method="POST" class="shadow border border-secondary rounded p-4 bg-white">
@@ -382,8 +393,8 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                     FROM INFORMATION_SCHEMA.COLUMNS 
                     WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                    AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
-                    'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
+                    AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'fk_id', 'fk_assetname',
+                    'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','user_status','status_change') 
                     ORDER BY TABLE_NAME, ORDINAL_POSITION";
                             $stmt = $pdo->prepare($sql);
                             $stmt->execute();
@@ -463,8 +474,8 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
             FROM INFORMATION_SCHEMA.COLUMNS 
             WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-            AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname',
-            'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','purchase_country','user_status','status_change') 
+            AND COLUMN_NAME NOT IN ('assetname', 'serial_number','fk_id', 'fk_assetname',
+            'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida','user_status','status_change') 
             ORDER BY TABLE_NAME, ORDINAL_POSITION";
                         $stmt = $pdo->prepare($sql);
                         $stmt->execute();
@@ -523,7 +534,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                                 FROM INFORMATION_SCHEMA.COLUMNS 
                                 WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','fk_id','fk_assetname','user_status',
+                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number',,'fk_id','fk_assetname','user_status',
                                 'last_user','job_title','status_change','cedula') 
                                 ORDER BY TABLE_NAME, ORDINAL_POSITION";
                         $stmt = $pdo->prepare($sql);
@@ -678,7 +689,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     $sql = "SELECT TABLE_NAME, COLUMN_NAME 
                     FROM INFORMATION_SCHEMA.COLUMNS 
                     WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                    AND COLUMN_NAME NOT IN ('assetname', 'serial_number', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname',
+                    AND COLUMN_NAME NOT IN ('assetname', 'serial_number','fk_id', 'fk_assetname',
                     'last_user', 'job_title', 'cedula', 'HeadSet', 'fecha_salida') 
                     ORDER BY TABLE_NAME, ORDINAL_POSITION";
                     $stmt = $pdo->prepare($sql);
@@ -734,7 +745,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <?php
                     try {
                         // Get columns from both tables
-                        $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+                        $prohibited_fields = ['assetname', 'serial_number','fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
 
                         $sql = "SELECT COLUMN_NAME, DATA_TYPE 
                                    FROM INFORMATION_SCHEMA.COLUMNS 
@@ -757,6 +768,8 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
                                 $fieldName = $column['COLUMN_NAME'];
                                 $displayName = isset($fieldLabels[$fieldName]) ? $fieldLabels[$fieldName] : $fieldName;
+
+                                // Esta línea debe eliminarse completamente, ya que es redundante con la definición de $displayName
 
                                 echo '<tr>';
                                 echo '<td>' . htmlspecialchars($displayName) . '</td>';
@@ -1042,7 +1055,7 @@ if (navigator.cookieEnabled) {
     <script src="../Configuration/JQuery/Chart.js"></script>
     <!-- Remove the duplicate jQuery loading at the bottom -->
     <script src="../View/Js/confirm_home_redirect.js"></script>
-    <script src="../View/Js/dark-mode-toggle.js"></script>
+    <script src="../View/Js/dark-mode-toggle-new.js"></script>
 </body>
 <?php include '../View/Fragments/footer.php'; ?>
 

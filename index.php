@@ -56,18 +56,12 @@ function __($key, $lang) {
     <link rel="stylesheet" href="./View/Css/navbar.css">
     <link rel="stylesheet" href="./View/Css/search-form.css">
 </head>
-\end{code}
 <body>
       
 <!-- Header Section -->
 <?php include './View/Fragments/header.php'; ?>
 
-     <!-- script para la validacion de estado de garantia -->
-     <script src="./View/Js/warranty-check.js"></script>
-    
     <div class="row align-items-center justify-content-center mb-3">
-        <!-- script para la validacion de estado de garantia -->
-        <script src="./View/Js/warranty-check.js"></script>
 
         <div class="col-md-3 mb-2 my-5">
             <!--archivo para traer los datos en caso de error o alerta y confirmacion de subida de datos-->
@@ -246,13 +240,6 @@ function __($key, $lang) {
                             </div>
                             <div class="collapse" id="collapseStatusWarranty">
                                 <div class="card-body">
-                                    <div class="mb-3">
-                                        <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-                                            <input type="text" name="search_status_change" placeholder="Enter status change" class="form-control">
-                                        </div>
-                                    </div>
                                     <div class="mb-3">
                                         <label class="form-label"><?php echo __('start_date', $lang); ?></label><!-- Start Date -->
                                         <div class="input-group">
@@ -623,10 +610,6 @@ function __($key, $lang) {
                         <th><?php echo __('user_status', $lang); ?></th><!-- User Status -->
                         <th><?php echo __('last_user', $lang); ?></th><!-- Last User -->
                         <th><?php echo __('job_title', $lang); ?></th><!-- Job Title -->
-                        <th><?php echo __('status_change', $lang); ?></th><!-- Status Change -->
-                        <th><?php echo __('purchase_country', $lang); ?></th><!-- Purchase Country -->
-                        <th><?php echo __('end_date', $lang); ?></th><!-- Warranty End Date -->
-                        <th><?php echo __('expired', $lang); ?></th><!-- Expired -->
                         <th>ID</th>
                         <?php
                         $selectedColumns = $_SESSION['selected_fields'] ?? [];
@@ -687,12 +670,7 @@ function __($key, $lang) {
             </table>
             <br>
             <br>
-            <!-- Placeholder for Check Warranties button -->
-            <div id="warranty-check-placeholder" class="container my-3 d-flex justify-content-center">
-                <!-- The button will be inserted here by JS -->
-            </div>
-
-           <!-- Admin Access Section -->
+        <!-- Admin Access Section -->
         <section class="dashboard-section mt-4 animate__animated animate__fadeIn">
             <div class="container">
                 <div class="card shadow-sm border-primary mx-auto" style="max-width: 500px;">
@@ -862,7 +840,6 @@ function __($key, $lang) {
     <script src="./Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
 
      <!-- Scripts -->
-    <script src="./View/Js/warranty-check.js" defer></script>
      <script src="./View/Js/dropdown-fix.js"></script>
     <script src="./View/Js/DatatableIndex.js" defer></script>
     <script src="./Configuration/DataTables/datatables.min.js" defer></script>

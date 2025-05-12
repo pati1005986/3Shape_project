@@ -302,3 +302,24 @@ body {
     border-color: #4b5563 !important;
   }
   
+  .chart-canvas {
+    background-color: #ffffff; /* Para el modo claro */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    width: 100% !important; /* Asegúrate de que el canvas se ajuste al contenedor */
+    max-width: 300px; /* Limita el ancho maximo */
+    height: auto !important; /* Ajusta la altura automáticamente */
+}
+
+body.dark-mode .chart-canvas {
+    background-color: #2d3748; /* Color de fondo para el modo oscuro */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* También puede agregar estilos a los elementos en los gráficos */
+body.dark-mode .chart-canvas {
+    color: #e2e8f0; /* Color de texto en modo oscuro */
+}

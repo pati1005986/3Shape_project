@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const navbarLogo = document.querySelector(".navbar-brand img")
 
   // Rutas de los logos
-  let lightModeLogo = "../Configuration/3shape-logo.png"
-  let darkModeLogo = "../Configuration/3shape-logo2_dark_mode.png"
+  let lightModeLogo = "./Configuration/3shape-logo.png"
+  let darkModeLogo = "./Configuration/3shape-logo2_dark_mode.png"
 
   // Función para cambiar el logo según el modo
   function updateLogo(isDarkMode) {

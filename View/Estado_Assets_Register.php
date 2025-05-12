@@ -31,17 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
         
         // 4. Insertar en tabla equipos - Solo campos relacionados con equipos
         $sql_equipos = "INSERT INTO equipos (
-            assetname, serial_number, purchase_country, warranty_enddate, 
-            expired, new_laptop, asset_status, asset_observations,
-            Monitor, monitor_status, monitor_observations, 
+            assetname, serial_number,asset_status, asset_observations,
             HeadSet, headset_status, headset_observations,
             Dongle, dongle_status, dongle_observations,
             Celular, celular_status, celular_observations,
             SIMcard
         ) VALUES (
-            :assetname, :serial, :compra, :garantia,
-            :expired, :newl, :asset_status, :asset_observations,
-            :Monitor, :monitor_status, :monitor_observations,
+            :assetname, :serial,:asset_status, :asset_observations,
             :HeadSet, :headset_status, :headset_observations,
             :Dongle, :dongle_status, :dongle_observations,
             :Celular, :celular_status, :celular_observations,
@@ -52,15 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
         $stmt_equipos->execute([
             ':assetname' => $complete_data['assetname'],
             ':serial' => $complete_data['serial'],
-            ':compra' => $complete_data['compra'],
-            ':garantia' => $complete_data['garantia'],
-            ':expired' => $complete_data['expired'] ?? 0,
-            ':newl' => $complete_data['newl'] ?? 0,
             ':asset_status' => $complete_data['asset_status'] ?? 'Nuevo',
             ':asset_observations' => $complete_data['asset_observations'] ?? '',
-            ':Monitor' => $complete_data['Monitor'] ?? '',
-            ':monitor_status' => $complete_data['monitor_status'] ?? 'N/A',
-            ':monitor_observations' => $complete_data['monitor_observations'] ?? '',
             ':HeadSet' => $complete_data['HeadSet'] ?? '',
             ':headset_status' => $complete_data['headset_status'] ?? 'N/A',
             ':headset_observations' => $complete_data['headset_observations'] ?? '',
@@ -75,12 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
 
         // 5. Insertar en tabla usuarios_equipos - Solo campos relacionados con usuarios
         $sql_usuarios = "INSERT INTO usuarios_equipos (
-            fk_assetname, user_status, last_user, job_title, 
-            status_change, cedula, Carnet, LLave, Tipo_ID,
-            fecha_salida
+            fk_assetname, user_status, last_user, job_title, cedula, Carnet, 
+            LLave, Tipo_ID, fecha_salida
         ) VALUES (
-            :fk_assetname, :usrStts, :nombre_usuario, :job_title,
-            :status_change, :cedula, :selectCard, :selectKEY, :type_id,
+            :fk_assetname, :usrStts, :nombre_usuario, :job_title, 
+            :cedula, :selectCard, :selectKEY, :type_id,
             :fecha_salida
         )";
         
@@ -90,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
             ':usrStts' => $complete_data['usrStts'] ?? 'Active User',
             ':nombre_usuario' => $complete_data['nombre_usuario'],
             ':job_title' => $complete_data['job_title'] ?? 'Unknown',
-            ':status_change' => $complete_data['status_change'] ?? 'Active Warranty',
             ':cedula' => $complete_data['cedula'] ?? '',
             ':selectCard' => $complete_data['selectCard'] ?? 'Pendiente',
             ':selectKEY' => $complete_data['selectKEY'] ?? 'Pendiente',
@@ -124,12 +111,6 @@ try {
     $stmt_asset = $pdo->prepare($sql_asset_status);
     $stmt_asset->execute();
     $asset_status_options = array_unique(array_merge($estados_predefinidos, $stmt_asset->fetchAll(PDO::FETCH_COLUMN)));
-
-    // Estados de monitor
-    $sql_monitor_status = "SELECT DISTINCT monitor_status FROM equipos WHERE monitor_status IS NOT NULL AND monitor_status != ''";
-    $stmt_monitor = $pdo->prepare($sql_monitor_status);
-    $stmt_monitor->execute();
-    $monitor_status_options = array_unique(array_merge($estados_predefinidos, $stmt_monitor->fetchAll(PDO::FETCH_COLUMN)));
 
     // Estados de headset
     $sql_headset_status = "SELECT DISTINCT headset_status FROM equipos WHERE headset_status IS NOT NULL AND headset_status != ''";
@@ -239,44 +220,6 @@ try {
                             <div class="form-group">
                                 <label for="asset_observations">Observations</label>
                                 <textarea class="form-control" id="asset_observations" name="asset_observations" rows="2" maxlength="255"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sección de Monitor -->
-                <div class="asset-section">
-                    <h5><i class="fas fa-desktop"></i> Monitor</h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="Monitor">Serial</label>
-                                <input class="form-control" type="text" id="Monitor" name="Monitor">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="monitor_status">Status</label>
-                                <select class="form-control" id="monitor_status" name="monitor_status">
-                                    <option value="">Select status</option>
-                                    <?php foreach ($monitor_status_options as $option): ?>
-                                        <option value="<?php echo htmlspecialchars($option); ?>"
-                                            <?php echo ($asset_data['monitor_status'] == $option) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($option); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                    <?php if (!in_array($asset_data['monitor_status'], $monitor_status_options) && !empty($asset_data['monitor_status'])): ?>
-                                        <option value="<?php echo htmlspecialchars($asset_data['monitor_status']); ?>" selected>
-                                            <?php echo htmlspecialchars($asset_data['monitor_status']); ?> (Current)
-                                        </option>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="monitor_observations">Observations</label>
-                                <textarea class="form-control" id="monitor_observations" name="monitor_observations" rows="2" maxlength="255"></textarea>
                             </div>
                         </div>
                     </div>

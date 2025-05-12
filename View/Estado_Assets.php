@@ -25,12 +25,6 @@ try {
     $stmt_asset->execute();
     $asset_status_options = array_unique(array_merge($estados_predefinidos, $stmt_asset->fetchAll(PDO::FETCH_COLUMN)));
 
-    // Estados de monitor
-    $sql_monitor_status = "SELECT DISTINCT monitor_status FROM equipos WHERE monitor_status IS NOT NULL AND monitor_status != ''";
-    $stmt_monitor = $pdo->prepare($sql_monitor_status);
-    $stmt_monitor->execute();
-    $monitor_status_options = array_unique(array_merge($estados_predefinidos, $stmt_monitor->fetchAll(PDO::FETCH_COLUMN)));
-
     // Estados de headset
     $sql_headset_status = "SELECT DISTINCT headset_status FROM equipos WHERE headset_status IS NOT NULL AND headset_status != ''";
     $stmt_headset = $pdo->prepare($sql_headset_status);
@@ -165,47 +159,6 @@ try {
                 </button>
             </div>
         <?php endif; ?>
-    </div>
-</div>
-
-<!-- Monitor -->
-<div class="col-md-12 mb-4 border-bottom pb-3">
-    <h5><i class="fas fa-desktop me-2"></i>Monitor</h5>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="Monitor">Serial</label>
-                <input class="form-control" type="text" id="Monitor" name="Monitor"
-                    value="<?php echo htmlspecialchars($asset_data['Monitor'] ?? ''); ?>">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="monitor_status">Status</label>
-                <select class="form-control" id="monitor_status" name="monitor_status">
-                    <option value="">Select status</option>
-                    <?php foreach ($monitor_status_options as $option): ?>
-                        <option value="<?php echo htmlspecialchars($option); ?>"
-                            <?php echo ($asset_data['monitor_status'] == $option) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($option); ?>
-                        </option>
-                    <?php endforeach; ?>
-                    <?php if (!in_array($asset_data['monitor_status'], $monitor_status_options) && !empty($asset_data['monitor_status'])): ?>
-                        <option value="<?php echo htmlspecialchars($asset_data['monitor_status']); ?>" selected>
-                            <?php echo htmlspecialchars($asset_data['monitor_status']); ?> (Current)
-                        </option>
-                    <?php endif; ?>
-                    <option value="No aplica" <?php echo empty($asset_data['Monitor']) ? 'selected' : ''; ?>>N/A</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="monitor_observations">Observations</label>
-                <textarea class="form-control" id="monitor_observations" name="monitor_observations"
-                    rows="2"><?php echo htmlspecialchars($asset_data['monitor_observations'] ?? ''); ?></textarea>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -432,18 +385,9 @@ try {
 
                     validarSinCaracteresEspeciales(nombreUsuarioInput, mensajeNombreUsuario);
 
-                    // Aplicar validación al campo `newl`
-                    const newLaptopInput = document.getElementById('newl');
-                    const mensajeNewLaptop = document.createElement('p');
-                    mensajeNewLaptop.classList.add('text-danger');
-                    newLaptopInput.parentNode.appendChild(mensajeNewLaptop);
-
-                    validarSinCaracteresEspeciales(newLaptopInput, mensajeNewLaptop);
-
                     document.getElementById('updateform').addEventListener('submit', function(event) {
                         const select1 = document.getElementById('compra');
                         const select2 = document.getElementById('usrStts');
-                        const select3 = document.getElementById('status_change');
 
                         const requiredSelects = [select1, select2, select3];
                         const errorMessages = [];

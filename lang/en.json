@@ -86,6 +86,8 @@
 
   "previous": "Previous",
   "next": "Next",
+  "back": "Back",
+  "send": "Send",
 
   "settings": "Settings",
   "password_change" : "Password Change",
@@ -93,6 +95,7 @@
   "new_password": "New Password",
   "confirm_new_password":"Confirm New Password",
   "change_password": "Change Password",
+  "reset_your_password": "Reset Your Password",
 
   "notification_history": "Notification History",
   "filter_notifications": "Filter notifications...",
@@ -165,6 +168,14 @@
   "serials_deleted_successfully": "Serials deleted successfully.",
   "failed_to_delete_serials": "Failed to delete serials",
   "select_fields_to_remove": "Select Fields to Remove",
+
+  "log_files": "Log Files",
+  "file_name": "File Name",
+  "total_size": "Total Size (Formatted)",
+  "last_modified": "Last Modified",
+  "download": "Download",
+  "view": "View",
+  "back_to_menu" : "Back to Menu",
 
 
   "development_team": "Development Team",

@@ -86,6 +86,8 @@
   
     "previous": "Anterior",
     "next": "Siguiente",
+    "back": "Volver",
+    "send": "Enviar",
 
     "settings": "Configuración",
   "password_change" : "Cambio de Contraseña",
@@ -93,6 +95,7 @@
   "new_password": "Nueva Contraseña",
   "confirm_new_password":"Confirmar Nueva Contraseña",
   "change_password": "Cambiar Contraseña",
+  "reset_your_password": "Restablecer tu Contraseña",
   
     "notification_history": "Historial de Notificaciones",
     "filter_notifications": "Filtrar notificaciones...",
@@ -165,6 +168,14 @@
     "serials_deleted_successfully": "Números de serie eliminados con éxito.",
     "failed_to_delete_serials": "Error al eliminar números de serie",
     "select_fields_to_remove": "Seleccionar Campos para Eliminar",
+
+    "log_files": "Archivos de registro",
+  "file_name": "Nombre del archivo",
+  "total_size": "Tamaño total (formateado)",
+  "last_modified": "Última modificación",
+  "download": "Descargar",
+  "view": "Ver",
+  "back_to_menu" : "Volver al menú",
 
     "development_team": "Equipo de Desarrollo",
     "legal_information": "Información Legal",

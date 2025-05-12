@@ -1,3 +1,76 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
+
+include_once '../Configuration/Connection.php';
+
+// Obtener la contraseña actual
+try {
+    $stmt = $pdo->prepare("SELECT clave_admin FROM configuracion_sistema WHERE id = 1");
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $currentPassword = $row ? $row['clave_admin'] : '';
+} catch (PDOException $e) {
+    $currentPassword = '';
+    $_SESSION['error'] = "Error al recuperar la contraseña actual.";
+}
+
+$tiempo_inactivo = 4600;
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $tiempo_inactivo) {
+    setcookie('error_message', 'Sesión expirada. Vuelve a iniciar sesión.', time() + 30, '/');
+    header("Location: ../index.php");
+    include_once '../Controller/Cerrar_sesion.php';
+    exit();
+}
+
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: ../index.php");
+    include_once '../Controller/Cerrar_sesion.php';
+    exit("Acceso denegado.");
+}
+
+// Mensajes de Usuario
+if (isset($_SESSION['error'])) {
+    echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error']) . '</div>';
+    unset($_SESSION['error']);
+}
+if (isset($_SESSION['success'])) {
+    echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+    unset($_SESSION['success']);
+}
+
+$_SESSION['last_activity'] = time();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,10 +103,10 @@
             <div class="col-md-8 col-lg-6">
                 <div class="card border-0 shadow-lg">
                     <div class="card-body p-5">
-                        <h2 class="text-center mb-4 fw-bold text-secondary">Reset Your Password</h2>
+                        <h2 class="text-center mb-4 fw-bold text-secondary"><?php echo __('reset_your_password', $lang); ?></h2>
                         <form action="../Controller/update_password.php" method="post" class="needs-validation" novalidate>
                             <div class="mb-4">
-                                <label for="NewPassword" class="form-label fw-semibold">New Password</label>
+                                <label for="NewPassword" class="form-label fw-semibold"><?php echo __('new_password', $lang); ?></label>
                                 <div class="input-group">
                                     <input type="password" name="NewPassword" id="NewPassword" 
                                         class="form-control shadow-sm" 
@@ -47,7 +120,7 @@
                             </div>
                             
                             <div class="mb-4">
-                                <label for="Confirmpassword" class="form-label fw-semibold">Confirm Password</label>
+                                <label for="Confirmpassword" class="form-label fw-semibold"><?php echo __('confirm_new_password', $lang); ?></label>
                                 <div class="input-group">
                                     <input type="password" name="Confirmpassword" id="Confirmpassword" 
                                         class="form-control shadow-sm" 
@@ -81,10 +154,10 @@
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-secondary btn-lg shadow-sm" 
                                     onclick="return confirm('Are you sure you want to send this information?')">
-                                    <i class="fas fa-paper-plane me-2"></i>Send
+                                    <i class="fas fa-paper-plane me-2"></i><?php echo __('send', $lang); ?>
                                 </button>
                                 <a href="../index.php" class="btn btn-danger btn-lg shadow-sm">
-                                    <i class="fas fa-arrow-left me-2"></i>Back
+                                    <i class="fas fa-arrow-left me-2"></i><?php echo __('back', $lang); ?>
                                 </a>
                             </div>
                         </form>

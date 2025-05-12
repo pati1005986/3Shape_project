@@ -84,7 +84,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             <?php
                             try {
                                 // Get columns from both tables
-                                $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+                                $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
 
                                 $sql = "SELECT COLUMN_NAME, DATA_TYPE 
                                    FROM INFORMATION_SCHEMA.COLUMNS 
@@ -238,34 +238,21 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 <!--Script con la funcion de mostrar el resultado de la busqueda y validacion en este caso de el numero de serial y el nombre de el activo-->
                                 <script src="../View/Js/GetSerial.js"></script>
                             </div>
-                            <div class="form-group">
-                            <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
-                                <?php
-                                try {
-                                    $sql = "SELECT DISTINCT purchase_country 
-                                            FROM equipos
-                                            WHERE purchase_country IS NOT NULL AND purchase_country != ''";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-
-                                    if ($stmt->rowCount() > 0) {
-                                        echo '<select id="compra" class="shadow-sm form-select" name="compra">';
-                                        echo '<option value="0">Select a computer</option>';
-
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            $selected = ($row['purchase_country'] == 'Colombia') ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row['purchase_country']) . '" ' . $selected . '>' . htmlspecialchars($row['purchase_country']) . '</option>';
-                                        }
-
-                                        echo '</select>';
-                                    } else {
-                                        echo '<p> No data found. </p>';
-                                    }
-                                } catch (PDOException $e) {
-                                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                                }
-                                ?>
-                            </div>
+                           <div class="form-group">
+    <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
+    <select id="compra" class="shadow-sm form-select" name="compra">
+        <option value="0">Select a country</option>
+        <option value="Colombia" selected>Colombia</option>
+        <option value="Poland">Poland</option>
+        <option value="Denmark">Denmark</option>
+        <option value="Australia">Australia</option>
+        <option value="United States">United States</option>
+        <option value="Korea">Korea</option>
+        <option value="México">México</option>
+        <option value="Brazil">Brazil</option>
+        <option value="Canada">Canada</option>
+    </select>
+</div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -355,71 +342,17 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     });
                                 });
                             </script>
-                            <div class="form-group">
-                            <label for="newl"><i class="fas fa-box-open me-2"></i>New laptop?:</label>
-                                <input class="shadow-sm form-control" type="text" id="newl" name="newl"
-                                    autocomplete="off" data-validate="true">
-                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group my-2">
-                            <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
-                                <?php
-                                try {
-                                    $sql = "SELECT DISTINCT user_status 
-                                FROM usuarios_equipos
-                                WHERE user_status IS NOT NULL AND user_status != ''";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-
-                                    if ($stmt->rowCount() > 0) {
-                                        echo '<select id="usrStts" class="shadow-sm form-select" name="usrStts">';
-                                        echo '<option value="0">Select a computer</option>';
-
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-                                            $selected = ($row['user_status'] == 'Active User') ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row['user_status']) . '" ' . $selected . '>' . htmlspecialchars($row['user_status']) . '</option>';
-                                        }
-
-                                        echo '</select>';
-                                    } else {
-                                        echo '<p>No data found.</p>';
-                                    }
-                                } catch (PDOException $e) {
-                                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                                }
-                                ?>
-                            </div>
-                            <div class="form-group my-2">
-                            <label for="status_change"><i class="fas fa-exchange-alt me-2"></i>Status change:</label>
-                                <?php
-                                include "../Configuration/Connection.php";
-                                try {
-                                    $sql = "SELECT DISTINCT status_change 
-                                            FROM usuarios_equipos
-                                            WHERE status_change IS NOT NULL AND status_change != ''";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-
-                                    if ($stmt->rowCount() > 0) {
-                                        echo '<select id="status_change" class="shadow-sm form-select" name="status_change">';
-                                        echo '<option value="0">Select a option</option>';
-
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            $selected = ($row['status_change'] == 'Active Warranty') ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row['status_change']) . '" ' . $selected . '>' . htmlspecialchars($row['status_change']) . '</option>';
-                                        }
-
-                                        echo '</select>';
-                                    } else {
-                                        echo '<p>No data found.</p>';
-                                    }
-                                } catch (PDOException $e) {
-                                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                                }
-                                ?>
-                            </div>
+                          <div class="form-group my-2">
+    <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
+    <select id="usrStts" class="shadow-sm form-select" name="usrStts">
+        <option value="0">Select a user status</option>
+        <option value="Stock">Stock</option>
+        <option value="Active User" selected>Active User</option>
+        <option value="Old User">Old User</option>
+    </select>
+</div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group position-relative">
@@ -593,23 +526,13 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         <script>
                             // validacion reciclada para el impedimento del envio del formulario sus lescel no estan seleccionados
                             document.getElementById('registform').addEventListener('submit', function(event) {
-                                const select1 = document.getElementById('compra');
-                                const select2 = document.getElementById('usrStts');
-                                const select3 = document.getElementById('status_change');
+                                const select1 = document.getElementById('usrStts');
 
                                 let errorMessage = "Please fix the following errors: \n";
                                 let hasError = false;
 
                                 if (select1.value === '0') {
-                                    errorMessage += "- Select a Purchase Country.\n";
-                                    hasError = true;
-                                }
-                                if (select2.value === '0') {
                                     errorMessage += "- Select a User Status.\n";
-                                    hasError = true;
-                                }
-                                if (select3.value === '0') {
-                                    errorMessage += "- Select a Status Change.\n";
                                     hasError = true;
                                 }
                                 if (hasError) {

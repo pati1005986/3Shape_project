@@ -12,8 +12,31 @@ if (!isset($_SESSION['asset_data'])) {
 $asset_data = $_SESSION['asset_data'];
 
 $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
-?>
 
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -145,34 +168,21 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
 
                         </div>
                         <div class="col-md-6">
+                            <!--Consulta de los Paises de compra, Estado del usuario, Estado de cambio en base  a los que estan registrados-->
                             <div class="form-group">
-                            <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
-                                <!--Consulta de los Paises de compra, Estado del usuario, Estado de cambio en base  a los que estan registrados-->
-                                <?php
-                                try {
-                                    $sql = "SELECT DISTINCT purchase_country 
-                                            FROM equipos
-                                            WHERE purchase_country IS NOT NULL AND purchase_country != ''";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-
-                                    if ($stmt->rowCount() > 0) {
-                                        echo '<select id="compra" class="shadow-sm form-select" name="compra">';
-                                        echo '<option value="0">Select a computer</option>';
-
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            $selected = ($row['purchase_country'] == $asset_data['purchase_country']) ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row['purchase_country']) . '" ' . $selected . '>' . htmlspecialchars($row['purchase_country']) . '</option>';
-                                        }
-
-                                        echo '</select>';
-                                    } else {
-                                        echo '<p> No data found. </p>';
-                                    }
-                                } catch (PDOException $e) {
-                                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                                }
-                                ?>
+    <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
+    <select id="compra" class="shadow-sm form-select" name="compra">
+        <option value="0">Select a country</option>
+        <option value="Colombia" selected>Colombia</option>
+        <option value="Poland">Poland</option>
+        <option value="Denmark">Denmark</option>
+        <option value="Australia">Australia</option>
+        <option value="United States">United States</option>
+        <option value="Korea">Korea</option>
+        <option value="México">México</option>
+        <option value="Brazil">Brazil</option>
+        <option value="Canada">Canada</option>
+    </select>
                                 <br>
                             </div>
                             <div class="form-group">
@@ -280,68 +290,29 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             </div>
                         </div>
                         <div class="col-md-6">
+                   <div class="form-group my-2">
+    <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
+    <select id="usrStts" class="shadow-sm form-select" name="usrStts">
+        <option value="0">Select a user status</option>
+        <option value="Stock">Stock</option>
+        <option value="Active User" selected>Active User</option>
+        <option value="Old User">Old User</option>
+    </select>
+</div>
+                            <br> 
                             <div class="form-group">
-
-                            <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
-                                <?php
-                                try {
-                                    $sql = "SELECT DISTINCT user_status 
-                                FROM usuarios_equipos
-                                WHERE user_status IS NOT NULL AND user_status != ''";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-
-                                    if ($stmt->rowCount() > 0) {
-                                        echo '<select id="usrStts" class="shadow-sm form-select" name="usrStts">';
-                                        echo '<option value="0">Select a computer</option>';
-
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-                                            $selected = ($row['user_status'] == $asset_data['user_status']) ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row['user_status']) . '" ' . $selected . '>' . htmlspecialchars($row['user_status']) . '</option>';
-                                        }
-
-                                        echo '</select>';
-                                    } else {
-                                        echo '<p>No data found.</p>';
-                                    }
-                                } catch (PDOException $e) {
-                                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                                }
-                                ?>
-                                <br>
-                            </div>
-                            <div class="form-group">
-                            <label for="status_change"><i class="fas fa-exchange-alt me-2"></i>Status change:</label>
-
-                                <?php
-                                include "../Configuration/Connection.php";
-                                try {
-                                    $sql = "SELECT DISTINCT status_change 
-                                            FROM usuarios_equipos
-                                            WHERE status_change IS NOT NULL AND status_change != ''";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-
-                                    if ($stmt->rowCount() > 0) {
-                                        echo '<select id="status_change" class="shadow-sm form-select" name="status_change">';
-                                        echo '<option value="0">Select a status change</option>';
-
-                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                            $selected = ($row['status_change'] == $asset_data['status_change']) ? 'selected' : '';
-                                            echo '<option value="' . htmlspecialchars($row['status_change']) . '" ' . $selected . '>' . htmlspecialchars($row['status_change']) . '</option>';
-                                        }
-
-                                        echo '</select>';
-                                    } else {
-                                        echo '<p>No data found.</p>';
-                                    }
-                                } catch (PDOException $e) {
-                                    echo '<p>Error: ' . htmlspecialchars($e->getMessage()) . '</p>';
-                                }
-                                ?>
-                                <br>
-                            </div>
+                    <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
+<div class="input-group">
+    <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+    <select id="search_status_change" name="search_status_change" class="form-select">
+        <option value=""><?php echo __('select_status_change', $lang); ?></option>
+        <option value="Pending">Pending</option>
+        <option value="Active Warranty">Active Warranty</option>
+        <option value="Disable/Auction/Sold">Disable/Auction/Sold</option>
+        <option value="Warranty needed">Warranty needed</option>
+        <option value="Academy">Academy</option>
+    </select>
+</div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">

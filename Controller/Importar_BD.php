@@ -104,13 +104,11 @@ function insertData($pdo, $data)
         // Insertar en equipos - Actualizado con todos los campos correctos
         $stmtEquipos = $pdo->prepare("
         INSERT INTO equipos 
-        (assetname, serial_number, purchase_country, warranty_enddate, expired, new_laptop, 
-        asset_status, asset_observations, Monitor, monitor_status, monitor_observations, 
+        (assetname, serial_number,asset_status, asset_observations,
         HeadSet, headset_status, headset_observations, Dongle, dongle_status, dongle_observations, 
         Celular, celular_status, celular_observations, SIMcard)
         VALUES 
-        (:assetname, :serial_number, :purchase_country, :warranty_enddate, :expired, :new_laptop,
-        :asset_status, :asset_observations, :Monitor, :monitor_status, :monitor_observations,
+        (:assetname, :serial_number,:asset_status, :asset_observations,
         :HeadSet, :headset_status, :headset_observations, :Dongle, :dongle_status, :dongle_observations,
         :Celular, :celular_status, :celular_observations, :SIMcard)
         ");
@@ -118,15 +116,8 @@ function insertData($pdo, $data)
         $stmtEquipos->execute([
             ':assetname' => $data['assetname'],
             ':serial_number' => $data['serial_number'],
-            ':purchase_country' => $data['purchase_country'],
-            ':warranty_enddate' => $data['warranty_enddate'],
-            ':expired' => $data['expired'],
-            ':new_laptop' => $data['new_laptop'],
             ':asset_status' => $data['asset_status'],
             ':asset_observations' => $data['asset_observations'],
-            ':Monitor' => $data['Monitor'],
-            ':monitor_status' => $data['monitor_status'],
-            ':monitor_observations' => $data['monitor_observations'],
             ':HeadSet' => $data['HeadSet'],
             ':headset_status' => $data['headset_status'],
             ':headset_observations' => $data['headset_observations'],
@@ -142,10 +133,10 @@ function insertData($pdo, $data)
         // Insertar en usuarios_equipos - Actualizado con los campos correctos
         $stmtUsuarios = $pdo->prepare(
             "INSERT INTO usuarios_equipos 
-            (fk_assetname, user_status, last_user, job_title, status_change, cedula, 
+            (fk_assetname, user_status, last_user, job_title,cedula, 
             Carnet, LLave, Tipo_ID, fecha_salida)
             VALUES 
-            (:fk_assetname, :user_status, :last_user, :job_title, :status_change, :cedula, 
+            (:fk_assetname, :user_status, :last_user, :job_title,:cedula, 
             :Carnet, :LLave, :Tipo_ID, :fecha_salida)"
         );
 
@@ -154,7 +145,6 @@ function insertData($pdo, $data)
             ':user_status' => $data['user_status'],
             ':last_user' => $data['last_user'],
             ':job_title' => $data['job_title'],
-            ':status_change' => $data['status_change'],
             ':cedula' => $data['cedula'],
             ':Carnet' => $data['Carnet'] ?? 'Pendiente',
             ':LLave' => $data['LLave'] ?? 'Pendiente',

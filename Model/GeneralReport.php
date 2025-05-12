@@ -52,18 +52,14 @@ class PDF extends FPDF
         $this->SetLineWidth(0.2);
         $this->SetFont('Arial', 'B', 8);
 
-        // Encabezados de tabla con mejor distribución
+        // Encabezados de tabla con mejor distribución - REMOVED FIELDS AS REQUESTED
         $this->SetX(5); // Ajuste de posición inicial
         $cellHeight = 12;
-        $this->Cell(25, $cellHeight, convertirTexto('Asset Name'), 1, 0, 'C', 1);
-        $this->Cell(20, $cellHeight, convertirTexto('Serial'), 1, 0, 'C', 1);
-        $this->Cell(18, $cellHeight, convertirTexto('User Status'), 1, 0, 'C', 1);
-        $this->Cell(35, $cellHeight, convertirTexto('Last User'), 1, 0, 'C', 1);
-        $this->Cell(25, $cellHeight, convertirTexto('Status Change'), 1, 0, 'C', 1);
-        $this->Cell(20, $cellHeight, convertirTexto('Purchase'), 1, 0, 'C', 1);
-        $this->Cell(20, $cellHeight, convertirTexto('Warranty End'), 1, 0, 'C', 1);
-        $this->Cell(15, $cellHeight, convertirTexto('Expired'), 1, 0, 'C', 1);
-        $this->Cell(17, $cellHeight, convertirTexto('ID'), 1, 1, 'C', 1);
+        $this->Cell(40, $cellHeight, convertirTexto('Asset Name'), 1, 0, 'C', 1);
+        $this->Cell(40, $cellHeight, convertirTexto('Serial'), 1, 0, 'C', 1);
+        $this->Cell(35, $cellHeight, convertirTexto('User Status'), 1, 0, 'C', 1);
+        $this->Cell(60, $cellHeight, convertirTexto('Last User'), 1, 0, 'C', 1);
+        $this->Cell(20, $cellHeight, convertirTexto('ID'), 1, 1, 'C', 1);
     }
 
     // Pie de página
@@ -128,6 +124,10 @@ $sql = "SELECT * FROM vista_equipos_usuarios";
 $where = [];
 $params = [];
 
+// Ejemplo de uso:
+$searchResult = buildDateSearchQuery($_GET);
+
+// Función para manejar búsquedas basadas en fechas (mantenida para compatibilidad)
 function buildDateSearchQuery($searchParams) {
     $where = [];
     $params = [];
@@ -168,9 +168,6 @@ function buildDateSearchQuery($searchParams) {
     ];
 }
 
-// Ejemplo de uso:
-$searchResult = buildDateSearchQuery($_GET);
-
 // Otros filtros
 if (!empty($_GET['search_assetname'])) {
     $assetname = trim($_GET['search_assetname']); // Elimina espacios en blanco al inicio y al final
@@ -196,15 +193,6 @@ if (!empty($_GET['search_cedula'])) {
     if (!empty($cedula)) {
         $where[] = "LOWER(cedula) LIKE LOWER(:cedula)";
         $params[':cedula'] = '%' . $cedula . '%';
-    }
-}
-
-// Filtro de cambio de estado
-if (!empty($_GET['search_status_change'])) {
-    $status_change = trim($_GET['search_status_change']); // Elimina espacios en blanco al inicio y al final
-    if (!empty($status_change)) {
-        $where[] = "LOWER(status_change) LIKE LOWER(:status_change)";
-        $params[':status_change'] = '%' . $status_change . '%';
     }
 }
 
@@ -261,36 +249,23 @@ try {
             $pdf->SetX(5);
             
             // Celda con texto multilínea para assetname
-            $heightAsset = $pdf->MultiCellTable(25, $maxRowHeight, convertirTexto($row["assetname"]), 1, 'C', $fillColor);
+            $heightAsset = $pdf->MultiCellTable(40, $maxRowHeight, convertirTexto($row["assetname"]), 1, 'C', $fillColor);
             
             // Volver a la posición para la siguiente celda
-            $pdf->SetXY(30, $initialY);
-            $heightSerial = $pdf->MultiCellTable(20, $maxRowHeight, convertirTexto($row["serial_number"]), 1, 'C', $fillColor);
+            $pdf->SetXY(45, $initialY);
+            $heightSerial = $pdf->MultiCellTable(40, $maxRowHeight, convertirTexto($row["serial_number"]), 1, 'C', $fillColor);
             
-            $pdf->SetXY(50, $initialY);
-            $heightStatus = $pdf->MultiCellTable(18, $maxRowHeight, convertirTexto($row["user_status"]), 1, 'C', $fillColor);
+            $pdf->SetXY(85, $initialY);
+            $heightStatus = $pdf->MultiCellTable(35, $maxRowHeight, convertirTexto($row["user_status"]), 1, 'C', $fillColor);
             
-            $pdf->SetXY(68, $initialY);
-            $heightUser = $pdf->MultiCellTable(35, $maxRowHeight, convertirTexto($row["last_user"]), 1, 'C', $fillColor);
+            $pdf->SetXY(120, $initialY);
+            $heightUser = $pdf->MultiCellTable(60, $maxRowHeight, convertirTexto($row["last_user"]), 1, 'C', $fillColor);
             
-            $pdf->SetXY(103, $initialY);
-            $heightChange = $pdf->MultiCellTable(25, $maxRowHeight, convertirTexto($row["status_change"]), 1, 'C', $fillColor);
-            
-            $pdf->SetXY(128, $initialY);
-            $heightPurchase = $pdf->MultiCellTable(20, $maxRowHeight, convertirTexto($row["purchase_country"]), 1, 'C', $fillColor);
-            
-            $pdf->SetXY(148, $initialY);
-            $heightWarranty = $pdf->MultiCellTable(20, $maxRowHeight, convertirTexto($row["warranty_enddate"]), 1, 'C', $fillColor);
-            
-            $pdf->SetXY(168, $initialY);
-            $heightExpired = $pdf->MultiCellTable(15, $maxRowHeight, convertirTexto($row["expired"]), 1, 'C', $fillColor);
-            
-            $pdf->SetXY(183, $initialY);
-            $heightCedula = $pdf->MultiCellTable(17, $maxRowHeight, convertirTexto($row["cedula"]), 1, 'C', $fillColor);
+            $pdf->SetXY(180, $initialY);
+            $heightCedula = $pdf->MultiCellTable(20, $maxRowHeight, convertirTexto($row["cedula"]), 1, 'C', $fillColor);
             
             // Encontrar la altura máxima de todas las celdas
-            $rowHeight = max($heightAsset, $heightSerial, $heightStatus, $heightUser, $heightChange, 
-                             $heightPurchase, $heightWarranty, $heightExpired, $heightCedula);
+            $rowHeight = max($heightAsset, $heightSerial, $heightStatus, $heightUser, $heightCedula);
             
             // Mover al inicio de la próxima fila
             $pdf->SetY($initialY + $rowHeight);

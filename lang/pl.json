@@ -86,6 +86,8 @@
   
     "previous": "Poprzedni",
     "next": "Następny",
+    "back": "Powrót",
+    "send": " Wyślij",
 
     "settings": "Einstellungen",
   "password_change" : "Passwort ändern",
@@ -93,6 +95,7 @@
   "new_password": "Neues Passwort",
   "confirm_new_password":"Neues Passwort bestätigen",
   "change_password": "Zmień hasło",
+  "reset_your_password": "Zresetuj hasło",
   
     "notification_history": "Historia Powiadomień",
     "filter_notifications": "Filtruj powiadomienia...",
@@ -165,6 +168,14 @@
     "serials_deleted_successfully": "Numery seryjne zostały pomyślnie usunięte.",
     "failed_to_delete_serials": "Nie udało się usunąć numerów seryjnych",
     "select_fields_to_remove": "Wybierz Pola do Usunięcia",
+
+    "log_files": "Pliki Logu",
+  "file_name": "Nazwa Pliku",
+  "total_size": "Całkowity Rozmiar",
+  "last_modified": "Ostatnio Zmodyfikowany",
+  "download": "Pobierz",
+  "view": "Pokaż",
+  "back_to_menu" : "Powrót do Menu",
 
     "development_team": "Zespół Programistów",
   "legal_information": "Informacje Prawne",

@@ -52,13 +52,8 @@ if ($resultados && is_array($resultados) && count($resultados) > 0) {
            "<td><span class='$userStatusClass'>" . (isset($row['user_status']) ? htmlspecialchars($row['user_status']) : '') . "</span></td>",
            "<td>" . (isset($row['last_user']) ? htmlspecialchars($row['last_user']) : '') . "</td>",
            "<td><span class='text-muted'>" . (isset($row['job_title']) ? htmlspecialchars($row['job_title']) : '') . "</span></td>",
-           "<td>" . (isset($row['status_change']) ? htmlspecialchars($row['status_change']) : '') . "</td>",
-           "<td>" . (isset($row['purchase_country']) ? htmlspecialchars($row['purchase_country']) : '') . "</td>",
-           "<td><span class='$warranty_class'>" . (isset($row['warranty_enddate']) ? htmlspecialchars($row['warranty_enddate']) : '') . "</span></td>"
        ];
 
-       // Mostrar el campo expired tal como estaba antes
-       $rowHtml[] = "<td>" . (isset($row['expired']) ? htmlspecialchars($row['expired']) : '') . "</td>";
        
        $rowHtml[] = "<td>" . (isset($row['cedula']) ? htmlspecialchars($row['cedula']) : '') . "</td>";
 

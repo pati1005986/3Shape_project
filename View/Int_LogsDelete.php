@@ -99,7 +99,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             <div class="col-md-12">
                 <nav class="navbar d-flex navbar-expand-lg navbar-light bg-light rounded shadow">
                     <div class="container-fluid">
-                    <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="navbar-brand d-flex align-items-center">
+                    <a href="../Admin/index_admin.php" class="navbar-brand d-flex align-items-center">
                             <img src="../Admin/3shape-logo.png" alt="Logo" width="150" height="31" id="navbarLogo">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -147,14 +147,14 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             <div class="container mt-5">
                 <br>
                 <center>
-                    <h2 id="totalC" class="mb-4 my-2 text-center">Log Files <i class="fas fa-file-alt"></i></h2>
+                    <h2 id="totalC" class="mb-4 my-2 text-center"><?php echo __('log_files', $lang); ?> <i class="fas fa-file-alt"></i></h2>
                 </center>
                 <div id="FORMeditingLog" class="table-responsive">
                     <table id="mainTable" class="shadow-lg table table-bordered table-striped fade-in">
                         <thead>
                             <tr>
-                                <th>File Name</th>
-                                <th>Total Size (Formatted):
+                                <th><?php echo __('file_name', $lang); ?></th>
+                                <th><?php echo __('total_size', $lang); ?>:
                                     <?php
                                     // Formato de tamaño de archivo
                                     $logDir = __DIR__ . '/../Model/Logs';
@@ -181,10 +181,10 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                                     echo '(' . $formattedSize . ')';
                                     ?>
                                 </th>
-                                <th>Last Modified</th>
-                                <th>Download</th>
-                                <th>View</th>
-                                <th>Delete</th>
+                                <th><?php echo __('last_modified', $lang); ?></th>
+                                <th><?php echo __('download', $lang); ?></th>
+                                <th><?php echo __('view', $lang); ?></th>
+                                <th><?php echo __('delete', $lang); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -229,7 +229,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                         </tbody>
                     </table>
                     <br>
-                    <center><a href="../Admin/index_admin.php" class="btn btn-secondary mb-5">Back to Menu</a></center>
+                    <center><a href="../Admin/index_admin.php" class="btn btn-secondary mb-5"><?php echo __('back_to_menu', $lang); ?></a></center>
                     <?php
                     // Handle file viewing // Manejo de vista del arhivo
                     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['view'])) {
@@ -324,7 +324,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 <!-- Carga de scripts en el orden correcto -->
                 <script src="../Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
                 <script src="../Configuration/DataTables/datatables.min.js"></script>
-                <script src="../View/Js/dark-mode-toggle.js"></script>
+                    <script src="../View/Js/dark-mode-toggle-new.js"></script>
                 <script>
                     // Inicializar DataTables y configurar eventos
                     $(document).ready(function() {
