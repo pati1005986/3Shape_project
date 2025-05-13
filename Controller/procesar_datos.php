@@ -57,13 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'max_length' => 100,
             'required' => true
         ],
-        [
-            'post_key' => 'status_change',
-            'var_name' => 'stats_change',
-            'label' => 'Status Change',
-            'max_length' => 100,
-            'required' => true
-        ],
         
         // Asset fields
         [
@@ -86,20 +79,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'max_length' => 100,
             'required' => true
         ],
-        [
-            'post_key' => 'compra',
-            'var_name' => 'compra',
-            'label' => 'Purchase country',
-            'max_length' => 100,
-            'required' => true
-        ],
-        [
-            'post_key' => 'garantia',
-            'var_name' => 'garantia',
-            'label' => 'Warranty end date',
-            'max_length' => 100,
-            'required' => true
-        ],
+[
+    'post_key' => 'fecha_ingreso',  // Nombre del campo en el formulario
+    'var_name' => 'fecha_ingreso',  // Nombre de la variable en PHP
+    'label' => 'Fecha de ingreso',        // Etiqueta para mensajes de error
+    'validation' => [
+        'type' => 'date',
+        'max_date' => date('Y-m-d'),  // No permitir fechas futuras
+        'min_date' => '2000-01-01'    // Fecha mínima permitida
+    ],
+    'required' => true
+],
         [
             'post_key' => 'newl',
             'var_name' => 'newl',
@@ -288,15 +278,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql_update_equipos = "UPDATE equipos SET
             assetname = :new_assetname,
             serial_number = :serial_number,
-            purchase_country = :purchase_country,
-            warranty_enddate = :warranty_enddate,
-            expired = :expired,
-            new_laptop = :new_laptop,
             asset_status = :asset_status,
             asset_observations = :asset_observations,
-            Monitor = :Monitor,
-            monitor_status = :monitor_status,
-            monitor_observations = :monitor_observations,
             HeadSet = :HeadSet,
             headset_status = :headset_status,
             headset_observations = :headset_observations,
@@ -318,15 +301,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_update_equipos->bindValue(':new_assetname', $assetname, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':old_assetname', $old_assetname, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':serial_number', $serial, PDO::PARAM_STR);
-        $stmt_update_equipos->bindValue(':purchase_country', $compra, PDO::PARAM_STR);
-        $stmt_update_equipos->bindValue(':warranty_enddate', $garantia, PDO::PARAM_STR);
-        $stmt_update_equipos->bindValue(':expired', $expira, PDO::PARAM_STR);
-        $stmt_update_equipos->bindValue(':new_laptop', $newl, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':asset_status', $asset_status, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':asset_observations', $asset_observations, PDO::PARAM_STR);
-        $stmt_update_equipos->bindValue(':Monitor', isset($_POST['Monitor']) ? sanitize_input($_POST['Monitor']) : null, PDO::PARAM_STR);
-        $stmt_update_equipos->bindValue(':monitor_status', $monitor_status, PDO::PARAM_STR);
-        $stmt_update_equipos->bindValue(':monitor_observations', $monitor_observations, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':HeadSet', isset($_POST['HeadSet']) ? sanitize_input($_POST['HeadSet']) : null, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':headset_status', $headset_status, PDO::PARAM_STR);
         $stmt_update_equipos->bindValue(':headset_observations', $headset_observations, PDO::PARAM_STR);
@@ -354,8 +330,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             user_status = :user_status,
             last_user = :last_user,
             job_title = :job_title,
-            status_change = :status_change,
             cedula = :cedula,
+            fecha_ingreso = :fecha_ingreso,
             Carnet = :carnet,
             LLave = :llave,
             Tipo_ID = :tipoID";
@@ -372,8 +348,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_update_usuarios_equipos->bindValue(':user_status', $usrStts, PDO::PARAM_STR);
         $stmt_update_usuarios_equipos->bindValue(':last_user', $nombre_usuario, PDO::PARAM_STR);
         $stmt_update_usuarios_equipos->bindValue(':job_title', $job_title, PDO::PARAM_STR);
-        $stmt_update_usuarios_equipos->bindValue(':status_change', $stats_change, PDO::PARAM_STR);
         $stmt_update_usuarios_equipos->bindValue(':cedula', $cedula, PDO::PARAM_STR);
+        $stmt_update_usuarios_equipos->bindValue(':fecha_ingreso', $fecha_ingreso, PDO::PARAM_STR);
         $stmt_update_usuarios_equipos->bindValue(':carnet', $carnet, PDO::PARAM_STR);
         $stmt_update_usuarios_equipos->bindValue(':llave', $llave, PDO::PARAM_STR);
         $stmt_update_usuarios_equipos->bindValue(':tipoID', $tipoID, PDO::PARAM_STR);
@@ -396,15 +372,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['asset_data'] = [
             'assetname' => $assetname,
             'serial_number' => $serial,
-            'purchase_country' => $compra,
             'warranty_enddate' => $garantia,
             'expired' => $expira,
             'new_laptop' => $newl,
             'user_status' => $usrStts,
             'last_user' => $nombre_usuario,
             'job_title' => $job_title,
-            'status_change' => $stats_change,
             'cedula' => $cedula,
+            'fecha_ingreso' => $fecha_ingreso,
             'Carnet' => $carnet,
             'LLave' => $llave,
             'Tipo_ID' => $tipoID,
@@ -424,6 +399,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'celular_observations' => $celular_observations,
             'SIMcard' => $SIMcard
         ];
+
 
         $_SESSION["success"] = "Datos actualizados correctamente";
 

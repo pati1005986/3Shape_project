@@ -29,7 +29,7 @@ class PDF extends FPDF
         $this->Cell(100, 4, convertirTexto('NIT: 900574780'), 0, 1, 'L');
         $this->Ln(10);
         // Logo
-        $this->Image('../Model/logo.png', 155, 12, 35);
+        $this->Image('../Model/3shape-logo.png', 155, 12, 35);
 
         // Línea decorativa
         $this->SetY(45);

@@ -52,10 +52,11 @@ if ($resultados && is_array($resultados) && count($resultados) > 0) {
            "<td><span class='$userStatusClass'>" . (isset($row['user_status']) ? htmlspecialchars($row['user_status']) : '') . "</span></td>",
            "<td>" . (isset($row['last_user']) ? htmlspecialchars($row['last_user']) : '') . "</td>",
            "<td><span class='text-muted'>" . (isset($row['job_title']) ? htmlspecialchars($row['job_title']) : '') . "</span></td>",
+            $rowHtml[] = "<td>" . (isset($row['cedula']) ? htmlspecialchars($row['cedula']) : '') . "</td>",
        ];
 
        
-       $rowHtml[] = "<td>" . (isset($row['cedula']) ? htmlspecialchars($row['cedula']) : '') . "</td>";
+       $rowHtml[] = "<td>" . (isset($row['fecha_ingreso']) ? htmlspecialchars($row['fecha_ingreso']) : '') . "</td>";
 
        // Optimización 3: Procesamiento de columnas dinámicas
        foreach ($selectedColumns as $column) {

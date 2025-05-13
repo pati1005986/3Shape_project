@@ -46,7 +46,7 @@ function __($key, $lang) {
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
      <!-- Añade Font Awesome -->
      <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
-    <link rel=" stylesheet" href="./Css/dark-mode.css">
+    <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -98,13 +98,13 @@ function __($key, $lang) {
                         <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
                             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                             <?php
-// Array de mapeo de nombres 
-$fieldLabels = require '../View/Fragments/field_labels.php';
-?>
+                            // Array de mapeo de nombres 
+                            $fieldLabels = require '../View/Fragments/field_labels.php';
+                            ?>
                            <?php
                             try {
                                 // Get columns from both tables
-                                $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'new_laptop', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'status_change', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+                                $prohibited_fields = ['assetname', 'serial_number', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula','fecha_ingreso', 'Carnet', 'LLave', 'Tipo_ID'];
 
                                 $sql = "SELECT COLUMN_NAME, DATA_TYPE 
                                    FROM INFORMATION_SCHEMA.COLUMNS 
@@ -146,177 +146,86 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </form>
                     </div>
                 <?php endif; ?>
-                <!--Formulario de Actualizacion donde trae los datos del activo seleccionado-->
+                
+                <!-- Formulario de Actualización donde trae los datos del activo seleccionado -->
                 <form id="updateform" action="../Controller/procesar_datos.php" method="post">
                     <h2 id="totalC" class="text-center">Update Register</h2>
                     <br>
-                    <br>
+                    
                     <div class="row">
+                        <!-- Primera fila: Usuario y Serial -->
                         <div class="col-md-6">
-                            <div class="form-group">
-                            <label for="nombre_usuario"><i class="fas fa-user me-2"></i>User name:</label>
+                            <div class="form-group mb-3">
+                                <label for="nombre_usuario"><i class="fas fa-user me-2"></i>User name:</label>
                                 <input class="form-control shadow-sm" type="text" id="nombre_usuario" name="nombre_usuario"
                                     value="<?php echo htmlspecialchars($asset_data['last_user']); ?>"
-                                    autocomplete="off"><br>
+                                    autocomplete="off">
                             </div>
-                            <div class="form-group">
-                            <label for="serial"><i class="fas fa-barcode me-2"></i>Serial number:</label>
-                                <input class="form-control shadow-sm" type="text" id="serial" name="serial"
-                                    value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required
-                                    autocomplete="off" readonly><br>
-                            </div>
-
                         </div>
                         <div class="col-md-6">
-                            <!--Consulta de los Paises de compra, Estado del usuario, Estado de cambio en base  a los que estan registrados-->
-                            <div class="form-group">
-    <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
-    <select id="compra" class="shadow-sm form-select" name="compra">
-        <option value="0">Select a country</option>
-        <option value="Colombia" selected>Colombia</option>
-        <option value="Poland">Poland</option>
-        <option value="Denmark">Denmark</option>
-        <option value="Australia">Australia</option>
-        <option value="United States">United States</option>
-        <option value="Korea">Korea</option>
-        <option value="México">México</option>
-        <option value="Brazil">Brazil</option>
-        <option value="Canada">Canada</option>
-    </select>
-                                <br>
+                            <div class="form-group mb-3">
+                                <label for="serial"><i class="fas fa-barcode me-2"></i>Serial number:</label>
+                                <input class="form-control shadow-sm" type="text" id="serial" name="serial"
+                                    value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required
+                                    autocomplete="off" readonly>
                             </div>
-                            <div class="form-group">
-                            <label for="garantia"><i class="fas fa-calendar-check me-2"></i>Warranty end date:</label>
-                                <input class="form-control shadow-sm" type="text" id="garantia" name="garantia"
-                                    value="<?php echo htmlspecialchars($asset_data['warranty_enddate']); ?>"
-                                    autocomplete="off" data-validate="true" placeholder="mm/dd/yyyy" required><br>
+                        </div>
+                        
+                        <!-- Segunda fila: Fecha de ingreso y Estado de usuario -->
+                 <div class="col-md-6">
+    <div class="form-group mb-3">
+        <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i>Fecha de ingreso:</label>
+<input class="form-control shadow-sm" type="date" id="fecha_ingreso" name="fecha_ingreso"
+       value="<?php echo !empty($asset_data['fecha_ingreso']) ? htmlspecialchars($asset_data['fecha_ingreso']) : date('Y-m-d'); ?>"
+       required>
                                 <script>
-                                    // Funcion reciclada para la validacion de fechas en Garantias
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        const garantiaInput = document.getElementById('garantia');
-
-                                        garantiaInput.addEventListener('input', function(e) {
-                                            let value = e.target.value.replace(/\D/g,
-                                                ''); // Elimina todo excepto números
-                                            let formattedDate = '';
-
-                                            // Limita a 8 dígitos (mmddyyyy)
-                                            if (value.length > 8) {
-                                                value = value.substr(0, 8);
-                                            }
-
-                                            // Aplica el formato mm/dd/yyyy
-                                            if (value.length > 0) {
-                                                // Agrega primeros dos dígitos (mm)
-                                                formattedDate = value.substr(0, 2);
-
-                                                // Agrega slash y siguientes dos dígitos (dd)
-                                                if (value.length > 2) {
-                                                    formattedDate += '/' + value.substr(2, 2);
-                                                }
-
-                                                // Agrega slash y últimos cuatro dígitos (yyyy)
-                                                if (value.length > 4) {
-                                                    formattedDate += '/' + value.substr(4);
-                                                }
-                                            }
-
-                                            // Validación básica de mes y día
-                                            let month = parseInt(value.substr(0, 2));
-                                            let day = parseInt(value.substr(2, 2));
-
-                                            // Corrección automática del mes
-                                            if (month > 12) {
-                                                month = 12;
-                                                formattedDate = '12' + formattedDate.substr(2);
-                                            }
-
-                                            // Corrección automática del día
-                                            if (day > 31) {
-                                                day = 31;
-                                                formattedDate = formattedDate.substr(0, 3) + '31' +
-                                                    formattedDate
-                                                    .substr(5);
-                                            }
-
-                                            e.target.value = formattedDate;
-                                        });
-
-                                        // Validación al perder el foco
-                                        garantiaInput.addEventListener('blur', function(e) {
-                                            const datePattern =
-                                                /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-                                            if (!datePattern.test(e.target.value)) {
-                                                e.target.classList.add('is-invalid');
-                                            } else {
-                                                e.target.classList.remove('is-invalid');
-                                            }
-                                        });
-
-                                        // Validación al cambiar el valor
-                                        garantiaInput.addEventListener('input', function(e) {
-                                            const datePattern =
-                                                /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-                                            if (!datePattern.test(e.target.value)) {
-                                                e.target.classList.add('is-invalid');
-                                            } else {
-                                                e.target.classList.remove('is-invalid');
-                                            }
-                                        });
-
-                                        document.getElementById('FORMupdateform').addEventListener('submit', function(
-                                            event) {
-                                            if (garantiaInput.classList.contains('is-invalid')) {
-                                                event.preventDefault();
-                                                alert('Please enter a valid warranty end date.');
-                                            }
-                                        });
-                                    });
+                                   document.addEventListener('DOMContentLoaded', function() {
+    const fechaInput = document.getElementById('ingreso');
+        
+        // Validar fecha mínima (ejemplo: no antes de 2000)
+        const minDate = new Date('2000-01-01');
+        if (selectedDate < minDate) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Date',
+                text: 'Please enter a date after January 1, 2000.',
+                confirmButtonColor: '#3085d6'
+            });
+            this.value = ''; // Limpiar el campo
+        }
+    });
+    
+    // Validación al enviar el formulario
+    document.getElementById('updateform').addEventListener('submit', function(e) {
+        var fechaInput = document.getElementById('fecha_ingreso');
+        if (!fechaInput.value) {
+            // Si está vacío, poner la fecha actual
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            fechaInput.value = yyyy + '-' + mm + '-' + dd;
+        }
+    });
                                 </script>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="expira">Expire?: </label>
-                                <input class="form-control shadow-sm" type="text" id="expira" name="expira"
-                                    value="<?php echo htmlspecialchars($asset_data['expired']); ?>" required
-                                    readonly><br>
-                            </div>
-                            <div class="form-group">
-                            <label for="newl"><i class="fas fa-box-open me-2"></i>New laptop?:</label>
-                                <input class="form-control shadow-sm" type="text" id="newl" name="newl"
-                                    value="<?php echo htmlspecialchars($asset_data['new_laptop']); ?>"
-                                    autocomplete="off"><br>
+                            <div class="form-group mb-3">
+                                <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
+                                <select id="usrStts" class="shadow-sm form-select" name="usrStts">
+                                    <option value="0">Select a user status</option>
+                                    <option value="Stock">Stock</option>
+                                    <option value="Active User" selected>Active User</option>
+                                    <option value="Old User">Old User</option>
+                                </select>
                             </div>
                         </div>
+                        
+                        <!-- Tercera fila: Puesto de trabajo y Cédula -->
                         <div class="col-md-6">
-                   <div class="form-group my-2">
-    <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
-    <select id="usrStts" class="shadow-sm form-select" name="usrStts">
-        <option value="0">Select a user status</option>
-        <option value="Stock">Stock</option>
-        <option value="Active User" selected>Active User</option>
-        <option value="Old User">Old User</option>
-    </select>
-</div>
-                            <br> 
-                            <div class="form-group">
-                    <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
-<div class="input-group">
-    <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-    <select id="search_status_change" name="search_status_change" class="form-select">
-        <option value=""><?php echo __('select_status_change', $lang); ?></option>
-        <option value="Pending">Pending</option>
-        <option value="Active Warranty">Active Warranty</option>
-        <option value="Disable/Auction/Sold">Disable/Auction/Sold</option>
-        <option value="Warranty needed">Warranty needed</option>
-        <option value="Academy">Academy</option>
-    </select>
-</div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                            <label for="job_title"><i class="fas fa-briefcase me-2"></i>Job title:</label>
+                            <div class="form-group mb-3">
+                                <label for="job_title"><i class="fas fa-briefcase me-2"></i>Job title:</label>
                                 <input class="form-control shadow-sm" type="text" id="job_title" name="job_title"
                                     value="<?php echo htmlspecialchars($asset_data['job_title']); ?>" autocomplete="off"
                                     list="job_titles">
@@ -327,21 +236,16 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                         echo "<option value='$job_title'>$job_title</option>";
                                     }
                                     ?>
-                                </datalist><br>
+                                </datalist>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                            <label for="id"><i class="fas fa-id-card me-2"></i>Id:</label>
-                                <!-- Primero el input y el mensaje -->
-                                <div class="form-group">
-                                    <input class="form-control shadow-sm" type="text" id="id" name="id"
-                                        value="<?php echo htmlspecialchars($asset_data['cedula']); ?>" required
-                                        autocomplete="off">
-                                    <p id="mensaje" class="text-danger"></p>
-                                </div>
-
-                                <!-- Luego el script -->
+                            <div class="form-group mb-3">
+                                <label for="id"><i class="fas fa-id-card me-2"></i>Id:</label>
+                                <input class="form-control shadow-sm" type="text" id="id" name="id"
+                                    value="<?php echo htmlspecialchars($asset_data['cedula']); ?>" required
+                                    autocomplete="off">
+                                <p id="mensaje" class="text-danger"></p>
                                 <script>
                                     const inputElement = document.getElementById('id');
                                     const mensaje = document.getElementById('mensaje');
@@ -376,12 +280,14 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 </script>
                             </div>
                         </div>
+                        
+                        <!-- Campos dinámicos -->
                         <?php if (isset($_SESSION['new_upd_fields'])): ?>
                             <?php foreach ($_SESSION['new_upd_fields'] as $field_name): ?>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="mb-2" for="<?php echo htmlspecialchars($field_name); ?>">
-                                            <?php echo htmlspecialchars($field_name); ?>:
+                                    <div class="form-group mb-3">
+                                        <label for="<?php echo htmlspecialchars($field_name); ?>">
+                                            <i class="fas fa-file-alt me-2"></i><?php echo htmlspecialchars($field_name); ?>:
                                         </label>
                                         <?php
                                         // Retrieve the value of the field from the asset data, ensuring it is safe for HTML output
@@ -395,7 +301,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                             <input class="form-control shadow-sm" type="date"
                                                 id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>"
-                                                value="<?php echo $field_value; ?>" autocomplete="off"><br>
+                                                value="<?php echo $field_value; ?>" autocomplete="off">
                                         <?php elseif ($field_type === 'tinyint'): ?>
                                             <select class="form-control shadow-sm" id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>" autocomplete="off"
@@ -410,60 +316,71 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                                 id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>"
                                                 value="<?php echo $field_value ?: 0; ?>" autocomplete="off" min="0"
-                                                oninput="this.value = Math.abs(this.value)"><br>
+                                                oninput="this.value = Math.abs(this.value)">
                                         <?php else: ?>
                                             <!-- Render a text input field for other types -->
                                             <!-- Renderiza  un tipo de entrada de texto para el campo u otros tipos-->
                                             <input class="form-control shadow-sm" type="text"
                                                 id="<?php echo htmlspecialchars($field_name); ?>"
                                                 name="<?php echo htmlspecialchars($field_name); ?>"
-                                                value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true"><br>
+                                                value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true">
                                         <?php endif; ?>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
-
-                        <div class="col-md-6 d-flex justify-content-right">
-                            <div class="form-group me-2">
-                            <label for="selectCard"><i class="fas fa-id-card-alt"></i>Card:</label>
-                                <select class="shadow-sm form-select form-select-sm" name="selectCard" id="selectCard">
-                                    <option value="Pendiente" <?php echo ($asset_data['Carnet'] == 'Pendiente') ? 'selected' : ''; ?>>
-                                        Pending</option>
-                                    <option value="No" <?php echo ($asset_data['Carnet'] == 'No') ? 'selected' : ''; ?>>
-                                        No</option>
-                                    <option value="Si" <?php echo ($asset_data['Carnet'] == 'Si') ? 'selected' : ''; ?>>
-                                        Yes</option>
-                                </select>
-                            </div>
-                            <div class="form-group me-2">
-                            <label for="selectKEY"><i class="fas fa-key"></i> Key</label>
-                                <select class="shadow-sm form-select form-select-sm" name="selectKEY" id="selectKEY">
-                                    <option value="Pendiente" <?php echo ($asset_data['LLave'] == 'Pendiente') ? 'Selected' : ''; ?>>
-                                        Pending</option>
-                                    <option value="No" <?php echo ($asset_data['LLave'] == 'No') ? 'selected' : ''; ?>>
-                                        No</option>
-                                    <option value="Si" <?php echo ($asset_data['LLave'] == 'Si') ? 'selected' : ''; ?>>
-                                        Yes</option>
-                                </select>
-                            </div>
-                            <div class="form-group me-2">
-                            <label for="typeId"><i class="fa fa-id-badge"></i> Type ID:</label>
-                                <?php
-                                $typeIds = ['CC', 'CE', 'PP', 'TI', 'RC'];
-                                ?>
-                                <select class="shadow-sm form-select form-select-sm" name="selectID" id="selectID">
-                                    <?php foreach ($typeIds as $typeId): ?>
-                                        <option value="<?php echo $typeId; ?>" <?php echo ($asset_data['Tipo_ID'] == $typeId) ? 'selected' : ''; ?>>
-                                            <?php echo $typeId; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                        
+                        <!-- Fila: Carnet, Llave, Tipo ID -->
+                        <div class="col-md-12 mb-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="selectCard"><i class="fas fa-id-card-alt me-2"></i>Card:</label>
+                                        <select class="shadow-sm form-select" name="selectCard" id="selectCard">
+                                            <option value="Pendiente" <?php echo ($asset_data['Carnet'] == 'Pendiente') ? 'selected' : ''; ?>>
+                                                Pending</option>
+                                            <option value="No" <?php echo ($asset_data['Carnet'] == 'No') ? 'selected' : ''; ?>>
+                                                No</option>
+                                            <option value="Si" <?php echo ($asset_data['Carnet'] == 'Si') ? 'selected' : ''; ?>>
+                                                Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="selectKEY"><i class="fas fa-key me-2"></i> Key:</label>
+                                        <select class="shadow-sm form-select" name="selectKEY" id="selectKEY">
+                                            <option value="Pendiente" <?php echo ($asset_data['LLave'] == 'Pendiente') ? 'Selected' : ''; ?>>
+                                                Pending</option>
+                                            <option value="No" <?php echo ($asset_data['LLave'] == 'No') ? 'selected' : ''; ?>>
+                                                No</option>
+                                            <option value="Si" <?php echo ($asset_data['LLave'] == 'Si') ? 'selected' : ''; ?>>
+                                                Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="selectID"><i class="fa fa-id-badge me-2"></i> Type ID:</label>
+                                        <?php
+                                        $typeIds = ['CC', 'CE', 'PP', 'TI', 'RC'];
+                                        ?>
+                                        <select class="shadow-sm form-select" name="selectID" id="selectID">
+                                            <?php foreach ($typeIds as $typeId): ?>
+                                                <option value="<?php echo $typeId; ?>" <?php echo ($asset_data['Tipo_ID'] == $typeId) ? 'selected' : ''; ?>>
+                                                    <?php echo $typeId; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group me-2">
-                            <label for="assetname"><i class="fas fa-tag me-2"></i>Asset name:</label>
+                        
+                        <!-- Fila: Asset name -->
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label for="assetname"><i class="fas fa-tag me-2"></i>Asset name:</label>
                                 <input class="form-control shadow-sm" type="text" id="assetname" name="assetname"
                                     value="<?php echo htmlspecialchars($asset_data['assetname']); ?>" required
                                     oninput="this.value = this.value.toUpperCase()">
@@ -513,12 +430,16 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             </div>
                         </div>
                     </div>
-                    <br>
-                    <div class="col-md-6">
-                        <button id="confirmAllButton" type="submit" class="btn btn-secondary my-2">Send</button>
-                        <a href="../index.php" class="btn my-2">Return</a>
+                    
+                    <!-- Botones de acción -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button id="confirmAllButton" type="submit" class="btn btn-secondary">Send</button>
+                            <a href="../index.php" class="btn btn-outline-secondary">Return</a>
+                        </div>
                     </div>
                 </form>
+                
                 <script>
                     // Función general para validar que no se ingresen caracteres especiales
 function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
@@ -598,42 +519,6 @@ function validarSinCaracteresEspeciales(inputElement, mensajeElement) {
                     newLaptopInput.parentNode.appendChild(mensajeNewLaptop);
 
                     validarSinCaracteresEspeciales(newLaptopInput, mensajeNewLaptop);
-
-                    document.getElementById('updateform').addEventListener('submit', function(event) {
-                        const select1 = document.getElementById('compra');
-                        const select2 = document.getElementById('usrStts');
-                        const select3 = document.getElementById('status_change');
-
-                        const requiredSelects = [select1, select2, select3];
-                        const errorMessages = [];
-
-                        requiredSelects.forEach((select, index) => {
-                            if (select.value === '0') {
-                                let message;
-                                switch (index) {
-                                    case 0:
-                                        message = "- Select a Purchase Country.";
-                                        break;
-                                    case 1:
-                                        message = "- Select a User Status.";
-                                        break;
-                                    case 2:
-                                        message = "- Select a Status Change.";
-                                        break;
-                                }
-                                errorMessages.push(message);
-                            }
-                        });
-
-                        if (errorMessages.length > 0) {
-                            event.preventDefault();
-                            alert("Please fix the following errors: \n" + errorMessages.join("\n"));
-                        } else {
-                            if (!confirm('Are you sure you want to update this data?')) {
-                                event.preventDefault();
-                            }
-                        }
-                    });
                 </script>
             </div>
         </div>
@@ -654,11 +539,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('updateform').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent default form submission
         
-        const select1 = document.getElementById('compra');
-        const select2 = document.getElementById('usrStts');
-        const select3 = document.getElementById('status_change');
+        const select1 = document.getElementById('usrStts');
 
-        const requiredSelects = [select1, select2, select3];
+        const requiredSelects = [select1];
         const errorMessages = [];
 
         requiredSelects.forEach((select, index) => {
@@ -666,13 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let message;
                 switch (index) {
                     case 0:
-                        message = "- Select a Purchase Country.";
-                        break;
-                    case 1:
                         message = "- Select a User Status.";
-                        break;
-                    case 2:
-                        message = "- Select a Status Change.";
                         break;
                 }
                 errorMessages.push(message);

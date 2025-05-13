@@ -65,11 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
         // 5. Insertar en tabla usuarios_equipos - Solo campos relacionados con usuarios
         $sql_usuarios = "INSERT INTO usuarios_equipos (
             fk_assetname, user_status, last_user, job_title, cedula, Carnet, 
-            LLave, Tipo_ID, fecha_salida
+            LLave, Tipo_ID, fecha_ingreso, fecha_salida
         ) VALUES (
             :fk_assetname, :usrStts, :nombre_usuario, :job_title, 
-            :cedula, :selectCard, :selectKEY, :type_id,
-            :fecha_salida
+            :cedula, :selectCard, :selectKEY, :type_id, :fecha_ingreso, :fecha_salida
         )";
         
         $stmt_usuarios = $pdo->prepare($sql_usuarios);
@@ -82,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
             ':selectCard' => $complete_data['selectCard'] ?? 'Pendiente',
             ':selectKEY' => $complete_data['selectKEY'] ?? 'Pendiente',
             ':type_id' => $complete_data['type_id'] ?? 'CC',
+            ':fecha_ingreso' => $complete_data['fecha_ingreso'] ?? date('Y-m-d'),
             ':fecha_salida' => $complete_data['fecha_salida'] ?? NULL
         ]);
 
@@ -205,7 +205,7 @@ try {
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="asset_status">Status</label>
-                                <select class="form-control" id="asset_status" name="asset_status" required>
+                                <select class="form-control" id="asset_status" name="asset_status">
                                     <option value="">Select status</option>
                                     <option value="Bueno">Bueno</option>
                                     <option value="Regular">Regular</option>
@@ -378,16 +378,6 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         let isValid = true;
         let errorMessage = "Por favor corrija los siguientes errores:\n";
-        
-        // Validar estado del computador (requerido)
-        const assetStatus = document.getElementById('asset_status');
-        if (assetStatus.value === '') {
-            isValid = false;
-            errorMessage += "- Seleccione un estado para el computador.\n";
-            assetStatus.classList.add('is-invalid');
-        } else {
-            assetStatus.classList.remove('is-invalid');
-        }
         
         // Validar seriales (si se ingresan)
         const serialInputs = document.querySelectorAll('input[type="text"][name*="Serial"], input[type="text"][id="Monitor"], input[type="text"][id="HeadSet"], input[type="text"][id="Dongle"], input[type="text"][id="Celular"], input[type="text"][id="SIMcard"]');

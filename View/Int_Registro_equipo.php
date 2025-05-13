@@ -84,7 +84,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             <?php
                             try {
                                 // Get columns from both tables
-                                $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula', 'Carnet', 'LLave', 'Tipo_ID'];
+                                $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula','fecha_ingreso', 'Carnet', 'LLave', 'Tipo_ID'];
 
                                 $sql = "SELECT COLUMN_NAME, DATA_TYPE 
                                    FROM INFORMATION_SCHEMA.COLUMNS 
@@ -255,11 +255,11 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
 </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                            <label for="garantia"><i class="fas fa-calendar-check me-2"></i>Warranty end date:</label>
-                                <input class="shaodw-sm form-control" type="text" id="garantia" name="garantia"
-                                    autocomplete="off" required data-validate="true" placeholder="mm/dd/yyyy" required>
-                            </div>
+                          <div class="form-group">
+    <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i>Fecha de ingreso:</label>
+    <input class="shadow-sm form-control" type="date" id="fecha_ingreso" name="fecha_ingreso" 
+           value="<?php echo date('Y-m-d'); ?>" required>
+</div>
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     const garantiaInput = document.getElementById('garantia');

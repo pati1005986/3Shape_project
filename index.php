@@ -620,6 +620,7 @@ function __($key, $lang) {
                         <th><?php echo __('last_user', $lang); ?></th><!-- Last User -->
                         <th><?php echo __('job_title', $lang); ?></th><!-- Job Title -->
                         <th>ID</th>
+                        <th>Fecha de ingreso</th><!--Entry Date -->
                         <?php
                         $selectedColumns = $_SESSION['selected_fields'] ?? [];
                         $headerTemplate = "<th class='text-center'>%s</th>";
