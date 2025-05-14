@@ -115,7 +115,7 @@ try {
         <div class="col-md-4">
             <div class="form-group">
                 <label for="asset_status">Status</label>
-                <select class="form-control" id="asset_status" name="asset_status" required>
+                <select class="form-control" id="asset_status" name="asset_status" >
                     <option value="">Select status</option>
                     <option value="Bueno" <?php echo ($asset_data['asset_status'] == 'Bueno') ? 'selected' : ''; ?>>Bueno</option>
                     <option value="Regular" <?php echo ($asset_data['asset_status'] == 'Regular') ? 'selected' : ''; ?>>Regular</option>

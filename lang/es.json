@@ -30,14 +30,19 @@
     "select_country": "Selecciona un país",
   
     "user_information": "Información del Usuario",
+    "user_name": "Nombre de usuario",
     "user_id": "ID de Usuario",
+    "type_id": "Tipo de documento",
     "last_user": "Último Usuario",
     "job_title": "Cargo",
     "user_status": "Estado del Usuario",
+    "entry_date": "Fecha de Ingreso",
     "select_user_status": "Selecciona estado del usuario",
-    "stock": "Almacén",
+    "stock": "Bodega",
     "active_user": "Usuario Activo",
     "old_user": "Usuario Antiguo",
+    "card": "Carnet",
+    "key": "Llave",
   
     "status_warranty": "Estado y Garantía",
     "status_change": "Cambio de Estado",
@@ -61,6 +66,8 @@
     "preview_pdf": "Vista Previa PDF",
     "status_observations": "Estado y Observaciones",
     "delete": "Eliminar",
+
+     "update_register" : " Actualizar Registro",
   
     "administrator_access": "Acceso de Administrador",
     "manager_login": "Inicio de Sesión del Gerente",

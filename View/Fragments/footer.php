@@ -27,13 +27,13 @@
                             <div class="developer-card ps-3">
                                 <p class="mb-2 fw-bold text-primary"><i class="fas fa-user me-2"></i>Daniel Patiño</p>
                                 <div class="ms-3 mb-3">
-                                    <p class="mb-2"><a href="mailto:Daniel.Cortes@3Shape.com" class="text-decoration-none d-flex align-items-center">
+                                    <p class="mb-2"><a href="mailto:Daniel.Cortes@3Shape.com" class="text-decoration-none d-flex align-items-center" target="_blank">
                                         <i class="fas fa-envelope me-2 text-muted"></i>Email
                                     </a></p>
-                                    <p class="mb-2"><a href="https://github.com/pati1005986" class="text-decoration-none d-flex align-items-center">
+                                    <p class="mb-2"><a href="https://github.com/pati1005986" class="text-decoration-none d-flex align-items-center" target="_blank">
                                         <i class="fab fa-github me-2 text-muted"></i>GitHub
                                     </a></p>
-                                    <p class="mb-0"><a href="https://linkedin.com/in/daniel-patiño" class="text-decoration-none d-flex align-items-center">
+                                    <p class="mb-0"><a href="https://linkedin.com/in/daniel-patiño" class="text-decoration-none d-flex align-items-center" target="_blank">
                                         <i class="fab fa-linkedin me-2 text-muted"></i>LinkedIn
                                     </a></p>
                                 </div>
@@ -45,13 +45,13 @@
                             <div class="developer-card ps-3">
                                 <p class="mb-2 fw-bold text-primary"><i class="fas fa-user me-2"></i>Killiam González</p>
                                 <div class="ms-3 mb-3">
-                                    <p class="mb-2"><a href="mailto:Killiam.Cruz@3shape.com" class="text-decoration-none d-flex align-items-center">
+                                    <p class="mb-2"><a href="mailto:Killiam.Cruz@3shape.com" class="text-decoration-none d-flex align-items-center" target="_blank">
                                         <i class="fas fa-envelope me-2 text-muted"></i>Email
                                     </a></p>
-                                    <p class="mb-2"><a href="https://github.com/killiam19" class="text-decoration-none d-flex align-items-center">
+                                    <p class="mb-2"><a href="https://github.com/killiam19" class="text-decoration-none d-flex align-items-center" target="_blank">
                                         <i class="fab fa-github me-2 text-muted"></i>GitHub
                                     </a></p>
-                                    <p class="mb-0"><a href="https://www.linkedin.com/in/killiam-gonzalez-22b708312/" class="text-decoration-none d-flex align-items-center">
+                                    <p class="mb-0"><a href="https://www.linkedin.com/in/killiam-gonzalez-22b708312/" class="text-decoration-none d-flex align-items-center" target="_blank">
                                         <i class="fab fa-linkedin me-2 text-muted"></i>LinkedIn
                                     </a></p>
                                 </div>
@@ -73,7 +73,7 @@
                         <i class="fas fa-cogs me-3 fs-5"></i><?php echo __('technical_details', $lang); ?>
                     </h6>
                     <div class="ps-4 ms-2">
-                        <p class="text-muted mb-3"><i class="fas fa-code-branch me-2"></i><?php echo __('version', $lang); ?>: 4.0.0</p>
+                        <p class="text-muted mb-3"><i class="fas fa-code-branch me-2"></i><?php echo __('version', $lang); ?>: 5.5.0</p>
                         <p class="text-muted mb-3"><i class="fas fa-calendar-plus me-2"></i><?php echo __('created', $lang); ?>: <?= date("F j, Y", filectime($_SERVER['SCRIPT_FILENAME'])); ?></p>
                         <p class="text-muted mb-0"><i class="fas fa-calendar-check me-2"></i><?php echo __('last_updated', $lang); ?>: <?= date("F j, Y", filemtime($_SERVER['SCRIPT_FILENAME'])); ?></p>
                     </div>

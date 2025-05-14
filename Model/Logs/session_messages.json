@@ -43,6 +43,18 @@
         {
             "message": "User Killiam logged in successfully via email",
             "timestamp": "2025-05-08 20:03:51"
+        },
+        {
+            "message": "Asset statuses updated successfully.",
+            "timestamp": "2025-05-14 10:21:19"
+        },
+        {
+            "message": "Record successfully deleted.",
+            "timestamp": "2025-05-14 10:21:26"
+        },
+        {
+            "message": "Asset statuses updated successfully.",
+            "timestamp": "2025-05-14 10:21:33"
         }
     ],
     "error": [],

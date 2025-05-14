@@ -12,6 +12,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['phase']) && $_POST['p
     header("Location: Estado_Assets_Register.php");
     exit;
 }
+
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
 ?>
 
 
@@ -84,7 +108,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             <?php
                             try {
                                 // Get columns from both tables
-                                $prohibited_fields = ['assetname', 'serial_number', 'purchase_country', 'warranty_enddate', 'expired', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula','fecha_ingreso', 'Carnet', 'LLave', 'Tipo_ID'];
+                                $prohibited_fields = ['assetname', 'serial_number', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula','fecha_ingreso', 'Carnet', 'LLave', 'Tipo_ID'];
 
                                 $sql = "SELECT COLUMN_NAME, DATA_TYPE 
                                    FROM INFORMATION_SCHEMA.COLUMNS 
@@ -138,13 +162,13 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                     <div class="row">
                         <div class="col-md-6 bg-light">
                             <div class="form-group">
-                            <label for="nombre_usuario"><i class="fas fa-user me-2"></i>User name:</label>
+                            <label for="nombre_usuario"><i class="fas fa-user me-2"></i><?php echo __('user_name', $lang); ?>:</label>
                                 <input class="shadow-sm form-control" type="text" id="nombre_usuario"
                                     name="nombre_usuario" autocomplete="off" required data-validate="true"
                                     value="<?php echo rand(10000, 99999); ?>">
                             </div>
                             <div class="form-group">
-                            <label for="assetname"><i class="fas fa-tag me-2"></i>Asset name:</label>
+                            <label for="assetname"><i class="fas fa-tag me-2"></i><?php echo __('asset_name', $lang); ?>:</label>
                                 <input class="shadow-sm form-control" type="text" id="assetname" name="assetname"
                                     autocomplete="off" required data-validate="true" value="CO-LPT"
                                     oninput="this.value = this.value.toUpperCase()">
@@ -230,7 +254,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                            <label for="serial"><i class="fas fa-barcode me-2"></i>Serial number:</label>
+                            <label for="serial"><i class="fas fa-barcode me-2"></i><?php echo __('serial_number', $lang); ?>:</label>
                                 <input class="shadow-sm form-control" type="text" id="serial" name="serial"
                                     autocomplete="off" required data-validate="true"
                                     oninput="this.value = this.value.toUpperCase()" />
@@ -238,25 +262,11 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                 <!--Script con la funcion de mostrar el resultado de la busqueda y validacion en este caso de el numero de serial y el nombre de el activo-->
                                 <script src="../View/Js/GetSerial.js"></script>
                             </div>
-                           <div class="form-group">
-    <label for="compra"><i class="fas fa-globe-americas me-2"></i>Purchase Country:</label>
-    <select id="compra" class="shadow-sm form-select" name="compra">
-        <option value="0">Select a country</option>
-        <option value="Colombia" selected>Colombia</option>
-        <option value="Poland">Poland</option>
-        <option value="Denmark">Denmark</option>
-        <option value="Australia">Australia</option>
-        <option value="United States">United States</option>
-        <option value="Korea">Korea</option>
-        <option value="México">México</option>
-        <option value="Brazil">Brazil</option>
-        <option value="Canada">Canada</option>
-    </select>
-</div>
+
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
-    <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i>Fecha de ingreso:</label>
+    <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i><?php echo __('entry_date', $lang); ?>:</label>
     <input class="shadow-sm form-control" type="date" id="fecha_ingreso" name="fecha_ingreso" 
            value="<?php echo date('Y-m-d'); ?>" required>
 </div>
@@ -345,18 +355,18 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </div>
                         <div class="col-md-6">
                           <div class="form-group my-2">
-    <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
+    <label for="usrStts"><i class="fas fa-user-shield me-2"></i><?php echo __('user_status', $lang); ?>:</label>
     <select id="usrStts" class="shadow-sm form-select" name="usrStts">
         <option value="0">Select a user status</option>
-        <option value="Stock">Stock</option>
-        <option value="Active User" selected>Active User</option>
-        <option value="Old User">Old User</option>
+        <option value="Stock"><?php echo __('stock', $lang); ?></option>
+        <option value="Active User" selected><?php echo __('active_user', $lang); ?></option>
+        <option value="Old User"><?php echo __('old_user', $lang); ?></option>
     </select>
 </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group position-relative">
-                            <label for="job_title"><i class="fas fa-briefcase me-2"></i>Job title:</label>
+                            <label for="job_title"><i class="fas fa-briefcase me-2"></i><?php echo __('job_title', $lang); ?>:</label>
                                 <input class="form-control" type="text" id="job_title" name="job_title"
                                     list="job_titles" data-validate="true" autocomplete="off" value="Unknown">
                                 <datalist id="job_titles">
@@ -449,7 +459,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             <label>Additional Information:</label>
                             <div class="field-group-sm">
                                 <div class="form-group">
-                                    <label for="selectCard"><i class="fas fa-id-card-alt"></i>Card:</label>
+                                    <label for="selectCard"><i class="fas fa-id-card-alt"></i><?php echo __('card', $lang); ?>:</label>
                                     <select class="form-select form-select-sm" name="selectCard" id="selectCard">
                                         <option value="No">No</option>
                                         <option value="Si">Yes</option>
@@ -457,7 +467,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectKEY"><i class="fas fa-key"></i> Key</label>
+                                    <label for="selectKEY"><i class="fas fa-key"></i> <?php echo __('key', $lang); ?></label>
                                     <select class="form-select form-select-sm" name="selectKEY" id="selectKEY">
                                         <option value="No">No</option>
                                         <option value="Si">Yes</option>
@@ -465,7 +475,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="typeId"><i class="fa fa-id-badge"></i> Type ID:</label>
+                                    <label for="typeId"><i class="fa fa-id-badge"></i> <?php echo __('type_id', $lang); ?>:</label>
                                     <select class="form-select form-select-sm" name="type_id" id="type_id">
                                         <option value="CC" selected>CC</option>
                                         <option value="CE">CE</option>
@@ -477,7 +487,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             </div>
                             <div class="col-12 mt-4 d-flex justify-content-center gap-3">
                         <button id="confirmAllButton" type="submit" class="btn btn-secondary">
-                            <i class="fas fa-paper-plane me-2"></i>Next: Asset Status
+                            <i class="fas fa-paper-plane me-2"></i><?php echo __('next', $lang); ?>: <?php echo __('asset_status', $lang); ?>
                         </button>
                         <a href="../index.php" class="btn">
                             <i class="fas fa-arrow-left me-2"></i>Return

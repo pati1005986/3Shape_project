@@ -187,9 +187,6 @@ $serial = $row['serial_number'];
 $cargo = $row['job_title'];
 $asset_status = $row['asset_status'] ?? '';
 $asset_observations = $row['asset_observations'] ?? '';
-$monitor = $row['Monitor'] ?? '';
-$monitor_status = $row['monitor_status'] ?? '';
-$monitor_observations = $row['monitor_observations'] ?? '';
 $headSet = $row['HeadSet'] ?? '';
 $headSet_status = $row['headset_status'] ?? '';
 $headSet_observations = $row['headset_observations'] ?? '';
@@ -218,15 +215,6 @@ $llave = !empty($row['LLave']) ? $row['LLave'] : 'Pendiente';
     $pdf->Cell(29, 10, convertirTexto($serial), 1, 0, 'C');
     $pdf->Cell(29, 10, convertirTexto($asset_status), 1, 0, 'C');
     $pdf->Cell(38, 10, convertirTexto($asset_observations), 1, 1, 'C');
-
-    // Monitor (si existe)
-    if (!empty($monitor)) {
-        $pdf->Cell(22, 10, convertirTexto($itemCounter++), 1, 0, 'C');
-        $pdf->Cell(40, 10, convertirTexto('Monitor'), 1, 0, 'C');
-        $pdf->Cell(29, 10, convertirTexto($monitor), 1, 0, 'C');
-        $pdf->Cell(29, 10, convertirTexto($monitor_status), 1, 0, 'C');
-        $pdf->Cell(38, 10, convertirTexto($monitor_observations), 1, 1, 'C');
-    }
 
     // HeadSet (si existe)
     if (!empty($headSet)) {

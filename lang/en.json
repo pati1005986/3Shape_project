@@ -28,16 +28,22 @@
   "serial_number": "Serial Number",
   "purchase_country": "Purchase Country",
   "select_country": "Select a country",
+  "asset_status": "Asset Status",
 
   "user_information": "User Information",
+  "user_name": "User name",
   "user_id": "User ID",
+  "type_id":"Type ID",
   "last_user": "Last User",
   "job_title": "Job Title",
   "user_status": "User Status",
-  "select_user_status": "Select user status",
+  "entry_date": "Entry Date",
+  "select_user_status": "Select a user status",
   "stock": "Stock",
   "active_user": "Active User",
   "old_user": "Old User",
+  "card" : "Card",
+  "key" : "Key",
 
   "status_warranty": "Status & Warranty",
   "status_change": "Status Change",
@@ -61,6 +67,9 @@
   "preview_pdf": "Preview PDF",
   "status_observations": "Status And Observations",
   "delete": "Delete",
+
+  "update_register" : "Update Register",
+  "register_asset" : "Register Asset",
 
   "administrator_access": "Administrator Access",
   "manager_login": "Manager Login",

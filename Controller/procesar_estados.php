@@ -30,9 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Campo => [nombre_post, validación_requerida]
             'asset_status' => ['asset_status', false],
             'asset_observations' => ['asset_observations', false],
-            'Monitor' => ['Monitor', false],
-            'monitor_status' => ['monitor_status', false],
-            'monitor_observations' => ['monitor_observations', false],
             'HeadSet' => ['HeadSet', false],
             'headset_status' => ['headset_status', false],
             'headset_observations' => ['headset_observations', false],

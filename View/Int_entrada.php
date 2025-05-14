@@ -27,7 +27,7 @@ session_start();
                     <div id="FORMinput" class="card-body">
                         <form id="updateForm" action="../Controller/act_entrada.php" method="post">
                             <center>
-                <h1 id="totalC" class="text-center mb-5 fw-bold">Record of Entry Record</h1>
+                <h1 id="totalC" class="text-center mb-5 fw-bold">Record of Departure Record</h1>
             </center>
 
                             <!-- Selección del número de serie -->

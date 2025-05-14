@@ -198,32 +198,32 @@ try {
             <form id="updateform" method="post" action="">
                 <input type="hidden" name="phase" value="2">
                 
-                <!-- Sección de Computador -->
-                <div class="asset-section">
-                    <h5><i class="fas fa-laptop"></i> Laptop</h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="asset_status">Status</label>
-                                <select class="form-control" id="asset_status" name="asset_status">
-                                    <option value="">Select status</option>
-                                    <option value="Bueno">Bueno</option>
-                                    <option value="Regular">Regular</option>
-                                    <option value="Dañado">Dañado</option>
-                                    <option value="Malo">Malo</option>
-                                    <option value="Perdido">Perdido</option>
-                                    <option value="No aplica">No aplica</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="asset_observations">Observations</label>
-                                <textarea class="form-control" id="asset_observations" name="asset_observations" rows="2" maxlength="255"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Sección de Computador -->
+<div class="asset-section">
+    <h5><i class="fas fa-laptop"></i> Laptop</h5>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="asset_status">Status</label>
+                <select class="form-control" id="asset_status" name="asset_status">
+                    <option value="">-- Select status --</option>
+                    <option value="Bueno">Bueno</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Dañado">Dañado</option>
+                    <option value="Malo">Malo</option>
+                    <option value="Perdido">Perdido</option>
+                    <option value="No aplica">No aplica</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="asset_observations">Observations</label>
+                <textarea class="form-control" id="asset_observations" name="asset_observations" rows="2" maxlength="255"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- Sección de HeadSet -->
                 <div class="asset-section">
@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let errorMessage = "Por favor corrija los siguientes errores:\n";
         
         // Validar seriales (si se ingresan)
-        const serialInputs = document.querySelectorAll('input[type="text"][name*="Serial"], input[type="text"][id="Monitor"], input[type="text"][id="HeadSet"], input[type="text"][id="Dongle"], input[type="text"][id="Celular"], input[type="text"][id="SIMcard"]');
+        const serialInputs = document.querySelectorAll('input[type="text"][name*="Serial"], input[type="text"][id="HeadSet"], input[type="text"][id="Dongle"], input[type="text"][id="Celular"], input[type="text"][id="SIMcard"]');
         serialInputs.forEach(input => {
             if (input.value.trim() !== '' && !/^[a-zA-Z0-9\-]+$/.test(input.value)) {
                 isValid = false;

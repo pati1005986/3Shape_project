@@ -30,14 +30,19 @@
     "select_country": "Wybierz kraj",
   
     "user_information": "Informacje o Użytkowniku",
+    "user_name":"nazwa użytkownika",
     "user_id": "ID Użytkownika",
+    "type_id": "wpisz identyfikator",
     "last_user": "Ostatni Użytkownik",
     "job_title": "Stanowisko",
     "user_status": "Status Użytkownika",
+    "entry_date": "data wejścia",
     "select_user_status": "Wybierz status użytkownika",
     "stock": "Magazyn",
     "active_user": "Aktywny Użytkownik",
     "old_user": "Poprzedni Użytkownik",
+    "card" : "licencja",
+    "key" : "klawisz",
   
     "status_warranty": "Status i Gwarancja",
     "status_change": "Zmiana Statusu",
@@ -61,6 +66,8 @@
     "preview_pdf": "Podgląd PDF",
     "status_observations": "Status i Obserwacje",
     "delete": "Usuń",
+
+    "update_register": "Aktualizacja rejestru",
   
     "administrator_access": "Dostęp Administratora",
     "manager_login": "Logowanie Managera",

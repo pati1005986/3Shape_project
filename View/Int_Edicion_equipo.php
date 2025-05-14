@@ -50,7 +50,7 @@ function __($key, $lang) {
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <title>Update Register</title>
+    <title><?php echo __('update_register', $lang); ?></title>
 </head>
 <body>
     <div class="container">
@@ -149,14 +149,14 @@ function __($key, $lang) {
                 
                 <!-- Formulario de Actualización donde trae los datos del activo seleccionado -->
                 <form id="updateform" action="../Controller/procesar_datos.php" method="post">
-                    <h2 id="totalC" class="text-center">Update Register</h2>
+                    <h2 id="totalC" class="text-center"><?php echo __('update_register', $lang); ?></h2>
                     <br>
                     
                     <div class="row">
                         <!-- Primera fila: Usuario y Serial -->
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="nombre_usuario"><i class="fas fa-user me-2"></i>User name:</label>
+                                <label for="nombre_usuario"><i class="fas fa-user me-2"></i><?php echo __('user_name', $lang); ?>:</label>
                                 <input class="form-control shadow-sm" type="text" id="nombre_usuario" name="nombre_usuario"
                                     value="<?php echo htmlspecialchars($asset_data['last_user']); ?>"
                                     autocomplete="off">
@@ -164,7 +164,7 @@ function __($key, $lang) {
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="serial"><i class="fas fa-barcode me-2"></i>Serial number:</label>
+                                <label for="serial"><i class="fas fa-barcode me-2"></i><?php echo __('serial_number', $lang); ?>:</label>
                                 <input class="form-control shadow-sm" type="text" id="serial" name="serial"
                                     value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required
                                     autocomplete="off" readonly>
@@ -174,7 +174,7 @@ function __($key, $lang) {
                         <!-- Segunda fila: Fecha de ingreso y Estado de usuario -->
                  <div class="col-md-6">
     <div class="form-group mb-3">
-        <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i>Fecha de ingreso:</label>
+        <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i><?php echo __('entry_date', $lang); ?>:</label>
 <input class="form-control shadow-sm" type="date" id="fecha_ingreso" name="fecha_ingreso"
        value="<?php echo !empty($asset_data['fecha_ingreso']) ? htmlspecialchars($asset_data['fecha_ingreso']) : date('Y-m-d'); ?>"
        required>
@@ -212,12 +212,12 @@ function __($key, $lang) {
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="usrStts"><i class="fas fa-user-shield me-2"></i>User Status:</label>
+                                <label for="usrStts"><i class="fas fa-user-shield me-2"></i><?php echo __('user_status', $lang); ?>:</label>
                                 <select id="usrStts" class="shadow-sm form-select" name="usrStts">
-                                    <option value="0">Select a user status</option>
-                                    <option value="Stock">Stock</option>
-                                    <option value="Active User" selected>Active User</option>
-                                    <option value="Old User">Old User</option>
+                                    <option value="0"><?php echo __('select_user_status', $lang); ?></option>
+                                    <option value="Stock"><?php echo __('stock', $lang); ?></option>
+                                    <option value="Active User" selected><?php echo __('active_user', $lang); ?></option>
+                                    <option value="Old User"><?php echo __('old_user', $lang); ?></option>
                                 </select>
                             </div>
                         </div>
@@ -225,7 +225,7 @@ function __($key, $lang) {
                         <!-- Tercera fila: Puesto de trabajo y Cédula -->
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="job_title"><i class="fas fa-briefcase me-2"></i>Job title:</label>
+                                <label for="job_title"><i class="fas fa-briefcase me-2"></i><?php echo __('job_title', $lang); ?>:</label>
                                 <input class="form-control shadow-sm" type="text" id="job_title" name="job_title"
                                     value="<?php echo htmlspecialchars($asset_data['job_title']); ?>" autocomplete="off"
                                     list="job_titles">
@@ -335,7 +335,7 @@ function __($key, $lang) {
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="selectCard"><i class="fas fa-id-card-alt me-2"></i>Card:</label>
+                                        <label for="selectCard"><i class="fas fa-id-card-alt me-2"></i><?php echo __('card', $lang); ?>:</label>
                                         <select class="shadow-sm form-select" name="selectCard" id="selectCard">
                                             <option value="Pendiente" <?php echo ($asset_data['Carnet'] == 'Pendiente') ? 'selected' : ''; ?>>
                                                 Pending</option>
@@ -348,7 +348,7 @@ function __($key, $lang) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="selectKEY"><i class="fas fa-key me-2"></i> Key:</label>
+                                        <label for="selectKEY"><i class="fas fa-key me-2"></i> <?php echo __('key', $lang); ?>:</label>
                                         <select class="shadow-sm form-select" name="selectKEY" id="selectKEY">
                                             <option value="Pendiente" <?php echo ($asset_data['LLave'] == 'Pendiente') ? 'Selected' : ''; ?>>
                                                 Pending</option>
@@ -361,7 +361,7 @@ function __($key, $lang) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="selectID"><i class="fa fa-id-badge me-2"></i> Type ID:</label>
+                                        <label for="selectID"><i class="fa fa-id-badge me-2"></i> <?php echo __('type_id', $lang); ?>:</label>
                                         <?php
                                         $typeIds = ['CC', 'CE', 'PP', 'TI', 'RC'];
                                         ?>
@@ -380,7 +380,7 @@ function __($key, $lang) {
                         <!-- Fila: Asset name -->
                         <div class="col-md-12">
                             <div class="form-group mb-3">
-                                <label for="assetname"><i class="fas fa-tag me-2"></i>Asset name:</label>
+                                <label for="assetname"><i class="fas fa-tag me-2"></i><?php echo __('asset_name', $lang); ?>:</label>
                                 <input class="form-control shadow-sm" type="text" id="assetname" name="assetname"
                                     value="<?php echo htmlspecialchars($asset_data['assetname']); ?>" required
                                     oninput="this.value = this.value.toUpperCase()">

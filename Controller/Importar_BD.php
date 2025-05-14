@@ -42,8 +42,6 @@ function insertData($pdo, $data)
         'last_user' => 'No user',
         'asset_status' => 'Bueno',
         'asset_observations' => '',
-        'monitor_status' => 'Bueno',
-        'monitor_observations' => '',
         'headset_status' => 'Bueno',
         'headset_observations' => '',
         'dongle_status' => 'Bueno',
@@ -51,7 +49,6 @@ function insertData($pdo, $data)
         'celular_status' => 'Bueno',
         'celular_observations' => '',
         'SIMcard' => '',
-        'Monitor' => '',
         'HeadSet' => '',
         'Celular' => ''
     ];

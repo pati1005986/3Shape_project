@@ -110,22 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'label' => 'Asset observations'
         ],
         [
-            'post_key' => 'Monitor',
-            'var_name' => 'Monitor',
-            'label' => 'Monitor'
-        ],
-        [
-            'post_key' => 'monitor_status',
-            'var_name' => 'monitor_status',
-            'label' => 'Monitor status',
-            'max_length' => 25
-        ],
-        [
-            'post_key' => 'monitor_observations',
-            'var_name' => 'monitor_observations',
-            'label' => 'Monitor observations'
-        ],
-        [
             'post_key' => 'HeadSet',
             'var_name' => 'HeadSet',
             'label' => 'Headset'
@@ -385,9 +369,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'Tipo_ID' => $tipoID,
             'asset_status' => $asset_status,
             'asset_observations' => $asset_observations,
-            'Monitor' => isset($_POST['Monitor']) ? sanitize_input($_POST['Monitor']) : null,
-            'monitor_status' => $monitor_status,
-            'monitor_observations' => $monitor_observations,
             'HeadSet' => isset($_POST['HeadSet']) ? sanitize_input($_POST['HeadSet']) : null,
             'headset_status' => $headset_status,
             'headset_observations' => $headset_observations,
