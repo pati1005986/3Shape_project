@@ -48,8 +48,9 @@ function __($key, $lang) {
      <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
+     <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
     <title><?php echo __('update_register', $lang); ?></title>
 </head>
 <body>

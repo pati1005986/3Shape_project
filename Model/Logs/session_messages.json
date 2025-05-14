@@ -55,6 +55,22 @@
         {
             "message": "Asset statuses updated successfully.",
             "timestamp": "2025-05-14 10:21:33"
+        },
+        {
+            "message": "Asset statuses updated successfully.",
+            "timestamp": "2025-05-14 10:55:48"
+        },
+        {
+            "message": "Datos actualizados correctamente",
+            "timestamp": "2025-05-14 11:16:45"
+        },
+        {
+            "message": "Datos actualizados correctamente",
+            "timestamp": "2025-05-14 11:23:06"
+        },
+        {
+            "message": "User Killiam logged in successfully via email",
+            "timestamp": "2025-05-14 20:13:31"
         }
     ],
     "error": [],

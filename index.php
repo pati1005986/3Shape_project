@@ -56,7 +56,6 @@ function __($key, $lang) {
     <link rel="stylesheet" href="./View/Css/navbar.css">
     <link rel="stylesheet" href="./View/Css/search-form.css">
 </head>
-\end{code}
 <body>
       
 <!-- Header Section -->

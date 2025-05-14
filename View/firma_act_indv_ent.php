@@ -7,6 +7,30 @@ if (!isset($_SESSION['asset_data'])) {
     header("Location: /3Shape_project/index.php");
     exit();
 }
+
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -254,41 +278,41 @@ if (!isset($_SESSION['asset_data'])) {
 
 <body>
     <div class="signature-container">
-        <h1>Delivery Certificate - Signature Capture</h1>
+        <h1><?php echo __('delivery_certificate', $lang); ?> - <?php echo __('signature_capture', $lang); ?></h1>
 
         <?php
         //Espacio para la firma del colaborador o empleado al que se le entrega el equipo
         $max_colaboradores = min(count($_SESSION['asset_data']), 10);
         for ($i = 0; $i < $max_colaboradores; $i++): ?>
             <div class="signature-section">
-                <h2>Employee Signature - <?php echo $_SESSION['asset_data'][$i]['last_user']; ?></h2>
+                <h2><?php echo __('employee', $lang); ?> <?php echo __('signature', $lang); ?> - <?php echo $_SESSION['asset_data'][$i]['last_user']; ?></h2>
                 <p class="signature-instructions">Please sign in the area below using your mouse or finger on touch devices</p>
                 <div class="signature-pad-container">
                     <canvas id="signature-pad-<?php echo $i; ?>"></canvas>
                 </div>
                 <div class="buttons">
-                    <button id="clear-<?php echo $i; ?>" class="btn btn-secondary">Clear Signature</button>
-                    <button id="undo-<?php echo $i; ?>" class="btn btn-danger">Undo</button>
+                    <button id="clear-<?php echo $i; ?>" class="btn btn-secondary"><?php echo __('clear_signature', $lang); ?></button>
+                    <button id="undo-<?php echo $i; ?>" class="btn btn-danger"><?php echo __('undo', $lang); ?></button>
                 </div>
             </div>
         <?php endfor; ?>
 
         <div class="signature-section">
             <!--Firma de Departamento de IT para aprobar entrega de equipo -->
-            <h2>IT Department Approval</h2>
+            <h2><?php echo __('it_department_approval', $lang); ?></h2>
             <p class="signature-instructions">Please sign in the area below as approval from the IT department</p>
             <div class="signature-pad-container">
                 <canvas id="vobo-signature-pad"></canvas>
             </div>
             <div class="buttons">
-                <button id="clear-vobo" class="btn btn-secondary">Clear Signature</button>
+                <button id="clear-vobo" class="btn btn-secondary"><?php echo __('clear_signature', $lang); ?></button>
                 <script>
                     document.getElementById('clear-vobo').addEventListener('click', () => {
                         voboSignaturePad.clear();
                     });
                 </script>
 
-                <button id="undo-vobo" class="btn btn-danger">Undo</button>
+                <button id="undo-vobo" class="btn btn-danger"><?php echo __('undo', $lang); ?></button>
                 <script>
                     document.getElementById('undo-vobo').addEventListener('click', () => {
                         const data = voboSignaturePad.toData();
@@ -302,12 +326,13 @@ if (!isset($_SESSION['asset_data'])) {
         </div>
 
         <div class="signature-actions">
-            <button id="cancel" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
-            <button id="save" class="btn btn-primary">Save Signatures and Generate Certificate</button>
+            <button id="cancel" class="btn btn-secondary" onclick="window.history.back()"><?php echo __('cancel', $lang); ?></button>
+            <button id="save" class="btn btn-primary"><?php echo __('save_signatures', $lang); ?></button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<script src="Js/signature_pad.umd.min.js"></script>
     <script>
         // Initialize both signature pads with improved configuration
         const signaturePads = [];

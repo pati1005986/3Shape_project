@@ -1,6 +1,29 @@
 <?php
 session_start();
 
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +40,7 @@ session_start();
     <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="../View/Css/Form_salida.css">
-    <title>Record of entry record</title>
+    <title><?php echo __('record_departure_date', $lang); ?></title>
     <!--Archivo de vista de proceso de salida de activos -->
 </head>
 
@@ -27,9 +50,9 @@ session_start();
             <div id="FORMoutput" class="col-md-8 shadow p-5 rounded border border-secondary bg-light">
                 <form id="updateForm" action="../Controller/act_salida.php" method="post" class="">
                     <div class="p-5 rounded">
-                        <h1 id="totalC" class="text-center mb-5 fw-bold">Record of Departure Certificate</h1>
+                        <h1 id="totalC" class="text-center mb-5 fw-bold"><?php echo __('record_departure', $lang); ?></h1>
 
-                        <h4 class="my-3">Name of the Person:</h4>
+                        <h4 class="my-3"><?php echo __('name_person', $lang); ?>:</h4>
                         <!--Consulta de equipos con condicionales basadas en el User Status y last user-->
                         <?php // Consulta de usuario
                         include "../Configuration/Connection.php";
@@ -58,7 +81,7 @@ session_start();
 
                         ?>
                         <br>
-                        <h4 class="my-3">Departure date:</h4>
+                        <h4 class="my-3"><?php echo __('departure_date', $lang); ?>:</h4>
                         <div class="form-group">
                             <input class="shadow-sm form-control" type="date" id="fechaSalida" name="fechaSalida"
                                 autocomplete="off" required data-validate="true">
@@ -93,10 +116,10 @@ session_start();
                     <br>
                     <div class="text-center">
                         <button type="submit" class="btn btn-secondary">
-                            <i class="fas fa-upload"></i> Update
+                            <i class="fas fa-upload"></i> <?php echo __('update', $lang); ?>
                         </button>
                         <a href="../index.php" class="btn btn-danger">
-                            <i class="fas fa-arrow-left"></i> Return
+                            <i class="fas fa-arrow-left"></i> <?php echo __('return', $lang); ?>
                         </a>
                     </div>
 
