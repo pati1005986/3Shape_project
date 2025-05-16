@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 top: 30,
                                 bottom: 30,
                             },
-                            color: "#333",
+                            color:"rgba(58, 60, 177, 0.9)",
                         },
                         tooltip: {
                             backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         },
                         title: {
                             display: true,
-                            text: "distribution by job title",
+                            text: "Distribution by job title",
                             font: {
                                 size: 20,
                                 weight: "bold",
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 top: 30,
                                 bottom: 30,
                             },
-                            color: "#333",
+                            color: "rgba(58, 60, 177, 0.9)",
                         },
                         tooltip: {
                             backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 top: 30,
                                 bottom: 30,
                             },
-                            color: "#333",
+                            color: "rgba(58, 60, 177, 0.9)",
                         },
                         tooltip: {
                             backgroundColor: "rgba(255, 255, 255, 0.9)",

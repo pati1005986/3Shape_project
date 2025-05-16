@@ -441,6 +441,7 @@ function __($key, $lang) {
                     </div>
                 </form>
                 
+                 <script src="../View/Js/dark-mode-toggle-new.js"></script>
                 <script>
                     // Función general para validar que no se ingresen caracteres especiales
 function validarSinCaracteresEspeciales(inputElement, mensajeElement) {

@@ -195,3 +195,31 @@ body {
         font-size: 13px;
     }
 }
+
+ /*Sección de Change Password en Dark Mode */
+
+ .dark-mode .form-container {
+    background-color: #343941 !important;
+    border: 1px solid rgba(222, 226, 230, 0.6) !important;
+    color: #212529 !important;
+    margin-bottom: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    will-change: transform, box-shadow;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 2.25rem;
+    animation: modalShow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark-mode body {
+    color: var(--text-color);
+    background-color:z#2d3748 !important;
+  }
+
+.dark-mode #SettingsH1{
+  color: #ffffff;
+}
+
+.dark-mode .label-text {
+  color: #f9fafb; /* o var(--text-color) si ya lo definiste en el modo oscuro */
+}

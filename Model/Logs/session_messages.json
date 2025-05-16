@@ -71,6 +71,18 @@
         {
             "message": "User Killiam logged in successfully via email",
             "timestamp": "2025-05-14 20:13:31"
+        },
+        {
+            "message": "User Killiam logged in successfully via email",
+            "timestamp": "2025-05-16 20:25:39"
+        },
+        {
+            "message": "User Killiam logged out",
+            "timestamp": "2025-05-16 20:25:45"
+        },
+        {
+            "message": "User Killiam logged in successfully via email",
+            "timestamp": "2025-05-16 20:25:47"
         }
     ],
     "error": [],
@@ -82,6 +94,30 @@
         {
             "message": "Sesi\u00f3n expirada. Vuelve a iniciar sesi\u00f3n.",
             "timestamp": "2025-05-08 13:03:56"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-05-16 13:25:39"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-05-16 13:25:47"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-05-16 13:25:49"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-05-16 13:25:51"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-05-16 13:25:58"
+        },
+        {
+            "message": "Session expired, please try again.",
+            "timestamp": "2025-05-16 13:26:04"
         }
     ],
     "warnings": []

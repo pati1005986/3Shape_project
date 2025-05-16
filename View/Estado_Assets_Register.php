@@ -368,7 +368,7 @@ try {
         </div>
     </div>
 </div>
-
+     <script src="../View/Js/dark-mode-toggle-new.js"></script>
 <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
 <script>
 // Validación mejorada del formulario

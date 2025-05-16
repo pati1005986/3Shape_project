@@ -160,6 +160,7 @@ function __($key, $lang) {
             </div>
         </div>
     </div>
+    <script src="../View/Js/dark-mode-toggle-new.js"></script>   
     <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
     <script src="../Configuration/JQuery/select2.min.js"></script>
 </body>

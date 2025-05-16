@@ -1,5 +1,29 @@
 <?php
 session_start();
+
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('../lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +51,7 @@ session_start();
                     <div id="FORMinput" class="card-body">
                         <form id="updateForm" action="../Controller/act_entrada.php" method="post">
                             <center>
-                <h1 id="totalC" class="text-center mb-5 fw-bold">Record of Departure Record</h1>
+                <h1 id="totalC" class="text-center mb-5 fw-bold">Change user equipment</h1>
             </center>
 
                             <!-- Selección del número de serie -->
@@ -161,8 +185,8 @@ session_start();
                 </div>
             </div>
         </div>
-
-
+        
+        <script src="../View/Js/dark-mode-toggle-new.js"></script>                                           
         <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
         <script src="../Configuration/JQuery/select2.min.js"></script>
         <script src="../View/Js/Background.js"></script>

@@ -494,6 +494,9 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         </a>
                     </div>
                 </form>
+                <!-- Script modo oscuro -->
+                      <script src="../View/Js/dark-mode-toggle-new.js"></script>
+                
                         <!-- Script para la validacion de caracteres especiales exceptuando el "/" y "-" -->
                         <script>
                             // Función general para validar que no se ingresen caracteres especiales excepto "/" y "-"

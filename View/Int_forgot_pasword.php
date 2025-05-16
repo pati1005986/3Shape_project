@@ -168,6 +168,7 @@ $_SESSION['last_activity'] = time();
     </div>  
     
     <script src="../Configuration/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <script src="../View/Js/dark-mode-toggle-new.js"></script>
     <script>
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
