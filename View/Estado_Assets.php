@@ -60,7 +60,9 @@ try {
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel=" stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="./Css/FormsCRUD.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
+    <!-- Carga diferida de scripts no críticos -->
+    <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <title>Asset Status and Observations</title>
 </head>

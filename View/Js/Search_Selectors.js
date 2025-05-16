@@ -5,8 +5,8 @@
     cedula: 'input[name="search_cedula"]',
     status_change: 'input[name="search_status_change"]',
     user: 'input[name="search_user"]',
-    fecha_inicio: 'input[name="search_fecha_inicio"]',
-    fecha_fin: 'input[name="search_fecha_fin"]',
+    fecha_ingreso: 'input[name="search_entry_date"]',
+    fecha_salida: 'input[name="search_departure_date"]',
     user_status: 'select[name="search_user_status[]"]'
 };
 

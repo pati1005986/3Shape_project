@@ -50,7 +50,8 @@ function insertData($pdo, $data)
         'celular_observations' => '',
         'SIMcard' => '',
         'HeadSet' => '',
-        'Celular' => ''
+        'Celular' => '',
+        'fecha_ingreso' => date('Y-m-d') // Valor por defecto para fecha_ingreso (fecha actual)
     ];
 
     // Combinar solo si el valor en $data está vacío o no existe
@@ -127,14 +128,14 @@ function insertData($pdo, $data)
             ':SIMcard' => $data['SIMcard']
         ]);
 
-        // Insertar en usuarios_equipos - Actualizado con los campos correctos
+        // Insertar en usuarios_equipos - Actualizado con los campos correctos y agregando fecha_ingreso
         $stmtUsuarios = $pdo->prepare(
             "INSERT INTO usuarios_equipos 
-            (fk_assetname, user_status, last_user, job_title,cedula, 
-            Carnet, LLave, Tipo_ID, fecha_salida)
+            (fk_assetname, user_status, last_user, job_title, cedula, 
+            Carnet, LLave, Tipo_ID, fecha_salida, fecha_ingreso)
             VALUES 
-            (:fk_assetname, :user_status, :last_user, :job_title,:cedula, 
-            :Carnet, :LLave, :Tipo_ID, :fecha_salida)"
+            (:fk_assetname, :user_status, :last_user, :job_title, :cedula, 
+            :Carnet, :LLave, :Tipo_ID, :fecha_salida, :fecha_ingreso)"
         );
 
         $stmtUsuarios->execute([
@@ -146,7 +147,8 @@ function insertData($pdo, $data)
             ':Carnet' => $data['Carnet'] ?? 'Pendiente',
             ':LLave' => $data['LLave'] ?? 'Pendiente',
             ':Tipo_ID' => $data['Tipo_ID'],
-            ':fecha_salida' => $data['fecha_salida']
+            ':fecha_salida' => $data['fecha_salida'],
+            ':fecha_ingreso' => $data['fecha_ingreso']
         ]);
         $pdo->commit();
     } catch (Exception $e) {

@@ -2,10 +2,6 @@
 // Constantes para campos de información de activos
 const ASSETNAME = 'assetname';
 const SERIAL_NUMBER = 'serial_number';
-const PURCHASE_COUNTRY = 'purchase_country';
-const WARRANTY_ENDDATE = 'warranty_enddate';
-const EXPIRED = 'expired';
-const NEW_LAPTOP = 'new_laptop';
 
 // Constantes para equipos adicionales
 const HEADSET = 'HeadSet';
@@ -23,6 +19,7 @@ const STATUS_CHANGE = 'status_change';
 const CEDULA = 'cedula';
 const TIPO_ID = 'Tipo_ID';
 const FECHA_SALIDA = 'fecha_salida';
+const FECHA_INGRESO = 'fecha_ingreso';
 
 // Mapeo de campos por categorías
 $fieldMap = [
@@ -50,41 +47,7 @@ $fieldMap = [
         'Serial Number',
         'SERIAL PC'
     ],
-    PURCHASE_COUNTRY => [
-        PURCHASE_COUNTRY,
-        'country',
-        'purchasecountry',
-        'Country_of_Origin',
-        'Origin_Country',
-        'Purchase Country',
-        'PurchaseCountry'
-    ],
-    WARRANTY_ENDDATE => [
-        WARRANTY_ENDDATE,
-        'warranty',
-        'warrantyenddate',
-        'enddate',
-        'Warranty_Expiry',
-        'Warranty_End',
-        'WarrantyEndDate'
-    ],
-    EXPIRED => [
-        EXPIRED,
-        'deprecated',
-        'Expired',
-        'Is_Expired',
-        'Expiration_Status',
-        'Expired_statusa'
-    ],
-    NEW_LAPTOP => [
-        NEW_LAPTOP,
-        'new',
-        'New_laptop',
-        'newlaptop',
-        'Newlaptop',
-        'Is_New_Laptop',
-        'New laptop'
-    ],
+
 
     // Equipos adicionales
     HEADSET => [
@@ -182,5 +145,16 @@ $fieldMap = [
         'Exit_Date',
         'fecha salida',
         'Fecha Salida'
+    ],
+    FECHA_INGRESO => [
+        FECHA_INGRESO,
+        'fechaingreso',
+        'fecha_ingreso',
+        'date_entry',
+        'Entry_Date',
+        'Admission_Date',
+        'Start_Date',
+        'Fecha Ingreso',
+        'fecha ingreso'
     ]
 ];

@@ -124,49 +124,6 @@ $sql = "SELECT * FROM vista_equipos_usuarios";
 $where = [];
 $params = [];
 
-// Ejemplo de uso:
-$searchResult = buildDateSearchQuery($_GET);
-
-// Función para manejar búsquedas basadas en fechas (mantenida para compatibilidad)
-function buildDateSearchQuery($searchParams) {
-    $where = [];
-    $params = [];
-    
-    $fecha_inicio = !empty($searchParams['search_fecha_inicio']) 
-        ? date('Y-m-d', strtotime($searchParams['search_fecha_inicio'])) 
-        : null;
-    
-    $fecha_fin = !empty($searchParams['search_fecha_fin']) 
-        ? date('Y-m-d', strtotime($searchParams['search_fecha_fin'])) 
-        : null;
-
-    // Validación base para asegurar que las fechas sean válidas
-    $baseValidation = "MONTH(STR_TO_DATE(warranty_enddate, '%m/%d/%Y')) > 0 
-                       AND DAY(STR_TO_DATE(warranty_enddate, '%m/%d/%Y')) > 0";
-
-    if ($fecha_inicio && $fecha_fin) {
-        // Caso 1: Ambas fechas proporcionadas
-        $where[] = "STR_TO_DATE(warranty_enddate, '%m/%d/%Y') BETWEEN :fecha_inicio AND :fecha_fin 
-                    AND " . $baseValidation;
-        $params[':fecha_inicio'] = $fecha_inicio;
-        $params[':fecha_fin'] = $fecha_fin;
-    } elseif ($fecha_inicio) {
-        // Caso 2: Solo fecha de inicio
-        $where[] = "STR_TO_DATE(warranty_enddate, '%m/%d/%Y') <= :fecha_inicio 
-                    AND " . $baseValidation;
-        $params[':fecha_inicio'] = $fecha_inicio;
-    } elseif ($fecha_fin) {
-        // Caso 3: Solo fecha final
-        $where[] = "STR_TO_DATE(warranty_enddate, '%m/%d/%Y') >= :fecha_fin 
-                    AND " . $baseValidation;
-        $params[':fecha_fin'] = $fecha_fin;
-    }
-
-    return [
-        'where' => $where,
-        'params' => $params
-    ];
-}
 
 // Otros filtros
 if (!empty($_GET['search_assetname'])) {

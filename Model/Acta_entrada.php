@@ -87,15 +87,15 @@ try {
     $params = [];
 
     // Filtros de fechas
-    if (!empty($_GET['search_fecha_inicio']) && !empty($_GET['search_fecha_fin'])) {
-        $fecha_inicio = $_GET['search_fecha_inicio'];
-        $fecha_fin = $_GET['search_fecha_fin'];
-        $fecha_inicio_mysql = date('Y-m-d', strtotime($fecha_inicio));
-        $fecha_fin_mysql = date('Y-m-d', strtotime($fecha_fin));
-        $where[] = "STR_TO_DATE(equipos.warranty_enddate, '%d/%m/%Y') BETWEEN :fecha_inicio AND :fecha_fin";
-        $params[':fecha_inicio'] = $fecha_inicio_mysql;
-        $params[':fecha_fin'] = $fecha_fin_mysql;
-    }
+   if (!empty($_GET['search_entry_date']) && !empty($_GET['search_departure_date'])) {
+    $entry_date = $_GET['search_entry_date'];
+    $departure_date = $_GET['search_departure_date'];
+    $entry_date_mysql = date('Y-m-d', strtotime($entry_date));
+    $departure_date_mysql = date('Y-m-d', strtotime($departure_date));
+    $where[] = "STR_TO_DATE(usuarios_equipos.fecha_ingreso, '%d/%m/%Y') BETWEEN :entry_date AND :departure_date";
+    $params[':entry_date'] = $entry_date_mysql;
+    $params[':departure_date'] = $departure_date_mysql;
+}
 
     // Filtro de nombre de activo
     if (!empty($_GET['search_assetname'])) {

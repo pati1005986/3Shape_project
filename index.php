@@ -159,20 +159,14 @@ function __($key, $lang) {
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label"><?php echo __('purchase_country', $lang); ?></label> <!-- Purchase Country -->
+                                        <label class="form-label"><?php echo __('user_status', $lang); ?></label> <!-- User Status -->
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-globe"></i></span>
-                                            <select id="search_purchase_country" name="search_purchase_country[]" class="form-select">
-    <option value="0"><?php echo __('select_country', $lang); ?></option> <!-- Select a country -->
-    <option value="Colombia">Colombia</option>
-    <option value="Poland">Poland</option>
-    <option value="Denmark">Denmark</option>
-    <option value="Australia">Australia</option>
-    <option value="United States">United States</option>
-    <option value="Korea">Korea</option>
-    <option value="México">México</option>
-    <option value="Brazil">Brazil</option>
-    <option value="Canada">Canada</option>
+                                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                            <select id="search_user_status" name="search_user_status[]" class="form-select">
+    <option value="0"><?php echo __('select_user_status', $lang); ?></option> <!-- Select User Status -->
+    <option value="Stock"><?php echo __('stock', $lang); ?></option> <!-- Stock -->
+    <option value="Active User"><?php echo __('active_user', $lang); ?></option> <!-- Active User -->
+    <option value="Old User"><?php echo __('old_user', $lang); ?></option> <!-- Old User -->
 </select>
                                         </div>
                                     </div>
@@ -214,15 +208,9 @@ function __($key, $lang) {
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label"><?php echo __('user_status', $lang); ?></label> <!-- User Status -->
+                                      
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                            <select id="search_user_status" name="search_user_status[]" class="form-select">
-    <option value="0"><?php echo __('select_user_status', $lang); ?></option> <!-- Select User Status -->
-    <option value="Stock"><?php echo __('stock', $lang); ?></option> <!-- Stock -->
-    <option value="Active User"><?php echo __('active_user', $lang); ?></option> <!-- Active User -->
-    <option value="Old User"><?php echo __('old_user', $lang); ?></option> <!-- Old User -->
-</select>
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -231,53 +219,45 @@ function __($key, $lang) {
                     </div>
 
                     <!-- Categoría 3: Estado y Garantía -->
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card h-100">
-                            <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseStatusWarranty" role="button" aria-expanded="false" aria-controls="collapseStatusWarranty">
-                                <div>
-                                    <i class="bi bi-shield-check me-2"></i> <?php echo __('status_warranty', $lang); ?> <!-- Status & Warranty -->
-                                </div>
-                                <i class="bi bi-chevron-down"></i>
-                            </div>
-                            <div class="collapse" id="collapseStatusWarranty">
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-                                            <input type="text" name="search_status_change" placeholder="Enter status change" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label"><?php echo __('start_date', $lang); ?></label><!-- Start Date -->
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                            <input type="text" id="sgarantia" name="search_fecha_inicio" placeholder="MM/DD/YYYY" class="form-control" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}" title="Please enter date in MM/DD/YYYY format">
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label"><?php echo __('end_date', $lang); ?></label> <!-- End Date -->
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
-                                            <input type="text" id="garantia" name="search_fecha_fin" placeholder="MM/DD/YYYY" class="form-control" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12]\d|3[01])/\d{4}" title="Please enter date in MM/DD/YYYY format">
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label"><?php echo __('expired_status', $lang); ?></label> <!-- Expired Status -->
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-exclamation-triangle"></i></span>
-                                            <select name="search_expired" class="form-select">
-                                                <option value=""><?php echo __('select_expired_status', $lang); ?></option> <!-- Select Expired Status -->
-                                                <option value="1"><?php echo __('expired', $lang); ?></option> <!-- Expired -->
-                                                <option value="0"><?php echo __('not_expired', $lang); ?></option><!-- Not Expired --> 
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="col-lg-4 col-md-12">
+    <div class="card h-100">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#collapseStatusWarranty" role="button" aria-expanded="false" aria-controls="collapseStatusWarranty">
+            <div>
+                <i class="bi bi-shield-check me-2"></i> <?php echo __('status_warranty', $lang); ?> <!-- Status & Warranty -->
+            </div>
+            <i class="bi bi-chevron-down"></i>
+        </div>
+        <div class="collapse" id="collapseStatusWarranty">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                        <input type="text" name="search_status_change" placeholder="Enter status change" class="form-control">
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label class="form-label"><?php echo __('entry_date', $lang); ?></label><!-- Entry Date -->
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-sign-in-alt"></i></span>
+                        <input type="date" id="entry_date" name="search_entry_date" class="form-control" title="Please enter date in MM/DD/YYYY format">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"><?php echo __('departure_date', $lang); ?></label> <!-- Departure Date -->
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-sign-out-alt"></i></span>
+                        <input type="date" id="departure_date" name="search_departure_date"  class="form-control"  title="Please enter date in MM/DD/YYYY format">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="input-group">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <div class="action-buttons mt-4">
                     <button type="submit" class="btn btn-success action-button" id="search_btn">
@@ -445,58 +425,59 @@ function __($key, $lang) {
                     </div>
                     <script>
                         //Funcion para la validacion de entrada de fecha
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const garantiaInput = document.getElementById('garantia');
-                            const sgarantiaInput = document.getElementById('sgarantia');
+                     document.addEventListener('DOMContentLoaded', function() {
+    const entryDateInput = document.getElementById('entry_date');
+    const departureDateInput = document.getElementById('departure_date');
 
-                            function formatInputDate(input) {
-                                input.addEventListener('input', function(e) {
-                                    let value = e.target.value.replace(/\D/g, '');
-                                    let formattedDate = '';
+    function formatInputDate(input) {
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            let formattedDate = '';
 
-                                    if (value.length > 8) {
-                                        value = value.substr(0, 8);
-                                    }
+            if (value.length > 8) {
+                value = value.substr(0, 8);
+            }
 
-                                    if (value.length > 0) {
-                                        formattedDate = value.substr(0, 2);
-                                        if (value.length > 2) {
-                                            formattedDate += '/' + value.substr(2, 2);
-                                        }
-                                        if (value.length > 4) {
-                                            formattedDate += '/' + value.substr(4);
-                                        }
-                                    }
+            if (value.length > 0) {
+                formattedDate = value.substr(0, 2);
+                if (value.length > 2) {
+                    formattedDate += '/' + value.substr(2, 2);
+                }
+                if (value.length > 4) {
+                    formattedDate += '/' + value.substr(4);
+                }
+            }
 
-                                    let month = parseInt(value.substr(0, 2));
-                                    let day = parseInt(value.substr(2, 2));
+            let month = parseInt(value.substr(0, 2));
+            let day = parseInt(value.substr(2, 2));
 
-                                    if (month > 12) {
-                                        month = 12;
-                                        formattedDate = '12' + formattedDate.substr(2);
-                                    }
+            if (month > 12) {
+                month = 12;
+                formattedDate = '12' + formattedDate.substr(2);
+            }
 
-                                    if (day > 31) {
-                                        day = 31;
-                                        formattedDate = formattedDate.substr(0, 3) + '31' +
-                                            formattedDate.substr(5);
-                                    }
+            if (day > 31) {
+                day = 31;
+                formattedDate = formattedDate.substr(0, 3) + '31' +
+                    formattedDate.substr(5);
+            }
 
-                                    e.target.value = formattedDate;
-                                });
-                                input.addEventListener('blur', function(e) {
-                                    const datePattern =
-                                        /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-                                    if (!datePattern.test(e.target.value)) {
-                                        e.target.classList.add('is-invalid');
-                                    } else {
-                                        e.target.classList.remove('is-invalid');
-                                    }
-                                });
-                            }
-                            formatInputDate(garantiaInput);
-                            formatInputDate(sgarantiaInput);
-                        });
+            e.target.value = formattedDate;
+        });
+        input.addEventListener('blur', function(e) {
+            const datePattern =
+                /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+            if (!datePattern.test(e.target.value)) {
+                e.target.classList.add('is-invalid');
+            } else {
+                e.target.classList.remove('is-invalid');
+            }
+        });
+    }
+    
+    formatInputDate(entryDateInput);
+    formatInputDate(departureDateInput);
+});
                     </script>
             </div>
             <div id="resultados3" class="text-center"></div>
