@@ -264,3 +264,7 @@ body {
 .dark-mode .label-text {
   color: #f9fafb; /* o var(--text-color) si ya lo definiste en el modo oscuro */
 }
+
+.dark-mode h5 {
+    color:#ffffff;
+  }

@@ -382,7 +382,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 </form>
                 <br>
             </div>
-            <!--Formulario pra eliminar columans de la base de datos-->
+            <!--Formulario pra eliminar columnas de la base de datos-->
             <div class="col-md-6">
                 <form action="remove_fields.php" id="RemoveForm" style="display: none;" method="post" class="shadow border border-secondary rounded p-4 bg-white">
                     <h1 class="text-center mb-4 fw-bold"><?php echo __('remove_fields', $lang); ?></h1>
@@ -534,7 +534,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                         $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
                                 FROM INFORMATION_SCHEMA.COLUMNS 
                                 WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number',,'fk_id','fk_assetname','user_status',
+                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number','fk_id','fk_assetname','user_status',
                                 'last_user','job_title','status_change','cedula') 
                                 ORDER BY TABLE_NAME, ORDINAL_POSITION";
                         $stmt = $pdo->prepare($sql);

@@ -1,3 +1,96 @@
+/* Añadir al inicio del archivo */
+:root {
+    --primary-color: #0d6efd;
+    --primary-hover: #0b5ed7;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --border-color: #dee2e6;
+    --background-color: #ffffff;
+    --background-secondary: #f5f7fa;
+    --text-color: #212529;
+    --text-muted: #6c757d;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --shadow-sm: 0 .125rem .25rem rgba(0, 0, 0, 0.075);
+    --shadow-md: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.dark-mode {
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
+    --secondary-color: #9ca3af;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --warning-color: #f59e0b;
+    --info-color: #06b6d4;
+    --light-color: #374151;
+    --dark-color: #f9fafb;
+    --border-color: #4b5563;
+    --background-color: #1f2937;
+    --background-secondary: #111827;
+    --text-color: #f9fafb;
+    --text-muted: #9ca3af;
+    --card-bg: #2d3748;
+    --input-bg: #374151;
+    --input-border: #4b5563;
+    --shadow-sm: 0 .125rem .25rem rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 .5rem 1rem rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.4);
+}
+
+/* Modificar los estilos existentes para usar variables */
+body {
+    background-color: var(--background-secondary) !important;
+    color: var(--text-color) !important;
+}
+
+.card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+.navbar {
+    background: linear-gradient(120deg, var(--light-color), var(--background-color)) !important;
+}
+
+h1, h2, h3, h4 {
+    color: var(--text-color);
+}
+
+.card-text, ul li {
+    color: var(--text-muted);
+}
+
+.modal-header {
+    background-color: var(--light-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title {
+    color: var(--text-color);
+}
+
+.modal-body {
+    color: var(--text-muted);
+}
+
+.feature-description {
+    background-color: var(--light-color);
+}
+
+/* Añadir transiciones suaves */
+body, .card, .navbar, .modal-content {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
 /* Estilos generales del cuerpo del documento */
 body {
     background-color: #f8f9fa !important;

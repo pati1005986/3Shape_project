@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                    exit;
                } else {
                    // Login failed
-                   $error_message = 'Invalid username, email or password.';
+                   $error_message = 'Invalid credentials provided.';
                    
                    $log_message = [
                        'message' => "Failed login attempt with identifier: {$username}",

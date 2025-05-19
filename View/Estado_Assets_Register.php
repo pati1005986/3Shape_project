@@ -236,23 +236,18 @@ try {
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="headset_status">Status</label>
-                                <select class="form-control" id="headset_status" name="headset_status">
-                                    <option value="">Select status</option>
-                                    <?php foreach ($headset_status_options as $option): ?>
-                                        <option value="<?php echo htmlspecialchars($option); ?>"
-                                            <?php echo ($asset_data['headset_status'] == $option) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($option); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                    <?php if (!in_array($asset_data['headset_status'], $headset_status_options) && !empty($asset_data['headset_status'])): ?>
-                                        <option value="<?php echo htmlspecialchars($asset_data['headset_status']); ?>" selected>
-                                            <?php echo htmlspecialchars($asset_data['headset_status']); ?> (Current)
-                                        </option>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
+                          <div class="form-group">
+    <label for="headset_status">Status</label>
+    <select class="form-control" id="headset_status" name="headset_status" >
+        <option value="">-- Seleccione estado --</option>
+        <option value="Bueno">Bueno</option>
+        <option value="Regular">Regular</option>
+        <option value="Dañado">Dañado</option>
+        <option value="Malo">Malo</option>
+        <option value="Perdido">Perdido</option>
+        <option value="No aplica">No aplica</option>
+    </select>
+</div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -274,23 +269,18 @@ try {
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="dongle_status">Status</label>
-                                <select class="form-control" id="dongle_status" name="dongle_status">
-                                    <option value="">Select status</option>
-                                    <?php foreach ($dongle_status_options as $option): ?>
-                                        <option value="<?php echo htmlspecialchars($option); ?>"
-                                            <?php echo ($asset_data['dongle_status'] == $option) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($option); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                    <?php if (!in_array($asset_data['dongle_status'], $dongle_status_options) && !empty($asset_data['dongle_status'])): ?>
-                                        <option value="<?php echo htmlspecialchars($asset_data['dongle_status']); ?>" selected>
-                                            <?php echo htmlspecialchars($asset_data['dongle_status']); ?> (Current)
-                                        </option>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
+                          <div class="form-group">
+    <label for="dongle_status">Status</label>
+    <select class="form-control" id="dongle_status" name="dongle_status" >
+        <option value="">-- Seleccione estado --</option>
+        <option value="Bueno">Bueno</option>
+        <option value="Regular">Regular</option>
+        <option value="Dañado">Dañado</option>
+        <option value="Malo">Malo</option>
+        <option value="Perdido">Perdido</option>
+        <option value="No aplica">No aplica</option>
+    </select>
+</div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -312,23 +302,18 @@ try {
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="celular_status">Status</label>
-                                <select class="form-control" id="celular_status" name="celular_status">
-                                    <option value="">Select status</option>
-                                    <?php foreach ($celular_status_options as $option): ?>
-                                        <option value="<?php echo htmlspecialchars($option); ?>"
-                                            <?php echo ($asset_data['celular_status'] == $option) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($option); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                    <?php if (!in_array($asset_data['celular_status'], $celular_status_options) && !empty($asset_data['celular_status'])): ?>
-                                        <option value="<?php echo htmlspecialchars($asset_data['celular_status']); ?>" selected>
-                                            <?php echo htmlspecialchars($asset_data['celular_status']); ?> (Current)
-                                        </option>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
+                         <div class="form-group">
+    <label for="celular_status">Status</label>
+    <select class="form-control" id="celular_status" name="celular_status" >
+        <option value="">-- Seleccione estado --</option>
+        <option value="Bueno">Bueno</option>
+        <option value="Regular">Regular</option>
+        <option value="Dañado">Dañado</option>
+        <option value="Malo">Malo</option>
+        <option value="Perdido">Perdido</option>
+        <option value="No aplica">No aplica</option>
+    </select>
+</div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
