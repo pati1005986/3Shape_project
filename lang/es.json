@@ -45,6 +45,12 @@
     "card": "Carnet",
     "key": "Llave",
 
+      "change_user_equipment" : "Cambiar equipo del usuario",
+  "computer_serial": "Número de serie del equipo",
+  "select_a_computer" : "Seleccionar un equipo",
+  "select_a_person" : " Seleccionar una persona",
+  "register" : "Registrar",
+
      "record_departure_date" : "Fecha de salida",
       "record_departure" : "Certificado de registro de salida",
   "name_person" : "Nombre de la persona",

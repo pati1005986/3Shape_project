@@ -45,6 +45,12 @@
   "card" : "Card",
   "key" : "Key",
 
+  "change_user_equipment" : "Change User Equipment",
+  "computer_serial": "Computer Serial",
+  "select_a_computer" : "Select a computer",
+  "select_a_person" : "Select a person",
+  "register" : "Register",
+
   "record_departure_date" : "Record of Departure Date",
   "record_departure" : "Record of Departure Certificate",
   "name_person" : "Name of the Person",

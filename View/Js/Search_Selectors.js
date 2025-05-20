@@ -1,12 +1,12 @@
-  // Optimización 1: Cachear elementos del DOM y configuraciones
-  const searchSelectors = {
+// Optimización 1: Cachear elementos del DOM y configuraciones
+const searchSelectors = {
     assetname: 'input[name="search_assetname"]',
     serial: 'input[name="search_serial"]',
     cedula: 'input[name="search_cedula"]',
     status_change: 'input[name="search_status_change"]',
     user: 'input[name="search_user"]',
-    fecha_ingreso: 'input[name="search_entry_date"]',
-    fecha_salida: 'input[name="search_departure_date"]',
+    entry_date: 'input[name="search_entry_date"]',
+    departure_date: 'input[name="search_departure_date"]',
     user_status: 'select[name="search_user_status[]"]'
 };
 

@@ -51,12 +51,12 @@ function __($key, $lang) {
                     <div id="FORMinput" class="card-body">
                         <form id="updateForm" action="../Controller/act_entrada.php" method="post">
                             <center>
-                <h1 id="totalC" class="text-center mb-5 fw-bold">Change user equipment</h1>
+                <h1 id="totalC" class="text-center mb-5 fw-bold"><?php echo __('change_user_equipment', $lang); ?></h1>
             </center>
 
                             <!-- Selección del número de serie -->
                             <div class="mb-3">
-                                <h4 class="mb-2">Computer serial:</h4>
+                                <h4 class="mb-2"><?php echo __('computer_serial', $lang); ?>:</h4>
                                 <?php
                                 include "../Configuration/Connection.php";
 
@@ -89,7 +89,7 @@ function __($key, $lang) {
                             <!-- Selección del nombre de la persona -->
                             <br>
                             <div class="mb-3">
-                                <h4 class="mb-2">Name of the person: </h4>
+                                <h4 class="mb-2"><?php echo __('name_person', $lang); ?> </h4>
                                 <?php
                                 try {
                                     $sql = "SELECT * FROM vista_equipos_usuarios
@@ -121,10 +121,10 @@ function __($key, $lang) {
 
                             <!-- Botones -->
                             <div class="text-center">
-                                <button type="submit" class="btn btn-secondary">Register
+                                <button type="submit" class="btn btn-secondary"><?php echo __('register', $lang); ?>
                                 <i class="fas fa-clipboard-check"></i> 
                                 </button>                               
-                         <a href="../index.php" class="btn btn-danger ms-2">Return
+                         <a href="../index.php" class="btn btn-danger ms-2"><?php echo __('return', $lang); ?>
                                 <i class="fas fa-arrow-left"></i>
                                 </a>
                             </div>

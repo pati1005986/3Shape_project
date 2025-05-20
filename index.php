@@ -227,35 +227,31 @@ function __($key, $lang) {
             </div>
             <i class="bi bi-chevron-down"></i>
         </div>
-        <div class="collapse" id="collapseStatusWarranty">
-            <div class="card-body">
-                <div class="mb-3">
-                    <label class="form-label"><?php echo __('status_change', $lang); ?></label> <!-- Status Change -->
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
-                        <input type="text" name="search_status_change" placeholder="Enter status change" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label"><?php echo __('entry_date', $lang); ?></label><!-- Entry Date -->
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-sign-in-alt"></i></span>
-                        <input type="date" id="entry_date" name="search_entry_date" class="form-control" title="Please enter date in MM/DD/YYYY format">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label"><?php echo __('departure_date', $lang); ?></label> <!-- Departure Date -->
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-sign-out-alt"></i></span>
-                        <input type="date" id="departure_date" name="search_departure_date"  class="form-control"  title="Please enter date in MM/DD/YYYY format">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div class="input-group">
-                    </div>
-                </div>
+  <div class="collapse" id="collapseStatusWarranty">
+    <div class="card-body">
+        <div class="mb-3">
+            <label class="form-label"><?php echo __('status_change', $lang); ?></label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                <input type="text" name="search_status_change" placeholder="Enter status change" class="form-control">
             </div>
         </div>
+        <div class="mb-3">
+            <label class="form-label"><?php echo __('entry_date', $lang); ?></label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-sign-in-alt"></i></span>
+              <input type="date" id="entry_date" name="search_entry_date" class="form-control">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><?php echo __('departure_date', $lang); ?></label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-sign-out-alt"></i></span>
+                <input type="date" id="departure_date" name="search_departure_date" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
     </div>
 </div>
 
@@ -423,62 +419,7 @@ function __($key, $lang) {
                             });
                         </script>
                     </div>
-                    <script>
-                        //Funcion para la validacion de entrada de fecha
-                     document.addEventListener('DOMContentLoaded', function() {
-    const entryDateInput = document.getElementById('entry_date');
-    const departureDateInput = document.getElementById('departure_date');
-
-    function formatInputDate(input) {
-        input.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            let formattedDate = '';
-
-            if (value.length > 8) {
-                value = value.substr(0, 8);
-            }
-
-            if (value.length > 0) {
-                formattedDate = value.substr(0, 2);
-                if (value.length > 2) {
-                    formattedDate += '/' + value.substr(2, 2);
-                }
-                if (value.length > 4) {
-                    formattedDate += '/' + value.substr(4);
-                }
-            }
-
-            let month = parseInt(value.substr(0, 2));
-            let day = parseInt(value.substr(2, 2));
-
-            if (month > 12) {
-                month = 12;
-                formattedDate = '12' + formattedDate.substr(2);
-            }
-
-            if (day > 31) {
-                day = 31;
-                formattedDate = formattedDate.substr(0, 3) + '31' +
-                    formattedDate.substr(5);
-            }
-
-            e.target.value = formattedDate;
-        });
-        input.addEventListener('blur', function(e) {
-            const datePattern =
-                /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-            if (!datePattern.test(e.target.value)) {
-                e.target.classList.add('is-invalid');
-            } else {
-                e.target.classList.remove('is-invalid');
-            }
-        });
-    }
-    
-    formatInputDate(entryDateInput);
-    formatInputDate(departureDateInput);
-});
-                    </script>
+                  
             </div>
             <div id="resultados3" class="text-center"></div>
             <div id="resultados2" class="text-center"></div>
@@ -601,6 +542,7 @@ function __($key, $lang) {
                         <th><?php echo __('job_title', $lang); ?></th><!-- Job Title -->
                         <th>ID</th>
                         <th><?php echo __('entry_date', $lang); ?></th><!--Entry Date -->
+                        <th><?php echo __('departure_date', $lang); ?></th><!--Departure Date -->
                         <?php
                         $selectedColumns = $_SESSION['selected_fields'] ?? [];
                         $headerTemplate = "<th class='text-center'>%s</th>";

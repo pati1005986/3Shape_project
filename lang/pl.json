@@ -45,6 +45,12 @@
     "card" : "licencja",
     "key" : "klawisz",
 
+      "change_user_equipment" : "zmiana sprzętu",
+  "computer_serial": "Numer seryjny komputera",
+  "select_a_computer" :"wybierz komputer",
+  "select_a_person" : "wybierz osobę",
+  "register" : "zarejestruj",
+
      "record_departure_date" : "Data wyjścia",
       "record_departure" : "Zaświadczenie o odbyciu podróży",
   "name_person" : "Imię i nazwisko osoby",
