@@ -45,7 +45,7 @@ function __($key, $lang) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Asset</title>
+    <title><?php echo __('register_asset', $lang); ?></title>
     <link rel="shortcut icon" href="../Configuration/3shape-intraoral-logo.png" type="image/x-icon">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
      <!--Font Awesome -->
@@ -155,7 +155,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 <form id="registform" method="post" action="">
                     <input type="hidden" name="phase" value="1">
                     <h1 id="totalC" class="text-center mb-5 fw-bold">
-    <i class="fas fa-laptop-medical me-2"></i>Register Asset
+    <i class="fas fa-laptop-medical me-2"></i><?php echo __('register_asset', $lang); ?>
 </h1>
                     <br>
                     <br>
@@ -490,7 +490,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                             <i class="fas fa-paper-plane me-2"></i><?php echo __('next', $lang); ?>: <?php echo __('asset_status', $lang); ?>
                         </button>
                         <a href="../index.php" class="btn">
-                            <i class="fas fa-arrow-left me-2"></i>Return
+                            <i class="fas fa-arrow-left me-2"></i><?php echo __('return', $lang); ?>
                         </a>
                     </div>
                 </form>

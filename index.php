@@ -497,10 +497,10 @@ function __($key, $lang) {
             ?>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <a href="./View/Int_Registro_equipo.php" class="shadow btn btn-secondary "><i class="fas fa-plus"></i>
-                    Register new device</a>
+                    <?php echo __('register_new_device', $lang); ?></a>
                 <button id="deleteAllButton" type="button" class="shadow btn btn-danger ">
                     <i class="fas fa-trash-alt"></i>
-                    Delete All Logs</button>
+                    <?php echo __('delete_all_logs', $lang); ?></button>
                 <!-- Scripts para el modal de administración -->
                 <script>
                     document.getElementById('deleteAllButton').addEventListener('click', function() {

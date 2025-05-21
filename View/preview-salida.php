@@ -180,7 +180,7 @@ $fecha_salida = isset($asset_data['fecha_salida']) ? $asset_data['fecha_salida']
                 <div class="pdf-preview">
                         <!-- Encabezado del PDF -->
                         <div class="header-logo">
-                            <img src="../Model/logo.png" alt="Logo" height="60">
+                            <img src="../Configuration/3shape-logo.png" alt="Logo" height="30">
                         </div>
                         <div class="text-left">
                             <strong>Fecha: </strong>

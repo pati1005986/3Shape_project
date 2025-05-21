@@ -133,6 +133,30 @@ try {
 } catch (PDOException $e) {
     echo '<div class="alert alert-danger">Error loading status options: ' . htmlspecialchars($e->getMessage()) . '</div>';
 }
+
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('./lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -204,9 +228,9 @@ try {
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="asset_status">Status</label>
+                <label for="asset_status"><?php echo __('status_asset', $lang); ?></label>
                 <select class="form-control" id="asset_status" name="asset_status">
-                    <option value="">-- Select status --</option>
+                    <option value="">-- <?php echo __('select_status', $lang); ?> --</option>
                     <option value="Bueno">Bueno</option>
                     <option value="Regular">Regular</option>
                     <option value="Dañado">Dañado</option>
@@ -218,7 +242,7 @@ try {
         </div>
         <div class="col-md-8">
             <div class="form-group">
-                <label for="asset_observations">Observations</label>
+                <label for="asset_observations"><?php echo __('observations', $lang); ?></label>
                 <textarea class="form-control" id="asset_observations" name="asset_observations" rows="2" maxlength="255"></textarea>
             </div>
         </div>
@@ -237,7 +261,7 @@ try {
                         </div>
                         <div class="col-md-4">
                           <div class="form-group">
-    <label for="headset_status">Status</label>
+    <label for="headset_status"><?php echo __('status_asset', $lang); ?></label>
     <select class="form-control" id="headset_status" name="headset_status" >
         <option value="">-- Seleccione estado --</option>
         <option value="Bueno">Bueno</option>
@@ -251,7 +275,7 @@ try {
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="headset_observations">Observations</label>
+                                <label for="headset_observations"><?php echo __('observations', $lang); ?></label>
                                 <textarea class="form-control" id="headset_observations" name="headset_observations" rows="2" maxlength="255"></textarea>
                             </div>
                         </div>
@@ -270,7 +294,7 @@ try {
                         </div>
                         <div class="col-md-4">
                           <div class="form-group">
-    <label for="dongle_status">Status</label>
+    <label for="dongle_status"><?php echo __('status_asset', $lang); ?></label>
     <select class="form-control" id="dongle_status" name="dongle_status" >
         <option value="">-- Seleccione estado --</option>
         <option value="Bueno">Bueno</option>
@@ -284,7 +308,7 @@ try {
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="dongle_observations">Observations</label>
+                                <label for="dongle_observations"><?php echo __('observations', $lang); ?></label>
                                 <textarea class="form-control" id="dongle_observations" name="dongle_observations" rows="2" maxlength="255"></textarea>
                             </div>
                         </div>
@@ -303,7 +327,7 @@ try {
                         </div>
                         <div class="col-md-4">
                          <div class="form-group">
-    <label for="celular_status">Status</label>
+    <label for="celular_status"><?php echo __('status_asset', $lang); ?></label>
     <select class="form-control" id="celular_status" name="celular_status" >
         <option value="">-- Seleccione estado --</option>
         <option value="Bueno">Bueno</option>
@@ -317,7 +341,7 @@ try {
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="celular_observations">Observations</label>
+                                <label for="celular_observations"><?php echo __('observations', $lang); ?></label>
                                 <textarea class="form-control" id="celular_observations" name="celular_observations" rows="2" maxlength="255"></textarea>
                             </div>
                         </div>
@@ -342,10 +366,10 @@ try {
                 <div class="row mt-4">
                     <div class="col-12 d-flex justify-content-between">
                         <a href="Int_Registro_equipo.php" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i> Return
+                            <i class="fas fa-arrow-left me-2"></i> <?php echo __('return', $lang); ?>
                         </a>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i> Send
+                            <i class="fas fa-save me-2"></i> <?php echo __('send', $lang); ?>
                         </button>
                     </div>
                 </div>

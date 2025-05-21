@@ -193,7 +193,7 @@ $celular_status_options = ["Nuevo", "Bueno", "Regular", "Malo", "Dañado", "Perd
                 <div class="pdf-preview">
                     <!-- Encabezado del PDF -->
                     <div class="header-logo">
-                        <img src="../Model/logo.png" alt="Logo" height="60">
+                       <img src="../Configuration/3shape-logo.png" alt="Logo" height="30">
                     </div>
                     <div class="text-left">
                         <strong>Fecha: </strong><?php echo date('d/m/Y'); ?>

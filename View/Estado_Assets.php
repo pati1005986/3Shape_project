@@ -46,6 +46,30 @@ try {
 } catch (PDOException $e) {
     echo '<div class="alert alert-danger">Error loading status options: ' . htmlspecialchars($e->getMessage()) . '</div>';
 }
+
+// Configuración de idioma
+$default_lang = 'en';
+$available_langs = ['en', 'es', 'pl'];
+
+// Determinar idioma actual
+if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
+    $_SESSION['lang'] = $_GET['lang'];
+} elseif (!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = $default_lang;
+}
+
+// Cargar archivo de idioma
+$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
+if (file_exists($lang_file)) {
+    $lang = json_decode(file_get_contents($lang_file), true);
+} else {
+    $lang = json_decode(file_get_contents('./lang/en.json'), true);
+}
+
+// Función de traducción
+function __($key, $lang) {
+    return $lang[$key] ?? $key;
+}
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +88,7 @@ try {
     <!-- Carga diferida de scripts no críticos -->
     <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
-    <title>Asset Status and Observations</title>
+    <title><?php echo __('asset_status_and_observations', $lang); ?></title>
 </head>
 
 <body>
@@ -75,20 +99,20 @@ try {
 
                 <!--Formulario de Actualizacion donde trae los datos del activo seleccionado-->
                 <form id="updateform" action="../Controller/procesar_estados.php" method="post" enctype="multipart/form-data">
-                <h2 id="totalC" class="text-center">Asset Status and Observations</h2>
+                <h2 id="totalC" class="text-center"><?php echo __('asset_status_and_observations', $lang); ?></h2>
                 <br>
                 
                 <!-- Sección de información básica del usuario -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="nombre_usuario">User Name: </label>
+                            <label for="nombre_usuario"><?php echo __('user_name', $lang); ?>: </label>
                             <input class="form-control shadow-sm" type="text" id="nombre_usuario" name="nombre_usuario"
                                 value="<?php echo htmlspecialchars($asset_data['last_user']); ?>"
                                 autocomplete="off" readonly><br>
                         </div>
                         <div class="form-group">
-                            <label for="serial">Serial Number (Computer): </label>
+                            <label for="serial"><?php echo __('serial_number', $lang); ?> (<?php echo __('computer', $lang); ?>): </label>
                             <input class="form-control shadow-sm" type="text" id="serial" name="serial"
                                 value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required
                                 autocomplete="off" readonly><br>
@@ -101,7 +125,7 @@ try {
 
                 <!-- Sección de activos en 3 columnas -->
                 <div class="row mt-4">
-                    <h4 class="mb-3">Asset Information</h4>
+                    <h4 class="mb-3"><?php echo __('asset_information', $lang); ?></h4>
                     
                 <!-- Computador -->
 <div class="col-md-12 mb-4 border-bottom pb-3">
@@ -116,9 +140,9 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="asset_status">Status</label>
+                <label for="asset_status"><?php echo __('status_asset', $lang); ?></label>
                 <select class="form-control" id="asset_status" name="asset_status" >
-                    <option value="">Select status</option>
+                    <option value=""><?php echo __('select_status', $lang); ?></option>
                     <option value="Bueno" <?php echo ($asset_data['asset_status'] == 'Bueno') ? 'selected' : ''; ?>>Bueno</option>
                     <option value="Regular" <?php echo ($asset_data['asset_status'] == 'Regular') ? 'selected' : ''; ?>>Regular</option>
                     <option value="Dañado" <?php echo ($asset_data['asset_status'] == 'Dañado') ? 'selected' : ''; ?>>Dañado</option>
@@ -130,7 +154,7 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="asset_observations">Observations</label>
+                <label for="asset_observations"><?php echo __('observations', $lang); ?></label>
                 <textarea class="form-control" id="asset_observations" name="asset_observations"
                     rows="2"><?php echo htmlspecialchars($asset_data['asset_observations'] ?? ''); ?></textarea>
             </div>
@@ -138,10 +162,10 @@ try {
     </div>
     <!-- Sección de subir foto -->
     <div class="row mt-3">
-    <h5><i class="fas fa-image"></i>Upload Asset Photo</h5>
+    <h5><i class="fas fa-image"></i><?php echo __('upload_asset_photo', $lang); ?></h5>
     <div class="col-md-6">
         <div class="form-group">
-            <label for="asset_photo">Photo (Optional)</label>
+            <label for="asset_photo"><?php echo __('photo', $lang); ?> (<?php echo __('optional', $lang); ?>)</label>
             <input class="form-control" type="file" id="asset_photo" name="asset_photo" accept="image/*">
         </div>
     </div>
@@ -177,9 +201,9 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="headset_status">Status</label>
+                <label for="headset_status"><?php echo __('status_asset', $lang); ?></label>
                 <select class="form-control" id="headset_status" name="headset_status">
-                    <option value="">Select status</option>
+                    <option value=""><?php echo __('select_status', $lang); ?></option>
                     <?php foreach ($headset_status_options as $option): ?>
                         <option value="<?php echo htmlspecialchars($option); ?>"
                             <?php echo ($asset_data['headset_status'] == $option) ? 'selected' : ''; ?>>
@@ -196,7 +220,7 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="headset_observations">Observations</label>
+                <label for="headset_observations"><?php echo __('observations', $lang); ?></label>
                 <textarea class="form-control" id="headset_observations" name="headset_observations"
                     rows="2"><?php echo htmlspecialchars($asset_data['headset_observations'] ?? ''); ?></textarea>
             </div>
@@ -217,9 +241,9 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="dongle_status">Status</label>
+                <label for="dongle_status"><?php echo __('status_asset', $lang); ?></label>
                 <select class="form-control" id="dongle_status" name="dongle_status">
-                    <option value="">Select status</option>
+                    <option value=""><?php echo __('select_status', $lang); ?></option>
                     <?php foreach ($dongle_status_options as $option): ?>
                         <option value="<?php echo htmlspecialchars($option); ?>"
                             <?php echo ($asset_data['dongle_status'] == $option) ? 'selected' : ''; ?>>
@@ -236,7 +260,7 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="dongle_observations">Observations</label>
+                <label for="dongle_observations"><?php echo __('observations', $lang); ?></label>
                 <textarea class="form-control" id="dongle_observations" name="dongle_observations"
                     rows="2"><?php echo htmlspecialchars($asset_data['dongle_observations'] ?? ''); ?></textarea>
             </div>
@@ -246,7 +270,7 @@ try {
 
 <!-- Celular -->
 <div class="col-md-12 mb-4">
-    <h5><i class="fas fa-mobile-alt me-2"></i>Cell Phone</h5>
+    <h5><i class="fas fa-mobile-alt me-2"></i><?php echo __('cell_phone', $lang); ?></h5>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -257,9 +281,9 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="celular_status">Status</label>
+                <label for="celular_status"><?php echo __('status_asset', $lang); ?></label>
                 <select class="form-control" id="celular_status" name="celular_status">
-                    <option value="">Select status</option>
+                    <option value=""><?php echo __('select_status', $lang); ?></option>
                     <?php foreach ($celular_status_options as $option): ?>
                         <option value="<?php echo htmlspecialchars($option); ?>"
                             <?php echo ($asset_data['celular_status'] == $option) ? 'selected' : ''; ?>>
@@ -276,7 +300,7 @@ try {
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="celular_observations">Observations</label>
+                <label for="celular_observations"><?php echo __('observations', $lang); ?></label>
                 <textarea class="form-control" id="celular_observations" name="celular_observations"
                     rows="2"><?php echo htmlspecialchars($asset_data['celular_observations'] ?? ''); ?></textarea>
             </div>
@@ -288,10 +312,10 @@ try {
 
                     <div class="col-md-6">
     <button id="confirmAllButton" type="submit" class="btn btn-secondary my-2">
-        <i class="fas fa-paper-plane me-2"></i>Send
+        <i class="fas fa-paper-plane me-2"></i><?php echo __('send', $lang); ?>
     </button>
     <a href="../index.php" class="btn my-2">
-        <i class="fas fa-arrow-left me-2"></i>Return
+        <i class="fas fa-arrow-left me-2"></i><?php echo __('return', $lang); ?>
     </a>
 </div>
                 </form>

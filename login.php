@@ -172,8 +172,8 @@ if (empty($_SESSION['csrf_token'])) {
        }
        
        .login-logo {
-           width: 80px;
-           height: 80px;
+           width: 200px;
+           height: 200px;
            margin-bottom: 2rem;
            object-fit: contain;
        }
