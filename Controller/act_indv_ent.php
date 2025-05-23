@@ -60,7 +60,7 @@ class PDF extends FPDF
         $this->Ln(20);
     }
 
-    function addCertificadoTexto($last_user, $cedula, $cargo, $tipo_id)
+    function addCertificadoTexto($last_user, $cedula, $cargo, $tipo_id,$fecha_ingreso)
     {
         $this->SetFont('Arial', '', 12);
         $texto = "Por medio de la presente se certifica que el/la señor(a); ";
@@ -72,22 +72,22 @@ class PDF extends FPDF
         // Conditional text based on $tipo_id
         switch ($tipo_id) {
             case 'CE':
-                $tipo_text = " identificado(a) con Cédula de Extranjeria No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Extranjeria No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape apartir de la fecha.";
                 break;
             case 'PP':
-                $tipo_text = " identificado(a) con Pasaporte No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Pasaporte No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape apartir de la fecha $fecha_ingreso.";
                 break;
             case 'RC':
-                $tipo_text = " identificado(a) con Cédula de Residencia No. $cedula,y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Residencia No. $cedula,y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape apartir de la fecha $fecha_ingreso.";
                 break;
             case 'CC':
-                $tipo_text = " identificado(a) con Cédula de Ciudadanía No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Cédula de Ciudadanía No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape apartir de la fecha $fecha_ingreso.";
                 break;
             case 'TI':
-                $tipo_text = " identificado(a) con Tarjeta de Identidad No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguintes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con Tarjeta de Identidad No. $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguintes activos que manejará en 3Shape apartir de la fecha $fecha_ingreso.";
                 break;
             default:
-                $tipo_text = " identificado(a) con ID: $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape.";
+                $tipo_text = " identificado(a) con ID: $cedula, y quien ocupa el cargo de $cargo se le hace entrega de los siguientes activos que manejará en 3Shape apartir de la fecha $fecha_ingreso.";
                 break;
         }
 
@@ -167,6 +167,7 @@ foreach ($resultados as $index => $row) {
     $cedula = $row['cedula'];
     $serial = $row['serial_number'];
     $cargo = $row['job_title'];
+    $fecha_ingreso = $row['fecha_ingreso'];
     $asset_status = $row['asset_status'] ?? '';
     $asset_observations = $row['asset_observations'] ?? '';
     $headSet = $row['HeadSet'] ?? '';
@@ -186,7 +187,8 @@ foreach ($resultados as $index => $row) {
         convertirTexto($last_user),
         convertirTexto($cedula),
         convertirTexto($cargo),
-        convertirTexto($tipo_id)
+        convertirTexto($tipo_id),
+        convertirTexto($fecha_ingreso),
     );
 
     $itemCounter = 1;

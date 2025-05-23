@@ -106,6 +106,9 @@
 
   "update_register" : "Update Register",
   "register_asset" : "Register Asset",
+  "pending" : "Pending",
+  "yes" : "Yes",
+  "no " : "No",
 
   "administrator_access": "Administrator Access",
   "manager_login": "Manager Login",

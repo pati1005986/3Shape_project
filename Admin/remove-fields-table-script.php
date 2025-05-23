@@ -18,43 +18,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $fieldsToHide = $_POST['removemfields'];
     
-    // 3. Validar que hay campos visibles para ocultar
-    if (!isset($_SESSION['selected_fields']) || empty($_SESSION['selected_fields'])) {
-        $_SESSION['error'] = 'This field is already hidden';
+    // 3. Validar que los campos seleccionados son válidos
+    include '../Configuration/Connection.php';
+    
+    // Lista de campos prohibidos (que nunca se pueden ocultar)
+    $prohibitedFields = ['assetname', 'serial_number', 'purchase_country','warranty_enddate','expired','fk_id','fk_assetname','user_status',
+    'last_user','job_title','status_change','cedula'];
+    
+    // Verificar que ningún campo seleccionado esté en la lista prohibida
+    $invalidFields = array_intersect($fieldsToHide, $prohibitedFields);
+    if (!empty($invalidFields)) {
+        $_SESSION['error'] = 'Cannot hide protected fields: ' . implode(', ', $invalidFields);
+        header('Location: index_admin.php');
+        exit();
+    }
+    
+    // 4. Verificar que los campos existen en la base de datos
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
+            AND COLUMN_NAME IN (" . str_repeat('?,', count($fieldsToHide) - 1) . "?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($fieldsToHide);
+    $validFields = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+    $invalidFields = array_diff($fieldsToHide, $validFields);
+    if (!empty($invalidFields)) {
+        $_SESSION['error'] = 'Invalid fields selected: ' . implode(', ', $invalidFields);
         header('Location: index_admin.php');
         exit();
     }
 
-    // 4. Filtrar solo los campos que están actualmente visibles
-    $validFieldsToHide = array_intersect($fieldsToHide, $_SESSION['selected_fields']);
-    
-    if (empty($validFieldsToHide)) {
-        $_SESSION['error'] = 'None of the selected fields are currently visible in the table';
-        header('Location: index_admin.php');
-        exit();
+    // 5. Actualizar la sesión con los campos ocultos
+    if (!isset($_SESSION['hidden_fields'])) {
+        $_SESSION['hidden_fields'] = [];
     }
-
-    // 5. Actualizar las sesiones
-    // Campos ocultos (añadir los nuevos)
-    $_SESSION['hidden_fields'] = array_unique(array_merge(
-        $_SESSION['hidden_fields'] ?? [],
-        $validFieldsToHide
-    ));
     
-    // Campos visibles (remover los ocultados)
-    $_SESSION['selected_fields'] = array_diff($_SESSION['selected_fields'], $validFieldsToHide);
+    // Agregar los nuevos campos a la lista de ocultos (evitar duplicados)
+    $_SESSION['hidden_fields'] = array_unique(array_merge($_SESSION['hidden_fields'], $fieldsToHide));
     
-    // 6. Registrar éxito
-    $logMessage = 'Fields hidden from table: ' . implode(', ', $validFieldsToHide);
+    // 6. Si existe selected_fields, remover los campos ocultos de ahí
+    if (isset($_SESSION['selected_fields'])) {
+        $_SESSION['selected_fields'] = array_diff($_SESSION['selected_fields'], $fieldsToHide);
+    }
+    
+    // 7. Registrar en el log
+    $logMessage = 'Fields hidden from table view: ' . implode(', ', $fieldsToHide);
     $logFile = '../Model/Logs/session_messages.json';
-    $logs = file_exists($logFile) ? json_decode(file_get_contents($logFile), true) : [];
+    
+    if (file_exists($logFile)) {
+        $logs = json_decode(file_get_contents($logFile), true);
+    } else {
+        $logs = ['success' => [], 'error' => []];
+    }
+    
     $logs['success'][] = [
         'message' => $logMessage,
         'timestamp' => date('Y-m-d H:i:s')
     ];
-    file_put_contents($logFile, json_encode($logs));
     
-    $_SESSION['success'] = 'Fields hidden successfully: ' . implode(', ', $validFieldsToHide);
+    file_put_contents($logFile, json_encode($logs, JSON_PRETTY_PRINT));
+    
+    // 8. Mensaje de éxito
+    $_SESSION['success'] = 'Fields hidden successfully from table view: ' . implode(', ', $fieldsToHide);
     header('Location: index_admin.php');
     exit();
 }

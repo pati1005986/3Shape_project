@@ -106,6 +106,9 @@
 
      "update_register" : " Actualizar Registro",
      "register_asset": "Registrar Activo",
+     "pending" : "Pendiente",
+     "yes" : "Sí",
+     "no " : "No",
   
     "administrator_access": "Acceso de Administrador",
     "manager_login": "Inicio de Sesión del Gerente",

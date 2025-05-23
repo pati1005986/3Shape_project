@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     size: 12,
                                     family: '"Segoe UI", Arial, sans-serif',
                                 },
-                                color: "#666",
+                                color: "rgba(32, 19, 212, 0.9)",
                             },
                         },
                         y: {
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     weight: "bold",
                                     family: '"Segoe UI", Arial, sans-serif',
                                 },
-                                color: "#333",
+                                color: "rgba(32, 19, 212, 0.9)",
                             },
                         },
                     },

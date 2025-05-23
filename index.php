@@ -27,11 +27,9 @@ if (file_exists($lang_file)) {
 function __($key, $lang) {
     return $lang[$key] ?? $key;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,7 +121,6 @@ function __($key, $lang) {
                 </div>
             </div>
         </div>
-
                      <!-- Search Section -->
         <section class="dashboard-section mt-4 animate__animated animate__fadeIn">
             <div class="section-header text-center">

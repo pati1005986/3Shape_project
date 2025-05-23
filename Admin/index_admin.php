@@ -523,62 +523,81 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 </form>
             </div>
             <!-- Add this within the existing column in index_admin.php, similar to the "Add Fields to the Main Table" form -->
-            <div class="col-md-6">
-                <form action="remove-fields-table-script.php" method="post" id="RemoveFieldsTable" style="display: none;"
-                    class="shadow border border-secondary p-4 rounded bg-white">
-                    <h1 class="text-center mb-4 fw-bold"><?php echo __('remove_columns_from_table', $lang); ?></h1>
-                    <h4><?php echo __('select_fields_to_remove', $lang); ?> <span class="text-danger">*</span></h4>
-                    <?php
-                    try {
-
-                        $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
-                                FROM INFORMATION_SCHEMA.COLUMNS 
-                                WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                                AND COLUMN_NAME NOT IN ('assetname', 'serial_number','fk_id','fk_assetname','user_status',
-                                'last_user','job_title','status_change','cedula') 
-                                ORDER BY TABLE_NAME, ORDINAL_POSITION";
-                        $stmt = $pdo->prepare($sql);
-                        $stmt->execute();
-                        if ($stmt->rowCount() > 0) {
-                            echo '<div class="row">';
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                echo '<div class="col-md-4 col-sm-6 mb-2">';
-                                echo '<div class="form-check custom-checkbox mb-2">';
-                                echo '<div class="form-check d-flex align-items-center">';
-                                echo '<input class="form-check-input me-2" type="checkbox" name="addmfields[]" value="' . htmlspecialchars($row["Field"]) . '" data-type="' . htmlspecialchars($row["Type"]) . '" id="check_' . htmlspecialchars($row["Field"]) . '">';
-                                echo '<label class="form-check-label text-truncate" for="check_' . htmlspecialchars($row["Field"]) . '">' . htmlspecialchars($row["Field"]) . '</label>';
-                                echo '</div>';
-                                echo '</div>';
-                                echo '</div>';
-                            }
-                            echo '</div>';
-                        } else {
-                            echo '<p>' . __('no_removable_fields_found', $lang) . '</p>';
-                        }
-                    } catch (PDOException $e) {
-                        echo '<p>' . __('error', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</p>';
+          <div class="col-md-6">
+    <form action="remove-fields-table-script.php" method="post" id="RemoveFieldsTable" style="display: none;"
+        class="shadow border border-secondary p-4 rounded bg-white">
+        <h1 class="text-center mb-4 fw-bold"><?php echo __('remove_columns_from_table', $lang); ?></h1>
+        <h4><?php echo __('select_fields_to_remove', $lang); ?> <span class="text-danger">*</span></h4>
+        <?php
+        try {
+            // Mostrar todos los campos disponibles EXCEPTO los prohibidos
+            // El usuario puede seleccionar cuáles quiere ocultar de la vista
+            $sql = "SELECT COLUMN_NAME as Field, DATA_TYPE as Type 
+                    FROM INFORMATION_SCHEMA.COLUMNS 
+                    WHERE TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                    AND COLUMN_NAME NOT IN ('assetname', 'serial_number','fk_id','fk_assetname','user_status',
+                    'last_user','job_title','status_change','cedula') 
+                    ORDER BY TABLE_NAME, ORDINAL_POSITION";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            
+            if ($stmt->rowCount() > 0) {
+                echo '<div class="row">';
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $fieldName = $row["Field"];
+                    $fieldType = $row["Type"];
+                    
+                    // Marcar como checked si el campo ya está oculto
+                    $isHidden = isset($_SESSION['hidden_fields']) && in_array($fieldName, $_SESSION['hidden_fields']);
+                    $checkedAttr = $isHidden ? 'checked' : '';
+                    
+                    echo '<div class="col-md-4 col-sm-6 mb-2">';
+                    echo '<div class="form-check custom-checkbox mb-2">';
+                    echo '<div class="form-check d-flex align-items-center">';
+                    echo '<input class="form-check-input me-2" type="checkbox" name="removemfields[]" value="' . htmlspecialchars($fieldName) . '" data-type="' . htmlspecialchars($fieldType) . '" id="remove_check_' . htmlspecialchars($fieldName) . '" ' . $checkedAttr . '>';
+                    echo '<label class="form-check-label text-truncate" for="remove_check_' . htmlspecialchars($fieldName) . '">' . htmlspecialchars($fieldName);
+                    
+                    // Mostrar estado actual del campo
+                    if ($isHidden) {
+                        echo ' <small class="text-muted">(oculto)</small>';
+                    } else {
+                        echo ' <small class="text-success">(visible)</small>';
                     }
-                    ?>
-                    <br>
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
-                            <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
-                        </button>
+                    
+                    echo '</label>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                echo '</div>';
+            } else {
+                echo '<p>' . __('no_removable_fields_found', $lang) . '</p>';
+            }
+        } catch (PDOException $e) {
+            echo '<p>' . __('error', $lang) . ': ' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
+        ?>
+        <br>
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('prev')">
+                <i class="fas fa-arrow-left"></i> <?php echo __('previous', $lang); ?>
+            </button>
 
-                        <div class="btn-block">
-                            <button id="RemoveFieldTable" type="submit" class="btn btn-danger"><?php echo __('remove_field', $lang); ?></button>
-                        </div>
-
-                        <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
-                            <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                    <div class="alert alert-warning mt-2">
-                        <strong><?php echo __('warning', $lang); ?>:</strong> <?php echo __('remove_field_table_warning', $lang); ?>
-                    </div>
-                </form>
+            <div class="btn-block">
+                <button id="RemoveFieldTable" type="submit" class="btn btn-danger"><?php echo __('hide_selected_fields', $lang); ?></button>
             </div>
+
+            <button type="button" class="btn btn-outline-primary nav-arrow" onclick="navigateTo('next')">
+                <?php echo __('next', $lang); ?> <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        <div class="alert alert-info mt-2">
+            <strong><?php echo __('info', $lang); ?>:</strong> 
+            Los campos seleccionados se ocultarán de la tabla de datos. Los campos ya ocultos aparecen marcados.
+        </div>
+    </form>
+</div>
         
         <!--Exportar datos de ,a base de datos a formato CSV y TXT-->
         <div class="col-md-6 my-2">

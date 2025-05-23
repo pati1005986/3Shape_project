@@ -12,31 +12,8 @@ if (!isset($_SESSION['asset_data'])) {
 $asset_data = $_SESSION['asset_data'];
 
 $is_admin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
-
-// Configuración de idioma
-$default_lang = 'en';
-$available_langs = ['en', 'es', 'pl'];
-
-// Determinar idioma actual
-if (isset($_GET['lang']) && in_array($_GET['lang'], $available_langs)) {
-    $_SESSION['lang'] = $_GET['lang'];
-} elseif (!isset($_SESSION['lang'])) {
-    $_SESSION['lang'] = $default_lang;
-}
-
-// Cargar archivo de idioma
-$lang_file = '../lang/' . $_SESSION['lang'] . '.json';
-if (file_exists($lang_file)) {
-    $lang = json_decode(file_get_contents($lang_file), true);
-} else {
-    $lang = json_decode(file_get_contents('../lang/en.json'), true);
-}
-
-// Función de traducción
-function __($key, $lang) {
-    return $lang[$key] ?? $key;
-}
 ?>
+<?php include '../View/Fragments/idioma.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -46,485 +23,401 @@ function __($key, $lang) {
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
      <!-- Añade Font Awesome -->
      <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
-    <link rel="stylesheet" href="./Css/dark-mode.css">
-    <link rel="stylesheet" href="./Css/FormsCRUD.css">
+     <link rel="stylesheet" href="./Css/FormsCRUD.css">
+     <link rel="stylesheet" href="./Css/dark-mode.css">
      <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
     <!--Archivo con la funcion para la interfaz de  actualizacion del activo-->
     <script src="./Configuration/JQuery/sweetalert2.all.min.js" defer></script>
     <title><?php echo __('update_register', $lang); ?></title>
- <style>
-        /* Estilos consistentes con el formulario de registro */
-        .form-section {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .form-section:hover {
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-        
-        .section-title {
-            border-bottom: 2px solid #6c757d;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            color: #495057;
-            font-weight: 600;
-        }
-        
-        .form-control, .form-select {
-            border-radius: 4px;
-            border: 1px solid #ced4da;
-            padding: 8px 12px;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-        
-        .form-control:focus, .form-select:focus {
-            border-color: #80bdff;
-            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-        }
-        
-        label {
-            font-weight: 500;
-            margin-bottom: 5px;
-            color: #495057;
-        }
-        
-        .btn-primary {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-        }
-        
-        .btn-primary:hover {
-            background-color: #0b5ed7;
-            border-color: #0a58ca;
-        }
-        
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #5c636a;
-            border-color: #565e64;
-        }
-        
-        .help-text {
-            color: #6c757d;
-            font-size: 0.875rem;
-            margin-top: 4px;
-        }
-        
-        .animate-form {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Dark mode styles */
-        .dark-mode .form-section {
-            background-color: #2d3748;
-            color: #e2e8f0;
-        }
-        
-        .dark-mode .section-title {
-            border-bottom-color: #4a5568;
-            color: #e2e8f0;
-        }
-        
-        .dark-mode label {
-            color: #e2e8f0;
-        }
-        
-        .dark-mode .form-control, .dark-mode .form-select {
-            background-color: #1a202c;
-            border-color: #4a5568;
-            color: #e2e8f0;
-        }
-        
-        .dark-mode .help-text {
-            color: #a0aec0;
-        }
-
-        .admin-panel {
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
-        }
-        
-        .dark-mode .admin-panel {
-            background-color: #2d3748;
-            border-color: #4a5568;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-        }
-    </style>
 </head>
 <body>
-    <div class="container py-4">
-        <div class="row d-flex justify-content-center align-items-center">
-            <div id="FORMupdateform" class="shadow-lg p-4 rounded bg-light col-md-10 animate-form">
-                <!-- Admin Panel -->
-                <?php if ($is_admin): ?>
-                    <div class="mb-4">
-                        <button id="toggleFieldPanel" class="btn btn-primary mb-3">
-                            <i class="fa-solid fa-cog me-2"></i> Show/Hide Admin Panel
-                        </button>
-                        
-                        <div class="admin-panel mb-4 p-3 border rounded" style="display: none;">
-                            <h4 class="mb-3"><i class="fa-solid fa-cog"></i> Field Management</h4>
-                            <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
-                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                                <?php
-                                    $fieldLabels = require '../View/Fragments/field_labels.php';
-                                ?>
-                                <?php
-                                try {
-                                    $prohibited_fields = ['assetname', 'serial_number', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula','fecha_ingreso', 'Carnet', 'LLave', 'Tipo_ID'];
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center vh-100">
+            <div id="FORMupdateform" class="shadow-lg p-5 rounded bg-light">
 
-                                    $sql = "SELECT COLUMN_NAME, DATA_TYPE 
-                                       FROM INFORMATION_SCHEMA.COLUMNS 
-                                       WHERE TABLE_SCHEMA = 'garantias' 
-                                       AND TABLE_NAME IN ('equipos', 'usuarios_equipos')
-                                       ORDER BY TABLE_NAME, COLUMN_NAME";
+                <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+                    <button id="toggleFieldPanel" class="btn btn-primary mb-3">Show/Hide Panel</button>
+                    <script>
+                        document.getElementById('toggleFieldPanel').addEventListener('click', function() {
+                            var panel = document.querySelector('.admin-panel');
 
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-                                    $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            // Add transition styles if not already present
+                            if (!panel.style.transition) {
+                                panel.style.transition = 'all 0.3s ease-in-out';
+                            }
 
-                                    echo '<div class="col-md-12 mb-3">';
-                                    echo '<label class="form-label">Available Fields</label>';
-                                    echo '<div class="table-responsive">';
-                                    echo '<table class="table table-sm table-bordered">';
-                                    echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
-                                    echo '<tbody>';
+                            // Set initial height/opacity for animation
+                            if (panel.style.display === 'none' || !panel.style.display) {
+                                panel.style.display = 'block';
+                                panel.style.opacity = '0';
+                                panel.style.maxHeight = '0';
 
-                                    foreach ($columns as $column) {
-                                        if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
-                                            $fieldName = $column['COLUMN_NAME'];
-                                            $displayName = $fieldLabels[$fieldName] ?? $fieldName;
-                                            
-                                            echo '<tr>';
-                                            echo '<td>' . htmlspecialchars($displayName) . '</td>';
-                                            echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
-                                            echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
-                                            echo '</tr>';
-                                        }
+                                // Force reflow
+                                panel.offsetHeight;
+
+                                // Animate in
+                                panel.style.opacity = '1';
+                                panel.style.maxHeight = panel.scrollHeight + 'px';
+                            } else {
+                                // Animate out
+                                panel.style.opacity = '0';
+                                panel.style.maxHeight = '0';
+
+                                // Hide after animation
+                                setTimeout(() => {
+                                    panel.style.display = 'none';
+                                }, 300);
+                            }
+                        });
+                    </script>
+                    <!-- Panel de Administrador para Campos Dinámicos -->
+                    <div class="admin-panel mb-4 p-3 border rounded bg-light" style="display: none;">
+                        <h4 class="mb-3"><i class="fa-solid fa-cog"></i> Field Management</h4>
+                        <form id="dynamicFieldForm" action="../Admin/add_fieldTDO.php" method="POST" class="row g-3">
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                            <?php
+                            // Array de mapeo de nombres 
+                            $fieldLabels = require '../View/Fragments/field_labels.php';
+                            ?>
+                           <?php
+                            try {
+                                // Get columns from both tables
+                                $prohibited_fields = ['assetname', 'serial_number', 'fk_id', 'fk_assetname', 'user_status', 'last_user', 'job_title', 'cedula','fecha_ingreso', 'Carnet', 'LLave', 'Tipo_ID'];
+
+                                $sql = "SELECT COLUMN_NAME, DATA_TYPE 
+                                   FROM INFORMATION_SCHEMA.COLUMNS 
+                                   WHERE TABLE_SCHEMA = 'garantias' 
+                                   AND TABLE_NAME IN ('equipos', 'usuarios_equipos')
+                                   ORDER BY TABLE_NAME, COLUMN_NAME";
+
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute();
+                                $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                echo '<div class="col-md-12 mb-3">';
+                                echo '<label class="form-label">Available Fields</label>';
+                                echo '<div class="table-responsive">';
+                                echo '<table class="table table-sm table-bordered">';
+                                echo '<thead><tr><th>Field</th><th>Data Type</th><th>Select</th></tr></thead>';
+                                echo '<tbody>';
+
+                                foreach ($columns as $column) {
+                                    if (!in_array($column['COLUMN_NAME'], $prohibited_fields)) {
+                                        $fieldName = $column['COLUMN_NAME'];
+                                        $displayName = isset($fieldLabels[$fieldName]) ? $fieldLabels[$fieldName] : $fieldName;
+                                        
+                                        echo '<tr>';
+                                        echo '<td>' . htmlspecialchars($displayName) . '</td>';
+                                        echo '<td>' . htmlspecialchars($column['DATA_TYPE']) . '</td>';
+                                        echo '<td><input type="checkbox" name="columns[]" value="' . htmlspecialchars($column['COLUMN_NAME']) . '"></td>';
+                                        echo '</tr>';
                                     }
-
-                                    echo '</tbody></table></div></div>';
-                                } catch (PDOException $e) {
-                                    echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
                                 }
-                                ?>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Update Fields</button>
-                                </div>
-                            </form>
-                        </div>
+                                echo '</tbody></table></div></div>';
+                            } catch (PDOException $e) {
+                                echo '<div class="alert alert-danger">Error loading fields: ' . htmlspecialchars($e->getMessage()) . '</div>';
+                            }
+                            ?>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Update Fields</button>
+                            </div>
+                        </form>
                     </div>
                 <?php endif; ?>
-
-                <!-- Main Form -->
+                
+                <!-- Formulario de Actualización donde trae los datos del activo seleccionado -->
                 <form id="updateform" action="../Controller/procesar_datos.php" method="post">
-                    <div class="text-center mb-4">
-                        <h1 id="totalC" class="fw-bold">
-                            <i class="fas fa-laptop-medical me-2"></i><?php echo __('update_register', $lang); ?>
-                        </h1>
-                    </div>
+                    <h2 id="totalC" class="text-center"><?php echo __('update_register', $lang); ?></h2>
+                    <br>
                     
-                    <!-- Asset Information Section -->
-                    <div class="form-section mb-4">
-                        <h4 class="section-title">
-                            <i class="fas fa-info-circle me-2"></i><?php echo __('asset_information', $lang); ?>
-                        </h4>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="assetname"><i class="fas fa-tag me-2"></i><?php echo __('asset_name', $lang); ?>:</label>
-                                    <input class="form-control shadow-sm" type="text" id="assetname" name="assetname"
-                                        value="<?php echo htmlspecialchars($asset_data['assetname']); ?>" required
-                                        oninput="this.value = this.value.toUpperCase()">
-                                    <small id="asset-message" class="form-text"></small>
-                                    <input type="hidden" id="fk_Assetname" name="fk_Assetname"
-                                        value="<?php echo $asset_data['assetname']; ?>">
-                                </div>
+                    <div class="row">
+                        <!-- Primera fila: Usuario y Serial -->
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="nombre_usuario"><i class="fas fa-user me-2"></i><?php echo __('user_name', $lang); ?>:</label>
+                                <input class="form-control shadow-sm" type="text" id="nombre_usuario" name="nombre_usuario"
+                                    value="<?php echo htmlspecialchars($asset_data['last_user']); ?>"
+                                    autocomplete="off">
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="serial"><i class="fas fa-barcode me-2"></i><?php echo __('serial_number', $lang); ?>:</label>
-                                    <input class="form-control shadow-sm" type="text" id="serial" name="serial"
-                                        value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required
-                                        autocomplete="off" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i><?php echo __('entry_date', $lang); ?>:</label>
-                                    <input class="form-control shadow-sm" type="date" id="fecha_ingreso" name="fecha_ingreso"
-                                        value="<?php echo !empty($asset_data['fecha_ingreso']) ? htmlspecialchars($asset_data['fecha_ingreso']) : date('Y-m-d'); ?>"
-                                        required>
-                                </div>
-                            </div>
-                            
-                            <!-- Dynamic fields for assets -->
-                            <?php if (isset($_SESSION['new_upd_fields'])): ?>
-                                <?php foreach ($_SESSION['new_upd_fields'] as $field_name): ?>
-                                    <?php if (strpos($field_name, 'asset_') === 0 || strpos($field_name, 'equipo_') === 0): ?>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="<?php echo htmlspecialchars($field_name); ?>">
-                                                    <i class="fas fa-keyboard me-2"></i><?php echo htmlspecialchars($field_name); ?>:
-                                                </label>
-                                                <?php
-                                                $field_value = isset($asset_data[$field_name]) ? htmlspecialchars($asset_data[$field_name]) : '';
-                                                $field_type = $_SESSION['new_fieldU_types'][$field_name];
-                                                ?>
-                                                <?php if ($field_type === 'date'): ?>
-                                                    <input class="form-control shadow-sm" type="date"
-                                                        id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>"
-                                                        value="<?php echo $field_value; ?>" autocomplete="off">
-                                                <?php elseif ($field_type === 'tinyint'): ?>
-                                                    <select class="form-control shadow-sm" id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>" autocomplete="off">
-                                                        <option value="0" <?php echo ($field_value == 0) ? 'selected' : ''; ?>>No</option>
-                                                        <option value="1" <?php echo ($field_value == 1) ? 'selected' : ''; ?>>Yes</option>
-                                                    </select>
-                                                <?php elseif (in_array($field_type, ['int', 'bigint', 'smallint'])): ?>
-                                                    <input class="form-control shadow-sm" type="number"
-                                                        id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>"
-                                                        value="<?php echo $field_value ?: 0; ?>" autocomplete="off" min="0"
-                                                        oninput="this.value = Math.abs(this.value)">
-                                                <?php else: ?>
-                                                    <input class="form-control shadow-sm" type="text"
-                                                        id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>"
-                                                        value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true">
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
                         </div>
-                    </div>
-                    
-                    <!-- User Information Section -->
-                    <div class="form-section mb-4">
-                        <h4 class="section-title">
-                            <i class="fas fa-user me-2"></i><?php echo __('user_information', $lang); ?>
-                        </h4>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nombre_usuario"><i class="fas fa-user me-2"></i><?php echo __('user_name', $lang); ?>:</label>
-                                    <input class="form-control shadow-sm" type="text" id="nombre_usuario" name="nombre_usuario"
-                                        value="<?php echo htmlspecialchars($asset_data['last_user']); ?>"
-                                        autocomplete="off" data-validate="true">
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="serial"><i class="fas fa-barcode me-2"></i><?php echo __('serial_number', $lang); ?>:</label>
+                                <input class="form-control shadow-sm" type="text" id="serial" name="serial"
+                                    value="<?php echo htmlspecialchars($asset_data['serial_number']); ?>" required
+                                    autocomplete="off" readonly>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="usrStts"><i class="fas fa-user-shield me-2"></i><?php echo __('user_status', $lang); ?>:</label>
-                                    <select id="usrStts" class="shadow-sm form-select" name="usrStts">
-                                        <option value="0"><?php echo __('select_user_status', $lang); ?></option>
-                                        <option value="Stock" <?php echo ($asset_data['user_status'] == 'Stock') ? 'selected' : ''; ?>><?php echo __('stock', $lang); ?></option>
-                                        <option value="Active User" <?php echo ($asset_data['user_status'] == 'Active User') ? 'selected' : ''; ?>><?php echo __('active_user', $lang); ?></option>
-                                        <option value="Old User" <?php echo ($asset_data['user_status'] == 'Old User') ? 'selected' : ''; ?>><?php echo __('old_user', $lang); ?></option>
-                                    </select>
-                                </div>
+                        </div>
+                        
+                        <!-- Segunda fila: Fecha de ingreso y Estado de usuario -->
+                 <div class="col-md-6">
+    <div class="form-group mb-3">
+        <label for="fecha_ingreso"><i class="fas fa-calendar-plus me-2"></i><?php echo __('entry_date', $lang); ?>:</label>
+<input class="form-control shadow-sm" type="date" id="fecha_ingreso" name="fecha_ingreso"
+       value="<?php echo !empty($asset_data['fecha_ingreso']) ? htmlspecialchars($asset_data['fecha_ingreso']) : date('Y-m-d'); ?>"
+       required>
+                                <script>
+                                   document.addEventListener('DOMContentLoaded', function() {
+    const fechaInput = document.getElementById('ingreso');
+        
+        // Validar fecha mínima (ejemplo: no antes de 2000)
+        const minDate = new Date('2000-01-01');
+        if (selectedDate < minDate) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Date',
+                text: 'Please enter a date after January 1, 2000.',
+                confirmButtonColor: '#3085d6'
+            });
+            this.value = ''; // Limpiar el campo
+        }
+    });
+    
+    // Validación al enviar el formulario
+    document.getElementById('updateform').addEventListener('submit', function(e) {
+        var fechaInput = document.getElementById('fecha_ingreso');
+        if (!fechaInput.value) {
+            // Si está vacío, poner la fecha actual
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            fechaInput.value = yyyy + '-' + mm + '-' + dd;
+        }
+    });
+                                </script>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="job_title"><i class="fas fa-briefcase me-2"></i><?php echo __('job_title', $lang); ?>:</label>
-                                    <input class="form-control shadow-sm" type="text" id="job_title" name="job_title"
-                                        value="<?php echo htmlspecialchars($asset_data['job_title']); ?>" autocomplete="off"
-                                        list="job_titles">
-                                    <datalist id="job_titles">
-                                        <?php
-                                        $job_titles = $pdo->query("SELECT DISTINCT job_title FROM usuarios_equipos ORDER BY job_title ASC")->fetchAll(PDO::FETCH_COLUMN);
-                                        foreach ($job_titles as $job_title) {
-                                            echo "<option value='$job_title'>$job_title</option>";
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="usrStts"><i class="fas fa-user-shield me-2"></i><?php echo __('user_status', $lang); ?>:</label>
+                                <select id="usrStts" class="shadow-sm form-select" name="usrStts">
+                                    <option value="0"><?php echo __('select_user_status', $lang); ?></option>
+                                    <option value="Stock"><?php echo __('stock', $lang); ?></option>
+                                    <option value="Active User" selected><?php echo __('active_user', $lang); ?></option>
+                                    <option value="Old User"><?php echo __('old_user', $lang); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Tercera fila: Puesto de trabajo y Cédula -->
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="job_title"><i class="fas fa-briefcase me-2"></i><?php echo __('job_title', $lang); ?>:</label>
+                                <input class="form-control shadow-sm" type="text" id="job_title" name="job_title"
+                                    value="<?php echo htmlspecialchars($asset_data['job_title']); ?>" autocomplete="off"
+                                    list="job_titles">
+                                <datalist id="job_titles">
+                                    <?php
+                                    $job_titles = $pdo->query("SELECT DISTINCT job_title FROM usuarios_equipos ORDER BY job_title ASC")->fetchAll(PDO::FETCH_COLUMN);
+                                    foreach ($job_titles as $job_title) {
+                                        echo "<option value='$job_title'>$job_title</option>";
+                                    }
+                                    ?>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="id"><i class="fas fa-id-card me-2"></i>Id:</label>
+                                <input class="form-control shadow-sm" type="text" id="id" name="id"
+                                    value="<?php echo htmlspecialchars($asset_data['cedula']); ?>" required
+                                    autocomplete="off">
+                                <p id="mensaje" class="text-danger"></p>
+                                <script>
+                                    const inputElement = document.getElementById('id');
+                                    const mensaje = document.getElementById('mensaje');
+
+                                    inputElement.addEventListener('input', function() {
+                                        const inputValue = this.value;
+                                        const regex = /^[0-9]+$/;
+
+                                        // Validar que solo sean números
+                                        if (!regex.test(inputValue)) {
+                                            mensaje.textContent = 'Please enter only numbers.';
+                                            this.value = this.value.replace(/[^0-9]/g, '');
+                                            return;
                                         }
+
+                                        // Validar longitud
+                                        if (inputValue.length > 10) {
+                                            mensaje.textContent = 'Only 10 digits are allowed.';
+                                            this.value = inputValue.slice(0, 10);
+                                            return;
+                                        }
+                                        // Si pasa todas las validaciones, limpiar mensaje
+                                        mensaje.textContent = '';
+                                    });
+
+                                    // Prevenir entrada de valores negativos o caracteres especiales
+                                    inputElement.addEventListener('keydown', function(e) {
+                                        if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === 'E') {
+                                            e.preventDefault();
+                                        }
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        
+                        <!-- Campos dinámicos -->
+                        <?php if (isset($_SESSION['new_upd_fields'])): ?>
+                            <?php foreach ($_SESSION['new_upd_fields'] as $field_name): ?>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="<?php echo htmlspecialchars($field_name); ?>">
+                                            <i class="fas fa-file-alt me-2"></i><?php echo htmlspecialchars($field_name); ?>:
+                                        </label>
+                                        <?php
+                                        // Retrieve the value of the field from the asset data, ensuring it is safe for HTML output
+                                        // Recupera el valor de la columna del dato del activo, asegurando asi la segurdad de la salida por html
+                                        $field_value = isset($asset_data[$field_name]) ? htmlspecialchars($asset_data[$field_name]) : '';
+                                        // Determine the type of the field from the session data
+                                        // Determina el tipo de la columna the la sesion 
+                                        $field_type = $_SESSION['new_fieldU_types'][$field_name];
                                         ?>
-                                    </datalist>
+                                        <?php if ($field_type === 'date'): ?>
+                                            <input class="form-control shadow-sm" type="date"
+                                                id="<?php echo htmlspecialchars($field_name); ?>"
+                                                name="<?php echo htmlspecialchars($field_name); ?>"
+                                                value="<?php echo $field_value; ?>" autocomplete="off">
+                                        <?php elseif ($field_type === 'tinyint'): ?>
+                                            <select class="form-control shadow-sm" id="<?php echo htmlspecialchars($field_name); ?>"
+                                                name="<?php echo htmlspecialchars($field_name); ?>" autocomplete="off"
+                                                data-validate="true">
+                                                <option value="0" <?php echo ($field_value == 0) ? 'selected' : ''; ?>>No</option>
+                                                <option value="1" <?php echo ($field_value == 1) ? 'selected' : ''; ?>>Yes</option>
+                                            </select>
+                                        <?php elseif (in_array($field_type, ['int', 'bigint', 'smallint'])): ?>
+                                            <!-- Render a number input field for integer types, ensuring non-negative values -->
+                                            <!-- Renderiza un numero en base al tipo de entra de al columan entero, entrogrande..etc para evitar numero negativos -->
+                                            <input class="form-control shadow-sm" type="number"
+                                                id="<?php echo htmlspecialchars($field_name); ?>"
+                                                name="<?php echo htmlspecialchars($field_name); ?>"
+                                                value="<?php echo $field_value ?: 0; ?>" autocomplete="off" min="0"
+                                                oninput="this.value = Math.abs(this.value)">
+                                        <?php else: ?>
+                                            <!-- Render a text input field for other types -->
+                                            <!-- Renderiza  un tipo de entrada de texto para el campo u otros tipos-->
+                                            <input class="form-control shadow-sm" type="text"
+                                                id="<?php echo htmlspecialchars($field_name); ?>"
+                                                name="<?php echo htmlspecialchars($field_name); ?>"
+                                                value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true">
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="id"><i class="fas fa-id-card me-2"></i>Id:</label>
-                                    <div class="input-group">
-                                        <select class="form-select" name="type_id" id="type_id" style="max-width: 100px;">
-                                            <option value="CC" <?php echo ($asset_data['Tipo_ID'] == 'CC') ? 'selected' : ''; ?>>CC</option>
-                                            <option value="CE" <?php echo ($asset_data['Tipo_ID'] == 'CE') ? 'selected' : ''; ?>>CE</option>
-                                            <option value="PP" <?php echo ($asset_data['Tipo_ID'] == 'PP') ? 'selected' : ''; ?>>PP</option>
-                                            <option value="TI" <?php echo ($asset_data['Tipo_ID'] == 'TI') ? 'selected' : ''; ?>>TI</option>
-                                            <option value="RC" <?php echo ($asset_data['Tipo_ID'] == 'RC') ? 'selected' : ''; ?>>RC</option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        
+                        <!-- Fila: Carnet, Llave, Tipo ID -->
+                        <div class="col-md-12 mb-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="selectCard"><i class="fas fa-id-card-alt me-2"></i><?php echo __('card', $lang); ?>:</label>
+                                        <select class="shadow-sm form-select" name="selectCard" id="selectCard">
+                                            <option value="Pendiente" <?php echo ($asset_data['Carnet'] == 'Pendiente') ? 'selected' : ''; ?>>
+                                               <?php echo __('pending', $lang); ?></option>
+                                            <option value="No" <?php echo ($asset_data['Carnet'] == 'No') ? 'selected' : ''; ?>>
+                                                <?php echo __('no ', $lang); ?></option>
+                                            <option value="Si" <?php echo ($asset_data['Carnet'] == 'Si') ? 'selected' : ''; ?>>
+                                                <?php echo __('yes', $lang); ?></option>
                                         </select>
-                                        <input class="shadow-sm form-control" type="number" id="id" name="cedula" 
-                                            value="<?php echo htmlspecialchars($asset_data['cedula']); ?>" required
-                                            autocomplete="off" min="0">
                                     </div>
-                                    <p id="mensaje" class="text-danger small"></p>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="selectKEY"><i class="fas fa-key me-2"></i> <?php echo __('key', $lang); ?>:</label>
+                                        <select class="shadow-sm form-select" name="selectKEY" id="selectKEY">
+                                            <option value="Pendiente" <?php echo ($asset_data['LLave'] == 'Pendiente') ? 'Selected' : ''; ?>>
+                                                <?php echo __('pending', $lang); ?></option>
+                                            <option value="No" <?php echo ($asset_data['LLave'] == 'No') ? 'selected' : ''; ?>>
+                                                <?php echo __('no ', $lang); ?></option>
+                                            <option value="Si" <?php echo ($asset_data['LLave'] == 'Si') ? 'selected' : ''; ?>>
+                                                <?php echo __('yes', $lang); ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="selectID"><i class="fa fa-id-badge me-2"></i> <?php echo __('type_id', $lang); ?>:</label>
+                                        <?php
+                                        $typeIds = ['CC', 'CE', 'PP', 'TI', 'RC'];
+                                        ?>
+                                        <select class="shadow-sm form-select" name="selectID" id="selectID">
+                                            <?php foreach ($typeIds as $typeId): ?>
+                                                <option value="<?php echo $typeId; ?>" <?php echo ($asset_data['Tipo_ID'] == $typeId) ? 'selected' : ''; ?>>
+                                                    <?php echo $typeId; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <!-- Dynamic fields for users -->
-                            <?php if (isset($_SESSION['new_upd_fields'])): ?>
-                                <?php foreach ($_SESSION['new_upd_fields'] as $field_name): ?>
-                                    <?php if (strpos($field_name, 'user_') === 0 || strpos($field_name, 'usuario_') === 0): ?>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="<?php echo htmlspecialchars($field_name); ?>">
-                                                    <i class="fas fa-keyboard me-2"></i><?php echo htmlspecialchars($field_name); ?>:
-                                                </label>
-                                                <?php
-                                                $field_value = isset($asset_data[$field_name]) ? htmlspecialchars($asset_data[$field_name]) : '';
-                                                $field_type = $_SESSION['new_fieldU_types'][$field_name];
-                                                ?>
-                                                <?php if ($field_type === 'date'): ?>
-                                                    <input class="form-control shadow-sm" type="date"
-                                                        id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>"
-                                                        value="<?php echo $field_value; ?>" autocomplete="off">
-                                                <?php elseif ($field_type === 'tinyint'): ?>
-                                                    <select class="form-control shadow-sm" id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>" autocomplete="off">
-                                                        <option value="0" <?php echo ($field_value == 0) ? 'selected' : ''; ?>>No</option>
-                                                        <option value="1" <?php echo ($field_value == 1) ? 'selected' : ''; ?>>Yes</option>
-                                                    </select>
-                                                <?php elseif (in_array($field_type, ['int', 'bigint', 'smallint'])): ?>
-                                                    <input class="form-control shadow-sm" type="number"
-                                                        id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>"
-                                                        value="<?php echo $field_value ?: 0; ?>" autocomplete="off" min="0"
-                                                        oninput="this.value = Math.abs(this.value)">
-                                                <?php else: ?>
-                                                    <input class="form-control shadow-sm" type="text"
-                                                        id="<?php echo htmlspecialchars($field_name); ?>"
-                                                        name="<?php echo htmlspecialchars($field_name); ?>"
-                                                        value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true">
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Fila: Asset name -->
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label for="assetname"><i class="fas fa-tag me-2"></i><?php echo __('asset_name', $lang); ?>:</label>
+                                <input class="form-control shadow-sm" type="text" id="assetname" name="assetname"
+                                    value="<?php echo htmlspecialchars($asset_data['assetname']); ?>" required
+                                    oninput="this.value = this.value.toUpperCase()">
+                                <small id="asset-message" class="form-text"></small>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', async function() {
+                                        const usernameInput = document.getElementById("nombre_usuario");
+                                        const assetnameInput = document.getElementById("assetname");
+                                        const originalAssetName = assetnameInput.value; // Store original value
+
+                                        const updateAssetName = async function() {
+                                            const username = usernameInput.value.trim();
+
+                                            if (username) {
+                                                try {
+                                                    const names = username.split(" ");
+                                                    const initials = names.length > 2 ?
+                                                        names[0][0].toUpperCase() + names[0][1]
+                                                        .toUpperCase() +
+                                                        names[2][0].toUpperCase() + names[2][1]
+                                                        .toUpperCase() :
+                                                        names.length > 1 ?
+                                                        names[0][0].toUpperCase() + names[0][1]
+                                                        .toUpperCase() +
+                                                        names[1][0].toUpperCase() + names[1][1]
+                                                        .toUpperCase() :
+                                                        names[0].slice(0, 4).toUpperCase();
+
+                                                    const newAssetValue = `CO-LPT-${initials}`;
+                                                    assetnameInput.value = newAssetValue;
+                                                } catch (error) {
+                                                    console.error("Error getting user name initials:", error);
+                                                    assetnameInput.value = originalAssetName; // Fallback to original
+                                                }
+                                            } else {
+                                                assetnameInput.value = originalAssetName; // Restore original if empty
+                                            }
+                                        };
+
+                                        // Only update when username changes, not on initial load
+                                        usernameInput.addEventListener("input", updateAssetName);
+                                    });
+                                </script>
+                                <script src="../View/Js/GetAsset.js"></script>
+                                <input class="form-control" type="hidden" id="fk_Assetname" name="fk_Assetname"
+                                    value="<?php echo $asset_data['assetname']; ?>">
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Additional Information Section -->
-                    <div class="form-section mb-4">
-                        <h4 class="section-title">
-                            <i class="fas fa-clipboard-list me-2"></i><?php echo __('additional_information', $lang); ?>
-                        </h4>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="selectCard"><i class="fas fa-id-card-alt me-2"></i><?php echo __('card', $lang); ?>:</label>
-                                    <select class="shadow-sm form-select" name="selectCard" id="selectCard">
-                                        <option value="Pendiente" <?php echo ($asset_data['Carnet'] == 'Pendiente') ? 'selected' : ''; ?>>
-                                            Pending</option>
-                                        <option value="No" <?php echo ($asset_data['Carnet'] == 'No') ? 'selected' : ''; ?>>
-                                            No</option>
-                                        <option value="Si" <?php echo ($asset_data['Carnet'] == 'Si') ? 'selected' : ''; ?>>
-                                            Yes</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="selectKEY"><i class="fas fa-key me-2"></i> <?php echo __('key', $lang); ?>:</label>
-                                    <select class="shadow-sm form-select" name="selectKEY" id="selectKEY">
-                                        <option value="Pendiente" <?php echo ($asset_data['LLave'] == 'Pendiente') ? 'Selected' : ''; ?>>
-                                            Pending</option>
-                                        <option value="No" <?php echo ($asset_data['LLave'] == 'No') ? 'selected' : ''; ?>>
-                                            No</option>
-                                        <option value="Si" <?php echo ($asset_data['LLave'] == 'Si') ? 'selected' : ''; ?>>
-                                            Yes</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <!-- Other dynamic fields -->
-                            <?php if (isset($_SESSION['new_upd_fields'])): ?>
-                                <?php 
-                                $otherFieldCounter = 0;
-                                foreach ($_SESSION['new_upd_fields'] as $field_name): 
-                                    if (strpos($field_name, 'asset_') !== 0 && strpos($field_name, 'equipo_') !== 0 && 
-                                        strpos($field_name, 'user_') !== 0 && strpos($field_name, 'usuario_') !== 0):
-                                        $otherFieldCounter++;
-                                ?>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="<?php echo htmlspecialchars($field_name); ?>">
-                                                <i class="fas fa-keyboard me-2"></i><?php echo htmlspecialchars($field_name); ?>:
-                                            </label>
-                                            <?php
-                                            $field_value = isset($asset_data[$field_name]) ? htmlspecialchars($asset_data[$field_name]) : '';
-                                            $field_type = $_SESSION['new_fieldU_types'][$field_name];
-                                            ?>
-                                            <?php if ($field_type === 'date'): ?>
-                                                <input class="form-control shadow-sm" type="date"
-                                                    id="<?php echo htmlspecialchars($field_name); ?>"
-                                                    name="<?php echo htmlspecialchars($field_name); ?>"
-                                                    value="<?php echo $field_value; ?>" autocomplete="off">
-                                            <?php elseif ($field_type === 'tinyint'): ?>
-                                                <select class="form-control shadow-sm" id="<?php echo htmlspecialchars($field_name); ?>"
-                                                    name="<?php echo htmlspecialchars($field_name); ?>" autocomplete="off">
-                                                    <option value="0" <?php echo ($field_value == 0) ? 'selected' : ''; ?>>No</option>
-                                                    <option value="1" <?php echo ($field_value == 1) ? 'selected' : ''; ?>>Yes</option>
-                                                </select>
-                                            <?php elseif (in_array($field_type, ['int', 'bigint', 'smallint'])): ?>
-                                                <input class="form-control shadow-sm" type="number"
-                                                    id="<?php echo htmlspecialchars($field_name); ?>"
-                                                    name="<?php echo htmlspecialchars($field_name); ?>"
-                                                    value="<?php echo $field_value ?: 0; ?>" autocomplete="off" min="0"
-                                                    oninput="this.value = Math.abs(this.value)">
-                                            <?php else: ?>
-                                                <input class="form-control shadow-sm" type="text"
-                                                    id="<?php echo htmlspecialchars($field_name); ?>"
-                                                    name="<?php echo htmlspecialchars($field_name); ?>"
-                                                    value="<?php echo $field_value; ?>" autocomplete="off" data-validate="true">
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                                
-                                <?php if ($otherFieldCounter % 3 !== 0): ?>
-                                    <div class="col-md-<?php echo 4 * (3 - ($otherFieldCounter % 3)); ?>"></div>
-                                <?php endif; ?>
-                            <?php endif; ?>
+                    <!-- Botones de acción -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button id="confirmAllButton" type="submit" class="btn btn-secondary"><?php echo __('send', $lang); ?></button>
+                            <a href="../index.php" class="btn btn-outline-secondary"><?php echo __('return', $lang); ?></a>
                         </div>
-                    </div>
-                    
-                    <!-- Form Actions -->
-                    <div class="d-flex justify-content-center gap-3 mt-4">
-                        <button id="confirmAllButton" type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i><?php echo __('save_changes', $lang); ?>
-                        </button>
-                        <a href="../index.php" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left me-2"></i><?php echo __('return', $lang); ?>
-                        </a>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
+                
                  <script src="../View/Js/dark-mode-toggle-new.js"></script>
                 <script>
                     // Función general para validar que no se ingresen caracteres especiales
