@@ -69,7 +69,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
     <title>Dashboard Admin</title>
 
     <link rel="shortcut icon" href="../Configuration/3shape-intraoral-logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="./Configuration/bootstrap/bootstrap-icons/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../Configuration/bootstrap/bootstrap-icons/font/bootstrap-icons.min.css">
     <link href="../Configuration/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="../Configuration/JQuery/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
@@ -879,7 +879,7 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
             </script>
         </div>
 
-        <script src="../View/Js/ModalReport.js"></script>
+        <script src="../View/Js/ModalReportGeneral.js"></script>
         <div class="modal fade" id="repeatedSerialsModal" tabindex="-1" aria-labelledby="repeatedSerialsModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -910,50 +910,6 @@ $fieldLabels = require '../View/Fragments/field_labels.php';
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                fetch('../Controller/check_repeated_serials.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.repeatedSerials && data.repeatedSerials.length > 0) {
-                            const repeatedSerialsList = document.getElementById('repeatedSerialsList');
-                            repeatedSerialsList.innerHTML = ''; // Clear the list
-                            data.repeatedSerials.forEach(serial => {
-                                const li = document.createElement('li');
-                                li.textContent = serial;
-                                repeatedSerialsList.appendChild(li);
-                            });
-                            const repeatedSerialsModal = new bootstrap.Modal(document.getElementById('repeatedSerialsModal'));
-                            repeatedSerialsModal.show();
-                        }
-                    })
-                    .catch(error => console.error('Error fetching repeated serials:', error));
-
-                document.getElementById('deleteSerialsButton').addEventListener('click', function() {
-                    if (confirm('<?php echo __('confirm_delete_repeated_serials', $lang); ?>')) {
-                        fetch('../Controller/delete_serial.php', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    delete: true
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert('<?php echo __('serials_deleted_successfully', $lang); ?>');
-                                    location.reload(); // Reload the page to refresh the data
-                                } else {
-                                    alert('<?php echo __('failed_to_delete_serials', $lang); ?>: ' + data.error);
-                                }
-                            })
-                            .catch(error => console.error('Error deleting serials:', error));
-                    }
-                });
-            });
-        </script>
         <script>
             // Hover dropdown functionality
             document.addEventListener('DOMContentLoaded', function() {

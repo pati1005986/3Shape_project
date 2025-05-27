@@ -55,11 +55,10 @@ function __($key, $lang) {
     <link rel="stylesheet" href="./View/Css/search-form.css">
 </head>
 <body>
-      
-<!-- Header Section -->
-<?php include './View/Fragments/header.php'; ?>
-
-    
+    <!-- Header Section -->
+<header>
+    <?php include './View/Fragments/header.php'; ?>
+</header>
     <div class="row align-items-center justify-content-center mb-3">
 
         <div class="col-md-3 mb-2 my-5">

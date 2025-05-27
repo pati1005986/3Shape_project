@@ -170,7 +170,7 @@ function notifyUser() {
 
 function clearLogs() {
   if (confirm("Are you sure you want to delete all records?")) {
-    fetch("./Model/clear_logs.php", {
+    fetch("../Model/clear_logs.php", {
       method: "POST",
     })
       .then((response) => response.text())

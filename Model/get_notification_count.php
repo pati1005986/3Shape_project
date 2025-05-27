@@ -14,7 +14,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 $lastCheck = isset($data['lastCheck']) ? (int)$data['lastCheck'] : 0;
 
 // Path to the notifications JSON file
-$jsonFilePath = '../Logs/session_messages.json';
+$jsonFilePath = '../Model/Logs/session_messages.json';
 $notificationCount = 0;
 
 // Check if file exists
