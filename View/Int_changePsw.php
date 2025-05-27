@@ -250,7 +250,7 @@ $_SESSION['last_activity'] = time();
                                         </button>
                                     </div>
                                 </div>
-                                <script src="../View/Js/ModalReport.js"></script>
+                                <script src="../View/Js/ModalReportGeneral.js"></script>
                             </div>
                             <script>
                                 // Filter notifications

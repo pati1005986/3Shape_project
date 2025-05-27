@@ -275,7 +275,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                     <?php
                     include_once '../Controller/Notify.php'
                     ?>
-                    <script src="../View/Js/ModalReport.js"></script>
+                    <script src="../View/Js/ModalReportGeneral.js"></script>
                     <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-primary text-white">

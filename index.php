@@ -62,11 +62,10 @@ function __($key, $lang) {
     <div class="row align-items-center justify-content-center mb-3">
 
         <div class="col-md-3 mb-2 my-5">
-            <!--archivo para traer los datos en caso de error o alerta y confirmacion de subida de datos-->
+            <!--Archivo para traer los datos en caso de error o alerta y confirmacion de subida de datos-->
             <?php
             include_once "./Controller/validation_message.php";
             ?>
-            <script src="../Configuration/JQuery/qrcode.min.js"></script>
             <script src="./View/Js/qrcode.js"></script>
             <script src="./View/Js/animations.js"></script>
             <br>
@@ -250,7 +249,6 @@ function __($key, $lang) {
 </div>
     </div>
 </div>
-
                 <div class="action-buttons mt-4">
                     <button type="submit" class="btn btn-success action-button" id="search_btn">
                         <i class="bi bi-search"></i> <?php echo __('search', $lang); ?> <!-- Search -->
@@ -262,24 +260,7 @@ function __($key, $lang) {
                         <i class="bi bi-arrow-clockwise"></i> <?php echo __('refresh', $lang); ?><!-- Refresh -->
                     </button>
                 </div>
-
-<!-- Debug Tools -->
-<div class="text-center mt-3">
-    <a href="diagnostic.php" target="_blank" class="btn btn-outline-secondary">
-        <i class="bi bi-tools me-2"></i><?php echo __('run_diagnostic', $lang); ?><!-- Run Diagnostic -->
-    </a>
-    <?php
-    $current_url = $_SERVER['REQUEST_URI'];
-    $debug_param = (strpos($current_url, '?') !== false) ? '&debug=1' : '?debug=1';
-    $debug_url = $current_url . $debug_param;
-    echo '<a href="' . htmlspecialchars($debug_url) . '" class="btn btn-outline-secondary ms-2">
-            <i class="bi bi-bug me-2"></i>Debug Mode
-          </a>';
-    ?>
-</div>
-
             </form>
-
             <div id="resultados3" class="text-center"></div>
             <div id="resultados2" class="text-center"></div>
             <div id="resultados" class="text-center"></div>
@@ -472,7 +453,6 @@ function __($key, $lang) {
             </script>
             <script src="./View/Js/Automatic_search.js"></script>
         </div>
-        <script src="./View/Js/Search_Selectors.js"></script>
         <div class="col-md-4">
             <?php
             include_once './Controller/busqueda_Multicriterio.php';

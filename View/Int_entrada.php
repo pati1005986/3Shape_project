@@ -189,7 +189,6 @@ function __($key, $lang) {
         <script src="../View/Js/dark-mode-toggle-new.js"></script>                                           
         <script src="../Configuration/bootstrap/js/bootstrap.min.js"></script>
         <script src="../Configuration/JQuery/select2.min.js"></script>
-        <script src="../View/Js/Background.js"></script>
 
 </body>
 <?php include './Fragments/footer.php'; ?>

@@ -77,6 +77,20 @@
                         <p class="text-muted mb-3"><i class="fas fa-calendar-plus me-2"></i><?php echo __('created', $lang); ?>: <?= date("F j, Y", filectime($_SERVER['SCRIPT_FILENAME'])); ?></p>
                         <p class="text-muted mb-0"><i class="fas fa-calendar-check me-2"></i><?php echo __('last_updated', $lang); ?>: <?= date("F j, Y", filemtime($_SERVER['SCRIPT_FILENAME'])); ?></p>
                     </div>
+                    <!-- Debug Tools -->
+<div class="text-center mt-3">
+    <a href="diagnostic.php" target="_blank" class="btn btn-outline-secondary">
+        <i class="bi bi-tools me-2"></i><?php echo __('run_diagnostic', $lang); ?><!-- Run Diagnostic -->
+    </a>
+    <?php
+    $current_url = $_SERVER['REQUEST_URI'];
+    $debug_param = (strpos($current_url, '?') !== false) ? '&debug=1' : '?debug=1';
+    $debug_url = $current_url . $debug_param;
+    echo '<a href="' . htmlspecialchars($debug_url) . '" class="btn btn-outline-secondary ms-2">
+            <i class="bi bi-bug me-2"></i>Debug Mode
+          </a>';
+    ?>
+</div>
                 </div>
             </div>
         </div>

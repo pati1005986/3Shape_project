@@ -36,8 +36,8 @@ function __($key, $lang) {
     <link rel="stylesheet" href="../Configuration/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./Css/dark-mode.css">
     <link rel="stylesheet" href="../Configuration/JQuery/select2.min.css">
-    <link rel="stylesheet" href="./Configuration/JQuery/sweetalert2.min.css">
-    <script src="./Configuration/JQuery/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="../Configuration/JQuery/sweetalert2.min.css">
+    <script src="../Configuration/JQuery/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="../Configuration/JQuery/all.min.css">
     <link rel="stylesheet" href="../View/Css/Form_salida.css">
     <title><?php echo __('record_departure_date', $lang); ?></title>

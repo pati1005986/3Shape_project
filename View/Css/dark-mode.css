@@ -333,6 +333,18 @@
   .dark-mode .form-check-label {
     color: var(--text-color);
   }
+
+  .dark-mode input::placeholder {
+  color: white;
+}
+
+.dark-mode h5{
+  color: white;
+}
+
+.dark-mode p{
+  color: white;
+}
   
   /* Footer styling for dark mode */
   body.dark-mode footer {
